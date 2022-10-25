@@ -26,6 +26,21 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
   * [Harbor](./charts/software-factory/harbor/README.md)
   * [SonarQube](./charts/software-factory/sonarqube/README.md)
 
+## Cluster setup steps
+
+* Create Kubernetes Cluster and get access (download `kubectl` configuration)
+* Install & configure kube add-ons
+  * Install certificate issuer (cert-manager)
+  * Create storage class
+  * Create Ingress Controller (NGINX or HAProxy)
+  * Create load balancer
+  * Install secret management (Sealed Secrets)
+  * Deploy GitOps tool (ArgoCD or Fleet)
+* Setup Security (NeuVector)
+* Install Observability (OpenTelemetry, Prometheus, Grafana)
+* Setup Continuous Deployment
+  * Configure GitOps repositories and deploy backing services and applications
+
 ## References
 
 ### CNCF
