@@ -1,0 +1,5 @@
+# local downloaded chart compressed files
+/**/charts/*.tgz
+
+# local temporary files
+temp.yaml
