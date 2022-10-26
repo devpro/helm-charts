@@ -1,4 +1,5 @@
-{{ range .Values.applications }}
+{{- $applications := list .Values.backend .Values.frontend -}}
+{{ range $applications }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -29,11 +30,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: {{ .endpoint.health }}
+              path: {{ .healthEndpoint }}
               port: http
           readinessProbe:
             httpGet:
-              path: {{ .endpoint.health }}
+              path: {{ .healthEndpoint }}
               port: http
           resources:
             requests:
@@ -49,8 +50,15 @@ spec:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: status.hostIP
+            # TODO: only do this for .NET apps
             - name: ASPNETCORE_ENVIRONMENT
               value: "{{ $.Values.aspnetcore.environment }}"
+            - name: AllowedOrigins__0
+              value: "http://{{ $.Values.frontend.host }}"
+            - name: AllowedOrigins__1
+              value: "https://{{ $.Values.frontend.host }}"
+            - name: OpenTelemetry__CollectorEndpoint
+              value: "{{ $.Values.otelCollector.endpoint }}"
             {{- toYaml . | nindent 12 }}
           {{- end }}
 {{ end }}

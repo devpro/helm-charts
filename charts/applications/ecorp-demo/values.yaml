@@ -1,68 +1,51 @@
-applications:
-  - name: ecorp-backend
-    image: docker.io/devprofr/ecorp-backend-demo
-    tag: 1.0.107
-    replicaCount: 2
-    endpoint:
-      health: /health
-    env:
-      - name: AllowedOrigins__0
-        value: "http://front.ecorp.demo"
-      - name: Application__IsHttpsRedirectionEnabled
-        value: "false"
-      - name: Application__IsOpenTelemetryEnabled
-        value: "false"
-      - name: Application__IsSwaggerEnabled
-        value: "true"
-      - name: Logging__LogLevel__Default
-        value: "Information"
-      - name: Logging__LogLevel__Microsoft__AspNetCore
-        value: "Information"
-      - name: Logging__LogLevel__System
-        value: "Information"
-      - name: Logging__LogLevel__Ecorp
-        value: "Debug"
-      - name: OpenApi__Title
-        value: "E Corp Backend Demo (REST API)"
-      - name: OpenTelemetry__ServiceName
-        value: "EcorpBackendDemo"
-      - name: OpenTelemetry__CollectorEndpoint
-        value: "http://otel-svc:4317"
-    ingress:
-      enabled: true
-      className: "nginx"
-      annotations:
-        nginx.ingress.kubernetes.io/ssl-redirect: "false"
-      hosts:
-        - host: back.ecorp.demo
-          paths:
-            - path: /
-              pathType: Prefix
-      tls: []
-      #  - secretName: chart-example-tls
-      #    hosts:
-      #      - chart-example.local
-  - name: ecorp-frontend
-    image: docker.io/devprofr/ecorp-frontend-demo
-    tag: 1.0.109
-    replicaCount: 1
-    endpoint:
-      health: /
-    env: {}
-    ingress:
-      enabled: true
-      className: "nginx"
-      annotations:
-        nginx.ingress.kubernetes.io/ssl-redirect: "false"
-        # nginx.ingress.kubernetes.io/use-regex: "true"
-        # nginx.ingress.kubernetes.io/rewrite-target: /$2
-      hosts:
-        - host: front.ecorp.demo
-          paths:
-            - path: /
-            # - path: /(.*)
-              pathType: Prefix
-      tls: []
+frontend:
+  host: front.ecorp.demo
+  name: ecorp-frontend
+  image: docker.io/devprofr/ecorp-frontend-demo
+  tag: 1.0.109
+  replicaCount: 1
+  healthEndpoint: /
+  env: {}
+  tls: {}
+  #  secretName: chart-example-tls
+
+backend:
+  host: back.ecorp.demo
+  name: ecorp-backend
+  image: docker.io/devprofr/ecorp-backend-demo
+  tag: 1.0.107
+  replicaCount: 2
+  healthEndpoint: /health
+  env:
+    - name: Application__IsHttpsRedirectionEnabled
+      value: "false"
+    - name: Application__IsOpenTelemetryEnabled
+      value: "false"
+    - name: Application__IsSwaggerEnabled
+      value: "true"
+    - name: Logging__LogLevel__Default
+      value: "Information"
+    - name: Logging__LogLevel__Microsoft__AspNetCore
+      value: "Information"
+    - name: Logging__LogLevel__System
+      value: "Information"
+    - name: Logging__LogLevel__Ecorp
+      value: "Debug"
+    - name: OpenApi__Title
+      value: "E Corp Backend Demo (REST API)"
+    - name: OpenTelemetry__ServiceName
+      value: "EcorpBackendDemo"
+  tls: {}
+  #  secretName: chart-example-tls
 
 aspnetcore:
   environment: Production
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+otelCollector:
+  endpoint: "http://otel-svc:4317"

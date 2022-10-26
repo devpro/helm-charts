@@ -1,21 +1,32 @@
-{{ range .Values.applications }}
+{{- $applications := list .Values.backend .Values.frontend -}}
+{{ range $applications }}
 {{- $name := .name -}}
-{{- if .ingress.enabled -}}
+{{- if $.Values.ingress.enabled -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $name }}-ingress
-  {{- with .ingress.annotations }}
+  {{- with $.Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if .ingress.className }}
-  ingressClassName: {{ .ingress.className }}
+  {{- if $.Values.ingress.className }}
+  ingressClassName: {{ $.Values.ingress.className }}
   {{- end }}
   rules:
-    {{- range .ingress.hosts }}
+    - host: {{ .host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $name }}-svc
+                port:
+                  number: 80
+    {{- range .ingressExtraHosts }}
     - host: {{ .host | quote }}
       http:
         paths:
@@ -29,15 +40,11 @@ spec:
                   number: 80
           {{- end }}
     {{- end }}
-  {{- if .ingress.tls }}
+  {{- if .tls }}
   tls:
-    {{- range .ingress.tls }}
     - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
-      secretName: {{ .secretName }}
-    {{- end }}
+        - {{ .host | quote }}
+      secretName: {{ .tls.secretName }}
   {{- end }}
 {{- end }}
 {{ end }}
