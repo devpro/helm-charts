@@ -5,7 +5,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
 ## Content
 
 * Applications
-  * [E Corp Demo](./charts/applications/ecorp-demo/README.md)
+  * [E Corp Demo](./charts/applications/ecorp-demo/README.md) 🗸
   * [WordPress](./charts/applications/wordpress/README.md)
 * Backing services
   * [Istio](./charts/backing-services/istio/README.md)
