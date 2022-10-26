@@ -1,8 +1,8 @@
 frontend:
-  host: front.ecorp.demo
+  host: front.random.ecorp.demo
   name: ecorp-frontend
   image: docker.io/devprofr/ecorp-frontend-demo
-  tag: 1.0.109
+  tag: 1.0.677411621
   replicaCount: 1
   healthEndpoint: /
   env: {}
@@ -10,7 +10,7 @@ frontend:
   #  secretName: chart-example-tls
 
 backend:
-  host: back.ecorp.demo
+  host: back.random.ecorp.demo
   name: ecorp-backend
   image: docker.io/devprofr/ecorp-backend-demo
   tag: 1.0.107
@@ -35,6 +35,11 @@ backend:
       value: "E Corp Backend Demo (REST API)"
     - name: OpenTelemetry__ServiceName
       value: "EcorpBackendDemo"
+  ingressExtraHosts:
+    - host: back.ecorp.demo
+      paths:
+        - path: /
+          pathType: Prefix
   tls: {}
   #  secretName: chart-example-tls
 

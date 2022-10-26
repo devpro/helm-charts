@@ -20,11 +20,13 @@ NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller -
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
 helm upgrade --install -f values.yaml --create-namespace \
-  --set aspnetcore.environment=Development --set frontend.host=front.${NGINX_PUBLIC_IP}.sslip.io --set backend.host=back.${NGINX_PUBLIC_IP}.sslip.io \
+  --set aspnetcore.environment=Development \
+  --set backend.host=back.${NGINX_PUBLIC_IP}.sslip.io \
+  --set 'backend.tls.secretName=ecorp-backend-tls' \
+  --set frontend.host=front.${NGINX_PUBLIC_IP}.sslip.io \
+  --set 'frontend.tls.secretName=ecorp-frontend-tls' \
   --set 'ingress.annotations.cert-manager\.io/cluster-issuer=selfsigned-cluster-issuer' \
   --set 'ingress.annotations.nginx\.ingress\.kubernetes\.io/backend-protocol="HTTPS"' \
-  --set 'backend.tls.secretName=ecorp-backend-tls' \
-  --set 'frontend.tls.secretName=ecorp-frontend-tls' \
   --namespace ecorp ecorp-demo .
 
 # checks everythings is ok
