@@ -13,10 +13,10 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
   * [RabbitMQ](./charts/backing-services/rabbitmq/README.md)
 * Kube add-ons
   * [ArgoCD](./charts/kube-addons/argocd/README.md)
-  * [cert-manager](./charts/kube-addons/cert-manager/README.md)
+  * [cert-manager](./charts/kube-addons/cert-manager/README.md) 🗸
   * cert-manager / Let's Encrypt
-  * [NGINX Ingress Controller](./charts/kube-addons/ingress-nginx/README.md)
-  * [Sealed Secrets](./charts/kube-addons/sealed-secrets/README.md)
+  * [NGINX Ingress Controller](./charts/kube-addons/ingress-nginx/README.md) 🗸
+  * [Sealed Secrets](./charts/kube-addons/sealed-secrets/README.md) 🗸
 * Observability
   * [OpenTelemetry Collector / Prometheus / Grafana](./charts/observability/otel-prometheus-grafana/README.md)
 * Security
