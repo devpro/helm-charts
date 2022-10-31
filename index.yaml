@@ -3,6 +3,19 @@ entries:
   ecorp-demo:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-10-31T21:47:07.086183543Z"
+    description: Helm chart for E Corp demo
+    digest: 7dece6fb91b719b19477af7a75d4769b4091498eecef0dcc28851c488f03e830
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: ecorp-demo
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/ecorp-demo-0.1.3/ecorp-demo-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-10-31T21:32:34.988856167Z"
     description: Helm chart for E Corp demo
     digest: c62e2ca314338a47b912f359aa10582201d59fc6c5d3fdba7bb7cd49be2f1459
@@ -14,4 +27,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/ecorp-demo-0.1.2/ecorp-demo-0.1.2.tgz
     version: 0.1.2
-generated: "2022-10-31T21:32:34.988861267Z"
+generated: "2022-10-31T21:47:07.086193043Z"
