@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Rancher Cluster Templates Helm Charts</title>
+    <title>Devpro Helm Charts</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" />
@@ -62,26 +62,17 @@
         text-align: left;
       }
     </style>
-
   </head>
-
   <body>
 
     <section class="markdown-body">
-      <h1>Rancher Cluster Templates Helm Charts</h1>
-
+      <h1>Devpro Helm Charts</h1>
       <h2>Usage</h2>
-
-      <pre class="snippet" lang="no-highlight"><code>helm repo add rancher-cluster-templates https://bashofmann.github.io/rancher-cluster-templates</code></pre>
-
-      <p>This repository contains RKE2 Cluster template Helm charts that are used for demonstration purposes.</p>
-
-      <p><b>The Helm charts in this repository are not production ready and are meant for demonstration purposes only!</b>
-
+      <pre class="snippet" lang="no-highlight"><code>helm repo add devpro https://devpro.github.io/helm-charts</code></pre>
+      <p>This repository contains Helm charts to build clusters with all components running in containers.</p>
       <h2>Charts</h2>
-
       <div class="charts">
-			{{range $key, $chartEntry := .Entries }}
+      {{range $key, $chartEntry := .Entries }}
         {{ if not (index $chartEntry 0).Deprecated }}
           <div class="chart">
             <div class="icon">
@@ -100,9 +91,9 @@
             </div>
           </div>
         {{end}}
-			{{end}}
+      {{end}}
       </div>
     </section>
-		<time datetime="{{ .Generated.Format "2006-01-02T15:04:05" }}" pubdate id="generated">{{ .Generated.Format "Mon Jan 2 2006 03:04:05PM MST-07:00" }}</time>
+    <time datetime="{{ .Generated.Format "2006-01-02T15:04:05" }}" pubdate id="generated">{{ .Generated.Format "Mon Jan 2 2006 03:04:05PM MST-07:00" }}</time>
   </body>
 </html>
