@@ -1,0 +1,46 @@
+# Continuous Delivery (Packaging)
+name: PKG
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  CHARTS_DIRECTORIES_ARG: "--chart-dirs charts/applications --chart-dirs charts/backing-services --chart-dirs charts/kube-addons --chart-dirs charts/observability --chart-dirs charts/security --chart-dirs charts/software-factory"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout git repository
+        uses: actions/checkout@v3.1.0
+        with:
+          fetch-depth: 0
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 3.10.1
+      - name: Host charts repository on GitHub Pages
+        uses: helm/chart-releaser-action@v1.4.1
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Checkout GitHub pages repository
+        uses: actions/checkout@v3.1.0
+        with:
+          ref: gh-pages
+      - name: Setup Go environment
+        uses: actions/setup-go@v3.3.1
+      - name: Generate index.html
+        run: |
+          # https://github.com/halkeye/helm-repo-html
+          go install github.com/halkeye/helm-repo-html@v0.0.8
+          /home/runner/go/bin/helm-repo-html
+      # https://github.com/stefanzweifel/git-auto-commit-action
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update index.html"
