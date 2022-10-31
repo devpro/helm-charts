@@ -30,7 +30,7 @@ jobs:
         id: list-changed
         run: |
           ct list-changed $CHARTS_DIRECTORIES_ARG --target-branch $github.event.repository.default_branch
-          changed=$(ct list-changed ${{ CHARTS_DIRECTORIES_ARG }} --target-branch ${{ github.event.repository.default_branch }})
+          changed=$(ct list-changed ${{ env.CHARTS_DIRECTORIES_ARG }} --target-branch ${{ github.event.repository.default_branch }})
           if [[ -n "$changed" ]]; then
             echo "::set-output name=changed::true"
           fi
