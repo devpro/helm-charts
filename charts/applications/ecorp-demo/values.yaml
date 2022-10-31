@@ -13,7 +13,7 @@ backend:
   host: back.random.ecorp.demo
   name: ecorp-backend
   image: docker.io/devprofr/ecorp-backend-demo
-  tag: 1.0.107
+  tag: 1.0.641443181
   replicaCount: 2
   healthEndpoint: /health
   env:
