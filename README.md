@@ -7,26 +7,26 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
 ## Content
 
 * Applications
-  * [E Corp Demo](./charts/applications/ecorp-demo/README.md) 🗸
-  * [WordPress](./charts/applications/wordpress/README.md)
+  * [E Corp Demo](./charts/ecorp-demo/README.md) 🗸
+  * [WordPress](./charts/wordpress/README.md)
 * Backing services
-  * [Istio](./charts/backing-services/istio/README.md)
-  * [MongoDB](./charts/backing-services/mongodb/README.md)
-  * [RabbitMQ](./charts/backing-services/rabbitmq/README.md)
+  * [Istio](./charts/istio/README.md)
+  * [MongoDB](./charts/mongodb/README.md)
+  * [RabbitMQ](./charts/rabbitmq/README.md)
 * Kube add-ons
-  * [ArgoCD](./charts/kube-addons/argocd/README.md)
-  * [cert-manager](./charts/kube-addons/cert-manager/README.md) 🗸
+  * [ArgoCD](./charts/argocd/README.md)
+  * [cert-manager](./charts/cert-manager/README.md) 🗸
   * cert-manager / Let's Encrypt
-  * [NGINX Ingress Controller](./charts/kube-addons/ingress-nginx/README.md) 🗸
-  * [Sealed Secrets](./charts/kube-addons/sealed-secrets/README.md) 🗸
+  * [NGINX Ingress Controller](./charts/ingress-nginx/README.md) 🗸
+  * [Sealed Secrets](./charts/sealed-secrets/README.md) 🗸
 * Observability
-  * [OpenTelemetry Collector / Prometheus / Grafana](./charts/observability/otel-prometheus-grafana/README.md)
+  * [OpenTelemetry Collector / Prometheus / Grafana](./charts/otel-prometheus-grafana/README.md)
 * Security
-  * [NeuVector](./charts/security/neuvector/README.md)
+  * [NeuVector](./charts/neuvector/README.md)
 * Software Factory
-  * [GitLab](./charts/software-factory/gitlab/README.md)
-  * [Harbor](./charts/software-factory/harbor/README.md)
-  * [SonarQube](./charts/software-factory/sonarqube/README.md)
+  * [GitLab](./charts/gitlab/README.md)
+  * [Harbor](./charts/harbor/README.md)
+  * [SonarQube](./charts/sonarqube/README.md)
 
 ## Cluster setup logic
 
@@ -42,6 +42,10 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
 * Install Observability (OpenTelemetry, Prometheus, Grafana)
 * Setup Continuous Deployment
   * Configure GitOps repositories and deploy backing services and applications
+
+## Limitations
+
+* [Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn't support multiple chart directories ou multiple levels so all charts must be in charts repository :(
 
 ## Local setup
 

@@ -8,3 +8,6 @@ dependencies:
   - name: wordpress
     version: 15.2.6
     repository: https://charts.bitnami.com/bitnami
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
