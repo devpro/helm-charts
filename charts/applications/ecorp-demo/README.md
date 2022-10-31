@@ -1,6 +1,6 @@
 # E Corp Helm charts
 
-Helm chart to deploy E Corps applications on a Kubernetes cluster.
+Helm chart to deploy E Corps applications on a Kubernetes cluster, with a [front-end](https://github.com/devpro/ecorp-frontend-demo) and a [back-end](https://github.com/devpro/ecorp-backend-demo) application.
 
 ## How to check chart
 

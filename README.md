@@ -1,5 +1,7 @@
 # Helm Charts
 
+[![CI](https://github.com/devpro/helm-charts/actions/workflows/ci.yml/badge.svg)](https://github.com/devpro/helm-charts/actions/workflows/ci.yml)
+
 Helm charts to ease the deployment of containers on Kubernetes clusters.
 
 ## Content
@@ -26,7 +28,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
   * [Harbor](./charts/software-factory/harbor/README.md)
   * [SonarQube](./charts/software-factory/sonarqube/README.md)
 
-## Cluster setup steps
+## Cluster setup logic
 
 * Create Kubernetes Cluster and get access (download `kubectl` configuration)
 * Install & configure kube add-ons
@@ -40,6 +42,19 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
 * Install Observability (OpenTelemetry, Prometheus, Grafana)
 * Setup Continuous Deployment
   * Configure GitOps repositories and deploy backing services and applications
+
+## Local setup
+
+### Validate
+
+#### Helm chart linting
+
+```bash
+# runs Docker image (with workaround described at https://github.com/helm/chart-testing/issues/464)
+sudo docker run -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart-testing:v3.7.1 /bin/sh -c "git config --global --add safe.directory /data; ct list-changed --target-branch main --chart-dirs charts/applications"
+```
+
+### How to validate locally
 
 ## References
 
