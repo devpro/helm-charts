@@ -26,6 +26,8 @@ jobs:
           python-version: 3.11
       - name: Install chart-testing
         uses: helm/chart-testing-action@v2.3.1
+      - name: Dummy
+        run: ct list-changed --target-branch ${{ github.event.repository.default_branch }} ${CHARTS_DIRECTORIES_ARG}
       - name: List changed charts
         id: list-changed
         run: |
