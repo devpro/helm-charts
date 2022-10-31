@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  CHARTS_DIRECTORIES_ARG: "--chart-dirs charts/applications --chart-dirs charts/backing-services --chart-dirs charts/kube-addons --chart-dirs charts/observability --chart-dirs charts/security --chart-dirs charts/software-factory"
+  CHARTS_DIRECTORIES_ARG: "--chart-dirs charts"
 
 jobs:
   build:

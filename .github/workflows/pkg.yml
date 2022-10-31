@@ -6,9 +6,6 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
-env:
-  CHARTS_DIRECTORIES_ARG: "--chart-dirs charts/applications --chart-dirs charts/backing-services --chart-dirs charts/kube-addons --chart-dirs charts/observability --chart-dirs charts/security --chart-dirs charts/software-factory"
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,9 +32,9 @@ jobs:
           ref: gh-pages
       - name: Setup Go environment
         uses: actions/setup-go@v3.3.1
+      # https://github.com/halkeye/helm-repo-html
       - name: Generate index.html
         run: |
-          # https://github.com/halkeye/helm-repo-html
           go install github.com/halkeye/helm-repo-html@v0.0.8
           /home/runner/go/bin/helm-repo-html
       # https://github.com/stefanzweifel/git-auto-commit-action
