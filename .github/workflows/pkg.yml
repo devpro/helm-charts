@@ -1,4 +1,8 @@
 # Continuous Delivery (Packaging)
+
+# Manual actions:
+# - Create gh-pages branch in GitHub
+
 name: PKG
 
 on:
