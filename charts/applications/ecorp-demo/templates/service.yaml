@@ -1,0 +1,21 @@
+{{- $applications := list .Values.backend .Values.frontend -}}
+{{ range $applications }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ .name }}
+    app.kubernetes.io/name: {{ .name }}
+  name: {{ .name }}-svc
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ .name }}
+    app.kubernetes.io/name: {{ .name }}
+{{ end }}
