@@ -29,6 +29,13 @@ jobs:
           python-version: 3.11
       - name: Install chart-testing
         uses: helm/chart-testing-action@v2.3.1
+      - name: Add dependency chart repositories
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+          helm repo add jetstack https://charts.jetstack.io
+          helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
+      - name: Host charts repository on GitHub Pages
       - name: List changed charts
         id: list-changed
         run: |
