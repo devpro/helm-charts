@@ -22,6 +22,12 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           version: 3.10.1
+      - name: Add dependency chart repositories
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+          helm repo add jetstack https://charts.jetstack.io
+          helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
       - name: Host charts repository on GitHub Pages
         uses: helm/chart-releaser-action@v1.4.1
         env:
