@@ -8,3 +8,6 @@ dependencies:
   - name: sealed-secrets
     version: 2.7.0
     repository: https://bitnami-labs.github.io/sealed-secrets
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr

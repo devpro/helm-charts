@@ -8,3 +8,6 @@ dependencies:
   - name: cert-manager
     version: v1.10.0
     repository: https://charts.jetstack.io
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
