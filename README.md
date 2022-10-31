@@ -1,6 +1,7 @@
 # Helm Charts
 
 [![CI](https://github.com/devpro/helm-charts/actions/workflows/ci.yml/badge.svg)](https://github.com/devpro/helm-charts/actions/workflows/ci.yml)
+[![PKG](https://github.com/devpro/helm-charts/actions/workflows/pkg.yml/badge.svg)](https://github.com/devpro/helm-charts/actions/workflows/pkg.yml)
 
 Helm charts to ease the deployment of containers on Kubernetes clusters.
 
