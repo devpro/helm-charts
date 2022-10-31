@@ -30,10 +30,10 @@ jobs:
         id: list-changed
         run: |
           ct list-changed ${CHARTS_DIRECTORIES_ARG} --target-branch ${{ github.event.repository.default_branch }}
-          changed=$(ct list-changed ${CHARTS_DIRECTORIES_ARG} --target-branch ${{ github.event.repository.default_branch }})
-          if [[ -n "$changed" ]]; then
-            echo "::set-output name=changed::true"
-          fi
+          # changed=$(ct list-changed ${CHARTS_DIRECTORIES_ARG} --target-branch ${{ github.event.repository.default_branch }})
+          # if [[ -n "$changed" ]]; then
+          #   echo "::set-output name=changed::true"
+          # fi
       - name: Lint charts
         run: ct lint $CHARTS_DIRECTORIES_ARG --target-branch ${{ github.event.repository.default_branch }}
       # TODO: copied from doc, to be tested

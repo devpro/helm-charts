@@ -47,7 +47,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
 
 ### Validate
 
-* Lint charts with [helm/chart-testing](https://github.com/helm/chart-testing)
+* Lint charts with [helm/chart-testing](https://github.com/helm/chart-testing) ([GitHub Action](https://github.com/marketplace/actions/helm-chart-testing))
 
 ```bash
 # runs Docker image (with workaround described at https://github.com/helm/chart-testing/issues/464)
