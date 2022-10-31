@@ -16,19 +16,24 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v3
         with:
-          version: latest
+          version: 3.10.1
       - name: Install Python
         uses: actions/setup-python@v4.3.0
         with:
-          python-version: 3.7
+          python-version: 3.11
       - name: Install chart-testing
         uses: helm/chart-testing-action@v2.3.1
       - name: List changed charts
         id: list-changed
         run: |
-          changed=$(ct list-changed)
+          changed=$(ct list-changed --target-branch ${{ github.event.repository.default_branch }})
           if [[ -n "$changed" ]]; then
             echo "::set-output name=changed::true"
           fi
       - name: Lint charts
-        run: ct lint
+        run: ct lint --target-branch ${{ github.event.repository.default_branch }}
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.4.0
+        if: steps.list-changed.outputs.changed == 'true'
+      - name: Run chart-testing (install)
+        run: ct install
