@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/devpro/helm-charts/actions/workflows/ci.yml/badge.svg)](https://github.com/devpro/helm-charts/actions/workflows/ci.yml)
 [![PKG](https://github.com/devpro/helm-charts/actions/workflows/pkg.yml/badge.svg)](https://github.com/devpro/helm-charts/actions/workflows/pkg.yml)
+[![Pages](https://github.com/devpro/helm-charts/actions/workflows/pages.yml/badge.svg?branch=gh-pages)](https://github.com/devpro/helm-charts/actions/workflows/pages.yml)
 
 Helm charts to ease the deployment of containers on Kubernetes clusters.
 
