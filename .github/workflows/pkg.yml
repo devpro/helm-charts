@@ -1,7 +1,12 @@
-# Continuous Delivery (Packaging)
-
-# Manual actions:
-# - Create gh-pages branch in GitHub
+# ---------------------------------------------------------
+# Title: Continuous Delivery (Packaging)
+#
+# Requirements:
+#   - Create gh-pages branch in GitHub
+#
+# Uses:
+#   - https://github.com/helm/chart-releaser-action
+# ---------------------------------------------------------
 
 name: PKG
 
