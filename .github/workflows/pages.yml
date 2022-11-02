@@ -9,7 +9,6 @@
 #
 # Uses:
 #   - https://github.com/halkeye/helm-repo-html
-#   - https://github.com/stefanzweifel/git-auto-commit-action
 # ---------------------------------------------------------------------------------------
 
 name: Pages
@@ -40,9 +39,10 @@ jobs:
         run: |
           go install github.com/halkeye/helm-repo-html@v0.0.8
           /home/runner/go/bin/helm-repo-html
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Update index.html"
+      # not needed anymore
+      # - uses: stefanzweifel/git-auto-commit-action@v4
+      #   with:
+      #     commit_message: "Update index.html"
       - name: Setup Pages
         uses: actions/configure-pages@v1
       - name: Build with Jekyll
