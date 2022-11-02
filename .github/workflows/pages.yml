@@ -1,11 +1,11 @@
 # ---------------------------------------------------------
 #                 Continuous Documentation
 #
-# Dependencies:
+# Requirements:
 #  - Any change to this file must be merged to gh-pages branch, with cherry-pick commits
 #  - Packaging workflow must run before setting up this workflow
 #
-# References:
+# Uses:
 #   - https://github.com/halkeye/helm-repo-html
 #   - https://github.com/stefanzweifel/git-auto-commit-action
 # ---------------------------------------------------------
