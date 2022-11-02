@@ -1,3 +1,17 @@
+# ---------------------------------------------------------------------------------------
+# Title: Continuous Documentation
+#
+# Requirements:
+#   - Any change to this file must be merged to gh-pages branch, with cherry-pick commits
+#   - Packaging workflow must run before setting up this workflow
+#   - In GitHub project, Settings, Environments, the gh-pages branch must be allowed
+#   - In GitHub project, Settings, Pages, Build and Deployment, Source, select "GitHub Actions"
+#
+# Uses:
+#   - https://github.com/halkeye/helm-repo-html
+#   - https://github.com/stefanzweifel/git-auto-commit-action
+# ---------------------------------------------------------------------------------------
+
 name: Pages
 
 on:
@@ -22,12 +36,10 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup Go environment
         uses: actions/setup-go@v3.3.1
-      # https://github.com/halkeye/helm-repo-html
       - name: Generate index.html
         run: |
           go install github.com/halkeye/helm-repo-html@v0.0.8
           /home/runner/go/bin/helm-repo-html
-      # https://github.com/stefanzweifel/git-auto-commit-action
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Update index.html"
