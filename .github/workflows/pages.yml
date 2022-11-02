@@ -2,7 +2,7 @@
 # Title: Continuous Documentation
 #
 # Requirements:
-#   - Any change to this file must be merged to gh-pages branch, with cherry-pick commits
+#   - Any change to this file must be synchronized between gh-pages and main branch, with cherry-pick commits
 #   - Packaging workflow must run before setting up this workflow
 #   - In GitHub project, Settings, Environments, the gh-pages branch must be allowed
 #   - In GitHub project, Settings, Pages, Build and Deployment, Source, select "GitHub Actions"
@@ -17,6 +17,10 @@ name: Pages
 on:
   push:
     branches: ["gh-pages"]
+  workflow_run:
+    workflows: [PKG]
+    types:
+      - completed
   workflow_dispatch:
 
 permissions:
@@ -40,9 +44,10 @@ jobs:
         run: |
           go install github.com/halkeye/helm-repo-html@v0.0.8
           /home/runner/go/bin/helm-repo-html
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Update index.html"
+      # not needed anymore
+      # - uses: stefanzweifel/git-auto-commit-action@v4
+      #   with:
+      #     commit_message: "Update index.html"
       - name: Setup Pages
         uses: actions/configure-pages@v1
       - name: Build with Jekyll
