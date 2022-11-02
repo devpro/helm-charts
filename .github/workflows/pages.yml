@@ -16,6 +16,10 @@ name: Pages
 on:
   push:
     branches: ["gh-pages"]
+  workflow_run:
+    workflows: [PKG]
+    types:
+      - completed
   workflow_dispatch:
 
 permissions:
