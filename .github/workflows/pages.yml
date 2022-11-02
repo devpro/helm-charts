@@ -1,14 +1,16 @@
-# ---------------------------------------------------------
-#                 Continuous Documentation
+# ---------------------------------------------------------------------------------------
+# Title: Continuous Documentation
 #
 # Requirements:
-#  - Any change to this file must be merged to gh-pages branch, with cherry-pick commits
-#  - Packaging workflow must run before setting up this workflow
+#   - Any change to this file must be merged to gh-pages branch, with cherry-pick commits
+#   - Packaging workflow must run before setting up this workflow
+#   - In GitHub project, Settings, Environments, the gh-pages branch must be allowed
+#   - In GitHub project, Settings, Pages, Build and Deployment, Source, select "GitHub Actions"
 #
 # Uses:
 #   - https://github.com/halkeye/helm-repo-html
 #   - https://github.com/stefanzweifel/git-auto-commit-action
-# ---------------------------------------------------------
+# ---------------------------------------------------------------------------------------
 
 name: Pages
 
