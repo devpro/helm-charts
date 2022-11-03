@@ -1,12 +1,14 @@
-# ---------------------------------------------------------
+# ---------------------------------------------------------------------------------------
 # Title: Continuous Delivery (Packaging)
 #
 # Requirements:
-#   - Create gh-pages branch in GitHub
+#   - Create "gh-pages" branch
+#   - In GitHub user Settings, Developer settings, Personal access tokens, Fine-grained tokens, Generate new token
+#   - In GitHub repository Settings, Secrets, Actions, New repository secret "USER_GITHUB_PAT" with the token value
 #
 # Uses:
 #   - https://github.com/helm/chart-releaser-action
-# ---------------------------------------------------------
+# ---------------------------------------------------------------------------------------
 
 name: PKG
 
@@ -40,4 +42,5 @@ jobs:
       - name: Host charts repository on GitHub Pages
         uses: helm/chart-releaser-action@v1.4.1
         env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          # GITHUB_TOKEN can't be used as it won't trigger a workflow run on the push event
+          CR_TOKEN: "${{ secrets.USER_GITHUB_PAT }}"
