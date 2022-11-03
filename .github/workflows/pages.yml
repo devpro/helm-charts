@@ -34,7 +34,8 @@ jobs:
       - name: Checkout git repository
         uses: actions/checkout@v3.1.0
         with:
-          fetch-depth: 0
+          # fetch-depth: 0
+          token: "${{ secrets.USER_GITHUB_PAT }}"
       - name: Setup Go environment
         uses: actions/setup-go@v3.3.1
       - name: Generate index.html
