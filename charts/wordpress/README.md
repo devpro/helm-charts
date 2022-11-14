@@ -1,6 +1,7 @@
 # WordPress
 
-This Helm chart will install [WordPress packaged by Bitnami](https://bitnami.com/stack/wordpress/helm) ([GitHub](https://github.com/bitnami/charts/tree/main/bitnami/wordpress)).
+This Helm chart will install [WordPress packaged by Bitnami](https://bitnami.com/stack/wordpress/helm) ([GitHub](https://github.com/bitnami/charts/tree/main/bitnami/wordpress),
+[Artifact Hub](https://artifacthub.io/packages/helm/bitnami/wordpress)).
 
 ## How to update the chart
 
@@ -27,11 +28,8 @@ helm dependency update
 helm template . -f values.yaml --namespace sample > temp.yaml
 
 # installs the chart with helm
-helm install -f values.yaml --namespace sample nginx-ingress .
-
-# watchs the service being created and assigned a public IP
-kubectl get services -o wide -w nginx-ingress-ingress-nginx-controller --namespace sample
+helm install -f values.yaml --namespace sample wordpress .
 
 # if needed, deletes the chart
-helm delete nginx-ingress -n sample
+helm delete wordpress -n sample
 ```

@@ -2,6 +2,8 @@
 
 This Helm chart will install [Sealed Secrets](https://sealed-secrets.netlify.app/) ([GitHub](https://github.com/bitnami-labs/sealed-secrets), [helm](https://github.com/bitnami-labs/sealed-secrets/tree/main/helm/sealed-secrets)).
 
+💡 Kubernetes objects will be installed in `kube-system` namespace
+
 ## How to update the chart
 
 ```bash
@@ -41,7 +43,7 @@ helm delete sealed-secrets-controller -n kube-system
 
 ## How to encrypt a data to put in git
 
-* Install `kubeseal`
+* Install `kubeseal` (example for Linux, on Windows download the latest version and move it to a folder present in PATH)
 
 ```bash
 # look at the latest version in https://github.com/bitnami-labs/sealed-secrets/releases
@@ -50,8 +52,19 @@ sudo install -m 755 kubeseal /usr/local/bin/kubeseal
 rm kubeseal
 ```
 
-* Encrypt secrets in a file
+* Encrypt secrets in a file (you should be connected to the Kubernetes cluster)
 
 ```bash
 kubectl create secret xxx --namespace=yyy --dry-run=client -o yaml | kubeseal -o yaml > manifests/argocd-sealedsecret.yaml
+
+# example
+kubectl create secret generic wordpress-credentials \
+  --from-literal=wordpress-password='xxxxx' \
+  --namespace=fleet-sample --dry-run=client -o yaml | kubeseal -o yaml > secrets.yaml
 ```
+
+## How to troubleshoot
+
+### Chart resource list
+
+![Objects](objects.png)

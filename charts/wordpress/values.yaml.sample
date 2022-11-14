@@ -1,0 +1,13 @@
+---
+# sample
+wordpressUsername: myuser
+wordpressBlogName: "My Wordpress!"
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: wordpress.demo
+  selfSigned: true
+mariadb:
+  auth:
+    rootPassword: "xxx"
+    password: "xxx"
