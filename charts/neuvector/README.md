@@ -6,7 +6,7 @@ This Helm chart will install [NeuVector](https://github.com/neuvector/neuvector)
 
 ```bash
 # (only once) adds official chart repository
- helm repo add neuvector https://neuvector.github.io/neuvector-helm/
+helm repo add neuvector https://neuvector.github.io/neuvector-helm/
 
 # updates repository information
 helm repo update
