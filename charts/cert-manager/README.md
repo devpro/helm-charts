@@ -2,6 +2,8 @@
 
 This Helm chart will install [cert-manager](https://cert-manager.io/) ([GitHub](https://github.com/cert-manager/cert-manager), [docs](https://cert-manager.io/docs/), [chart](https://github.com/cert-manager/cert-manager/tree/master/deploy/charts/cert-manager)).
 
+💡 Kubernetes objects will be installed in `cert-manager` namespace
+
 ## How to update the chart
 
 ```bash
