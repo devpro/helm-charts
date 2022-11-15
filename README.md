@@ -14,6 +14,8 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
   * [Istio](./charts/istio/README.md)
   * [MongoDB](./charts/mongodb/README.md)
   * [RabbitMQ](./charts/rabbitmq/README.md)
+* Cloud providers
+  * [Azure Storage](./charts/azure-storage/README.md) 🗸
 * Kube add-ons
   * [ArgoCD](./charts/argocd/README.md)
   * [cert-manager](./charts/cert-manager/README.md) 🗸

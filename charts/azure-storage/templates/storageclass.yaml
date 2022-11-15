@@ -1,0 +1,13 @@
+{{- if $.Values.azureFile.enabled -}}
+---
+# https://kubernetes.io/docs/concepts/storage/storage-classes/#azure-file
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azurefile
+provisioner: kubernetes.io/azure-file
+parameters:
+  skuName: {{ $.Values.azureFile.skuName }}
+  location: {{ $.Values.azureFile.location }}
+  storageAccount: {{ $.Values.azureFile.storageAccount }}
+{{- end }}

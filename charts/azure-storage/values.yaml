@@ -1,0 +1,5 @@
+azureFile:
+  enabled: true
+  skuName: Standard_LRS
+  location: eastus
+  storageAccount: azure_storage_account_name
