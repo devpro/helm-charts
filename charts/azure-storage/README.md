@@ -23,6 +23,7 @@ helm template . -f values.yaml > temp.yaml
 # applies the manifest (add "--debug > output.yaml" in case of issue)
 helm upgrade --install -f values.yaml --create-namespace \
   --set azureFile.enabled=true \
+  --set azureFile.isDefault=true \
   --set azureFile.skuName=Standard_LRS \
   --set azureFile.location=westeurope \
   --set azureFile.storageAccount=<staname> \
