@@ -1,12 +1,12 @@
 apiVersion: v2
-name: devpro-charts/wordpress
-description: Helm chart for managing WordPress
+name: devpro-charts/mariadb
+description: Helm chart for managing MariaDB
 type: application
-version: "0.1.1"
-appVersion: "6.1.0"
+version: "0.1.0"
+appVersion: "10.6.11"
 dependencies:
-  - name: wordpress
-    version: 15.2.14
+  - name: mariadb
+    version: 11.3.5
     repository: https://charts.bitnami.com/bitnami
 maintainers:
   - name: devpro

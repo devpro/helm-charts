@@ -27,15 +27,16 @@ helm upgrade --install -f values.yaml --create-namespace \
   --set azureFile.skuName=Standard_LRS \
   --set azureFile.location=westeurope \
   --set azureFile.storageAccount=<staname> \
+  --set annotations."storageclass\.kubernetes\.io/is-default-class"="\"true\""
   --namespace kube-system azure-storage .
 
 # if needed, deletes the chart
-helm delete cert-manager -n cert-manager
+helm delete azure-storage -n kube-system
 ```
 
 ## How to investigate
 
 ```bash
 # checks existings resources
-kubectl get sc
+kubectl get sc,clusterrole,clusterrolebinding | grep azure
 ```

@@ -12,6 +12,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
   * [WordPress](./charts/wordpress/README.md) 🗸
 * Backing services
   * [Istio](./charts/istio/README.md)
+  * [MariaDB](./charts/mariadb/README.md) 🗸
   * [MongoDB](./charts/mongodb/README.md)
   * [RabbitMQ](./charts/rabbitmq/README.md)
 * Cloud providers

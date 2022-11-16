@@ -1,5 +1,7 @@
 ---
 # sample
+global:
+  storageClass: ""
 wordpressUsername: myuser
 wordpressBlogName: "My Wordpress!"
 ingress:
