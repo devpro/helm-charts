@@ -7,11 +7,16 @@ This Helm chart will install the Kubernetes objects to be able to use Azure stor
 ## What is installed
 
 * [Azure File Storage class (with RBAC)](https://kubernetes.io/docs/concepts/storage/storage-classes/#azure-file)
-* [Azure Disk CSI driver](https://github.com/kubernetes-sigs/azuredisk-csi-driver) ([Helm chart](https://github.com/kubernetes-sigs/azuredisk-csi-driver/tree/master/charts))
-  * [CSI driver example](https://github.com/kubernetes-sigs/azuredisk-csi-driver/blob/master/deploy/example/e2e_usage.md)
-* [Azure Blob Storage CSI driver](https://github.com/kubernetes-sigs/blob-csi-driver) ([Helm chart](https://github.com/kubernetes-sigs/blob-csi-driver/tree/master/charts))
+* [Azure CSI (Container Storage Interface) drivers](https://learn.microsoft.com/en-us/azure/aks/csi-storage-drivers)
+  * [Azure Disk CSI driver](https://github.com/kubernetes-sigs/azuredisk-csi-driver) ([Helm chart](https://github.com/kubernetes-sigs/azuredisk-csi-driver/tree/master/charts))
+    * [CSI driver example](https://github.com/kubernetes-sigs/azuredisk-csi-driver/blob/master/deploy/example/e2e_usage.md)
+  * [Azure Blob Storage CSI driver](https://github.com/kubernetes-sigs/blob-csi-driver) ([Helm chart](https://github.com/kubernetes-sigs/blob-csi-driver/tree/master/charts))
 
 ## How to get chart values
+
+### SKU (Stock Keeping Unit)
+
+* [SKU Types](https://learn.microsoft.com/en-us/rest/api/storagerp/srp_sku_types)
 
 ### Azure Storage account
 
