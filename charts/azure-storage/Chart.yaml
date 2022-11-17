@@ -4,7 +4,13 @@ description: Helm chart for managing Azure Storage
 type: application
 version: "0.1.0"
 appVersion: "1.0.0"
-dependencies: []
+dependencies:
+  - name: azuredisk-csi-driver
+    version: v1.24.0
+    repository: https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/charts
+  - name: blob-csi-driver
+    version: v1.17.0
+    repository: https://raw.githubusercontent.com/kubernetes-sigs/blob-csi-driver/master/charts
 maintainers:
   - name: devpro
     email: bertrand@devpro.fr

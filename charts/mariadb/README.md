@@ -28,7 +28,7 @@ helm template . -f values.yaml --namespace sample-apps > temp.yaml
 ```bash
 # installs the chart with helm
 helm upgrade --install --create-namespace \
-  --set mariadb.global.storageClass=azurefile \
+  --set mariadb.global.storageClass=azureblob-fuse \
   --set mariadb.image.debug=true \
   -f values.yaml --namespace sample-apps mariadb .
 
