@@ -1,5 +1,7 @@
-# Official chart values: https://github.com/bitnami/charts/blob/main/bitnami/wordpress/values.yaml
-# Customer chart additions
-# secrets:
-#   - name: ""
-#     encryptedData: {}
+secrets:
+  wordpressPassword:
+    name: wordpress-credentials
+    key: wordpress-password
+    encryptedValue: ""
+# https://github.com/bitnami/charts/blob/main/bitnami/wordpress/values.yaml
+wordpress: {}

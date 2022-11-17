@@ -43,5 +43,31 @@ helm upgrade --install -f values.yaml --create-namespace \
 kubectl get all -n sample-apps
 
 # if needed, deletes the chart
-helm delete wordpress -n sample-apps
+helm uninstall wordpress -n sample-apps
+```
+
+## How to get examples
+
+* Use-case: Ingress (NGINX class with self-signed certificate) + WordPress password as secret + Azure storage class
+
+```yaml
+secrets:
+  wordpressPassword:
+    encryptedValue=xxx
+wordpress:
+  global:
+    storageClass: azureblob-fuse
+  wordpressUsername: myuser
+  wordpressBlogName: "My Wordpress!"
+  existingSecret: wordpress-credentials
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hostname: wordpress.demo
+    tls: true
+    selfSigned: true
+  mariadb:
+    auth:
+      rootPassword: "xxx"
+      password: "xxx"
 ```
