@@ -1,0 +1,15 @@
+azureCloudConfig:
+  encryptedData:
+azureFile:
+  enabled: false
+  skuName: Standard_LRS   # available values: Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS
+  location: eastus
+  storageAccount:
+azureCSI:
+  enabled: false
+# https://github.com/kubernetes-sigs/azuredisk-csi-driver/blob/master/charts/latest/azuredisk-csi-driver/values.yaml
+azuredisk-csi-driver: {}
+# https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/charts/latest/blob-csi-driver/values.yaml
+blob-csi-driver:
+  node:
+    enableBlobfuseProxy: true

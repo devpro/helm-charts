@@ -2,6 +2,8 @@
 
 This Helm chart will install [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/) ([GitHub](https://github.com/kubernetes/ingress-nginx/)).
 
+💡 Kubernetes objects will be installed in `ingress-nginx` namespace
+
 ## How to update the chart
 
 ```bash
@@ -38,3 +40,13 @@ NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller -
 # if needed, deletes the chart
 helm delete ingress-nginx -n ingress-nginx
 ```
+
+## How to use
+
+* Create an ingress that references the ingress class name
+
+## How to troubleshoot
+
+### Chart resource list
+
+![Objects](objects.png)

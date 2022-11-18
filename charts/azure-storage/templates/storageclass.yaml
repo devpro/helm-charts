@@ -1,0 +1,97 @@
+{{- if $.Values.azureFile.enabled -}}
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azurefile
+provisioner: kubernetes.io/azure-file
+parameters:
+  skuName: {{ $.Values.azureFile.skuName }}
+  location: {{ $.Values.azureFile.location }}
+  storageAccount: {{ $.Values.azureFile.storageAccount }}
+allowVolumeExpansion: true
+# mountOptions:
+#   - dir_mode=0777
+#   - file_mode=0777
+#   - uid=0
+#   - gid=0
+#   - mfsymlinks
+#   - cache=strict
+#   - actimeo=30
+{{- end }}
+{{- if $.Values.azureCSI.enabled -}}
+---
+# https://raw.githubusercontent.com/kubernetes-sigs/azurefile-csi-driver/master/deploy/example/storageclass-azurefile-csi.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azurefile-csi
+provisioner: file.csi.azure.com
+parameters:
+  skuName: Standard_LRS
+mountOptions:
+  - mfsymlinks
+  - actimeo=30
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azurefile-csi-premium
+provisioner: file.csi.azure.com
+parameters:
+  skuName: Premium_LRS
+allowVolumeExpansion: true
+mountOptions:
+  - mfsymlinks
+  - actimeo=30
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+---
+# https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/deploy/example/storageclass-azuredisk-csi.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azuredisk-csi
+provisioner: disk.csi.azure.com
+parameters:
+  skuname: Standard_LRS
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+---
+# https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/deploy/example/storageclass-blobfuse.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azureblob-fuse
+provisioner: blob.csi.azure.com
+parameters:
+  skuName: Standard_LRS
+allowVolumeExpansion: true
+mountOptions:
+  - -o allow_other
+  - --file-cache-timeout-in-seconds=120
+  - --use-attr-cache=true
+  - --cancel-list-on-mount-seconds=10  # prevent billing charges on mounting
+  - -o attr_timeout=120
+  - -o entry_timeout=120
+  - -o negative_timeout=120
+  - --log-level=LOG_WARNING  # LOG_WARNING, LOG_INFO, LOG_DEBUG
+  - --cache-size-mb=1000  # default will be 80% of available memory, eviction will happen beyond that
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+---
+# https://github.com/kubernetes-sigs/blob-csi-driver/blob/master/deploy/example/storageclass-blob-nfs.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azureblob-nfs
+provisioner: blob.csi.azure.com
+parameters:
+  skuName: Standard_LRS
+  protocol: nfs
+volumeBindingMode: Immediate
+{{- end }}

@@ -1,0 +1,13 @@
+apiVersion: v2
+name: devpro-charts/neuvector
+description: Helm chart for managing NeuVector
+type: application
+version: "0.1.0"
+appVersion: "5.0.4"
+dependencies:
+  - name: core
+    version: 2.2.4
+    repository: https://neuvector.github.io/neuvector-helm/
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr

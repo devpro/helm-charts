@@ -1,0 +1,9 @@
+dependencies:
+- name: azuredisk-csi-driver
+  repository: https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/charts
+  version: v1.24.0
+- name: blob-csi-driver
+  repository: https://raw.githubusercontent.com/kubernetes-sigs/blob-csi-driver/master/charts
+  version: v1.17.0
+digest: sha256:bff302ede46681644032247b402d408fc0591d0f277ef9b0848e58e7b559ce0e
+generated: "2022-11-17T10:43:57.319311629+01:00"
