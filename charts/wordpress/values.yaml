@@ -6,4 +6,4 @@ secrets:
 # https://github.com/bitnami/charts/blob/main/bitnami/wordpress/values.yaml
 wordpress:
   livenessProbe:
-      initialDelaySeconds: 600  # 10 minutes
+    initialDelaySeconds: 600  # 10 minutes
