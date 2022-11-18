@@ -44,6 +44,8 @@ kubectl get all -n sample-apps
 
 # if needed, deletes the chart
 helm uninstall wordpress -n sample-apps
+
+# open https://wordpress.${NGINX_PUBLIC_IP}.sslip.io/ and https://wordpress.${NGINX_PUBLIC_IP}.sslip.io/wp-login.php
 ```
 
 ## How to get examples
@@ -53,7 +55,7 @@ helm uninstall wordpress -n sample-apps
 ```yaml
 secrets:
   wordpressPassword:
-    encryptedValue=xxx
+    encryptedValue: xxx
 wordpress:
   global:
     storageClass: azureblob-fuse
@@ -71,3 +73,18 @@ wordpress:
       rootPassword: "xxx"
       password: "xxx"
 ```
+
+## How to troubleshoot
+
+### MariaDB failing to start
+
+* Check storage class compatibility
+
+### Empty website & incomplete template
+
+* View pod logs
+* Increase livenessProbe initialDelaySeconds as WordPress installation may take several minutes (see [Issue #9563](https://github.com/bitnami/charts/issues/9563))
+
+### Error 503
+
+* Make sure Kubernetes `wordpress` service exists (may also be linked to long installation time and disabled probes)

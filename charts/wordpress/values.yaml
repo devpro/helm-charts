@@ -4,4 +4,6 @@ secrets:
     key: wordpress-password
     encryptedValue: ""
 # https://github.com/bitnami/charts/blob/main/bitnami/wordpress/values.yaml
-wordpress: {}
+wordpress:
+  livenessProbe:
+      initialDelaySeconds: 600  # 10 minutes
