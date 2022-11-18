@@ -26,7 +26,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
 * Observability
   * [OpenTelemetry Collector / Prometheus / Grafana](./charts/otel-prometheus-grafana/README.md)
 * Security
-  * [NeuVector](./charts/neuvector/README.md)
+  * [NeuVector](./charts/neuvector/README.md) 🗸
 * Software Factory (supply chain)
   * [GitLab](./charts/gitlab/README.md)
   * [Harbor](./charts/harbor/README.md)

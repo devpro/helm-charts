@@ -11,6 +11,7 @@ This Helm chart will install the Kubernetes objects to be able to use Azure stor
   * [Azure Disk CSI driver](https://github.com/kubernetes-sigs/azuredisk-csi-driver) ([Helm chart](https://github.com/kubernetes-sigs/azuredisk-csi-driver/tree/master/charts))
     * [CSI driver example](https://github.com/kubernetes-sigs/azuredisk-csi-driver/blob/master/deploy/example/e2e_usage.md)
   * [Azure Blob Storage CSI driver](https://github.com/kubernetes-sigs/blob-csi-driver) ([Helm chart](https://github.com/kubernetes-sigs/blob-csi-driver/tree/master/charts))
+    * [Blobfuse2 - A Microsoft supported Azure Storage FUSE driver](https://github.com/Azure/azure-storage-fuse)
 
 ## How to get chart values
 
