@@ -1,0 +1,13 @@
+apiVersion: v2
+name: gitlab
+description: Helm chart for managing GitLab
+type: application
+version: "0.1.0"
+appVersion: "15.5.4"
+dependencies:
+  - name: gitlab
+    version: 6.5.5
+    repository: https://charts.gitlab.io/
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr

@@ -28,7 +28,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
 * Security
   * [NeuVector](./charts/neuvector/README.md) 🗸
 * Software Factory (supply chain)
-  * [GitLab](./charts/gitlab/README.md)
+  * [GitLab](./charts/gitlab/README.md) 🗸
   * [Harbor](./charts/harbor/README.md)
   * [SonarQube](./charts/sonarqube/README.md)
 

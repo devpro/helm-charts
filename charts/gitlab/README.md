@@ -1,1 +1,58 @@
 # GitLab
+
+This Helm chart will install [GitLab](https://about.gitlab.com/) and is based from the [official Helm chart](https://gitlab.com/gitlab-org/charts/gitlab) ([docs](https://docs.gitlab.com/charts/).
+
+## How to update the chart
+
+```bash
+# adds helm chart repository
+helm repo add gitlab https://charts.gitlab.io/
+helm repo update
+
+# searches for the latest version
+helm search repo -l gitlab
+
+# manual: update version number in Chart.yaml
+
+# updates Chart.lock
+helm dependency update
+
+# checks the Kubernetes objects generated from the chart
+helm template . -f values.yaml > temp.yaml
+```
+
+## How to deploy manually
+
+```bash
+# gets ingress controller public IP
+NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
+
+# applies the manifest (add "--debug > output.yaml" in case of issue)
+helm upgrade --install -f values.yaml --create-namespace \
+  --set gitlab.global.hosts.domain=${NGINX_PUBLIC_IP}.sslip.io \
+  --set gitlab.certmanager-issuer.email=bertrand@devpro.fr \
+  --set gitlab.nginx-ingress.enabled=false \
+  --set gitlab.certmanager.install=false \
+  --set gitlab.certmanager.installCRDs=false \
+  --set gitlab.certmanager.rbac.create=false \
+  --set global.ingress.class=nginx \
+  --namespace gitlab gitlab .
+
+# Other options --set gitlab.global.edition=ce
+
+# checks everything is ok
+kubectl get ingress -lrelease=gitlab -n gitlab
+
+# if needed, deletes the chart
+helm uninstall gitlab -n gitlab
+```
+
+## How to investigate
+
+* Review [quickstart](https://docs.gitlab.com/charts/quickstart/)
+
+* checks existings resources
+
+```bash
+#TODO
+```

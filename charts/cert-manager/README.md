@@ -32,7 +32,8 @@ helm template . -f values.yaml --namespace cert-manager > temp.yaml
 
 ```bash
 # installs the chart with helm
-helm upgrade --install -f values.yaml --namespace cert-manager cert-manager .
+helm upgrade --install -f values.yaml --create-namespace \
+  --namespace cert-manager cert-manager .
 
 # checks deployments (the 3 of them should be READY 1/1)
 kubectl get deploy -n cert-manager
