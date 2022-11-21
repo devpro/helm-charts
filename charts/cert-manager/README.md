@@ -22,7 +22,7 @@ helm search repo cert-manager
 helm dependency update
 
 # refreshes CRD file
-wget -O templates/cert-manager.crds.yaml https://github.com/cert-manager/cert-manager/releases/download/v1.10.0/cert-manager.crds.yaml
+wget -O crds/cert-manager.crds.yaml https://github.com/cert-manager/cert-manager/releases/download/v1.10.0/cert-manager.crds.yaml
 
 # checks the Kubernetes objects generated from the chart
 helm template . -f values.yaml --namespace cert-manager > temp.yaml
@@ -43,7 +43,8 @@ helm delete cert-manager -n cert-manager
 
 ## How to investigate
 
+### Check existing resources
+
 ```bash
-# checks existings resources
 kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges --all-namespaces
 ```
