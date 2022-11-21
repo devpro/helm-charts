@@ -29,7 +29,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
   * [NeuVector](./charts/neuvector/README.md) 🗸
 * Software Factory (supply chain)
   * [GitLab](./charts/gitlab/README.md) 🗸
-  * [Harbor](./charts/harbor/README.md)
+  * [Harbor](./charts/harbor/README.md) 🗸
   * [SonarQube](./charts/sonarqube/README.md)
 
 Limitation: [Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn't support multiple chart directories ou multiple levels so all charts must be in `charts` repository

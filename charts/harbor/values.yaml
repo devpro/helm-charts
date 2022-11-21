@@ -1,0 +1,17 @@
+# https://github.com/goharbor/harbor-helm/blob/master/values.yaml
+harbor:
+  expose:
+    ingress:
+      className: "nginx"
+      annotations:
+        cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
+        ingress.kubernetes.io/proxy-body-size: "0"
+        ingress.kubernetes.io/ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    tls:
+      certSource: secret
+      secret:
+        secretName: harbor-tls
+        notarySecretName: harbor-notary-tls

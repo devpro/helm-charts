@@ -16,9 +16,6 @@ helm search repo -l gitlab
 
 # updates Chart.lock
 helm dependency update
-
-# checks the Kubernetes objects generated from the chart
-helm template . -f values.yaml > temp.yaml
 ```
 
 ## How to deploy manually
@@ -26,6 +23,10 @@ helm template . -f values.yaml > temp.yaml
 ```bash
 # gets ingress controller public IP
 NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
+
+# optional: checks the Kubernetes objects generated from the chart
+helm template -f values.yaml \
+  --namespace gitlab . > temp.yaml
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
 helm upgrade --install -f values.yaml --create-namespace \

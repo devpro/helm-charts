@@ -7,9 +7,6 @@ Helm chart to deploy E Corps applications on a Kubernetes cluster, with a [front
 ```bash
 # lints the chart
 helm lint .
-
-# creates Kubernetes template file from chart
-helm template . -f values.yaml --set aspnetcore.environment=Development > temp.yaml
 ```
 
 ## How to deploy manually
@@ -17,6 +14,10 @@ helm template . -f values.yaml --set aspnetcore.environment=Development > temp.y
 ```bash
 # gets ingress controller public IP
 NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
+
+# creates Kubernetes template file from chart
+helm template ecorp-demo . -f values.yaml \
+  --namespace ecorp > temp.yaml
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
 helm upgrade --install -f values.yaml --create-namespace \
