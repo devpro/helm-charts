@@ -15,7 +15,7 @@ helm template . -f values.yaml --set aspnetcore.environment=Development > temp.y
 ## How to deploy manually
 
 ```bash
-# get ingress controller public IP
+# gets ingress controller public IP
 NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
@@ -33,7 +33,7 @@ helm upgrade --install -f values.yaml --create-namespace \
 kubectl get all -n ecorp
 kubectl get Secrets,Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges -n ecorp
 
-# open in a browser https://ecorp-demo.${NGINX_PUBLIC_IP}.sslip.io and https://ecorp-demo-api.${NGINX_PUBLIC_IP}.sslip.io/swagger
+# manual: open in a browser https://ecorp-demo.${NGINX_PUBLIC_IP}.sslip.io and https://ecorp-demo-api.${NGINX_PUBLIC_IP}.sslip.io/swagger
 
 # if needed, deletes the chart
 helm delete ecorp-demo -n ecorp

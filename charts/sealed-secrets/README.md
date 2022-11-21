@@ -31,10 +31,11 @@ helm template . -f values.yaml --namespace kube-system > temp.yaml
 
 ```bash
 # installs the chart with helm
-helm upgrade --install sealed-secrets-controller -f values.yaml -n kube-system .
+helm upgrade --install -f values.yaml --create-namespace \
+  -n kube-system sealed-secrets-controller .
 
 # checks all resources are created correctly
-kubectl get services -o wide -w sealed-secrets-controller --namespace kube-system
+kubectl get services -o wide sealed-secrets-controller --namespace kube-system
 kubectl get deploy sealed-secrets-controller -n kube-system
 
 # if needed, deletes the chart
