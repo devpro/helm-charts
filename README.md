@@ -18,7 +18,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
 * Cloud providers
   * [Azure Storage](./charts/azure-storage/README.md) 🗸
 * Kube add-ons
-  * [ArgoCD](./charts/argocd/README.md)
+  * [ArgoCD](./charts/argo-cd/README.md) 🗸
   * [cert-manager](./charts/cert-manager/README.md) 🗸
   * cert-manager / Let's Encrypt
   * [NGINX Ingress Controller](./charts/ingress-nginx/README.md) 🗸
