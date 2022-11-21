@@ -1,2 +1,13 @@
 # https://gitlab.com/gitlab-org/charts/gitlab/-/blob/master/values.yaml
-gitlab: {}
+gitlab:
+  global:
+    ingress:
+      class: nginx
+    # edition: ce
+  nginx-ingress:
+    enabled: false
+  certmanager:
+    install: false
+    installCRDs: false
+    rbac:
+      create: false

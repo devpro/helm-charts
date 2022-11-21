@@ -31,17 +31,15 @@ NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller -
 helm upgrade --install -f values.yaml --create-namespace \
   --set gitlab.global.hosts.domain=${NGINX_PUBLIC_IP}.sslip.io \
   --set gitlab.certmanager-issuer.email=bertrand@devpro.fr \
-  --set gitlab.nginx-ingress.enabled=false \
-  --set gitlab.certmanager.install=false \
-  --set gitlab.certmanager.installCRDs=false \
-  --set gitlab.certmanager.rbac.create=false \
-  --set global.ingress.class=nginx \
   --namespace gitlab gitlab .
-
-# Other options --set gitlab.global.edition=ce
 
 # checks everything is ok
 kubectl get ingress -lrelease=gitlab -n gitlab
+
+# retrieves generated password
+kubectl get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' -n gitlab | base64 --decode ; echo
+
+# manual: open https://gitlab.${NGINX_PUBLIC_IP}.sslip.io/ (and login with "root" username)
 
 # if needed, deletes the chart
 helm uninstall gitlab -n gitlab
@@ -51,8 +49,12 @@ helm uninstall gitlab -n gitlab
 
 * Review [quickstart](https://docs.gitlab.com/charts/quickstart/)
 
+* Read [Configure secrets for the GitLab chart](https://docs.gitlab.com/charts/installation/secrets.html),
+[Configure the GitLab chart with an external NGINX Ingress Controller](https://docs.gitlab.com/charts/advanced/external-nginx/)
+
 * checks existings resources
 
 ```bash
-#TODO
+kubectl get all -n gitlab
+kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges -n gitlab
 ```
