@@ -1,5 +1,5 @@
 apiVersion: v2
-name: devpro-charts/wordpress
+name: wordpress
 description: Helm chart for managing WordPress
 type: application
 version: "0.1.1"

@@ -1,5 +1,5 @@
 apiVersion: v2
-name: devpro-charts/ingress-nginx
+name: ingress-nginx
 description: Helm chart for managing NGINX Ingress Controller
 type: application
 version: "0.1.1"
