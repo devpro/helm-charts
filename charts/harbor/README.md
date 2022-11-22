@@ -42,7 +42,7 @@ kubectl get ingress -lrelease=harbor -n supply-chain
 # manual: open https://harbor.${NGINX_PUBLIC_IP}.sslip.io/ (and login with admin/Harbor12345)
 
 # if needed, deletes the chart
-helm uninstall harbor -n harbor
+helm uninstall supply-chain -n harbor
 ```
 
 ## How to investigate

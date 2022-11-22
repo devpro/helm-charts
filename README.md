@@ -3,7 +3,7 @@
 [![CI](https://github.com/devpro/helm-charts/actions/workflows/ci.yml/badge.svg)](https://github.com/devpro/helm-charts/actions/workflows/ci.yml)
 [![PKG](https://github.com/devpro/helm-charts/actions/workflows/pkg.yml/badge.svg)](https://github.com/devpro/helm-charts/actions/workflows/pkg.yml)
 
-Helm charts to ease the deployment of containers on Kubernetes clusters.
+Helm charts to ease the deployment of containers on Kubernetes clusters and get information on widely used components.
 
 ## Catalog
 
@@ -30,7 +30,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters.
 * Software Factory (supply chain)
   * [GitLab](./charts/gitlab/README.md) 🗸
   * [Harbor](./charts/harbor/README.md) 🗸
-  * [SonarQube](./charts/sonarqube/README.md)
+  * [SonarQube](./charts/sonarqube/README.md) 🗸
 
 Limitation: [Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn't support multiple chart directories ou multiple levels so all charts must be in `charts` repository
 

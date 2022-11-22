@@ -25,25 +25,25 @@ helm dependency update
 NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 
 # optional: checks the Kubernetes objects generated from the chart
-helm template -f values.yaml \
-  --namespace gitlab . > temp.yaml
+helm template gitlab . -f values.yaml \
+  --namespace supply-chain > temp.yaml
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
 helm upgrade --install -f values.yaml --create-namespace \
   --set gitlab.global.hosts.domain=${NGINX_PUBLIC_IP}.sslip.io \
   --set gitlab.certmanager-issuer.email=bertrand@devpro.fr \
-  --namespace gitlab gitlab .
+  --namespace supply-chain gitlab .
 
 # checks everything is ok
-kubectl get ingress -lrelease=gitlab -n gitlab
+kubectl get ingress -lrelease=gitlab -n supply-chain
 
 # retrieves generated password
-kubectl get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' -n gitlab | base64 --decode ; echo
+kubectl get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' -n supply-chain | base64 --decode ; echo
 
 # manual: open https://gitlab.${NGINX_PUBLIC_IP}.sslip.io/ (and login with "root" username)
 
 # if needed, deletes the chart
-helm uninstall gitlab -n gitlab
+helm uninstall gitlab -n supply-chain
 ```
 
 ## How to investigate

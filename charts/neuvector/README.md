@@ -26,7 +26,8 @@ helm search repo neuvector
 helm dependency update
 
 # checks the Kubernetes objects generated from the chart
-helm template . -f values.yaml --namespace neuvector > temp.yaml
+helm template neuvector . -f values.yaml \
+  --namespace neuvector > temp.yaml
 
 # get ingress controller public IP
 NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
@@ -41,8 +42,9 @@ kubectl get all -n neuvector
 
 # open https://neuvector.40.115.47.172.sslip.io/ and do first login with login/login (if connection timeout, wait a little and retry)
 
-# if needed, deletes the chart
+# if needed, deletes the chart and deletes the namespace
 helm uninstall neuvector -n neuvector
+kubectl delete ns neuvector
 ```
 
 ## How to view examples

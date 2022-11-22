@@ -1,0 +1,5 @@
+# https://github.com/SonarSource/helm-chart-sonarqube/blob/master/charts/sonarqube/values.yaml
+sonarqube:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
