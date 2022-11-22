@@ -45,26 +45,35 @@ kubectl get all -n neuvector
 helm uninstall neuvector -n neuvector
 ```
 
-## How to get examples
+## How to view examples
 
-* Use-case: RKE2 running in Azure VMs
+* RKE2 cluster running in Azure VMs
 
 ```yaml
 core:
   k3s:
     enabled: true
-  controller:
-    replicas: 2
-  cve:
-    scanner:
-      replicas: 2
+```
+
+* AKS cluster
+
+```yaml
+core:
+  containerd:
+    enabled: true
+```
+
+* NGINX Ingress Controller with a cert-manager ClusterIssue
+
+```yaml
+core:
   manager:
     ingress:
       enabled: true
-      host: xxxx
       ingressClassName: nginx
       annotations:
         cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       tls: true
       secretName: neuvector-tls-secret
 ```
