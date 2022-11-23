@@ -2,7 +2,7 @@ apiVersion: v2
 name: sealed-secrets
 description: Helm chart for managing Sealed Secrets
 type: application
-version: "0.1.1"
+version: "0.1.2"
 appVersion: "0.19.1"
 dependencies:
   - name: sealed-secrets

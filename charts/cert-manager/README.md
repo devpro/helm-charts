@@ -1,6 +1,7 @@
 # cert-manager
 
-This Helm chart will install [cert-manager](https://cert-manager.io/) ([GitHub](https://github.com/cert-manager/cert-manager), [docs](https://cert-manager.io/docs/), [chart](https://github.com/cert-manager/cert-manager/tree/master/deploy/charts/cert-manager)).
+This Helm chart will install [cert-manager](https://cert-manager.io/) ([GitHub](https://github.com/cert-manager/cert-manager), [docs](https://cert-manager.io/docs/))
+from the [official Helm chart](https://github.com/cert-manager/cert-manager/tree/master/deploy/charts/cert-manager)).
 
 💡 Kubernetes objects will be installed in `cert-manager` namespace
 
@@ -22,28 +23,39 @@ helm search repo cert-manager
 helm dependency update
 
 # refreshes CRD file
-wget -O templates/cert-manager.crds.yaml https://github.com/cert-manager/cert-manager/releases/download/v1.10.0/cert-manager.crds.yaml
-
-# checks the Kubernetes objects generated from the chart
-helm template . -f values.yaml --namespace cert-manager > temp.yaml
+wget -O crds/cert-manager.crds.yaml https://github.com/cert-manager/cert-manager/releases/download/v1.10.0/cert-manager.crds.yaml
 ```
 
 ## How to deploy manually
 
 ```bash
-# installs the chart with helm
-helm upgrade --install -f values.yaml --namespace cert-manager cert-manager .
+# checks the Kubernetes objects generated from the chart
+helm template cert-manager . -f values.yaml --namespace cert-manager > temp.yaml
+
+# installs the chart with helm (with CRDs)
+helm install cert-manager . -f values.yaml --create-namespace --namespace cert-manager
 
 # checks deployments (the 3 of them should be READY 1/1)
 kubectl get deploy -n cert-manager
 
+# updates an existing installation (CRDs won't be installed)
+helm upgrade --install cert-manager . -f values.yaml --namespace cert-manager
+
 # if needed, deletes the chart
 helm delete cert-manager -n cert-manager
+kubectl delete ns cert-manager
 ```
 
 ## How to investigate
 
+### Check existing resources
+
 ```bash
-# checks existings resources
 kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges --all-namespaces
 ```
+
+### Know limitations
+
+* CRDs must be applied before the chart (Helm limitation: [Issue #8668](https://github.com/helm/helm/issues/8668))
+
+* Let's Encrypt certificates can't be added to this chart as they require `cert-manager-webhook` to be working, it needs to be done in a second step

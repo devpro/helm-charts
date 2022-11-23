@@ -1,0 +1,4 @@
+registration:
+  emailAddress:
+ingress:
+  className: nginx

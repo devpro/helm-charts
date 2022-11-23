@@ -26,7 +26,8 @@ helm search repo neuvector
 helm dependency update
 
 # checks the Kubernetes objects generated from the chart
-helm template . -f values.yaml --namespace neuvector > temp.yaml
+helm template neuvector . -f values.yaml \
+  --namespace neuvector > temp.yaml
 
 # get ingress controller public IP
 NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
@@ -41,30 +42,40 @@ kubectl get all -n neuvector
 
 # open https://neuvector.40.115.47.172.sslip.io/ and do first login with login/login (if connection timeout, wait a little and retry)
 
-# if needed, deletes the chart
+# if needed, deletes the chart and deletes the namespace
 helm uninstall neuvector -n neuvector
+kubectl delete ns neuvector
 ```
 
-## How to get examples
+## How to view examples
 
-* Use-case: RKE2 running in Azure VMs
+* RKE2 cluster running in Azure VMs
 
 ```yaml
 core:
   k3s:
     enabled: true
-  controller:
-    replicas: 2
-  cve:
-    scanner:
-      replicas: 2
+```
+
+* AKS cluster
+
+```yaml
+core:
+  containerd:
+    enabled: true
+```
+
+* NGINX Ingress Controller with a cert-manager ClusterIssue
+
+```yaml
+core:
   manager:
     ingress:
       enabled: true
-      host: xxxx
       ingressClassName: nginx
       annotations:
         cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       tls: true
       secretName: neuvector-tls-secret
 ```

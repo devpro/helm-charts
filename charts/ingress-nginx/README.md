@@ -29,7 +29,8 @@ helm template . -f values.yaml --namespace ingress-nginx > temp.yaml
 
 ```bash
 # installs the chart with helm
-helm upgrade --install -f values.yaml --namespace ingress-nginx ingress-nginx .
+helm upgrade --install -f values.yaml --create-namespace \
+  --namespace ingress-nginx ingress-nginx .
 
 # watchs the service being created and assigned a public IP (it can take time if the cloud provider is called to create a load balancer/ip address)
 kubectl get services -o wide -w ingress-nginx-controller --namespace ingress-nginx
