@@ -47,9 +47,9 @@ helm uninstall neuvector -n neuvector
 kubectl delete ns neuvector
 ```
 
-## How to view examples
+## How to get parameter values
 
-* RKE2 cluster running in Azure VMs
+* RKE2 cluster
 
 ```yaml
 core:

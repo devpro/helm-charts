@@ -5,6 +5,10 @@
 
 Helm charts to ease the deployment of containers on Kubernetes clusters and get information on widely used components.
 
+## Quickstart
+
+* Visit [devpro.github.io/helm-charts](https://devpro.github.io/helm-charts/)
+
 ## Catalog
 
 * Applications
@@ -51,6 +55,57 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Tekton](charts/tekton/README.md)
 
 Limitation: [Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn't support multiple chart directories ou multiple levels so all charts must be in `charts` repository
+
+## Usage
+
+### From Helm CLI
+
+```bash
+# adds the Helm repository
+helm repo add devpro https://devpro.github.io/helm-charts
+
+# searches for a specific package from the command line
+helm repo search <package_name>
+
+# installs a package
+helm install <package_name>
+```
+
+### From ArgoCD
+
+* Create a git repository to store Kubernetes definition files (GitOps approach)
+
+```yaml
+# wordpress/Chart.yaml
+apiVersion: v2
+name: wordpress
+description: Helm chart for installing WordPress
+type: application
+version: 0.1.0
+appVersion: 1.0.0
+dependencies:
+  - name: wordpress
+    version: 0.1.1
+    repository: https://devpro.github.io/helm-charts
+```
+
+* Create a new application in ArgoCD to reference the git repository with the path to the folder
+
+### From Fleet
+
+* Create a git repository to store Kubernetes definition files (GitOps approach)
+
+```yaml
+# wordpress/fleet.yaml
+defaultNamespace: sample-apps
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: wordpress
+  version: 0.1.1
+  releaseName: wordpress
+```
+
+* Create a GitRepo to reference the git repository with the path to the folder
 
 ## Cluster setup logic
 
