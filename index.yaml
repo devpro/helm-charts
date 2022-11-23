@@ -1,5 +1,23 @@
 apiVersion: v1
 entries:
+  argo-cd:
+  - apiVersion: v2
+    appVersion: 2.5.2
+    created: "2022-11-23T13:39:45.104344017Z"
+    dependencies:
+    - name: argo-cd
+      repository: https://argoproj.github.io/argo-helm
+      version: 5.14.0
+    description: Helm chart for managing ArgoCD
+    digest: 43bfe897b1682df008de3a91d9bf40ce29ee5633fa07d62da4d2359dee7d06a9
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: argo-cd
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/argo-cd-0.1.0/argo-cd-0.1.0.tgz
+    version: 0.1.0
   azure-storage:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -24,6 +42,23 @@ entries:
   cert-manager:
   - apiVersion: v2
     appVersion: 1.10.0
+    created: "2022-11-23T13:39:45.239525495Z"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: v1.10.0
+    description: Helm chart for managing cert-manager
+    digest: 1a50d114e2273c3631f274d73ecff4580fa360f3ecdc8d5fa55a571301e85bdd
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: cert-manager
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/cert-manager-0.1.2/cert-manager-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.10.0
     created: "2022-11-21T08:37:56.189693999Z"
     dependencies:
     - name: cert-manager
@@ -40,6 +75,19 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/cert-manager-0.1.1/cert-manager-0.1.1.tgz
     version: 0.1.1
   ecorp-demo:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-11-23T13:39:45.399016234Z"
+    description: Helm chart for E Corp demo
+    digest: c31ebaffa2def8068377a0a35352514cdf12cec6f792a3eee5d7964d99fb0811
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: ecorp-demo
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/ecorp-demo-0.1.18/ecorp-demo-0.1.18.tgz
+    version: 0.1.18
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2022-11-10T09:53:38.779846542Z"
@@ -144,7 +192,60 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/ecorp-demo-0.1.10/ecorp-demo-0.1.10.tgz
     version: 0.1.10
+  gitlab:
+  - apiVersion: v2
+    appVersion: 15.5.4
+    created: "2022-11-23T13:39:45.615565136Z"
+    dependencies:
+    - name: gitlab
+      repository: https://charts.gitlab.io/
+      version: 6.5.5
+    description: Helm chart for managing GitLab
+    digest: 5ef3bb00db389cf62f1d79ca2a9ef5a9266e7a4aaeae1bad5245134bbdf4b6b5
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: gitlab
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/gitlab-0.1.0/gitlab-0.1.0.tgz
+    version: 0.1.0
+  harbor:
+  - apiVersion: v2
+    appVersion: 2.6.2
+    created: "2022-11-23T13:39:45.748182649Z"
+    dependencies:
+    - name: harbor
+      repository: https://helm.goharbor.io
+      version: 1.10.2
+    description: Helm chart for managing Harbor
+    digest: 6dc9cf06a9c8d3b54836368f5cdbca2b0e48313d9ee752e91ed5381792509500
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: harbor
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/harbor-0.1.0/harbor-0.1.0.tgz
+    version: 0.1.0
   ingress-nginx:
+  - apiVersion: v2
+    appVersion: 1.4.0
+    created: "2022-11-23T13:39:45.900182307Z"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.3.0
+    description: Helm chart for managing NGINX Ingress Controller
+    digest: 006e28f59d4e25bcfa6df05fe2e5b7d63c291dc26b6c536893d6e7e22ad2bc47
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: ingress-nginx
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/ingress-nginx-0.1.2/ingress-nginx-0.1.2.tgz
+    version: 0.1.2
   - apiVersion: v2
     appVersion: 1.4.0
     created: "2022-11-21T08:37:56.319437254Z"
@@ -162,6 +263,20 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/ingress-nginx-0.1.1/ingress-nginx-0.1.1.tgz
     version: 0.1.1
+  letsencrypt:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-11-23T13:39:46.02967772Z"
+    description: Helm chart for managing Let's Encrypt
+    digest: 935d4c208dd97a669b9af16590b6f960770ced391899a080ec371fe0e2b4c4bb
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: letsencrypt
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/letsencrypt-0.1.0/letsencrypt-0.1.0.tgz
+    version: 0.1.0
   mariadb:
   - apiVersion: v2
     appVersion: 10.6.11
@@ -183,6 +298,23 @@ entries:
   neuvector:
   - apiVersion: v2
     appVersion: 5.0.4
+    created: "2022-11-23T13:39:46.14105387Z"
+    dependencies:
+    - name: core
+      repository: https://neuvector.github.io/neuvector-helm/
+      version: 2.2.4
+    description: Helm chart for managing NeuVector
+    digest: 7768b11a8bebb9f0e2a28c2c5b3f70b114fdac21a8322e44629e24cc36f2c090
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: neuvector
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/neuvector-0.1.1/neuvector-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 5.0.4
     created: "2022-11-21T08:37:56.56996532Z"
     dependencies:
     - name: core
@@ -201,6 +333,23 @@ entries:
   sealed-secrets:
   - apiVersion: v2
     appVersion: 0.19.1
+    created: "2022-11-23T13:39:46.277028899Z"
+    dependencies:
+    - name: sealed-secrets
+      repository: https://bitnami-labs.github.io/sealed-secrets
+      version: 2.7.0
+    description: Helm chart for managing Sealed Secrets
+    digest: 23a176547a778244a1de4a91ad53aa79cb821c9608285aa902cd00d41881fc36
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: sealed-secrets
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/sealed-secrets-0.1.2/sealed-secrets-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.19.1
     created: "2022-11-21T08:37:56.689599524Z"
     dependencies:
     - name: sealed-secrets
@@ -216,6 +365,24 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/sealed-secrets-0.1.1/sealed-secrets-0.1.1.tgz
     version: 0.1.1
+  sonarqube:
+  - apiVersion: v2
+    appVersion: 9.7.1
+    created: "2022-11-23T13:39:46.433469142Z"
+    dependencies:
+    - name: sonarqube
+      repository: https://sonarsource.github.io/helm-chart-sonarqube
+      version: 6.0.1+425
+    description: Helm chart for managing SonarQube
+    digest: 2b27cde9f94632432ff64f64ced11b8a0ba26e8a3829d5b96591ce899f961b43
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: sonarqube
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/sonarqube-0.1.0/sonarqube-0.1.0.tgz
+    version: 0.1.0
   wordpress:
   - apiVersion: v2
     appVersion: 6.1.0
@@ -234,4 +401,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2022-11-21T08:37:56.836098063Z"
+generated: "2022-11-23T13:39:46.433527646Z"
