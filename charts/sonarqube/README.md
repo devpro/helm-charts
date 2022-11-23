@@ -37,7 +37,7 @@ helm upgrade --install -f values.yaml --create-namespace \
 # checks everything is ok
 kubectl get ingress -lrelease=sonarqube -n supply-chain
 
-# manual: open https://sonarqube.${NGINX_PUBLIC_IP}.sslip.io/ (and login with admin/Harbor12345)
+# manual: open https://sonarqube.${NGINX_PUBLIC_IP}.sslip.io/ (and login with admin/admin)
 
 # if needed, deletes the chart
 helm uninstall sonarqube -n supply-chain
