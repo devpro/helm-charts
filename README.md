@@ -17,7 +17,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [WordPress](charts/wordpress/README.md) 🗸
 * Backing services
   * [Kafka](charts/kafka/README.md)
-  * [Keycloak](charts/Keycloak/README.md)
+  * [Keycloak](charts/keycloak/README.md) 🗸
   * [MariaDB](charts/mariadb/README.md) 🗸
   * [memcached](charts/memcached/README.md)
   * [MongoDB](charts/mongodb/README.md)

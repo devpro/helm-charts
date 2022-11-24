@@ -30,11 +30,11 @@ helm template harbor . -f values.yaml \
   --namespace supply-chain > temp.yaml
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
-helm upgrade --install -f values.yaml --create-namespace \
+helm upgrade --install harbor . -f values.yaml --create-namespace \
   --set harbor.expose.ingress.hosts.core=harbor.${NGINX_PUBLIC_IP}.sslip.io \
   --set harbor.expose.ingress.hosts.notary=harbor-notary.${NGINX_PUBLIC_IP}.sslip.io \
   --set harbor.externalURL=https://harbor.${NGINX_PUBLIC_IP}.sslip.io \
-  --namespace supply-chain harbor .
+  --namespace supply-chain
 
 # checks everything is ok
 kubectl get ingress -lrelease=harbor -n supply-chain
@@ -42,7 +42,7 @@ kubectl get ingress -lrelease=harbor -n supply-chain
 # manual: open https://harbor.${NGINX_PUBLIC_IP}.sslip.io/ (and login with admin/Harbor12345)
 
 # if needed, deletes the chart
-helm uninstall supply-chain -n harbor
+helm uninstall harbor -n supply-chain
 ```
 
 ## How to investigate
@@ -50,6 +50,6 @@ helm uninstall supply-chain -n harbor
 * checks existings resources
 
 ```bash
-kubectl get all -n harbor
-kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges -n harbor
+kubectl get all -n supply-chain
+kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges -n supply-chain
 ```
