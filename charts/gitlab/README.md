@@ -29,10 +29,13 @@ helm template gitlab . -f values.yaml \
   --namespace supply-chain > temp.yaml
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
-helm upgrade --install -f values.yaml --create-namespace \
+helm upgrade --install gitlab . -f values.yaml --create-namespace \
   --set gitlab.global.hosts.domain=${NGINX_PUBLIC_IP}.sslip.io \
-  --set gitlab.certmanager-issuer.email=bertrand@devpro.fr \
-  --namespace supply-chain gitlab .
+  --set gitlab.global.hosts.registry.name=gitlab-registry.${NGINX_PUBLIC_IP}.sslip.io \
+  --set gitlab.global.hosts.minio.name=gitlab-minio.${NGINX_PUBLIC_IP}.sslip.io \
+  --set gitlab.global.hosts.kas.name=gitlab-kas.${NGINX_PUBLIC_IP}.sslip.io \
+  --set gitlab.certmanager-issuer.email=mypersonal@email.address \
+  --namespace supply-chain
 
 # checks everything is ok
 kubectl get ingress -lrelease=gitlab -n supply-chain
@@ -53,9 +56,11 @@ helm uninstall gitlab -n supply-chain
 * Read [Configure secrets for the GitLab chart](https://docs.gitlab.com/charts/installation/secrets.html),
 [Configure the GitLab chart with an external NGINX Ingress Controller](https://docs.gitlab.com/charts/advanced/external-nginx/)
 
-* checks existings resources
+* Check existings resources
 
 ```bash
 kubectl get all -n gitlab
 kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges -n gitlab
 ```
+
+* Having an external cert-manager et certificate issuer doesn't work with GitLab official chart

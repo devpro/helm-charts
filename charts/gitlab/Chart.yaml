@@ -2,7 +2,7 @@ apiVersion: v2
 name: gitlab
 description: Helm chart for managing GitLab
 type: application
-version: "0.1.0"
+version: "0.1.1"
 appVersion: "15.5.4"
 dependencies:
   - name: gitlab
