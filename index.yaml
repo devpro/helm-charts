@@ -42,6 +42,23 @@ entries:
   cert-manager:
   - apiVersion: v2
     appVersion: 1.10.0
+    created: "2022-11-24T21:23:20.6577888Z"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: v1.10.0
+    description: Helm chart for managing cert-manager
+    digest: e9af5872eb346a8d6455de61f81c744855e71686576b09d3ffaa3cb5308ad3bf
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: cert-manager
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/cert-manager-0.1.3/cert-manager-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
+    appVersion: 1.10.0
     created: "2022-11-23T13:39:45.239525495Z"
     dependencies:
     - name: cert-manager
@@ -195,6 +212,23 @@ entries:
   gitlab:
   - apiVersion: v2
     appVersion: 15.5.4
+    created: "2022-11-24T21:23:20.873532033Z"
+    dependencies:
+    - name: gitlab
+      repository: https://charts.gitlab.io/
+      version: 6.5.5
+    description: Helm chart for managing GitLab
+    digest: 2266baa172d37521d875b698dd221d1ddf99011e76eca993a33d372d83182e0a
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: gitlab
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/gitlab-0.1.1/gitlab-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 15.5.4
     created: "2022-11-23T13:39:45.615565136Z"
     dependencies:
     - name: gitlab
@@ -211,6 +245,23 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/gitlab-0.1.0/gitlab-0.1.0.tgz
     version: 0.1.0
   harbor:
+  - apiVersion: v2
+    appVersion: 2.6.2
+    created: "2022-11-24T21:23:20.991750141Z"
+    dependencies:
+    - name: harbor
+      repository: https://helm.goharbor.io
+      version: 1.10.2
+    description: Helm chart for managing Harbor
+    digest: 833376b2cd0e82226e7ba7c8b6863f7a9c24e0036ba3c209f2f23a9fd4240a9b
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: harbor
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/harbor-0.1.1/harbor-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     appVersion: 2.6.2
     created: "2022-11-23T13:39:45.748182649Z"
@@ -263,7 +314,38 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/ingress-nginx-0.1.1/ingress-nginx-0.1.1.tgz
     version: 0.1.1
+  keycloak:
+  - apiVersion: v2
+    appVersion: 19.0.3
+    created: "2022-11-24T21:23:21.128355098Z"
+    dependencies:
+    - name: keycloak
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.1.3
+    description: Helm chart for managing Keycloak
+    digest: f8439542e42013c841fd42ac2c2e51675e58358d6d1ea2c9b5e2ac10fcbca5b5
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: keycloak
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/keycloak-0.1.0/keycloak-0.1.0.tgz
+    version: 0.1.0
   letsencrypt:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-11-24T21:23:21.233018521Z"
+    description: Helm chart for managing Let's Encrypt
+    digest: d423885243f2b9c4c9be15e185a2e9193fe23d254cb9d65f9f9dd83d7527dfea
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: letsencrypt
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/letsencrypt-0.1.1/letsencrypt-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2022-11-23T13:39:46.02967772Z"
@@ -296,6 +378,23 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/mariadb-0.1.0/mariadb-0.1.0.tgz
     version: 0.1.0
   neuvector:
+  - apiVersion: v2
+    appVersion: 5.0.4
+    created: "2022-11-24T21:23:21.431764123Z"
+    dependencies:
+    - name: core
+      repository: https://neuvector.github.io/neuvector-helm/
+      version: 2.2.4
+    description: Helm chart for managing NeuVector
+    digest: af74f17f73ee53a960e368c3a14fb49ed8cc3f3ad7a6fa326a38a6bcbd7a51b5
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: neuvector
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/neuvector-0.1.3/neuvector-0.1.3.tgz
+    version: 0.1.3
   - apiVersion: v2
     appVersion: 5.0.4
     created: "2022-11-23T13:39:46.14105387Z"
@@ -368,6 +467,23 @@ entries:
   sonarqube:
   - apiVersion: v2
     appVersion: 9.7.1
+    created: "2022-11-24T21:23:21.581495258Z"
+    dependencies:
+    - name: sonarqube
+      repository: https://sonarsource.github.io/helm-chart-sonarqube
+      version: 6.0.1+425
+    description: Helm chart for managing SonarQube
+    digest: 0b1357151f21f8400dc5658b8cb24012270b55b2242d5fc5b95897a12c1a29e0
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: sonarqube
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/sonarqube-0.1.1/sonarqube-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 9.7.1
     created: "2022-11-23T13:39:46.433469142Z"
     dependencies:
     - name: sonarqube
@@ -401,4 +517,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2022-11-23T13:39:46.433527646Z"
+generated: "2022-11-24T21:23:21.581542559Z"
