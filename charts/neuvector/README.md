@@ -35,6 +35,7 @@ NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller -
 # installs the chart with helm
 helm upgrade --install --create-namespace \
   --set core.manager.ingress.host=neuvector.${NGINX_PUBLIC_IP}.sslip.io \
+  --set core.containerd.enabled=true \
   -f values.yaml --namespace neuvector neuvector .
 
 # watchs objects being created
@@ -47,9 +48,9 @@ helm uninstall neuvector -n neuvector
 kubectl delete ns neuvector
 ```
 
-## How to view examples
+## How to get parameter values
 
-* RKE2 cluster running in Azure VMs
+* RKE2 cluster
 
 ```yaml
 core:

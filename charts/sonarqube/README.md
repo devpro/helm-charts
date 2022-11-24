@@ -30,9 +30,10 @@ helm template sonarqube . -f values.yaml \
   --namespace supply-chain > temp.yaml
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
-helm upgrade --install -f values.yaml --create-namespace \
+helm upgrade --install sonarqube . -f values.yaml --create-namespace \
   --set sonarqube.ingress.hosts[0].name=sonarqube.${NGINX_PUBLIC_IP}.sslip.io \
-  --namespace supply-chain sonarqube .
+  --set sonarqube.ingress.tls[0].hosts[0]=sonarqube.${NGINX_PUBLIC_IP}.sslip.io \
+  --namespace supply-chain
 
 # checks everything is ok
 kubectl get ingress -lrelease=sonarqube -n supply-chain

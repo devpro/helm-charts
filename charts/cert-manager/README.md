@@ -21,9 +21,6 @@ helm search repo cert-manager
 
 # updates Chart.lock (and downloads locally the charts)
 helm dependency update
-
-# refreshes CRD file
-wget -O crds/cert-manager.crds.yaml https://github.com/cert-manager/cert-manager/releases/download/v1.10.0/cert-manager.crds.yaml
 ```
 
 ## How to deploy manually
@@ -32,14 +29,14 @@ wget -O crds/cert-manager.crds.yaml https://github.com/cert-manager/cert-manager
 # checks the Kubernetes objects generated from the chart
 helm template cert-manager . -f values.yaml --namespace cert-manager > temp.yaml
 
-# installs the chart with helm (with CRDs)
-helm install cert-manager . -f values.yaml --create-namespace --namespace cert-manager
+# applies CRD file (to be done once)
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.10.0/cert-manager.crds.yaml
+
+# installs the chart with helm
+helm upgrade --install cert-manager . -f values.yaml --namespace cert-manager
 
 # checks deployments (the 3 of them should be READY 1/1)
 kubectl get deploy -n cert-manager
-
-# updates an existing installation (CRDs won't be installed)
-helm upgrade --install cert-manager . -f values.yaml --namespace cert-manager
 
 # if needed, deletes the chart
 helm delete cert-manager -n cert-manager

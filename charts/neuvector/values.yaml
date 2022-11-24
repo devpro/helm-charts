@@ -5,3 +5,11 @@ core:
   cve:
     scanner:
       replicas: 2
+  manager:
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      tls: true
+      secretName: neuvector-tls

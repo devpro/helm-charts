@@ -8,20 +8,19 @@ This Helm chart will install [Let's Encrpyt](https://letsencrypt.org/) ([docs](h
 
 ```bash
 # checks the Kubernetes objects generated from the chart
-helm template letsencrpyt . -f values.yaml \
-  --set registration.emailAddress=mypersonal@email.address \
+helm template letsencrypt . -f values.yaml \
   --namespace cert-manager > temp.yaml
 
 # installs the chart with helm
-helm upgrade --install letsencrpyt . -f values.yaml --create-namespace \
+helm upgrade --install letsencrypt . -f values.yaml --create-namespace \
   --set registration.emailAddress=mypersonal@email.address \
   --namespace cert-manager
 
 # checks installation is ok
-kubectl get ClusterIssuers -n letsencrpyt
+kubectl get ClusterIssuers -n cert-manager
 
 # if needed, deletes the chart
-helm delete letsencrpyt -n cert-manager
+helm delete letsencrypt -n cert-manager
 ```
 
 ## How to investigate

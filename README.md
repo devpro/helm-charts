@@ -5,6 +5,10 @@
 
 Helm charts to ease the deployment of containers on Kubernetes clusters and get information on widely used components.
 
+## Quickstart
+
+* Visit [devpro.github.io/helm-charts](https://devpro.github.io/helm-charts/)
+
 ## Catalog
 
 * Applications
@@ -13,10 +17,11 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [WordPress](charts/wordpress/README.md) 🗸
 * Backing services
   * [Kafka](charts/kafka/README.md)
-  * [Keycloak](charts/Keycloak/README.md)
+  * [Keycloak](charts/keycloak/README.md) 🗸
   * [MariaDB](charts/mariadb/README.md) 🗸
   * [memcached](charts/memcached/README.md)
   * [MongoDB](charts/mongodb/README.md)
+  * [MQTT](charts/mqtt/README.md)
   * [PostgreSQL](charts/postgresql/README.md)
   * [RabbitMQ](charts/rabbitmq/README.md)
   * [Redis](charts/redis/README.md)
@@ -26,6 +31,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Kube add-ons
   * [ArgoCD](charts/argo-cd/README.md) 🗸
   * [cert-manager](charts/cert-manager/README.md) 🗸
+  * [external-dns](charts/external-dns/README.md)
   * [HAProxy](charts/haproxy/README.md)
   * [Istio](charts/istio/README.md)
   * [Kong](charts/kong/README.md)
@@ -41,16 +47,70 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Security
   * [NeuVector](charts/neuvector/README.md) 🗸
 * Software Factory (supply chain)
+  * [Artifactory](charts/artifactory/README.md)
   * [Azure DevOps Agent](charts/azure-devops-agent/README.md)
   * [Concourse](charts/concourse/README.md)
   * [Drone](charts/drone/README.md)
   * [GitLab](charts/gitlab/README.md) 🗸
   * [GitLab Runner](charts/gitlab-runner/README.md)
   * [Harbor](charts/harbor/README.md) 🗸
+  * [Jira](charts/jira/README.md)
+  * [Nexus](charts/nexus/README.md)
   * [SonarQube](charts/sonarqube/README.md) 🗸
   * [Tekton](charts/tekton/README.md)
 
 Limitation: [Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn't support multiple chart directories ou multiple levels so all charts must be in `charts` repository
+
+## Usage
+
+### From Helm CLI
+
+```bash
+# adds the Helm repository
+helm repo add devpro https://devpro.github.io/helm-charts
+
+# searches for a specific package from the command line
+helm repo search <package_name>
+
+# installs a package
+helm install <package_name>
+```
+
+### From ArgoCD
+
+* Create a git repository to store Kubernetes definition files (GitOps approach)
+
+```yaml
+# wordpress/Chart.yaml
+apiVersion: v2
+name: wordpress
+description: Helm chart for installing WordPress
+type: application
+version: 0.1.0
+appVersion: 1.0.0
+dependencies:
+  - name: wordpress
+    version: 0.1.1
+    repository: https://devpro.github.io/helm-charts
+```
+
+* Create a new application in ArgoCD to reference the git repository with the path to the folder
+
+### From Fleet
+
+* Create a git repository to store Kubernetes definition files (GitOps approach)
+
+```yaml
+# wordpress/fleet.yaml
+defaultNamespace: sample-apps
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: wordpress
+  version: 0.1.1
+  releaseName: wordpress
+```
+
+* Create a GitRepo to reference the git repository with the path to the folder
 
 ## Cluster setup logic
 
