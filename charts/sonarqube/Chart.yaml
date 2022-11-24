@@ -2,7 +2,7 @@ apiVersion: v2
 name: sonarqube
 description: Helm chart for managing SonarQube
 type: application
-version: "0.1.0"
+version: "0.1.1"
 appVersion: "9.7.1"
 dependencies:
   - name: sonarqube

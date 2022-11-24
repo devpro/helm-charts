@@ -2,7 +2,7 @@ apiVersion: v2
 name: harbor
 description: Helm chart for managing Harbor
 type: application
-version: "0.1.0"
+version: "0.1.1"
 appVersion: "2.6.2"
 dependencies:
   - name: harbor

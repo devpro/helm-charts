@@ -35,6 +35,7 @@ NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller -
 # installs the chart with helm
 helm upgrade --install --create-namespace \
   --set core.manager.ingress.host=neuvector.${NGINX_PUBLIC_IP}.sslip.io \
+  --set core.containerd.enabled=true \
   -f values.yaml --namespace neuvector neuvector .
 
 # watchs objects being created
