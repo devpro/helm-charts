@@ -49,9 +49,6 @@ helm uninstall keycloak -n authentication
 
 ## How to investigate
 
-* checks existings resources
+### Known issue
 
-```bash
-kubectl get all -n authentication
-kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges -n authentication
-```
+* Creating the secret at the same time as the chart may cause issue, create the secret first
