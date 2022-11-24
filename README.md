@@ -21,6 +21,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [MariaDB](charts/mariadb/README.md) 🗸
   * [memcached](charts/memcached/README.md)
   * [MongoDB](charts/mongodb/README.md)
+  * [MQTT](charts/mqtt/README.md)
   * [PostgreSQL](charts/postgresql/README.md)
   * [RabbitMQ](charts/rabbitmq/README.md)
   * [Redis](charts/redis/README.md)
@@ -30,6 +31,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Kube add-ons
   * [ArgoCD](charts/argo-cd/README.md) 🗸
   * [cert-manager](charts/cert-manager/README.md) 🗸
+  * [external-dns](charts/external-dns/README.md)
   * [HAProxy](charts/haproxy/README.md)
   * [Istio](charts/istio/README.md)
   * [Kong](charts/kong/README.md)
@@ -45,12 +47,15 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Security
   * [NeuVector](charts/neuvector/README.md) 🗸
 * Software Factory (supply chain)
+  * [Artifactory](charts/artifactory/README.md)
   * [Azure DevOps Agent](charts/azure-devops-agent/README.md)
   * [Concourse](charts/concourse/README.md)
   * [Drone](charts/drone/README.md)
   * [GitLab](charts/gitlab/README.md) 🗸
   * [GitLab Runner](charts/gitlab-runner/README.md)
   * [Harbor](charts/harbor/README.md) 🗸
+  * [Jira](charts/jira/README.md)
+  * [Nexus](charts/nexus/README.md)
   * [SonarQube](charts/sonarqube/README.md) 🗸
   * [Tekton](charts/tekton/README.md)
 
