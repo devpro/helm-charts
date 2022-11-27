@@ -35,6 +35,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [external-dns](charts/external-dns/README.md)
   * [HAProxy](charts/haproxy/README.md)
   * [Istio](charts/istio/README.md)
+  * [Knative](charts/knative/README.md)
   * [Kong](charts/kong/README.md)
   * [Longhorn](charts/longhorn/README.md)
   * [MetalLB](charts/metallb/README.md)
