@@ -30,6 +30,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Let's Encrypt](charts/letsencrypt/README.md) 🗸
 * Kube add-ons
   * [ArgoCD](charts/argo-cd/README.md) 🗸
+  * [Argo Rollouts](charts/argo-rollouts/README.md)
   * [cert-manager](charts/cert-manager/README.md) 🗸
   * [external-dns](charts/external-dns/README.md)
   * [HAProxy](charts/haproxy/README.md)
