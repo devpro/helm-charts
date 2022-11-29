@@ -1,0 +1,10 @@
+# https://github.com/rancher/rancher/blob/release/v2.7/chart/values.yaml
+rancher:
+  ingress:
+    extraAnnotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    ingressClassName: nginx
+    tls:
+      source: secret
+      secretName: rancher-tls
+  replicas: 1

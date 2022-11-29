@@ -41,6 +41,8 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [NGINX Ingress Controller](charts/ingress-nginx/README.md) 🗸
   * [Sealed Secrets](charts/sealed-secrets/README.md) 🗸
   * [Traefik](charts/traefik/README.md)
+* Management
+  * [Rancher](charts/rancher/README.md) 🗸
 * Observability
   * [Elastic Stack](charts/elastic-stack/README.md)
   * [Elasticsearch](charts/elasticsearch/README.md)
@@ -153,3 +155,4 @@ sudo docker run -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart
   * [elastic/helm-charts](https://github.com/elastic/helm-charts)
   * [grafana/helm-charts](https://github.com/grafana/helm-charts)
   * [prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts)
+  * [rancher/helm3-charts](https://github.com/rancher/helm3-charts)

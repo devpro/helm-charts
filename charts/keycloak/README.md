@@ -27,7 +27,7 @@ NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller -
 
 # checks the Kubernetes objects generated from the chart
 helm template keycloak . -f values.yaml \
-  --namespace supply-chain > temp.yaml
+  --namespace authentication > temp.yaml
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
 helm upgrade --install keycloak . -f values.yaml --create-namespace \
@@ -49,6 +49,6 @@ helm uninstall keycloak -n authentication
 
 ## How to investigate
 
-### Known issue
+### Known issues
 
 * Creating the secret at the same time as the chart may cause issue, create the secret first
