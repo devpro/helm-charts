@@ -41,7 +41,10 @@ helm upgrade --install rancher . -f values.yaml --create-namespace \
 # checks everything is ok
 kubectl get svc,deploy,pod,ingress,pv,certificate -n cattle-system
 
-# manual: open https://keycloak.${NGINX_PUBLIC_IP}.sslip.io/ (and login with user/Admin1234)
+# retrieves generated password
+kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{ .data.bootstrapPassword|base64decode}}{{ "\n" }}'
+
+# manual: open https://rancher.${NGINX_PUBLIC_IP}.sslip.io/ (and login with admin and the password)
 
 # if needed, deletes the chart
 helm uninstall rancher -n cattle-system

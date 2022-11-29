@@ -7,4 +7,4 @@ rancher:
     tls:
       source: secret
       secretName: rancher-tls
-  replicas: 1
+  replicas: 2
