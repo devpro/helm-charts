@@ -30,16 +30,22 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Let's Encrypt](charts/letsencrypt/README.md) 🗸
 * Kube add-ons
   * [ArgoCD](charts/argo-cd/README.md) 🗸
+  * [Argo Rollouts](charts/argo-rollouts/README.md)
+  * [brigade](charts/brigade/README.md)
   * [cert-manager](charts/cert-manager/README.md) 🗸
   * [external-dns](charts/external-dns/README.md)
   * [HAProxy](charts/haproxy/README.md)
   * [Istio](charts/istio/README.md)
+  * [Knative](charts/knative/README.md)
   * [Kong](charts/kong/README.md)
   * [Longhorn](charts/longhorn/README.md)
   * [MetalLB](charts/metallb/README.md)
   * [MinIO](charts/minio/README.md)
   * [NGINX Ingress Controller](charts/ingress-nginx/README.md) 🗸
   * [Sealed Secrets](charts/sealed-secrets/README.md) 🗸
+  * [Traefik](charts/traefik/README.md) 🗸
+* Management
+  * [Rancher](charts/rancher/README.md) 🗸
 * Observability
   * [Elastic Stack](charts/elastic-stack/README.md)
   * [Elasticsearch](charts/elasticsearch/README.md)
@@ -135,7 +141,7 @@ helm:
 
 ```bash
 # runs Docker image (with workaround described at https://github.com/helm/chart-testing/issues/464)
-sudo docker run -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart-testing:v3.7.1 /bin/sh -c "git config --global --add safe.directory /data; ct list-changed --target-branch main"
+sudo docker run -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart-testing:v3.7.1 /bin/sh -c "git config --global --add safe.directory /data ; ./scripts/add_helm_repo.sh ; ct lint --target-branch main"
 ```
 
 ## References
@@ -152,3 +158,4 @@ sudo docker run -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart
   * [elastic/helm-charts](https://github.com/elastic/helm-charts)
   * [grafana/helm-charts](https://github.com/grafana/helm-charts)
   * [prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts)
+  * [rancher/helm3-charts](https://github.com/rancher/helm3-charts)

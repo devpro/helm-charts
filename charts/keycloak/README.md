@@ -27,11 +27,12 @@ NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller -
 
 # checks the Kubernetes objects generated from the chart
 helm template keycloak . -f values.yaml \
-  --namespace supply-chain > temp.yaml
+  --namespace authentication > temp.yaml
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
 helm upgrade --install keycloak . -f values.yaml --create-namespace \
   --set keycloak.ingress.hostname=keycloak.${NGINX_PUBLIC_IP}.sslip.io \
+  --set keycloak.extraEnvVars[1].value="https://keycloak.${NGINX_PUBLIC_IP}.sslip.io/auth/" \
   --namespace authentication
 
 # checks everything is ok
@@ -49,6 +50,10 @@ helm uninstall keycloak -n authentication
 
 ## How to investigate
 
-### Known issue
+### Known issues
 
 * Creating the secret at the same time as the chart may cause issue, create the secret first
+
+* Rancher is not compatible with Quarkus ([Keycloak 17.0.0](https://www.keycloak.org/2022/02/keycloak-1700-released.html))
+  * [Migrating to Quarkus distribution](https://www.keycloak.org/migration/migrating-to-quarkus)
+  * [Rancher issue #38625](https://github.com/rancher/rancher/issues/38625) ([Rancher PR #38822](https://github.com/rancher/rancher/pull/38822))

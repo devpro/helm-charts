@@ -33,7 +33,7 @@ helm template cert-manager . -f values.yaml --namespace cert-manager > temp.yaml
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.10.0/cert-manager.crds.yaml
 
 # installs the chart with helm
-helm upgrade --install cert-manager . -f values.yaml --namespace cert-manager
+helm upgrade --install cert-manager . -f values.yaml --create-namespace --namespace cert-manager
 
 # checks deployments (the 3 of them should be READY 1/1)
 kubectl get deploy -n cert-manager

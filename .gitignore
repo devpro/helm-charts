@@ -2,4 +2,4 @@
 /**/charts/*.tgz
 
 # local temporary files
-temp.yaml
+temp*.yaml

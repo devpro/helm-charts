@@ -12,7 +12,7 @@ helm template letsencrypt . -f values.yaml \
   --namespace cert-manager > temp.yaml
 
 # installs the chart with helm
-helm upgrade --install letsencrypt . -f values.yaml --create-namespace \
+helm upgrade --install letsencrypt . -f values.yaml \
   --set registration.emailAddress=mypersonal@email.address \
   --namespace cert-manager
 

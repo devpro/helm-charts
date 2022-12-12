@@ -9,5 +9,7 @@ helm repo add ingress-nginx         https://kubernetes.github.io/ingress-nginx
 helm repo add harbor                https://helm.goharbor.io
 helm repo add jetstack              https://charts.jetstack.io
 helm repo add neuvector             https://neuvector.github.io/neuvector-helm/
+helm repo add rancher-latest        https://releases.rancher.com/server-charts/latest
 helm repo add sealed-secrets        https://bitnami-labs.github.io/sealed-secrets
 helm repo add sonarqube             https://sonarsource.github.io/helm-chart-sonarqube
+helm repo add traefik               https://traefik.github.io/charts
