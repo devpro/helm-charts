@@ -42,6 +42,23 @@ entries:
   cert-manager:
   - apiVersion: v2
     appVersion: 1.10.0
+    created: "2022-12-12T13:24:56.462685023Z"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: v1.10.0
+    description: Helm chart for managing cert-manager
+    digest: ff74bfb87baf804a951839721ff7014b0a4426b93c1418519a47dc5b3dc2ed90
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: cert-manager
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/cert-manager-0.1.4/cert-manager-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 1.10.0
     created: "2022-11-24T21:23:20.6577888Z"
     dependencies:
     - name: cert-manager
@@ -316,6 +333,23 @@ entries:
     version: 0.1.1
   keycloak:
   - apiVersion: v2
+    appVersion: 16.1.1
+    created: "2022-12-12T13:24:56.697816459Z"
+    dependencies:
+    - name: keycloak
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.1.18
+    description: Helm chart for managing Keycloak
+    digest: a4798fb3d567569f2356b1c625519d56fc5923b81b14c3a8fbdf24d63d04aeee
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: keycloak
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/keycloak-0.1.1/keycloak-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: 19.0.3
     created: "2022-11-24T21:23:21.128355098Z"
     dependencies:
@@ -333,6 +367,19 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/keycloak-0.1.0/keycloak-0.1.0.tgz
     version: 0.1.0
   letsencrypt:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-12-12T13:24:56.903525466Z"
+    description: Helm chart for managing Let's Encrypt
+    digest: 55677ef9331ad369102533734609e1316a6a4afc4875234fcd28748208ee266c
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: letsencrypt
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/letsencrypt-0.1.2/letsencrypt-0.1.2.tgz
+    version: 0.1.2
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2022-11-24T21:23:21.233018521Z"
@@ -429,6 +476,24 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/neuvector-0.1.0/neuvector-0.1.0.tgz
     version: 0.1.0
+  rancher:
+  - apiVersion: v2
+    appVersion: 2.7.0
+    created: "2022-12-12T13:24:57.086769979Z"
+    dependencies:
+    - name: rancher
+      repository: https://releases.rancher.com/server-charts/latest
+      version: 2.7.0
+    description: Helm chart for managing Rancher
+    digest: a5d27828a977c06116242aaccba8d69f0238d68b515e1b34bb487dc7a1a45dc5
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: rancher
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/rancher-0.1.0/rancher-0.1.0.tgz
+    version: 0.1.0
   sealed-secrets:
   - apiVersion: v2
     appVersion: 0.19.1
@@ -499,6 +564,24 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/sonarqube-0.1.0/sonarqube-0.1.0.tgz
     version: 0.1.0
+  traefik:
+  - apiVersion: v2
+    appVersion: 2.9.6
+    created: "2022-12-12T13:24:57.259352691Z"
+    dependencies:
+    - name: traefik
+      repository: https://traefik.github.io/charts
+      version: 20.8.0
+    description: Helm chart for managing Traefik
+    digest: ac68ef1232942ff191e3d04290f7186b738274b13936102dd5649598872e2c0e
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: traefik
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/traefik-0.1.0/traefik-0.1.0.tgz
+    version: 0.1.0
   wordpress:
   - apiVersion: v2
     appVersion: 6.1.0
@@ -517,4 +600,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2022-11-24T21:23:21.581542559Z"
+generated: "2022-12-12T13:24:57.25940409Z"
