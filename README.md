@@ -43,7 +43,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [MinIO](charts/minio/README.md)
   * [NGINX Ingress Controller](charts/ingress-nginx/README.md) 🗸
   * [Sealed Secrets](charts/sealed-secrets/README.md) 🗸
-  * [Traefik](charts/traefik/README.md)
+  * [Traefik](charts/traefik/README.md) 🗸
 * Management
   * [Rancher](charts/rancher/README.md) 🗸
 * Observability
