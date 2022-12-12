@@ -21,4 +21,3 @@ keycloak:
       value: "true"
     - name: KEYCLOAK_FRONTEND_URL
       value: ""
-

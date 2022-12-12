@@ -141,7 +141,7 @@ helm:
 
 ```bash
 # runs Docker image (with workaround described at https://github.com/helm/chart-testing/issues/464)
-sudo docker run -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart-testing:v3.7.1 /bin/sh -c "git config --global --add safe.directory /data; ct list-changed --target-branch main"
+sudo docker run -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart-testing:v3.7.1 /bin/sh -c "git config --global --add safe.directory /data ; ./scripts/add_helm_repo.sh ; ct lint --target-branch main"
 ```
 
 ## References
