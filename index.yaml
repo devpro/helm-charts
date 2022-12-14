@@ -108,6 +108,20 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/cert-manager-0.1.1/cert-manager-0.1.1.tgz
     version: 0.1.1
+  cow-demo:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-12-14T13:19:33.063036007Z"
+    description: Helm chart for Cow Demo Application
+    digest: 3514118853df1ad7b64c6853bcf30f64647b92310e369b6ab04ed66d7b803be4
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: cow-demo
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/cow-demo-0.1.0/cow-demo-0.1.0.tgz
+    version: 0.1.0
   ecorp-demo:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -600,4 +614,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2022-12-12T13:24:57.25940409Z"
+generated: "2022-12-14T13:19:33.063078207Z"
