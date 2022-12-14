@@ -1,0 +1,38 @@
+{{- $name := $.Values.name -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}
+  labels:
+    app: {{ $name }}
+    app.kubernetes.io/name: {{ $name }}
+spec:
+  replicas: {{ $.Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ $name }}
+      app.kubernetes.io/name: {{ $name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $name }}
+        app.kubernetes.io/name: {{ $name }}
+    spec:
+      containers:
+        - name: {{ $name }}
+          image: "{{ $.Values.image }}:{{ $.Values.tag }}"
+          imagePullPolicy: Always
+          env:
+            - name: COW_COLOR
+              value: {{ $.Values.cow.color }}
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            # limits:
+            #   memory: "128Mi"
+            #   cpu: "500m"

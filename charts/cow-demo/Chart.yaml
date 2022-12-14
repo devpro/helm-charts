@@ -1,0 +1,9 @@
+apiVersion: v2
+name: cow-demo
+description: Helm chart for Cow Demo Application
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr

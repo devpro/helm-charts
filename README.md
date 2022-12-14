@@ -12,8 +12,9 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 ## Catalog
 
 * Applications
-  * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
+  * [Cow Demo](charts/cow-demo/README.md) 🗸
   * [Drupal](charts/drupal/README.md)
+  * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
   * [WordPress](charts/wordpress/README.md) 🗸
 * Backing services
   * [Kafka](charts/kafka/README.md)
