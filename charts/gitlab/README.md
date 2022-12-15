@@ -1,6 +1,6 @@
 # GitLab
 
-This Helm chart will install [GitLab](https://about.gitlab.com/) and is based from the [official Helm chart](https://gitlab.com/gitlab-org/charts/gitlab) ([docs](https://docs.gitlab.com/charts/).
+This Helm chart will install [GitLab](https://about.gitlab.com/) and is based from the [official Helm chart](https://gitlab.com/gitlab-org/charts/gitlab) ([docs](https://docs.gitlab.com/charts/)).
 
 ## How to update the chart
 

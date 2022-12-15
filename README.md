@@ -53,13 +53,13 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [OpenTelemetry Collector / Prometheus / Grafana](charts/otel-prometheus-grafana/README.md)
 * Security
   * [NeuVector](charts/neuvector/README.md) 🗸
-* Software Factory (supply chain)
+* Supply Chain (Software Factory)
   * [Artifactory](charts/artifactory/README.md)
   * [Azure DevOps Agent](charts/azure-devops-agent/README.md)
   * [Concourse](charts/concourse/README.md)
   * [Drone](charts/drone/README.md)
   * [GitLab](charts/gitlab/README.md) 🗸
-  * [GitLab Runner](charts/gitlab-runner/README.md)
+  * [GitLab Runner](charts/gitlab-runner/README.md) 🗸
   * [Harbor](charts/harbor/README.md) 🗸
   * [Jira](charts/jira/README.md)
   * [Nexus](charts/nexus/README.md)
