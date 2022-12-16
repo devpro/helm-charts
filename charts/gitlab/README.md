@@ -37,7 +37,7 @@ helm upgrade --install gitlab . -f values.yaml --create-namespace \
   --set gitlab.certmanager-issuer.email=mypersonal@email.address \
   --namespace supply-chain
 
-# checks everything is ok
+# checks you can access the website
 kubectl get ingress -lrelease=gitlab -n supply-chain
 
 # retrieves generated password
@@ -64,3 +64,5 @@ kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Chall
 ```
 
 * Having an external cert-manager et certificate issuer doesn't work with GitLab official chart
+
+* In case of strange issues, look at gitlab-webservice pod, in particular gitlab-workhorse container
