@@ -24,7 +24,6 @@ helm upgrade --install cow-demo . -f values.yaml \
   --set cow.color=green \
   --set host=cow-demo.${NGINX_PUBLIC_IP}.sslip.io \
   --set 'ingress.annotations.cert-manager\.io/cluster-issuer=selfsigned-cluster-issuer' \
-  --set 'ingress.annotations.nginx\.ingress\.kubernetes\.io/backend-protocol="HTTPS"' \
   --set 'ingress.enabled=true' \
   --namespace demo --create-namespace
 

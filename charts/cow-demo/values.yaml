@@ -6,9 +6,10 @@ host: "cow-demo.example.com"
 ingress:
   enabled: false
   className: "nginx"
-  annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-tls:
-  secretName: "cow-demo-tls"
+  # annotations:
+  #   nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  tls:
+    secretName: "cow-demo-tls"
 cow:
   color: red
