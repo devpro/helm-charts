@@ -50,17 +50,21 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Observability
   * [Elastic Stack](charts/elastic-stack/README.md)
   * [Elasticsearch](charts/elasticsearch/README.md)
-  * [OpenTelemetry Collector / Prometheus / Grafana](charts/otel-prometheus-grafana/README.md)
+  * [OpenTelemetry Collector](charts/opentelemetry/README.md)
+  * [Prometheus](charts/prometheus/README.md)
+  * [Grafana](charts/grafana/README.md)
 * Security
   * [NeuVector](charts/neuvector/README.md) 🗸
 * Supply Chain (Software Factory)
   * [Artifactory](charts/artifactory/README.md)
   * [Azure DevOps Agent](charts/azure-devops-agent/README.md)
+  * [Cloudbees](charts/cloudbees/README.md)
   * [Concourse](charts/concourse/README.md)
   * [Drone](charts/drone/README.md)
   * [GitLab](charts/gitlab/README.md) 🗸
   * [GitLab Runner](charts/gitlab-runner/README.md) 🗸
   * [Harbor](charts/harbor/README.md) 🗸
+  * [Jenkins](charts/jenkins/README.md)
   * [Jira](charts/jira/README.md)
   * [Nexus](charts/nexus/README.md)
   * [SonarQube](charts/sonarqube/README.md) 🗸
