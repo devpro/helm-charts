@@ -28,6 +28,8 @@ NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller -
 helm template gitlab-runner . -f values.yaml \
   --namespace supply-chain > temp.yaml
 
+# manual: grab registration token in GitLab > <group_name> > Runners > Register a group runner
+
 # creates helm release to have ubuntu/docker runners
 helm upgrade --install gitlab-runner-ubuntu-docker . -f values.yaml \
   --set gitlab-runner.gitlabUrl=https://gitlab.${NGINX_PUBLIC_IP}.sslip.io/ \
