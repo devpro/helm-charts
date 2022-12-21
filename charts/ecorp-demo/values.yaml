@@ -7,7 +7,14 @@ frontend:
   healthEndpoint: /
   env: {}
   tls: {}
-  #  secretName: chart-example-tls
+    # secretName: chart-example-tls
+  resources: {}
+    # limits:
+    #   cpu: 200m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 64Mi
 
 backend:
   host: back.random.ecorp.demo
@@ -36,12 +43,19 @@ backend:
     - name: OpenTelemetry__ServiceName
       value: "EcorpBackendDemo"
   ingressExtraHosts:
-    - host: back.ecorp.demo
-      paths:
-        - path: /
-          pathType: Prefix
+    # - host: back.ecorp.demo
+    #   paths:
+    #     - path: /
+    #       pathType: Prefix
   tls: {}
-  #  secretName: chart-example-tls
+    # secretName: chart-example-tls
+  resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 64Mi
 
 aspnetcore:
   environment: Production

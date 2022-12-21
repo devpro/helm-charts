@@ -45,12 +45,7 @@ spec:
               path: {{ .healthEndpoint }}
               port: http
           resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+            {{- toYaml .resources | nindent 12 }}
           {{- with .env }}
           env:
             - name: HOST_IP

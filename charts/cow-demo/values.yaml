@@ -13,3 +13,10 @@ ingress:
     secretName: "cow-demo-tls"
 cow:
   color: red
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 64Mi
