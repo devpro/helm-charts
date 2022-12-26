@@ -1,0 +1,14 @@
+# https://github.com/bitnami/charts/blob/main/bitnami/rabbitmq/values.yaml
+rabbitmq:
+  replicaCount: 1
+  networkPolicy:
+    enabled: true
+    allowExternal: false
+    additionalRules: []
+      # - matchLabels:
+      #   - role: frontend
+      # - matchExpressions:
+      #   - key: role
+      #     operator: In
+      #     values:
+      #       - frontend

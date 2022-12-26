@@ -24,7 +24,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [MongoDB](charts/mongodb/README.md)
   * [MQTT](charts/mqtt/README.md)
   * [PostgreSQL](charts/postgresql/README.md)
-  * [RabbitMQ](charts/rabbitmq/README.md)
+  * [RabbitMQ](charts/rabbitmq/README.md) 🗸
   * [Redis](charts/redis/README.md)
 * Cloud providers
   * [Azure Storage](charts/azure-storage/README.md) 🗸

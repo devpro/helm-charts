@@ -1,7 +1,7 @@
 # Keycloack
 
 This Helm chart will install [Keycloack](https://www.keycloak.org/) ([docs](https://www.keycloak.org/documentation), [code](https://github.com/keycloak/keycloak))
-and is based from the [Bitnami Helm chart](https://bitnami.com/stack/keycloak/helm) ([docs]((https://github.com/bitnami/charts/tree/main/bitnami/keycloak))).
+and is based from the [Bitnami Helm chart](https://bitnami.com/stack/keycloak/helm) ([code](https://github.com/bitnami/charts/tree/main/bitnami/keycloak)).
 
 ## How to update the chart
 

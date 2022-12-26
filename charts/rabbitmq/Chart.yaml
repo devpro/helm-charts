@@ -1,0 +1,13 @@
+apiVersion: v2
+name: rabbitmq
+description: Helm chart for managing RabbitMQ
+type: application
+version: "0.1.0"
+appVersion: "3.11.5"
+dependencies:
+  - name: rabbitmq
+    version: 11.3.0
+    repository: https://charts.bitnami.com/bitnami
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
