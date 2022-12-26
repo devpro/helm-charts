@@ -3,10 +3,10 @@ name: keycloak
 description: Helm chart for managing Keycloak
 type: application
 version: "0.1.2"
-appVersion: "16.1.1"
+appVersion: "18.0.0"
 dependencies:
   - name: keycloak
-    version: 7.1.18
+    version: 9.2.10
     repository: https://charts.bitnami.com/bitnami
 maintainers:
   - name: devpro
