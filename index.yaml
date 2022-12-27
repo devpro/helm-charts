@@ -111,6 +111,19 @@ entries:
   cow-demo:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-12-27T14:21:27.997613846Z"
+    description: Helm chart for Cow Demo Application
+    digest: 3eafed483c0c4960faf9ad5eef2961be5e5c560f01701c2d8d182d2852efb717
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: cow-demo
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/cow-demo-0.1.1/cow-demo-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-12-14T13:19:33.063036007Z"
     description: Helm chart for Cow Demo Application
     digest: 3514118853df1ad7b64c6853bcf30f64647b92310e369b6ab04ed66d7b803be4
@@ -123,6 +136,19 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/cow-demo-0.1.0/cow-demo-0.1.0.tgz
     version: 0.1.0
   ecorp-demo:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-12-27T14:21:28.149206527Z"
+    description: Helm chart for E Corp demo
+    digest: 217148b06b2729507e5b67b20ce25104ef307d8fce305005b4e987ee49c3ba1d
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: ecorp-demo
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/ecorp-demo-0.1.19/ecorp-demo-0.1.19.tgz
+    version: 0.1.19
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2022-11-23T13:39:45.399016234Z"
@@ -243,6 +269,23 @@ entries:
   gitlab:
   - apiVersion: v2
     appVersion: 15.5.4
+    created: "2022-12-27T14:21:28.376465598Z"
+    dependencies:
+    - name: gitlab
+      repository: https://charts.gitlab.io/
+      version: 6.5.5
+    description: Helm chart for managing GitLab
+    digest: b698b5c3c14d6087e37145d4e6438077d33b6fc6162baeccb1acaf49526d4132
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: gitlab
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/gitlab-0.1.2/gitlab-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 15.5.4
     created: "2022-11-24T21:23:20.873532033Z"
     dependencies:
     - name: gitlab
@@ -274,6 +317,24 @@ entries:
     type: application
     urls:
     - https://github.com/devpro/helm-charts/releases/download/gitlab-0.1.0/gitlab-0.1.0.tgz
+    version: 0.1.0
+  gitlab-runner:
+  - apiVersion: v2
+    appVersion: 15.6.1
+    created: "2022-12-27T14:21:28.532659278Z"
+    dependencies:
+    - name: gitlab-runner
+      repository: https://charts.gitlab.io/
+      version: 0.47.1
+    description: Helm chart for managing GitLab Runner
+    digest: dfcdb032e1ce3dcbc1a862a553a42d299400d27bcb17c32b9c9c6d9b651f5a44
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: gitlab-runner
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/gitlab-runner-0.1.0/gitlab-runner-0.1.0.tgz
     version: 0.1.0
   harbor:
   - apiVersion: v2
@@ -346,6 +407,23 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/ingress-nginx-0.1.1/ingress-nginx-0.1.1.tgz
     version: 0.1.1
   keycloak:
+  - apiVersion: v2
+    appVersion: 18.0.0
+    created: "2022-12-27T14:21:28.696926657Z"
+    dependencies:
+    - name: keycloak
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.2.10
+    description: Helm chart for managing Keycloak
+    digest: 96cfd2d05ff95fb3870078349e01c2a05ac30933ff7bc847837799c25978107f
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: keycloak
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/keycloak-0.1.2/keycloak-0.1.2.tgz
+    version: 0.1.2
   - apiVersion: v2
     appVersion: 16.1.1
     created: "2022-12-12T13:24:56.697816459Z"
@@ -490,6 +568,24 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/neuvector-0.1.0/neuvector-0.1.0.tgz
     version: 0.1.0
+  rabbitmq:
+  - apiVersion: v2
+    appVersion: 3.11.5
+    created: "2022-12-27T14:21:28.847409338Z"
+    dependencies:
+    - name: rabbitmq
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.3.0
+    description: Helm chart for managing RabbitMQ
+    digest: 310fb12830e33bc4c861f8fa611824c42061d92d00077b9664f849e4549a9acc
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: rabbitmq
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/rabbitmq-0.1.0/rabbitmq-0.1.0.tgz
+    version: 0.1.0
   rancher:
   - apiVersion: v2
     appVersion: 2.7.0
@@ -614,4 +710,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2022-12-14T13:19:33.063078207Z"
+generated: "2022-12-27T14:21:28.847478538Z"
