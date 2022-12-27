@@ -1,0 +1,40 @@
+# https://gitlab.com/gitlab-org/charts/gitlab-runner/blob/main/values.yaml
+# https://archives.docs.gitlab.com/14.8/ee/ci/docker/using_docker_build.html#use-the-kubernetes-executor-with-docker-in-docker
+# https://stackoverflow.com/questions/69239098/not-able-to-execute-gitlab-runner-in-kubernetes-cluster-cannot-create-resource
+gitlab-runner:
+  replicas: 1
+  runners:
+    config: |
+      [[runners]]
+        [runners.docker]
+          image = "docker:20.10.16"
+          volumes = ["/certs/client"]
+        [runners.kubernetes]
+          namespace = "{{.Release.Namespace}}"
+          image = "ubuntu:20.04"
+          privileged = true
+        [[runners.kubernetes.volumes.empty_dir]]
+          name = "docker-certs"
+          mount_path = "/certs/client"
+          medium = "Memory"
+  rbac:
+    create: true
+    rules:
+      - apiGroups: [""]
+        resources: ["pods"]
+        verbs: ["list", "get", "watch", "create", "delete"]
+      - apiGroups: [""]
+        resources: ["pods/exec"]
+        verbs: ["create"]
+      - apiGroups: [""]
+        resources: ["pods/log"]
+        verbs: ["get"]
+      - apiGroups: [""]
+        resources: ["pods/attach"]
+        verbs: ["list", "get", "create", "delete", "update"]
+      - apiGroups: [""]
+        resources: ["secrets"]
+        verbs: ["list", "get", "create", "delete", "update"]
+      - apiGroups: [""]
+        resources: ["configmaps"]
+        verbs: ["list", "get", "create", "delete", "update"]

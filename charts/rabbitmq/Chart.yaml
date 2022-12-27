@@ -1,12 +1,12 @@
 apiVersion: v2
-name: keycloak
-description: Helm chart for managing Keycloak
+name: rabbitmq
+description: Helm chart for managing RabbitMQ
 type: application
-version: "0.1.2"
-appVersion: "18.0.0"
+version: "0.1.0"
+appVersion: "3.11.5"
 dependencies:
-  - name: keycloak
-    version: 9.2.10
+  - name: rabbitmq
+    version: 11.3.0
     repository: https://charts.bitnami.com/bitnami
 maintainers:
   - name: devpro

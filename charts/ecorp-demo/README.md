@@ -23,11 +23,14 @@ helm template ecorp-demo . -f values.yaml \
 helm upgrade --install -f values.yaml --create-namespace \
   --set aspnetcore.environment=Development \
   --set backend.host=ecorp-demo-api.${NGINX_PUBLIC_IP}.sslip.io \
-  --set 'backend.tls.secretName=ecorp-backend-tls' \
+  --set backend.tls.secretName=ecorp-backend-tls \
   --set frontend.host=ecorp-demo.${NGINX_PUBLIC_IP}.sslip.io \
-  --set 'frontend.tls.secretName=ecorp-frontend-tls' \
-  --set 'ingress.annotations.cert-manager\.io/cluster-issuer=selfsigned-cluster-issuer' \
-  --set 'ingress.annotations.nginx\.ingress\.kubernetes\.io/backend-protocol="HTTPS"' \
+  --set frontend.tls.secretName=ecorp-frontend-tls \
+  --set nodejsApi.host=ecorp-nodejs-api.${NGINX_PUBLIC_IP}.sslip.io \
+  --set nodejsApi.tls.secretName=ecorp-nodejs-api-tls \
+  --set nodejsApi.env[1].name=RABBITMQ_URL \
+  --set nodejsApi.env[1].value="amqp://<username>:<password>@rabbitmq.rabbitmq.svc.cluster.local:5672" \
+  --set 'ingress.annotations.cert-manager\.io/cluster-issuer=letsencrypt-prod' \
   --namespace ecorp ecorp-demo .
 
 # checks everythings is ok

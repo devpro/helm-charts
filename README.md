@@ -12,8 +12,9 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 ## Catalog
 
 * Applications
-  * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
+  * [Cow Demo](charts/cow-demo/README.md) 🗸
   * [Drupal](charts/drupal/README.md)
+  * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
   * [WordPress](charts/wordpress/README.md) 🗸
 * Backing services
   * [Kafka](charts/kafka/README.md)
@@ -23,7 +24,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [MongoDB](charts/mongodb/README.md)
   * [MQTT](charts/mqtt/README.md)
   * [PostgreSQL](charts/postgresql/README.md)
-  * [RabbitMQ](charts/rabbitmq/README.md)
+  * [RabbitMQ](charts/rabbitmq/README.md) 🗸
   * [Redis](charts/redis/README.md)
 * Cloud providers
   * [Azure Storage](charts/azure-storage/README.md) 🗸
@@ -49,17 +50,21 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Observability
   * [Elastic Stack](charts/elastic-stack/README.md)
   * [Elasticsearch](charts/elasticsearch/README.md)
-  * [OpenTelemetry Collector / Prometheus / Grafana](charts/otel-prometheus-grafana/README.md)
+  * [OpenTelemetry Collector](charts/opentelemetry/README.md)
+  * [Prometheus](charts/prometheus/README.md)
+  * [Grafana](charts/grafana/README.md)
 * Security
   * [NeuVector](charts/neuvector/README.md) 🗸
-* Software Factory (supply chain)
+* Supply Chain (Software Factory)
   * [Artifactory](charts/artifactory/README.md)
   * [Azure DevOps Agent](charts/azure-devops-agent/README.md)
+  * [Cloudbees](charts/cloudbees/README.md)
   * [Concourse](charts/concourse/README.md)
   * [Drone](charts/drone/README.md)
   * [GitLab](charts/gitlab/README.md) 🗸
-  * [GitLab Runner](charts/gitlab-runner/README.md)
+  * [GitLab Runner](charts/gitlab-runner/README.md) 🗸
   * [Harbor](charts/harbor/README.md) 🗸
+  * [Jenkins](charts/jenkins/README.md)
   * [Jira](charts/jira/README.md)
   * [Nexus](charts/nexus/README.md)
   * [SonarQube](charts/sonarqube/README.md) 🗸

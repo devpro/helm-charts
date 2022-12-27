@@ -1,5 +1,7 @@
-{{- $applications := list .Values.backend .Values.frontend -}}
+{{- $applications := list .Values.backend .Values.frontend .Values.nodejsApi -}}
 {{ range $applications }}
+{{- $name := .name -}}
+{{- if .enabled -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -17,8 +19,11 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .name }}
-        app.kubernetes.io/name: {{ .name }}
+        app: {{ $name }}
+        app.kubernetes.io/name: {{ $name }}
+        {{- if .additionalPodLabels }}
+        {{- toYaml .additionalPodLabels | nindent 8 }}
+        {{- end }}
     spec:
       affinity:
         nodeAffinity:
@@ -45,12 +50,7 @@ spec:
               path: {{ .healthEndpoint }}
               port: http
           resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+            {{- toYaml .resources | nindent 12 }}
           {{- with .env }}
           env:
             - name: HOST_IP
@@ -69,4 +69,5 @@ spec:
               value: "{{ $.Values.otelCollector.endpoint }}"
             {{- toYaml . | nindent 12 }}
           {{- end }}
+{{- end }}
 {{ end }}

@@ -3,3 +3,4 @@
 
 # local temporary files
 temp*.yaml
+/charts/temp/

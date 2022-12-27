@@ -1,0 +1,22 @@
+name: cow-demo
+image: monachus/rancher-demo
+tag: latest
+replicaCount: 2
+host: "cow-demo.example.com"
+ingress:
+  enabled: false
+  className: "nginx"
+  # annotations:
+  #   nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  tls:
+    secretName: "cow-demo-tls"
+cow:
+  color: red
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 64Mi
