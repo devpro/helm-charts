@@ -1,5 +1,6 @@
-{{- $applications := list .Values.backend .Values.frontend -}}
+{{- $applications := list .Values.backend .Values.frontend .Values.nodejsApi -}}
 {{ range $applications }}
+{{- if .enabled -}}
 ---
 apiVersion: v1
 kind: Service
@@ -18,4 +19,5 @@ spec:
   selector:
     app: {{ .name }}
     app.kubernetes.io/name: {{ .name }}
+{{- end }}
 {{ end }}

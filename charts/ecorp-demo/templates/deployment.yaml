@@ -1,5 +1,7 @@
-{{- $applications := list .Values.backend .Values.frontend -}}
+{{- $applications := list .Values.backend .Values.frontend .Values.nodejsApi -}}
 {{ range $applications }}
+{{- $name := .name -}}
+{{- if .enabled -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -17,8 +19,11 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .name }}
-        app.kubernetes.io/name: {{ .name }}
+        app: {{ $name }}
+        app.kubernetes.io/name: {{ $name }}
+        {{- if .additionalPodLabels }}
+        {{- toYaml .additionalPodLabels | nindent 8 }}
+        {{- end }}
     spec:
       affinity:
         nodeAffinity:
@@ -64,4 +69,5 @@ spec:
               value: "{{ $.Values.otelCollector.endpoint }}"
             {{- toYaml . | nindent 12 }}
           {{- end }}
+{{- end }}
 {{ end }}

@@ -1,7 +1,7 @@
-{{- $applications := list .Values.backend .Values.frontend -}}
+{{- $applications := list .Values.backend .Values.frontend .Values.nodejsApi -}}
 {{ range $applications }}
 {{- $name := .name -}}
-{{- if $.Values.ingress.enabled -}}
+{{- if and $.Values.ingress.enabled .enabled -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

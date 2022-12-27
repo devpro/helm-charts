@@ -5,10 +5,3 @@ rabbitmq:
     enabled: true
     allowExternal: false
     additionalRules: []
-      # - matchLabels:
-      #   - role: frontend
-      # - matchExpressions:
-      #   - key: role
-      #     operator: In
-      #     values:
-      #       - frontend
