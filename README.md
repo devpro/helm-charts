@@ -29,6 +29,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Cloud providers
   * [Azure Storage](charts/azure-storage/README.md) 🗸
   * [Let's Encrypt](charts/letsencrypt/README.md) 🗸
+  * [Outscale](charts/outscale/README.md)
 * Kube add-ons
   * [ArgoCD](charts/argo-cd/README.md) 🗸
   * [Argo Rollouts](charts/argo-rollouts/README.md)
