@@ -1,6 +1,6 @@
 apiVersion: v2
-name: cloudbees
-description: Helm chart for managing CloudBees
+name: cloudbees-ci
+description: Helm chart for managing CloudBees CI
 type: application
 version: "0.1.0"
 appVersion: "2.375.1.1"
