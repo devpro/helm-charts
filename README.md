@@ -58,7 +58,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Supply Chain (Software Factory)
   * [Artifactory](charts/artifactory/README.md)
   * [Azure DevOps Agent](charts/azure-devops-agent/README.md)
-  * [Cloudbees](charts/cloudbees/README.md)
+  * [CloudBees CI](charts/cloudbees-ci/README.md) 🗸
   * [Concourse](charts/concourse/README.md)
   * [Drone](charts/drone/README.md)
   * [GitLab](charts/gitlab/README.md) 🗸

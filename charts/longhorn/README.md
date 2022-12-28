@@ -24,7 +24,9 @@ helm dependency update
 ```bash
 # checks the Kubernetes objects generated from the chart
 helm template longhorn . -f values.yaml \
-  --namespace rablonghornbitmq > temp.yaml
+  --namespace longhorn > temp.yaml
+
+# (optional) creates secret to access the UI (see https://longhorn.io/docs/1.3.1/deploy/accessing-the-ui/longhorn-ingress/)
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
 helm upgrade --install longhorn . -f values.yaml --create-namespace \
