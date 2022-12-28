@@ -39,7 +39,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Istio](charts/istio/README.md)
   * [Knative](charts/knative/README.md)
   * [Kong](charts/kong/README.md)
-  * [Longhorn](charts/longhorn/README.md)
+  * [Longhorn](charts/longhorn/README.md) 🗸
   * [MetalLB](charts/metallb/README.md)
   * [MinIO](charts/minio/README.md)
   * [NGINX Ingress Controller](charts/ingress-nginx/README.md) 🗸
@@ -164,3 +164,4 @@ sudo docker run -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart
   * [grafana/helm-charts](https://github.com/grafana/helm-charts)
   * [prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts)
   * [rancher/helm3-charts](https://github.com/rancher/helm3-charts)
+  * [aws/eks-charts](https://github.com/aws/eks-charts)
