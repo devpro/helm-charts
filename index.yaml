@@ -108,6 +108,24 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/cert-manager-0.1.1/cert-manager-0.1.1.tgz
     version: 0.1.1
+  cloudbees-ci:
+  - apiVersion: v2
+    appVersion: 2.375.1.1
+    created: "2022-12-28T14:20:10.785382974Z"
+    dependencies:
+    - name: cloudbees-core
+      repository: https://public-charts.artifacts.cloudbees.com/repository/public/
+      version: 3.52.0+710d55f945cc
+    description: Helm chart for managing CloudBees CI
+    digest: 51cb8878d5feceb461215d2abac9b68b959d44c91912ce5ba69a4f1aac461033
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: cloudbees-ci
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/cloudbees-ci-0.1.0/cloudbees-ci-0.1.0.tgz
+    version: 0.1.0
   cow-demo:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -406,6 +424,24 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/ingress-nginx-0.1.1/ingress-nginx-0.1.1.tgz
     version: 0.1.1
+  jenkins:
+  - apiVersion: v2
+    appVersion: 2.375.1
+    created: "2022-12-28T14:20:10.910662003Z"
+    dependencies:
+    - name: jenkins
+      repository: https://charts.jenkins.io
+      version: 4.2.17
+    description: Helm chart for managing Jenkins
+    digest: 1f32bcbad38acca0246033caba7f67a756435a25db9f1f6a98ec2d71bc21174c
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: jenkins
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/jenkins-0.1.0/jenkins-0.1.0.tgz
+    version: 0.1.0
   keycloak:
   - apiVersion: v2
     appVersion: 18.0.0
@@ -497,6 +533,24 @@ entries:
     type: application
     urls:
     - https://github.com/devpro/helm-charts/releases/download/letsencrypt-0.1.0/letsencrypt-0.1.0.tgz
+    version: 0.1.0
+  longhorn:
+  - apiVersion: v2
+    appVersion: 1.3.2
+    created: "2022-12-28T14:20:11.027327092Z"
+    dependencies:
+    - name: longhorn
+      repository: https://charts.longhorn.io
+      version: 1.3.2
+    description: Helm chart for managing Longhorn
+    digest: ad2e81872726719f6efbeb663f77c5246960e8d650143f966832ab8795ac19d7
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: longhorn
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/longhorn-0.1.0/longhorn-0.1.0.tgz
     version: 0.1.0
   mariadb:
   - apiVersion: v2
@@ -710,4 +764,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2022-12-27T14:21:28.847478538Z"
+generated: "2022-12-28T14:20:11.027390793Z"
