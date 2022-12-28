@@ -64,7 +64,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [GitLab](charts/gitlab/README.md) 🗸
   * [GitLab Runner](charts/gitlab-runner/README.md) 🗸
   * [Harbor](charts/harbor/README.md) 🗸
-  * [Jenkins](charts/jenkins/README.md)
+  * [Jenkins](charts/jenkins/README.md) 🗸
   * [Jira](charts/jira/README.md)
   * [Nexus](charts/nexus/README.md)
   * [SonarQube](charts/sonarqube/README.md) 🗸

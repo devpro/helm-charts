@@ -8,6 +8,7 @@ helm repo add cloudbees             https://public-charts.artifacts.cloudbees.co
 helm repo add gitlab                https://charts.gitlab.io/
 helm repo add ingress-nginx         https://kubernetes.github.io/ingress-nginx
 helm repo add harbor                https://helm.goharbor.io
+helm repo add jenkinsci             https://charts.jenkins.io
 helm repo add jetstack              https://charts.jetstack.io
 helm repo add longhorn              https://charts.longhorn.io
 helm repo add neuvector             https://neuvector.github.io/neuvector-helm/
