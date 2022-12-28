@@ -39,7 +39,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Istio](charts/istio/README.md)
   * [Knative](charts/knative/README.md)
   * [Kong](charts/kong/README.md)
-  * [Longhorn](charts/longhorn/README.md)
+  * [Longhorn](charts/longhorn/README.md) 🗸
   * [MetalLB](charts/metallb/README.md)
   * [MinIO](charts/minio/README.md)
   * [NGINX Ingress Controller](charts/ingress-nginx/README.md) 🗸
@@ -58,13 +58,13 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Supply Chain (Software Factory)
   * [Artifactory](charts/artifactory/README.md)
   * [Azure DevOps Agent](charts/azure-devops-agent/README.md)
-  * [Cloudbees](charts/cloudbees/README.md)
+  * [CloudBees CI](charts/cloudbees-ci/README.md) 🗸
   * [Concourse](charts/concourse/README.md)
   * [Drone](charts/drone/README.md)
   * [GitLab](charts/gitlab/README.md) 🗸
   * [GitLab Runner](charts/gitlab-runner/README.md) 🗸
   * [Harbor](charts/harbor/README.md) 🗸
-  * [Jenkins](charts/jenkins/README.md)
+  * [Jenkins](charts/jenkins/README.md) 🗸
   * [Jira](charts/jira/README.md)
   * [Nexus](charts/nexus/README.md)
   * [SonarQube](charts/sonarqube/README.md) 🗸
@@ -164,3 +164,4 @@ sudo docker run -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart
   * [grafana/helm-charts](https://github.com/grafana/helm-charts)
   * [prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts)
   * [rancher/helm3-charts](https://github.com/rancher/helm3-charts)
+  * [aws/eks-charts](https://github.com/aws/eks-charts)
