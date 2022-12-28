@@ -1,6 +1,6 @@
-# Cow app demo
+# Cow demo application Helm chart
 
-Helm chart to deploy cow demonstration application
+Helm chart to deploy cow demonstration application.
 
 ## How to check chart
 
@@ -37,7 +37,12 @@ kubectl get Secrets,Issuers,ClusterIssuers,Certificates,CertificateRequests,Orde
 helm delete cow-demo -n demo
 ```
 
-## References
+## How to get application source code and image
 
-* [David-VTUK/fleet-cow-demo](https://github.com/David-VTUK/fleet-cow-demo)
-* [oskapt/rancher-demo](https://github.com/oskapt/rancher-demo)
+### AMD64
+
+* [monachus/rancher-demo](https://hub.docker.com/r/monachus/rancher-demo) ([code](https://github.com/oskapt/rancher-demo))
+
+### ARM64
+
+* [bashofmann/rancher-demo](https://hub.docker.com/r/bashofmann/rancher-demo) ([code](https://github.com/bashofmann/rancher-demo))
