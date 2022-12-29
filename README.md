@@ -82,7 +82,7 @@ Limitation: [Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn'
 helm repo add devpro https://devpro.github.io/helm-charts
 
 # searches for a specific package from the command line
-helm repo search <package_name>
+helm search repo -l <package_name>
 
 # installs a package
 helm install <package_name>
