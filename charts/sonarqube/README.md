@@ -49,6 +49,16 @@ helm uninstall sonarqube -n supply-chain
 * checks existings resources
 
 ```bash
-kubectl get all -n harbor
-kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges -n harbor
+kubectl get all -n supply-chain
+kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges -n supply-chain
 ```
+
+## How to start
+
+* Go to SonarQube URL
+* "My Account" > "Security" > "Tokens"
+  * Generate Global Analysis Token
+* "How do you want to create your project?" > "From GitLab"
+  * Configuration name: "GitLab on-prem"
+  * GitLab API URL: "https://gitlab.${NGINX_PUBLIC_IP}.sslip.io/api/v4"
+  * Personal Access Token: (to be created in GitLab, "User Settings" > "Access Tokens" > "api" scope)
