@@ -17,12 +17,14 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
   * [WordPress](charts/wordpress/README.md) 🗸
 * Backing services
+  * [Consul](charts/consul/README.md)
   * [Kafka](charts/kafka/README.md)
   * [Keycloak](charts/keycloak/README.md) 🗸
   * [MariaDB](charts/mariadb/README.md) 🗸
   * [memcached](charts/memcached/README.md)
   * [MongoDB](charts/mongodb/README.md)
   * [MQTT](charts/mqtt/README.md)
+  * [NATS](charts/nats/README.md)
   * [PostgreSQL](charts/postgresql/README.md)
   * [RabbitMQ](charts/rabbitmq/README.md) 🗸
   * [Redis](charts/redis/README.md)
