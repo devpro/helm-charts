@@ -17,18 +17,21 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
   * [WordPress](charts/wordpress/README.md) 🗸
 * Backing services
+  * [Consul](charts/consul/README.md)
   * [Kafka](charts/kafka/README.md)
   * [Keycloak](charts/keycloak/README.md) 🗸
   * [MariaDB](charts/mariadb/README.md) 🗸
   * [memcached](charts/memcached/README.md)
   * [MongoDB](charts/mongodb/README.md)
   * [MQTT](charts/mqtt/README.md)
+  * [NATS](charts/nats/README.md)
   * [PostgreSQL](charts/postgresql/README.md)
   * [RabbitMQ](charts/rabbitmq/README.md) 🗸
   * [Redis](charts/redis/README.md)
 * Cloud providers
   * [Azure Storage](charts/azure-storage/README.md) 🗸
   * [Let's Encrypt](charts/letsencrypt/README.md) 🗸
+  * [Outscale](charts/outscale/README.md)
 * Kube add-ons
   * [ArgoCD](charts/argo-cd/README.md) 🗸
   * [Argo Rollouts](charts/argo-rollouts/README.md)
@@ -81,7 +84,7 @@ Limitation: [Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn'
 helm repo add devpro https://devpro.github.io/helm-charts
 
 # searches for a specific package from the command line
-helm repo search <package_name>
+helm search repo -l <package_name>
 
 # installs a package
 helm install <package_name>
@@ -146,7 +149,7 @@ helm:
 
 ```bash
 # runs Docker image (with workaround described at https://github.com/helm/chart-testing/issues/464)
-sudo docker run -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart-testing:v3.7.1 /bin/sh -c "git config --global --add safe.directory /data ; ./scripts/add_helm_repo.sh ; ct lint --target-branch main"
+sudo docker run --rm -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart-testing:v3.7.1 /bin/sh -c "git config --global --add safe.directory /data ; ./scripts/add_helm_repo.sh ; ct lint --target-branch main"
 ```
 
 ## References

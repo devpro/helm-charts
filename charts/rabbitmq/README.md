@@ -40,6 +40,20 @@ kubectl exec rabbitmq-0 -n=rabbitmq -- rabbitmq-diagnostics cluster_status
 helm uninstall rabbitmq -n rabbitmq
 ```
 
+## How to configure
+
+### Examples
+
+* Set a specific username and set ah hard coded password
+
+```yaml
+rabbitmq:
+  auth:
+    username: myyser
+    password: "myp@ass0rd"
+    securePassword: false
+```
+
 ## How to start once the application is running
 
 ### Rabbit Management
@@ -58,9 +72,3 @@ kubectl port-forward svc/rabbitmq 15672:15672 -n rabbitmq
 
 # manual: open http://127.0.0.1:15672/ (and login with "user" as username and the password retrieved before)
 ```
-
-## How to investigate
-
-### Known issues
-
-TODO

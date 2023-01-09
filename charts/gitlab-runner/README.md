@@ -51,4 +51,6 @@ helm uninstall gitlab-runner-ubuntu-docker -n supply-chain
 
 ## How to investigate
 
-TODO
+### Known limitations
+
+* This Helm chart doesn't work with replicas different to 1 so multiple Helm releases from the same chart is needed
