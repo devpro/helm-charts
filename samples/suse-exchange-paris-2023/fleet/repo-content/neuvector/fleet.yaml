@@ -1,0 +1,34 @@
+defaultNamespace: neuvector
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: neuvector
+  version: 0.1.3
+  releaseName: neuvector
+  values:
+    core:
+      controller:
+        replicas: 1
+      cve:
+        scanner:
+          replicas: 1
+      manager:
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+          tls: true
+          secretName: neuvector-tls-secret
+targetCustomizations:
+  - name: demo
+    helm:
+      values:
+        core:
+          containerd:
+            enabled: true
+          manager:
+            ingress:
+              host: neuvector.20.31.7.5.sslip.io
+    clusterSelector:
+      matchLabels:
+        environment: demo

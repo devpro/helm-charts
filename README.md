@@ -75,6 +75,10 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 
 Limitation: [Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn't support multiple chart directories ou multiple levels so all charts must be in `charts` repository
 
+## Samples
+
+* [SUSE Exchange Paris 2023](samples/suse-exchange-paris-2023/README.md)
+
 ## Usage
 
 ### From Helm CLI

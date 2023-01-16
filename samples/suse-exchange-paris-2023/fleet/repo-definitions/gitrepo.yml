@@ -1,0 +1,90 @@
+---
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: definitions
+  namespace: fleet-default
+spec:
+  branch: main
+  paths:
+    - samples/suse-exchange-paris-2023/fleet/repo-content/above-crds
+  repo: https://github.com/devpro/helm-charts.git
+  targets:
+    - clusterSelector:
+        matchExpressions:
+          - key: provider.cattle.io
+            operator: NotIn
+            values:
+              - harvester
+---
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: system
+  namespace: fleet-default
+spec:
+  branch: main
+  paths:
+    - samples/suse-exchange-paris-2023/fleet/repo-content/ingress-nginx
+    - samples/suse-exchange-paris-2023/fleet/repo-content/cert-manager
+    - samples/suse-exchange-paris-2023/fleet/repo-content/letsencrypt
+    - samples/suse-exchange-paris-2023/fleet/repo-content/sealed-secrets
+  repo: https://github.com/devpro/helm-charts.git
+  targets:
+    - clusterSelector:
+        matchExpressions:
+          - key: provider.cattle.io
+            operator: NotIn
+            values:
+              - harvester
+---
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: supply-chain
+  namespace: fleet-default
+spec:
+  branch: main
+  paths:
+    - samples/suse-exchange-paris-2023/fleet/repo-content/gitlab
+    - samples/suse-exchange-paris-2023/fleet/repo-content/harbor
+    - samples/suse-exchange-paris-2023/fleet/repo-content/sonarqube
+  repo: https://github.com/devpro/helm-charts.git
+  targets:
+    - name: supply-chain
+      clusterSelector:
+        matchLabels:
+          workload: supply-chain
+---
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: business
+  namespace: fleet-default
+spec:
+  branch: main
+  paths:
+    - samples/suse-exchange-paris-2023/fleet/repo-content/cow-demo
+    - samples/suse-exchange-paris-2023/fleet/repo-content/ecorp-demo
+  repo: https://github.com/devpro/helm-charts.git
+  targets:
+    - name: business
+      clusterSelector:
+        matchLabels:
+          workload: business
+---
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: security
+  namespace: fleet-default
+spec:
+  branch: main
+  paths:
+    - samples/suse-exchange-paris-2023/fleet/repo-content/neuvector
+  repo: https://github.com/devpro/helm-charts.git
+  targets:
+    - name: business
+      clusterSelector:
+        matchLabels:
+          workload: business

@@ -1,0 +1,19 @@
+defaultNamespace: ingress-nginx
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: ingress-nginx
+  version: 0.1.2
+  releaseName: ingress-nginx
+targetCustomizations:
+  - name: aks-supply-chain
+    helm:
+      values:
+        ingress-nginx:
+          controller:
+            service:
+              annotations:
+                # fix AKS with Kubernetes 1.24+ issue with Ingresses not accessible
+                service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+    clusterSelector:
+      matchLabels:
+        managedSystem: aks
