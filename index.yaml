@@ -129,6 +129,19 @@ entries:
   cow-demo:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2023-02-23T09:09:18.409978533Z"
+    description: Helm chart for Cow Demo Application
+    digest: 83af7c612084ee6d7972eb617de38ac61b808d145b8bbda7805d5e265dfcff1e
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: cow-demo
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/cow-demo-0.1.2/cow-demo-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-12-27T14:21:27.997613846Z"
     description: Helm chart for Cow Demo Application
     digest: 3eafed483c0c4960faf9ad5eef2961be5e5c560f01701c2d8d182d2852efb717
@@ -339,6 +352,23 @@ entries:
   gitlab-runner:
   - apiVersion: v2
     appVersion: 15.6.1
+    created: "2023-02-23T09:09:18.675509153Z"
+    dependencies:
+    - name: gitlab-runner
+      repository: https://charts.gitlab.io/
+      version: 0.47.1
+    description: Helm chart for managing GitLab Runner
+    digest: 3984b11cd4fbd99bc21c192ee504a17aeaf8b1b279a5ab8032e370290c448196
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: gitlab-runner
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/gitlab-runner-0.1.1/gitlab-runner-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 15.6.1
     created: "2022-12-27T14:21:28.532659278Z"
     dependencies:
     - name: gitlab-runner
@@ -425,6 +455,23 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/ingress-nginx-0.1.1/ingress-nginx-0.1.1.tgz
     version: 0.1.1
   jenkins:
+  - apiVersion: v2
+    appVersion: 2.375.1
+    created: "2023-02-23T09:09:18.898804643Z"
+    dependencies:
+    - name: jenkins
+      repository: https://charts.jenkins.io
+      version: 4.2.17
+    description: Helm chart for managing Jenkins
+    digest: 9f38aee04c6864238f081cbf26ddfaba1b81f7d7eecfe107e632ccfa08a74db9
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: jenkins
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/jenkins-0.1.1/jenkins-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     appVersion: 2.375.1
     created: "2022-12-28T14:20:10.910662003Z"
@@ -536,6 +583,23 @@ entries:
     version: 0.1.0
   longhorn:
   - apiVersion: v2
+    appVersion: 1.4.0
+    created: "2023-02-23T09:09:19.138079781Z"
+    dependencies:
+    - name: longhorn
+      repository: https://charts.longhorn.io
+      version: 1.4.0
+    description: Helm chart for managing Longhorn
+    digest: 4e45a3bff9022ed62989707bde421f5a827d6d2c1989b9bccd839d050cc3b6e2
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: longhorn
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/longhorn-0.1.1/longhorn-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: 1.3.2
     created: "2022-12-28T14:20:11.027327092Z"
     dependencies:
@@ -625,6 +689,23 @@ entries:
   rabbitmq:
   - apiVersion: v2
     appVersion: 3.11.5
+    created: "2023-02-23T09:09:19.394349954Z"
+    dependencies:
+    - name: rabbitmq
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.3.0
+    description: Helm chart for managing RabbitMQ
+    digest: b83d1156ba49c9e3e355a8e9f19df3898fc41f1feb53f934627fb9cb9e17bf0c
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: rabbitmq
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/rabbitmq-0.1.1/rabbitmq-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 3.11.5
     created: "2022-12-27T14:21:28.847409338Z"
     dependencies:
     - name: rabbitmq
@@ -641,6 +722,23 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/rabbitmq-0.1.0/rabbitmq-0.1.0.tgz
     version: 0.1.0
   rancher:
+  - apiVersion: v2
+    appVersion: 2.7.0
+    created: "2023-02-23T09:09:19.651571331Z"
+    dependencies:
+    - name: rancher
+      repository: https://releases.rancher.com/server-charts/latest
+      version: 2.7.0
+    description: Helm chart for managing Rancher
+    digest: a19f0deb3c3fe589a6f3c49a6f6c3f53d1195063b43db83e345907c7e00e24db
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: rancher
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/rancher-0.1.1/rancher-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     appVersion: 2.7.0
     created: "2022-12-12T13:24:57.086769979Z"
@@ -694,6 +792,23 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/sealed-secrets-0.1.1/sealed-secrets-0.1.1.tgz
     version: 0.1.1
   sonarqube:
+  - apiVersion: v2
+    appVersion: 9.7.1
+    created: "2023-02-23T09:09:19.892851659Z"
+    dependencies:
+    - name: sonarqube
+      repository: https://sonarsource.github.io/helm-chart-sonarqube
+      version: 6.0.1+425
+    description: Helm chart for managing SonarQube
+    digest: 6dfadf15e54a89ac2513a8576f093606c44f87a08f968ed5dbd347640435668c
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: sonarqube
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/sonarqube-0.1.2/sonarqube-0.1.2.tgz
+    version: 0.1.2
   - apiVersion: v2
     appVersion: 9.7.1
     created: "2022-11-24T21:23:21.581495258Z"
@@ -764,4 +879,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2022-12-28T14:20:11.027390793Z"
+generated: "2023-02-23T09:09:19.89295616Z"
