@@ -36,6 +36,10 @@ helm template rancher . -f values.yaml \
 # applies the manifest (add "--debug > output.yaml" in case of issue)
 helm upgrade --install rancher . -f values.yaml --create-namespace \
   --set rancher.hostname=rancher.${NGINX_PUBLIC_IP}.sslip.io \
+  --set 'rancher.ingress.extraAnnotations.cert-manager\.io/cluster-issuer=letsencrypt-prod' \
+  --set rancher.ingress.ingressClassName=nginx \
+  --set rancher.ingress.tls.source=secret \
+  --set rancher.ingress.tls.secretName=rancher-tls \
   --namespace cattle-system
 
 # checks everything is ok

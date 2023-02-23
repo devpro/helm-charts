@@ -1,0 +1,7 @@
+defaultNamespace: kube-system
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: sealed-secrets
+  version: 0.1.2
+  # keep this name so kubeseal works out of the box
+  releaseName: sealed-secrets-controller

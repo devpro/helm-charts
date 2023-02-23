@@ -1,0 +1,35 @@
+defaultNamespace: supply-chain
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: sonarqube
+  version: 0.1.1
+  releaseName: sonarqube
+  values:
+    sonarqube:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+      resources:
+        limits:
+          cpu: 400m
+          memory: 2Gi
+        requests:
+          cpu: 200m
+          memory: 1Gi
+targetCustomizations:
+  - name: prod
+    helm:
+      values:
+        sonarqube:
+          ingress:
+            hosts:
+              - name: sonarqube.20.101.158.124.sslip.io
+            tls:
+              - secretName: sonarqube-tls
+                hosts:
+                  - sonarqube.20.101.158.124.sslip.io
+    clusterSelector:
+      matchLabels:
+        environment: prod

@@ -1,0 +1,35 @@
+defaultNamespace: sample-apps
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: ecorp-demo
+  version: 0.1.19
+  releaseName: ecorp-demo
+  values:
+    backend:
+      tls:
+        secretName: ecorp-backend-tls
+    frontend:
+      tls:
+        secretName: ecorp-frontend-tls
+    nodejsApi:
+      tls:
+        secretName: ecorp-frontend-tls
+    ingress:
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+targetCustomizations:
+  - name: demo
+    helm:
+      values:
+        aspnetcore:
+          environment: Development
+        backend:
+          host: ecorp-demo-api.20.31.7.5.sslip.io
+          replicaCount: 2
+        frontend:
+          host: ecorp-demo.20.31.7.5.sslip.io
+        nodejsApi:
+          enabled: false
+    clusterSelector:
+      matchLabels:
+        environment: demo

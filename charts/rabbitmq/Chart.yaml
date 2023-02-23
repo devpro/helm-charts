@@ -2,7 +2,7 @@ apiVersion: v2
 name: rabbitmq
 description: Helm chart for managing RabbitMQ
 type: application
-version: "0.1.0"
+version: "0.1.1"
 appVersion: "3.11.5"
 dependencies:
   - name: rabbitmq

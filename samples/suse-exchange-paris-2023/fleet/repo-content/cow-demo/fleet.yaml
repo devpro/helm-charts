@@ -1,0 +1,24 @@
+defaultNamespace: sample-apps
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: cow-demo
+  version: 0.1.1
+  releaseName: cow-demo
+  values:
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      tls:
+        secretName: "cow-demo-tls"
+targetCustomizations:
+  - name: demo
+    helm:
+      values:
+        replicaCount: 2
+        host: cow-demo.20.31.7.5.sslip.io
+        cow:
+          color: green
+    clusterSelector:
+      matchLabels:
+        environment: demo

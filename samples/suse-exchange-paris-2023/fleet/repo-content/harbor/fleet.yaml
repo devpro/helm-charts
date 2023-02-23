@@ -1,0 +1,29 @@
+defaultNamespace: supply-chain
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: harbor
+  version: 0.1.1
+  releaseName: harbor
+  values:
+    harbor:
+      expose:
+        ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+      # limitation with Azure default storage (ReadWriteOnce)
+      updateStrategy:
+        type: Recreate
+targetCustomizations:
+  - name: prod
+    helm:
+      values:
+        harbor:
+          expose:
+            ingress:
+              hosts:
+                core: harbor.20.101.158.124.sslip.io
+                notary: harbor-notary.20.101.158.124.sslip.io
+          externalURL: https://harbor.20.101.158.124.sslip.io
+    clusterSelector:
+      matchLabels:
+        environment: prod

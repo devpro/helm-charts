@@ -8,8 +8,8 @@ jenkins:
       passwordKey: jenkins-admin-password
     resources:
       requests:
-        cpu: "50m"
-        memory: "256Mi"
+        cpu: "300m"
+        memory: "512Mi"
       limits:
         cpu: "500m"
         memory: "2048Mi"

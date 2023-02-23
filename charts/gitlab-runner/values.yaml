@@ -2,7 +2,6 @@
 # https://archives.docs.gitlab.com/14.8/ee/ci/docker/using_docker_build.html#use-the-kubernetes-executor-with-docker-in-docker
 # https://stackoverflow.com/questions/69239098/not-able-to-execute-gitlab-runner-in-kubernetes-cluster-cannot-create-resource
 gitlab-runner:
-  replicas: 1
   runners:
     config: |
       [[runners]]

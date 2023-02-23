@@ -1,0 +1,13 @@
+defaultNamespace: cert-manager
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: letsencrypt
+  version: 0.1.2
+  releaseName: letsencrypt
+  values:
+    registration:
+      emailAddress: bertrand@devpro.fr
+dependsOn:
+  - selector:
+      matchLabels:
+        app: cert-manager

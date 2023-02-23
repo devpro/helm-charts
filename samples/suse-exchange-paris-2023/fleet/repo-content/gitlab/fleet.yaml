@@ -1,0 +1,55 @@
+defaultNamespace: supply-chain
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: gitlab
+  version: 0.1.2
+  releaseName: gitlab
+  values:
+    gitlab:
+      certmanager-issuer:
+        email: bertrand@devpro.fr
+      minio:
+        resources:
+          requests:
+            memory: 64Mi
+            cpu: 20m
+      gitlab:
+        webservice:
+          minReplicas: 1
+          resources:
+            requests:
+              cpu: 100m
+              memory: 900M
+          workhorse:
+            resources:
+              requests:
+                cpu: 50m
+                memory: 50M
+        sidekiq:
+          minReplicas: 1
+          resources:
+            requests:
+              cpu: 50m
+              memory: 625M
+targetCustomizations:
+  - name: prod
+    helm:
+      values:
+        gitlab:
+          global:
+            hosts:
+              domain: 20.101.158.124.sslip.io
+              registry:
+                name: gitlab-registry.20.101.158.124.sslip.io
+              minio:
+                name: gitlab-minio.20.101.158.124.sslip.io
+              kas:
+                name: gitlab-kas.20.101.158.124.sslip.io
+              ssh: gitlab.20.101.158.124.sslip.io
+          prometheus:
+            install: false
+            rbac:
+              create: false
+    clusterSelector:
+      matchLabels:
+        environment: prod
