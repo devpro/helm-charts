@@ -1,7 +1,9 @@
 # Longhorn Helm chart
 
-This Helm chart will install [Longhorn](https://longhorn.io/) ([docs](https://longhorn.io/docs/1.3.1/), [GitHub](https://github.com/longhorn/longhorn))
-and is based from the [official Helm chart](https://longhorn.io/docs/1.3.1/deploy/install/install-with-helm/) ([code](https://github.com/longhorn/charts)).
+This Helm chart will install [Longhorn](https://longhorn.io/) ([docs](https://longhorn.io/docs/), [GitHub](https://github.com/longhorn/longhorn))
+and is based from the [official Helm chart](https://longhorn.io/docs/1.4.0/deploy/install/install-with-helm/) ([code](https://github.com/longhorn/charts)).
+
+Know more about Longhorn: [devpro.github.io](https://devpro.github.io/rancher-ecosystem/docs/longhorn.html)
 
 ## How to create or update the chart
 
@@ -21,30 +23,63 @@ helm dependency update
 
 ## How to deploy manually
 
+### Sample with NGINX Ingress Controller and UI secured by password
+
 ```bash
 # checks the Kubernetes objects generated from the chart
 helm template longhorn . -f values.yaml \
-  --namespace longhorn > temp.yaml
+  --namespace longhorn-system > temp.yaml
 
-# (optional) creates secret to access the UI (see https://longhorn.io/docs/1.3.1/deploy/accessing-the-ui/longhorn-ingress/)
+# secure the access to the UI (see https://longhorn.io/docs/1.4.0/deploy/accessing-the-ui/longhorn-ingress/)
+USER=<USERNAME_HERE>; PASSWORD=<PASSWORD_HERE>; echo "${USER}:$(openssl passwd -stdin -apr1 <<< ${PASSWORD})" >> auth
+kubectl -n longhorn-system create secret generic basic-auth --from-file=auth
+
+# retrieves public IP
+NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
 helm upgrade --install longhorn . -f values.yaml --create-namespace \
-  --namespace longhorn
+  --set longhorn.ingress.enabled=true \
+  --set longhorn.ingress.ingressClassName=nginx \
+  --set longhorn.ingress.host=longhorn.${NGINX_PUBLIC_IP}.sslip.io \
+  --set longhorn.ingress.tls=true \
+  --set 'longhorn.ingress.annotations.cert-manager\.io/cluster-issuer=letsencrypt-prod' \
+  --set 'longhorn.ingress.annotations.nginx\.ingress\.kubernetes\.io/auth-type=basic' \
+  --set 'longhorn.ingress.annotations.nginx\.ingress\.kubernetes\.io/ssl-redirect="false"' \
+  --set 'longhorn.ingress.annotations.nginx\.ingress\.kubernetes\.io/auth-secret=basic-auth' \
+  --set 'longhorn.ingress.annotations.nginx\.ingress\.kubernetes\.io/auth-realm="Authentication Required "' \
+  --set 'longhorn.ingress.annotations.nginx\.ingress\.kubernetes\.io/proxy-body-size=10000m' \
+  --namespace longhorn-system
 
-# checks everything is ok
-kubectl get pod -n longhorn
+# looks at the installation (all pods should be running at the end)
+kubectl get pod -n longhorn-system --watch
+
+# checks the storage class
+kubectl get sc longhorn
 
 # if needed, deletes the chart
-helm uninstall longhorn -n longhorn
+helm uninstall longhorn -n longhorn-system
 ```
 
 ## How to start once the application is running
 
-TODO
+- Open Longhorn dashboard (UI) on "https://longhorn.${NGINX_PUBLIC_IP}.sslip.io/"
 
-## How to investigate
+- Use Longhorn for MariaDB storage (we'll use [devpro/helm-charts](https://github.com/devpro/helm-charts/blob/main/charts/mariadb/README.md))
 
-### Known issues
+```bash
+# installs MariaDB
+helm upgrade --install mariadb devpro/mariadb --create-namespace \
+  --set mariadb.global.storageClass=longhorn \
+  --namespace mariadb-system
 
-TODO
+# checks the pod (state should be Running)
+kubectl get pod -n mariadb-system
+
+# checks the persistent volume and claims (status should be Bound)
+kubectl get pvc,pv -n mariadb-system
+
+# cleans-up resources
+helm delete mariadb -n mariadb-system
+kubectl delete persistentvolumeclaim/data-mariadb-0 -n mariadb-system
+```
