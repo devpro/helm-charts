@@ -1,4 +1,4 @@
-# s3gw Helm chart
+# Helm chart for s3gw
 
 This Helm chart will install [s3gw.io](https://s3gw.io/) ([docs](https://s3gw-docs.readthedocs.io/en/latest/), [code](https://github.com/aquarist-labs/s3gw))
 and is based from the [official Helm chart](https://s3gw-docs.readthedocs.io/en/latest/helm-charts/) ([code](https://github.com/aquarist-labs/s3gw-charts).
@@ -22,26 +22,7 @@ kubectl delete ns s3gw-system
 
 ## How to start once the application is running
 
-- Open Longhorn dashboard (UI), for example "https://longhorn.${NGINX_PUBLIC_IP}.sslip.io/"
-
-- Use Longhorn for example as storage for MariaDB (using [devpro/helm-charts](https://github.com/devpro/helm-charts/blob/main/charts/mariadb/README.md))
-
-```bash
-# installs MariaDB
-helm upgrade --install mariadb devpro/mariadb --create-namespace \
-  --set mariadb.global.storageClass=longhorn \
-  --namespace mariadb-system
-
-# checks the pod (state should be Running)
-kubectl get pod -n mariadb-system
-
-# checks the persistent volume and claims (status should be Bound)
-kubectl get pvc,pv -n mariadb-system
-
-# cleans-up resources
-helm delete mariadb -n mariadb-system
-kubectl delete persistentvolumeclaim/data-mariadb-0 -n mariadb-system
-```
+👷 TODO
 
 ## How to create or update the chart
 

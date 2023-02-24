@@ -57,7 +57,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Serverless
   * [Knative](charts/knative/README.md)
 * Storage
-  * [Kasten K10](charts/kasten-k10/README.md)
+  * [Kasten K10](charts/kasten-k10/README.md) 🗸
   * [Longhorn](charts/longhorn/README.md) 🗸
   * [MinIO](charts/minio/README.md)
   * [s3gw](charts/s3gw/README.md) 🗸
