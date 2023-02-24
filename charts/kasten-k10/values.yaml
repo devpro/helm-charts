@@ -1,12 +1,26 @@
+# https://docs.kasten.io/latest/access/dashboard.html
 k10: {}
   # global:
   #   persistence:
   #     storageClass: <storage-class-name>
-  # externalGateway:
-  #   create: true
   # auth:
   #   tokenAuth:
   #     enabled: true
+  # externalGateway:
+  #   create: true
+  #   fqdn:
+  #     type: external-dns
+  #     name: <my-desired.dns.name>
+  # ingress:
+  #  create: true
+  #  class: nginx
+  #  annotations:
+  #    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+  #  urlPath="/<custom-path>"
+  # prometheus:
+  #   server:
+  #     baseURL: "/<custom-path>/prometheus/"
+  #     prefixURL: "/<custom-path>/prometheus/"
   # route:
   #   enabled: true
   #   host: <A FQDN of your choice with proper DNS entry>
@@ -15,7 +29,3 @@ k10: {}
   #     enabled: true
   #     termination: <reencrypt/edge/passthrough>
   #     insecureEdgeTerminationPolicy: <disable/redirect/allow>
-  # prometheus:
-  #   server:
-  #     baseURL: "/<custom-path>/prometheus/"
-  #     prefixURL: "/<custom-path>/prometheus/"

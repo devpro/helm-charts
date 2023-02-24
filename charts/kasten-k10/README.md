@@ -19,7 +19,7 @@ helm upgrade --install k10 devpro/kasten-k10 --create-namespace \
 # watches the installation and checks all pods are running after some time
 kubectl get pods --namespace kasten-io --watch
 
-# if needed, deletes the chart
+# when needed, cleans up the resources
 helm uninstall k10 -n kasten-io
 kubectl delete ns kasten-io
 ```
