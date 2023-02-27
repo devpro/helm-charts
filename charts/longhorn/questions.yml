@@ -4,27 +4,27 @@ namespace: longhorn-system
 questions:
   - variable: longhorn.ingress.enabled
     default: "false"
-    description: "Enable Ingress"
+    description: ""
     type: boolean
     group: "Services and Load Balancing"
-    label: ""
+    label: "Enable Ingress"
     show_subquestion_if: true
     subquestions:
       - variable: longhorn.ingress.ingressClassName
         default: ""
-        description: "Ingress class name"
+        description: "Example: nginx"
         type: string
         required: true
-        label: "Example: nginx"
+        label: "Ingress controller class name"
       - variable: longhorn.ingress.host
         default: ""
-        description: "Ingress class name"
+        description: "Example: longhorn.${NGINX_PUBLIC_IP}.sslip.io"
         type: hostname
         required: true
-        label: "Example: longhorn.${NGINX_PUBLIC_IP}.sslip.io"
+        label: "Host name"
       - variable: longhorn.ingress.tls
         default: "true"
-        description: "Enable TLS"
+        description: ""
         type: boolean
         required: true
-        label: ""
+        label: "Enable TLS"
