@@ -489,6 +489,24 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/jenkins-0.1.0/jenkins-0.1.0.tgz
     version: 0.1.0
+  kasten-k10:
+  - apiVersion: v2
+    appVersion: 5.5.5
+    created: "2023-02-27T09:54:03.5268018Z"
+    dependencies:
+    - name: k10
+      repository: https://charts.kasten.io
+      version: 5.5.5
+    description: Helm chart for managing Kasten k10
+    digest: 7c6899dae95b1b447ec50707057ced343cef47e201bfa186af187afe391c2a94
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: kasten-k10
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/kasten-k10-0.1.0/kasten-k10-0.1.0.tgz
+    version: 0.1.0
   keycloak:
   - apiVersion: v2
     appVersion: 18.0.0
@@ -582,6 +600,24 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/letsencrypt-0.1.0/letsencrypt-0.1.0.tgz
     version: 0.1.0
   longhorn:
+  - apiVersion: v2
+    appVersion: 1.4.0
+    created: "2023-02-27T09:54:03.775619424Z"
+    dependencies:
+    - name: longhorn
+      repository: https://charts.longhorn.io
+      version: 1.4.0
+    description: Helm chart for managing Longhorn
+    digest: a7b113304d5bae05d4843726f45acac59ecf477ea7a6354960410e0ba9c377c2
+    home: https://github.com/devpro/helm-charts/tree/main/charts/longhorn
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: longhorn
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/longhorn-0.1.2/longhorn-0.1.2.tgz
+    version: 0.1.2
   - apiVersion: v2
     appVersion: 1.4.0
     created: "2023-02-23T09:09:19.138079781Z"
@@ -756,6 +792,24 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/rancher-0.1.0/rancher-0.1.0.tgz
     version: 0.1.0
+  s3gw:
+  - apiVersion: v2
+    appVersion: 0.12.0
+    created: "2023-02-27T09:54:03.993256287Z"
+    dependencies:
+    - name: s3gw
+      repository: https://aquarist-labs.github.io/s3gw-charts
+      version: 0.12.0
+    description: Helm chart for managing s3gw
+    digest: 8669750aa48275f08dab798b5da153890a594b7ac5b7ec0b56b681767bb24123
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: s3gw
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/s3gw-0.1.0/s3gw-0.1.0.tgz
+    version: 0.1.0
   sealed-secrets:
   - apiVersion: v2
     appVersion: 0.19.1
@@ -879,4 +933,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2023-02-23T09:09:19.89295616Z"
+generated: "2023-02-27T09:54:03.993562013Z"
