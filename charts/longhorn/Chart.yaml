@@ -2,7 +2,7 @@ apiVersion: v2
 name: longhorn
 description: Helm chart for managing Longhorn
 type: application
-version: "0.1.1"
+version: "0.1.2"
 appVersion: "1.4.0"
 dependencies:
   - name: longhorn
@@ -11,3 +11,4 @@ dependencies:
 maintainers:
   - name: devpro
     email: bertrand@devpro.fr
+home: https://github.com/devpro/helm-charts/tree/main/charts/longhorn

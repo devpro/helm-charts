@@ -16,37 +16,31 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Drupal](charts/drupal/README.md)
   * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
   * [WordPress](charts/wordpress/README.md) 🗸
-* Backing services
-  * [Consul](charts/consul/README.md)
-  * [Kafka](charts/kafka/README.md)
+* Authentication / Identity
   * [Keycloak](charts/keycloak/README.md) 🗸
+* Cloud providers
+  * [Azure Storage](charts/azure-storage/README.md) 🗸
+  * [Outscale](charts/outscale/README.md)
+* Data stores
   * [MariaDB](charts/mariadb/README.md) 🗸
   * [memcached](charts/memcached/README.md)
   * [MongoDB](charts/mongodb/README.md)
-  * [MQTT](charts/mqtt/README.md)
-  * [NATS](charts/nats/README.md)
   * [PostgreSQL](charts/postgresql/README.md)
   * [RabbitMQ](charts/rabbitmq/README.md) 🗸
   * [Redis](charts/redis/README.md)
-* Cloud providers
-  * [Azure Storage](charts/azure-storage/README.md) 🗸
-  * [Let's Encrypt](charts/letsencrypt/README.md) 🗸
-  * [Outscale](charts/outscale/README.md)
-* Kube add-ons
-  * [ArgoCD](charts/argo-cd/README.md) 🗸
-  * [Argo Rollouts](charts/argo-rollouts/README.md)
-  * [brigade](charts/brigade/README.md)
+* Networking / Messaging
   * [cert-manager](charts/cert-manager/README.md) 🗸
+  * [Consul](charts/consul/README.md)
   * [external-dns](charts/external-dns/README.md)
   * [HAProxy](charts/haproxy/README.md)
   * [Istio](charts/istio/README.md)
-  * [Knative](charts/knative/README.md)
+  * [Kafka](charts/kafka/README.md)
   * [Kong](charts/kong/README.md)
-  * [Longhorn](charts/longhorn/README.md) 🗸
+  * [Let's Encrypt](charts/letsencrypt/README.md) 🗸
   * [MetalLB](charts/metallb/README.md)
-  * [MinIO](charts/minio/README.md)
+  * [MQTT](charts/mqtt/README.md)
+  * [NATS](charts/nats/README.md)
   * [NGINX Ingress Controller](charts/ingress-nginx/README.md) 🗸
-  * [Sealed Secrets](charts/sealed-secrets/README.md) 🗸
   * [Traefik](charts/traefik/README.md) 🗸
 * Management
   * [Rancher](charts/rancher/README.md) 🗸
@@ -56,9 +50,20 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [OpenTelemetry Collector](charts/opentelemetry/README.md)
   * [Prometheus](charts/prometheus/README.md)
   * [Grafana](charts/grafana/README.md)
+* Secrets
+  * [Sealed Secrets](charts/sealed-secrets/README.md) 🗸
 * Security
   * [NeuVector](charts/neuvector/README.md) 🗸
+* Serverless
+  * [Knative](charts/knative/README.md)
+* Storage
+  * [Kasten K10](charts/kasten-k10/README.md) 🗸
+  * [Longhorn](charts/longhorn/README.md) 🗸
+  * [MinIO](charts/minio/README.md)
+  * [s3gw](charts/s3gw/README.md) 🗸
 * Supply Chain (Software Factory)
+  * [ArgoCD](charts/argo-cd/README.md) 🗸
+  * [Argo Rollouts](charts/argo-rollouts/README.md)
   * [Artifactory](charts/artifactory/README.md)
   * [Azure DevOps Agent](charts/azure-devops-agent/README.md)
   * [CloudBees CI](charts/cloudbees-ci/README.md) 🗸
@@ -84,8 +89,14 @@ Limitation: [Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn'
 ### From Helm CLI
 
 ```bash
-# adds the Helm repository
+# checks helm is installed
+helm version
+
+# if not already done, adds devpro repository in helm
 helm repo add devpro https://devpro.github.io/helm-charts
+
+# refreshes helm repository informations
+helm repo update
 
 # searches for a specific package from the command line
 helm search repo -l <package_name>
@@ -130,6 +141,12 @@ helm:
 
 * Create a GitRepo to reference the git repository with the path to the folder
 
+### From Rancher
+
+* In your cluster
+  * Go to "Apps" > "Repositories", click on "Create" and enter "https://devpro.github.io/helm-charts" as "Index URL", then click on "Create"
+  * Go to "Apps" > "Charts", look at the available applications (charts) and install the one(s) you want
+
 ## Cluster setup logic
 
 * Create a Kubernetes Cluster and get CLI access (download `kubectl` configuration)
@@ -160,6 +177,8 @@ sudo docker run --rm -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/
 
 * Cloud Native components
   * [Cloud Native Interactive Landscape](https://landscape.cncf.io/)
+* Documentation
+  * [Rancher How-to Guides > Helm Charts > Creating Apps](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/helm-charts-in-rancher/create-apps)
 * Examples
   * [argoproj/argocd-example-apps](https://github.com/argoproj/argocd-example-apps)
   * [rancher/rodeo](https://github.com/rancher/rodeo)
@@ -170,5 +189,5 @@ sudo docker run --rm -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/
   * [elastic/helm-charts](https://github.com/elastic/helm-charts)
   * [grafana/helm-charts](https://github.com/grafana/helm-charts)
   * [prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts)
+  * [rancher/charts](https://github.com/rancher/charts)
   * [rancher/helm3-charts](https://github.com/rancher/helm3-charts)
-  * [aws/eks-charts](https://github.com/aws/eks-charts)

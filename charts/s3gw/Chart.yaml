@@ -1,0 +1,13 @@
+apiVersion: v2
+name: s3gw
+description: Helm chart for managing s3gw
+type: application
+version: "0.1.0"
+appVersion: "0.12.0"
+dependencies:
+  - name: s3gw
+    version: 0.12.0
+    repository: https://aquarist-labs.github.io/s3gw-charts
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
