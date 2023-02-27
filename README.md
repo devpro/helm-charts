@@ -177,6 +177,8 @@ sudo docker run --rm -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/
 
 * Cloud Native components
   * [Cloud Native Interactive Landscape](https://landscape.cncf.io/)
+* Documentation
+  * [Rancher How-to Guides > Helm Charts > Creating Apps](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/helm-charts-in-rancher/create-apps)
 * Examples
   * [argoproj/argocd-example-apps](https://github.com/argoproj/argocd-example-apps)
   * [rancher/rodeo](https://github.com/rancher/rodeo)
@@ -187,5 +189,5 @@ sudo docker run --rm -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/
   * [elastic/helm-charts](https://github.com/elastic/helm-charts)
   * [grafana/helm-charts](https://github.com/grafana/helm-charts)
   * [prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts)
+  * [rancher/charts](https://github.com/rancher/charts)
   * [rancher/helm3-charts](https://github.com/rancher/helm3-charts)
-  * [aws/eks-charts](https://github.com/aws/eks-charts)
