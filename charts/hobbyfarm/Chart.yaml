@@ -1,0 +1,14 @@
+apiVersion: v2
+name: hobbyfarm
+description: Helm chart for managing HobbyFarm
+type: application
+version: "0.1.0"
+appVersion: "2.0.6"
+dependencies:
+  - name: hobbyfarm
+    version: 2.0.6
+    repository: https://hobbyfarm.github.io/hobbyfarm
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
+home: https://github.com/devpro/helm-charts/tree/main/charts/hobbyfarm
