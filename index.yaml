@@ -419,6 +419,25 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/harbor-0.1.0/harbor-0.1.0.tgz
     version: 0.1.0
+  hobbyfarm:
+  - apiVersion: v2
+    appVersion: 2.0.6
+    created: "2023-03-09T08:55:57.614909486Z"
+    dependencies:
+    - name: hobbyfarm
+      repository: https://hobbyfarm.github.io/hobbyfarm
+      version: 2.0.6
+    description: Helm chart for managing HobbyFarm
+    digest: 156a3cca57ea5d720d5b803309b3b1593d4f5ea6833a18e6f50a55640cc40e63
+    home: https://github.com/devpro/helm-charts/tree/main/charts/hobbyfarm
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: hobbyfarm
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/hobbyfarm-0.1.0/hobbyfarm-0.1.0.tgz
+    version: 0.1.0
   ingress-nginx:
   - apiVersion: v2
     appVersion: 1.4.0
@@ -933,4 +952,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2023-02-27T09:54:03.993562013Z"
+generated: "2023-03-09T08:55:57.615003787Z"
