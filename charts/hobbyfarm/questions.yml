@@ -1,0 +1,18 @@
+categories:
+  - learning
+namespace: hobbyfarm
+questions:
+  - variable: hobbyfarm.ingress.enabled
+    default: "true"
+    description: ""
+    type: boolean
+    group: "Services and Load Balancing"
+    label: "Enable Ingress"
+    show_subquestion_if: true
+    subquestions:
+      - variable: hobbyfarm.ingress.ingressClassName
+        default: ""
+        description: "Example: nginx"
+        type: string
+        required: true
+        label: "Ingress controller class name"

@@ -28,6 +28,8 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [PostgreSQL](charts/postgresql/README.md)
   * [RabbitMQ](charts/rabbitmq/README.md) 🗸
   * [Redis](charts/redis/README.md)
+* Learning Platforms
+  * [HobbyFarm](charts/hobbyfarm/README.md) 🗸
 * Networking / Messaging
   * [cert-manager](charts/cert-manager/README.md) 🗸
   * [Consul](charts/consul/README.md)

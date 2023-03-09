@@ -1,0 +1,6 @@
+dependencies:
+- name: hobbyfarm
+  repository: https://hobbyfarm.github.io/hobbyfarm
+  version: 2.0.6
+digest: sha256:395e735ed4000ab5d65810d1ed3bf1bcdc43a28fda2c6650f698e132bba7eaed
+generated: "2023-03-07T13:57:33.261761607+01:00"
