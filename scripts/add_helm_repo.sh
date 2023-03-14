@@ -5,6 +5,7 @@ helm repo add azuredisk-csi-driver  https://raw.githubusercontent.com/kubernetes
 helm repo add bitnami               https://charts.bitnami.com/bitnami
 helm repo add blob-csi-driver       https://raw.githubusercontent.com/kubernetes-sigs/blob-csi-driver/master/charts
 helm repo add cloudbees             https://public-charts.artifacts.cloudbees.com/repository/public
+helm repo add elastic               https://helm.elastic.co
 helm repo add gitlab                https://charts.gitlab.io/
 helm repo add ingress-nginx         https://kubernetes.github.io/ingress-nginx
 helm repo add harbor                https://helm.goharbor.io

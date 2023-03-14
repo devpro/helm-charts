@@ -22,6 +22,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Azure Storage](charts/azure-storage/README.md) 🗸
   * [Outscale](charts/outscale/README.md)
 * Data stores
+  * [Elasticsearch](charts/elasticsearch/README.md) 🗸
   * [MariaDB](charts/mariadb/README.md) 🗸
   * [memcached](charts/memcached/README.md)
   * [MongoDB](charts/mongodb/README.md)
@@ -48,7 +49,6 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Rancher](charts/rancher/README.md) 🗸
 * Observability
   * [Elastic Stack](charts/elastic-stack/README.md)
-  * [Elasticsearch](charts/elasticsearch/README.md)
   * [OpenTelemetry Collector](charts/opentelemetry/README.md)
   * [Prometheus](charts/prometheus/README.md)
   * [Grafana](charts/grafana/README.md)
