@@ -16,6 +16,7 @@ helm repo add kasten                https://charts.kasten.io/
 helm repo add longhorn              https://charts.longhorn.io
 helm repo add neuvector             https://neuvector.github.io/neuvector-helm
 helm repo add rancher-latest        https://releases.rancher.com/server-charts/latest
+helm repo add reportportal          https://reportportal.github.io/kubernetes
 helm repo add s3gw                  https://aquarist-labs.github.io/s3gw-charts
 helm repo add sealed-secrets        https://bitnami-labs.github.io/sealed-secrets
 helm repo add sonarqube             https://sonarsource.github.io/helm-chart-sonarqube

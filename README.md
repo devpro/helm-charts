@@ -79,6 +79,8 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Nexus](charts/nexus/README.md)
   * [SonarQube](charts/sonarqube/README.md) 🗸
   * [Tekton](charts/tekton/README.md)
+* Testing
+  * [Report Portal](charts/reportportal/README.md) 🗸
 
 Limitation: [Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn't support multiple chart directories ou multiple levels so all charts must be in `charts` repository
 
