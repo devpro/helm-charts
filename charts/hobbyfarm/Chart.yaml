@@ -2,11 +2,11 @@ apiVersion: v2
 name: hobbyfarm
 description: Helm chart for managing HobbyFarm
 type: application
-version: "0.1.0"
-appVersion: "2.0.6"
+version: "0.1.2"
+appVersion: "2.0.8"
 dependencies:
   - name: hobbyfarm
-    version: 2.0.6
+    version: 2.0.8
     repository: https://hobbyfarm.github.io/hobbyfarm
 maintainers:
   - name: devpro

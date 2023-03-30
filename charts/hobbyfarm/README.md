@@ -53,19 +53,25 @@ helm template hobbyfarm . -f values.yaml \
 NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
-# TODO: use ingressClassName when 2.0.7 is available
-helm upgrade --install hobbyfarm . -f values.yaml --create-namespace \
+helm install hobbyfarm-beta . -f values.yaml --create-namespace \
   --set hobbyfarm.ingress.enabled=true \
   --set hobbyfarm.ingress.annotations.'cert-manager\.io/cluster-issuer'=letsencrypt-prod \
+  --set hobbyfarm.ingress.className=nginx \
   --set hobbyfarm.ingress.tls.enabled=true \
-  --set hobbyfarm.ingress.tls.secrets.admin=hobbyfarm-admin-tls \
-  --set hobbyfarm.ingress.tls.secrets.backend=hobbyfarm-backend-tls \
-  --set hobbyfarm.ingress.tls.secrets.shell=hobbyfarm-shell-tls \
-  --set hobbyfarm.ingress.tls.secrets.ui=hobbyfarm-ui-tls \
-  --set hobbyfarm.ingress.hostnames.admin=admin.hobbyfarm.${NGINX_PUBLIC_IP}.sslip.io \
-  --set hobbyfarm.ingress.hostnames.backend=api.hobbyfarm.${NGINX_PUBLIC_IP}.sslip.io \
-  --set hobbyfarm.ingress.hostnames.shell=shell.hobbyfarm.${NGINX_PUBLIC_IP}.sslip.io \
-  --set hobbyfarm.ingress.hostnames.ui=learn.hobbyfarm.${NGINX_PUBLIC_IP}.sslip.io \
+  --set hobbyfarm.ingress.tls.secrets.admin=hf-admin-tls \
+  --set hobbyfarm.ingress.tls.secrets.backend=hf-backend-tls \
+  --set hobbyfarm.ingress.tls.secrets.shell=hf-shell-tls \
+  --set hobbyfarm.ingress.tls.secrets.ui=hf-ui-tls \
+  --set hobbyfarm.ingress.hostnames.admin=admin.hf.${NGINX_PUBLIC_IP}.sslip.io \
+  --set hobbyfarm.ingress.hostnames.backend=api.hf.${NGINX_PUBLIC_IP}.sslip.io \
+  --set hobbyfarm.ingress.hostnames.shell=shell.hf.${NGINX_PUBLIC_IP}.sslip.io \
+  --set hobbyfarm.ingress.hostnames.ui=learn.hf.${NGINX_PUBLIC_IP}.sslip.io \
   --set hobbyfarm.terraform.enabled=false \
-  --namespace hobbyfarm
+  --namespace hobbyfarm-beta
+
+# upgrades and create an admin user
+helm upgrade hobbyfarm-beta . -f values.yaml \
+  --reuse-values \
+  --set hobbyfarm.users.admin.enabled=true \
+  --namespace hobbyfarm-beta
 ```

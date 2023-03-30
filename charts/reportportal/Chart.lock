@@ -1,0 +1,6 @@
+dependencies:
+- name: reportportal
+  repository: https://reportportal.github.io/kubernetes
+  version: 5.7.3
+digest: sha256:e6347fc2eb68b3c53ebf488e4e449385ad850c8f050d546a261c272d2d43ccb9
+generated: "2023-03-14T09:42:48.774700349+01:00"

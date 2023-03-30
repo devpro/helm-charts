@@ -1,0 +1,14 @@
+apiVersion: v2
+name: reportportal
+description: Helm chart for managing Report Portal
+type: application
+version: "0.1.0"
+appVersion: "5.7.3"
+dependencies:
+  - name: reportportal
+    version: 5.7.3
+    repository: https://reportportal.github.io/kubernetes
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
+home: https://github.com/devpro/helm-charts/tree/main/charts/reportportal
