@@ -297,6 +297,25 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/ecorp-demo-0.1.10/ecorp-demo-0.1.10.tgz
     version: 0.1.10
+  elasticsearch:
+  - apiVersion: v2
+    appVersion: 7.17.3
+    created: "2023-03-30T15:38:10.504290968Z"
+    dependencies:
+    - name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 7.17.3
+    description: Helm chart for managing Elasticsearch
+    digest: 858cc79f5b93f7c79af6a1e2b5a8c9abad6420b58fdf0364241403df19088deb
+    home: https://github.com/devpro/helm-charts/tree/main/charts/elasticsearch
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: elasticsearch
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/elasticsearch-0.1.0/elasticsearch-0.1.0.tgz
+    version: 0.1.0
   gitlab:
   - apiVersion: v2
     appVersion: 15.5.4
@@ -420,6 +439,24 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/harbor-0.1.0/harbor-0.1.0.tgz
     version: 0.1.0
   hobbyfarm:
+  - apiVersion: v2
+    appVersion: 2.0.8
+    created: "2023-03-30T15:38:10.656998603Z"
+    dependencies:
+    - name: hobbyfarm
+      repository: https://hobbyfarm.github.io/hobbyfarm
+      version: 2.0.8
+    description: Helm chart for managing HobbyFarm
+    digest: fe7b77d3d209d39fb9c5fb2cca3773dbf4ce3b8581defd15157ac98f159453a5
+    home: https://github.com/devpro/helm-charts/tree/main/charts/hobbyfarm
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: hobbyfarm
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/hobbyfarm-0.1.2/hobbyfarm-0.1.2.tgz
+    version: 0.1.2
   - apiVersion: v2
     appVersion: 2.0.6
     created: "2023-03-09T08:55:57.614909486Z"
@@ -811,6 +848,25 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/rancher-0.1.0/rancher-0.1.0.tgz
     version: 0.1.0
+  reportportal:
+  - apiVersion: v2
+    appVersion: 5.7.3
+    created: "2023-03-30T15:38:10.852015225Z"
+    dependencies:
+    - name: reportportal
+      repository: https://reportportal.github.io/kubernetes
+      version: 5.7.3
+    description: Helm chart for managing Report Portal
+    digest: 8a415c46727b1ccd652a84468e50eaf3f16d844a0920bfae9bf01417415c04f9
+    home: https://github.com/devpro/helm-charts/tree/main/charts/reportportal
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: reportportal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/reportportal-0.1.0/reportportal-0.1.0.tgz
+    version: 0.1.0
   s3gw:
   - apiVersion: v2
     appVersion: 0.12.0
@@ -952,4 +1008,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2023-03-09T08:55:57.615003787Z"
+generated: "2023-03-30T15:38:10.852289126Z"
