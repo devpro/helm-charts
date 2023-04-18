@@ -1,0 +1,83 @@
+{{- $applications := list .Values.front .Values.adapter .Values.data -}}
+{{ range $applications }}
+{{- $name := .name -}}
+{{- if .enabled -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .name }}
+  labels:
+    app: {{ .name }}
+    app.kubernetes.io/name: {{ .name }}
+spec:
+  replicas: {{ .replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .name }}
+      app.kubernetes.io/name: {{ .name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $name }}
+        app.kubernetes.io/name: {{ $name }}
+        {{- if .additionalPodLabels }}
+        {{- toYaml .additionalPodLabels | nindent 8 }}
+        {{- end }}
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: "kubernetes.io/arch"
+                  operator: In
+                  values: ["amd64"]
+      containers:
+        - name: {{ .name }}
+          image: {{ .image }}:{{ .tag }}
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: {{ .healthEndpoint }}
+              port: http
+          readinessProbe:
+            httpGet:
+              path: {{ .healthEndpoint }}
+              port: http
+          resources:
+            {{- toYaml .resources | nindent 12 }}
+          {{- $api := .api -}}
+          {{- $db := .db -}}
+          {{- with .env }}
+          env:
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.hostIP
+            # TODO: only add this variables when needed and manage http calls
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "{{ $.Values.dotnet.environment }}"
+            - name: AllowedOrigins__0
+              value: "https://{{ $.Values.front.host }}"
+            - name: AllowedOrigins__1
+              value: "https://{{ $.Values.adapter.host }}"
+            - name: CrmDataWebApi__Url
+              value: "https://{{ $.Values.data.host }}"
+            {{- if $db }}
+            - name: ConnectionStrings__MongoDb
+              value: {{ $db.connectionString }}
+            - name: MongoDb__ConnectionStringName
+              value: "MongoDb"
+            - name: MongoDb__DatabaseName
+              value: {{ $db.databaseName }}
+            {{- end }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+{{- end }}
+{{ end }}
