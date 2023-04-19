@@ -166,6 +166,26 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/cow-demo-0.1.0/cow-demo-0.1.0.tgz
     version: 0.1.0
+  devpro-salesportal:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2023-04-19T19:54:09.535851811Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.9.4
+    description: Helm chart for Devpro Sales Portal
+    digest: 9b179a0c4d52c77c9f6d7b52f37889095f47b0fca95ba760e3045a260e29d7ff
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: devpro-salesportal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/devpro-salesportal-0.1.0/devpro-salesportal-0.1.0.tgz
+    version: 0.1.0
   ecorp-demo:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -439,6 +459,24 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/harbor-0.1.0/harbor-0.1.0.tgz
     version: 0.1.0
   hobbyfarm:
+  - apiVersion: v2
+    appVersion: 2.0.8
+    created: "2023-04-19T19:54:09.686074728Z"
+    dependencies:
+    - name: hobbyfarm
+      repository: https://hobbyfarm.github.io/hobbyfarm
+      version: 2.0.8
+    description: Helm chart for managing HobbyFarm
+    digest: 9415021c33f6cbeec44ba0dd5894a50ff029dbe4ad70afdc00b4e9bbe5c0f5b8
+    home: https://github.com/devpro/helm-charts/tree/main/charts/hobbyfarm
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: hobbyfarm
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/hobbyfarm-0.1.3/hobbyfarm-0.1.3.tgz
+    version: 0.1.3
   - apiVersion: v2
     appVersion: 2.0.8
     created: "2023-03-30T15:38:10.656998603Z"
@@ -778,6 +816,25 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/neuvector-0.1.0/neuvector-0.1.0.tgz
     version: 0.1.0
+  opentelemetry-collector:
+  - apiVersion: v2
+    appVersion: 0.75.0
+    created: "2023-04-19T19:54:09.913182945Z"
+    dependencies:
+    - name: opentelemetry-collector
+      repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+      version: 0.54.0
+    description: Helm chart for managing OpenTelemetry Collector
+    digest: d176af2f1a3da979f3224b592e06ea2ea2ab1a7c3bf710982233ae2023b2defc
+    home: https://github.com/devpro/helm-charts/tree/main/charts/opentelemetry-collector
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: opentelemetry-collector
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/opentelemetry-collector-0.1.0/opentelemetry-collector-0.1.0.tgz
+    version: 0.1.0
   rabbitmq:
   - apiVersion: v2
     appVersion: 3.11.5
@@ -1008,4 +1065,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2023-03-30T15:38:10.852289126Z"
+generated: "2023-04-19T19:54:09.913273545Z"
