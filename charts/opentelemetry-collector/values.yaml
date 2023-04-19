@@ -1,0 +1,35 @@
+# https://github.com/open-telemetry/opentelemetry-helm-charts/blob/main/charts/opentelemetry-collector/values.yaml
+opentelemetry-collector:
+  mode: daemonset
+  config:
+    receivers:
+      jaeger: null
+      prometheus: null
+      zipkin: null
+    service:
+      pipelines:
+        logs:
+          exporters:
+            - logging
+          processors:
+            - memory_limiter
+            - batch
+          receivers:
+            - otlp
+        metrics:
+          exporters:
+            - logging
+          processors:
+            - memory_limiter
+            - batch
+          receivers:
+            - otlp
+            # - prometheus
+        traces:
+          exporters:
+            - logging
+          processors:
+            - memory_limiter
+            - batch
+          receivers:
+            - otlp
