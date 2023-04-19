@@ -15,6 +15,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Cow Demo](charts/cow-demo/README.md) 🗸
   * [Drupal](charts/drupal/README.md)
   * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
+  * [Devpro Sales Portal](charts/devpro-salesportal/README.md) 🗸
   * [WordPress](charts/wordpress/README.md) 🗸
 * Authentication / Identity
   * [Keycloak](charts/keycloak/README.md) 🗸
@@ -49,7 +50,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Rancher](charts/rancher/README.md) 🗸
 * Observability
   * [Elastic Stack](charts/elastic-stack/README.md)
-  * [OpenTelemetry Collector](charts/opentelemetry/README.md)
+  * [OpenTelemetry Collector](charts/opentelemetry-collector/README.md) 🗸
   * [Prometheus](charts/prometheus/README.md)
   * [Grafana](charts/grafana/README.md)
 * Secrets
@@ -83,6 +84,10 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Report Portal](charts/reportportal/README.md) 🗸
 
 Limitation: [Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn't support multiple chart directories ou multiple levels so all charts must be in `charts` repository
+
+## Best pratices
+
+* [Operations](docs/operations.md)
 
 ## Samples
 

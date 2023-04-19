@@ -53,7 +53,7 @@ helm template hobbyfarm . -f values.yaml \
 NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
-helm install hobbyfarm-beta . -f values.yaml --create-namespace \
+helm upgrade --install hobbyfarm-beta . -f values.yaml --create-namespace \
   --set hobbyfarm.ingress.enabled=true \
   --set hobbyfarm.ingress.annotations.'cert-manager\.io/cluster-issuer'=letsencrypt-prod \
   --set hobbyfarm.ingress.className=nginx \
@@ -67,11 +67,6 @@ helm install hobbyfarm-beta . -f values.yaml --create-namespace \
   --set hobbyfarm.ingress.hostnames.shell=shell.hf.${NGINX_PUBLIC_IP}.sslip.io \
   --set hobbyfarm.ingress.hostnames.ui=learn.hf.${NGINX_PUBLIC_IP}.sslip.io \
   --set hobbyfarm.terraform.enabled=false \
-  --namespace hobbyfarm-beta
-
-# upgrades and create an admin user
-helm upgrade hobbyfarm-beta . -f values.yaml \
-  --reuse-values \
   --set hobbyfarm.users.admin.enabled=true \
   --namespace hobbyfarm-beta
 ```

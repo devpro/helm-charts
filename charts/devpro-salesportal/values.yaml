@@ -1,0 +1,86 @@
+front:
+  enabled: true
+  host: sales-portal.random
+  name: salesportal-wasmapp
+  image: docker.io/devprofr/salesportal-wasmapp
+  tag: latest
+  replicaCount: 1
+  healthEndpoint: /health
+  db: {}
+  env:
+    - name: Logging__LogLevel__Devpro
+      value: "Debug"
+  additionalPodLabels: {}
+  api: {}
+  tls: {}
+    # secretName: chart-example-tls
+  resources: {}
+    # limits:
+    #   cpu: 200m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 64Mi
+
+adapter:
+  enabled: true
+  host: crm-adapter.random
+  name: salesportal-crmadapterwebapi
+  image: docker.io/devprofr/salesportal-crmadapterwebapi
+  tag: latest
+  replicaCount: 1
+  healthEndpoint: /health
+  db: {}
+  env:
+    - name: Logging__LogLevel__Devpro
+      value: "Debug"
+  additionalPodLabels: {}
+  tls: {}
+    # secretName: chart-example-tls
+  resources: {}
+    # limits:
+    #   cpu: 200m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 64Mi
+
+data:
+  enabled: true
+  host: crm-data.random
+  name: salesportal-crmdatawebapi
+  image: docker.io/devprofr/salesportal-crmdatawebapi
+  tag: latest
+  replicaCount: 1
+  healthEndpoint: /health
+  db:
+    connectionString: ""
+    databaseName: ""
+  env:
+    - name: Logging__LogLevel__Devpro
+      value: "Debug"
+  additionalPodLabels: {}
+  tls: {}
+    # secretName: chart-example-tls
+  resources: {}
+    # limits:
+    #   cpu: 200m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 64Mi
+
+dotnet:
+  environment: Production
+  enableSwagger: false
+  enableOpenTelemetry: false
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+
+mongodb:
+  enabled: false
+  # https://github.com/bitnami/charts/blob/main/bitnami/mongodb/values.yaml
+  auth: {}
