@@ -82,6 +82,6 @@ helm upgrade --install sales-portal-beta . -f values.yaml --create-namespace \
   --set front.host=sales-portal.${NGINX_PUBLIC_IP}.sslip.io,front.tls.secretName=sales-portal-tls \
   --set adapter.host=crm-adapter.${NGINX_PUBLIC_IP}.sslip.io,adapter.tls.secretName=crm-adapter-tls \
   --set data.host=crm-data.${NGINX_PUBLIC_IP}.sslip.io,data.tls.secretName=crm-data-tls \
-  --set dotnet.environment=Development \
+  --set dotnet.environment=Development,dotnet.enableSwagger=true,dotnet.enableOpenTelemetry=true \
   --namespace sales-portal-beta
 ```

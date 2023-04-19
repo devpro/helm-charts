@@ -69,6 +69,16 @@ spec:
               value: "https://{{ $.Values.adapter.host }}"
             - name: CrmDataWebApi__Url
               value: "https://{{ $.Values.data.host }}"
+            {{- if $.Values.dotnet.enableSwagger }}
+            - name: Application__IsSwaggerEnabled
+              value: "true"
+            {{- end }}
+            {{- if $.Values.dotnet.enableOpenTelemetry }}
+            - name: Application__IsOpenTelemetryEnabled
+              value: "true"
+            - name: OpenTelemetry__CollectorEndpoint
+              value: "http://$(HOST_IP):4317"
+            {{- end }}
             {{- if $db }}
             - name: ConnectionStrings__MongoDb
               value: {{ $db.connectionString }}

@@ -72,6 +72,8 @@ data:
 
 dotnet:
   environment: Production
+  enableSwagger: false
+  enableOpenTelemetry: false
 
 ingress:
   enabled: false
