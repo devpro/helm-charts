@@ -15,6 +15,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Cow Demo](charts/cow-demo/README.md) 🗸
   * [Drupal](charts/drupal/README.md)
   * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
+  * [Devpro Sales Portal](charts/devpro-salesportal/README.md) 🗸
   * [WordPress](charts/wordpress/README.md) 🗸
 * Authentication / Identity
   * [Keycloak](charts/keycloak/README.md) 🗸
