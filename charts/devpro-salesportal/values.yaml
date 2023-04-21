@@ -7,9 +7,7 @@ front:
   replicaCount: 1
   healthEndpoint: /health
   db: {}
-  env:
-    - name: Logging__LogLevel__Devpro
-      value: "Debug"
+  env: []
   additionalPodLabels: {}
   api: {}
   tls: {}
@@ -31,19 +29,10 @@ adapter:
   replicaCount: 1
   healthEndpoint: /health
   db: {}
-  env:
-    - name: Logging__LogLevel__Devpro
-      value: "Debug"
+  env: []
   additionalPodLabels: {}
   tls: {}
-    # secretName: chart-example-tls
   resources: {}
-    # limits:
-    #   cpu: 200m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 64Mi
 
 data:
   enabled: true
@@ -56,24 +45,17 @@ data:
   db:
     connectionString: ""
     databaseName: ""
-  env:
-    - name: Logging__LogLevel__Devpro
-      value: "Debug"
+  env: []
   additionalPodLabels: {}
   tls: {}
-    # secretName: chart-example-tls
   resources: {}
-    # limits:
-    #   cpu: 200m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 64Mi
 
 dotnet:
   environment: Production
+  logLevel: Information
   enableSwagger: false
   enableOpenTelemetry: false
+  skipCertificateValidation: false
 
 ingress:
   enabled: false

@@ -69,6 +69,16 @@ spec:
               value: "https://{{ $.Values.adapter.host }}"
             - name: CrmDataWebApi__Url
               value: "https://{{ $.Values.data.host }}"
+            - name: Logging__LogLevel__Default
+              value: {{ $.Values.dotnet.logLevel }}
+            - name: Logging__LogLevel__Microsoft__AspNetCore
+              value: {{ $.Values.dotnet.logLevel }}
+            - name: Logging__LogLevel__Devpro
+              value: {{ $.Values.dotnet.logLevel }}
+            {{- if $.Values.dotnet.skipCertificateValidation }}
+            - name: Application__IsCertificateValidationSkipped
+              value: "true"
+            {{- end }}
             {{- if $.Values.dotnet.enableSwagger }}
             - name: Application__IsSwaggerEnabled
               value: "true"
