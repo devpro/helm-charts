@@ -169,6 +169,25 @@ entries:
   devpro-salesportal:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2023-04-22T15:25:55.68726689Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.9.4
+    description: Helm chart for Devpro Sales Portal
+    digest: 5d53389e7290cd88ea39bf8327340eac71c1d7ca6b72f74b7a4306dbfe9aa134
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: devpro-salesportal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/devpro-salesportal-0.1.2/devpro-salesportal-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2023-04-21T20:53:30.977679905Z"
     dependencies:
     - alias: mongodb
@@ -1084,4 +1103,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2023-04-21T20:53:30.977866806Z"
+generated: "2023-04-22T15:25:55.687367739Z"
