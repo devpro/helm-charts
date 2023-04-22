@@ -10,9 +10,7 @@ This Helm chart will install [Devpro Sales Portal](https://github.com/devpro/sal
 helm repo add devpro https://devpro.github.io/helm-charts
 ```
 
-If you had already added this repo earlier, run `helm repo update` to retrieve the latest versions of the packages. You can then run `helm search repo sales-portal` to see the charts.
-
-To install the chart:
+If you had already added this repo earlier, run `helm repo update` to retrieve the latest versions of the packages. To install the chart:
 
 ```bash
 helm upgrade --install sales-portal devpro/sales-portal --create-namespace --namespace sales-portal

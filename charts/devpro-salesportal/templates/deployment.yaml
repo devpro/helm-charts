@@ -51,10 +51,10 @@ spec:
               port: http
           resources:
             {{- toYaml .resources | nindent 12 }}
-          {{- $api := .api -}}
-          {{- $db := .db -}}
-          {{- with .env }}
           env:
+          {{- if .extraEnv }}
+            {{- toYaml .extraEnv | nindent 12 }}
+          {{- end }}
             - name: HOST_IP
               valueFrom:
                 fieldRef:
@@ -89,15 +89,13 @@ spec:
             - name: OpenTelemetry__CollectorEndpoint
               value: "http://$(HOST_IP):4317"
             {{- end }}
-            {{- if $db }}
+            {{- if .db }}
             - name: ConnectionStrings__MongoDb
-              value: {{ $db.connectionString }}
+              value: {{ .db.connectionString }}
             - name: MongoDb__ConnectionStringName
               value: "MongoDb"
             - name: MongoDb__DatabaseName
-              value: {{ $db.databaseName }}
+              value: {{ .db.databaseName }}
             {{- end }}
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
 {{- end }}
 {{ end }}

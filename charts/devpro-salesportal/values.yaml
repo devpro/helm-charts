@@ -7,7 +7,9 @@ front:
   replicaCount: 1
   healthEndpoint: /health
   db: {}
-  env: []
+  extraEnv: []
+    # - name: xxx
+    #   value: "yyyy"
   additionalPodLabels: {}
   api: {}
   tls: {}
@@ -29,7 +31,7 @@ adapter:
   replicaCount: 1
   healthEndpoint: /health
   db: {}
-  env: []
+  extraEnv: []
   additionalPodLabels: {}
   tls: {}
   resources: {}
@@ -45,7 +47,7 @@ data:
   db:
     connectionString: ""
     databaseName: ""
-  env: []
+  extraEnv: []
   additionalPodLabels: {}
   tls: {}
   resources: {}
