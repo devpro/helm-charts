@@ -804,6 +804,23 @@ entries:
     version: 0.1.0
   neuvector:
   - apiVersion: v2
+    appVersion: 5.1.2
+    created: "2023-04-22T20:24:41.302582368Z"
+    dependencies:
+    - name: core
+      repository: https://neuvector.github.io/neuvector-helm/
+      version: 2.4.3
+    description: Helm chart for managing NeuVector
+    digest: c4bee405c80d915f647b1a3fcf28185c435f00b460f0f055a3151e3f723d6233
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: neuvector
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/neuvector-0.2.0/neuvector-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: 5.0.4
     created: "2022-11-24T21:23:21.431764123Z"
     dependencies:
@@ -1103,4 +1120,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2023-04-22T15:25:55.687367739Z"
+generated: "2023-04-22T20:24:41.302669171Z"
