@@ -51,7 +51,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Observability
   * [Elastic Stack](charts/elastic-stack/README.md)
   * [OpenTelemetry Collector](charts/opentelemetry-collector/README.md) 🗸
-  * [Prometheus](charts/prometheus/README.md)
+  * [Prometheus](charts/prometheus/README.md) 🗸
   * [Grafana](charts/grafana/README.md)
 * Secrets
   * [Sealed Secrets](charts/sealed-secrets/README.md) 🗸
