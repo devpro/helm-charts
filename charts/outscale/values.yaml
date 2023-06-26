@@ -1,0 +1,4 @@
+# https://github.com/outscale/cloud-provider-osc/blob/OSC-MIGRATION/deploy/k8s-osc-ccm/values.yaml
+osc-cloud-controller-manager: {}
+# https://github.com/outscale/osc-bsu-csi-driver/blob/master/osc-bsu-csi-driver/values.yaml
+osc-bsu-csi-driver: {}

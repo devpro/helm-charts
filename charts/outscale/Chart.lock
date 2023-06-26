@@ -1,0 +1,9 @@
+dependencies:
+- name: osc-cloud-controller-manager
+  repository: oci://registry-1.docker.io/outscalehelm
+  version: 0.2.0
+- name: osc-bsu-csi-driver
+  repository: oci://registry-1.docker.io/outscalehelm
+  version: 1.2.1
+digest: sha256:8cba9c83f5b8dd659c59f05a6354a98c46d5db48a7bb59148a0b557acfbe139c
+generated: "2023-06-26T17:15:01.698505202+02:00"
