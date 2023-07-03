@@ -18,6 +18,7 @@ helm repo add minio                 https://charts.min.io/
 helm repo add mongodb               https://mongodb.github.io/helm-charts
 helm repo add neuvector             https://neuvector.github.io/neuvector-helm
 helm repo add open-telemetry        https://open-telemetry.github.io/opentelemetry-helm-charts
+helm repo add ory                   https://k8s.ory.sh/helm/charts
 helm repo add prometheus-community  https://prometheus-community.github.io/helm-charts
 helm repo add rancher-latest        https://releases.rancher.com/server-charts/latest
 helm repo add reportportal          https://reportportal.github.io/kubernetes
