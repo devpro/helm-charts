@@ -1,7 +1,5 @@
 # Helm chart for MinIO
 
-[min.io](https://min.io/)
-
 This Helm chart will install [min.io](https://min.io/) ([code](https://github.com/minio/minio)) on a Kubernetes cluster.
 It is based on [the official Helm chart](https://github.com/minio/minio/tree/master/helm/minio).
 
@@ -25,6 +23,6 @@ helm uninstall minio -n minio
 kubectl delete ns minio
 ```
 
-## Go further
+## Going further
 
 Look at [Contibuting](CONTRIBUTING.md) page.
