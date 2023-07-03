@@ -19,6 +19,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [WordPress](charts/wordpress/README.md) 🗸
 * Authentication / Identity
   * [Keycloak](charts/keycloak/README.md) 🗸
+  * [Kratos](charts/kratos/README.md) 🗸
 * Cloud providers
   * [Azure Storage](charts/azure-storage/README.md) 🗸
   * [Outscale](charts/outscale/README.md)
@@ -27,9 +28,9 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [MariaDB](charts/mariadb/README.md) 🗸
   * [memcached](charts/memcached/README.md)
   * [MongoDB](charts/mongodb/README.md)
-  * [PostgreSQL](charts/postgresql/README.md)
+  * [PostgreSQL](charts/postgresql/README.md) 🗸
   * [RabbitMQ](charts/rabbitmq/README.md) 🗸
-  * [Redis](charts/redis/README.md)
+  * [Redis](charts/redis/README.md) 🗸
 * Learning Platforms
   * [HobbyFarm](charts/hobbyfarm/README.md) 🗸
 * Networking / Messaging
@@ -51,7 +52,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Observability
   * [Elastic Stack](charts/elastic-stack/README.md)
   * [OpenTelemetry Collector](charts/opentelemetry-collector/README.md) 🗸
-  * [Prometheus](charts/prometheus/README.md)
+  * [Prometheus](charts/prometheus/README.md) 🗸
   * [Grafana](charts/grafana/README.md)
 * Secrets
   * [Sealed Secrets](charts/sealed-secrets/README.md) 🗸
@@ -62,7 +63,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Storage
   * [Kasten K10](charts/kasten-k10/README.md) 🗸
   * [Longhorn](charts/longhorn/README.md) 🗸
-  * [MinIO](charts/minio/README.md)
+  * [MinIO](charts/minio/README.md) 🗸
   * [s3gw](charts/s3gw/README.md) 🗸
 * Supply Chain (Software Factory)
   * [ArgoCD](charts/argo-cd/README.md) 🗸

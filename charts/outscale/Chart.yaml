@@ -1,0 +1,19 @@
+apiVersion: v2
+name: outscale
+description: Helm chart for managing Outscale Cloud
+type: application
+version: "0.1.0"
+appVersion: "0.1.0"
+dependencies:
+  # https://github.com/outscale/cloud-provider-osc/
+  - name: osc-cloud-controller-manager
+    version: 0.2.0
+    repository: oci://registry-1.docker.io/outscalehelm
+  # https://github.com/outscale/osc-bsu-csi-driver
+  - name: osc-bsu-csi-driver
+    version: 1.2.1
+    repository: oci://registry-1.docker.io/outscalehelm
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
+home: https://github.com/devpro/helm-charts/tree/main/charts/outscale

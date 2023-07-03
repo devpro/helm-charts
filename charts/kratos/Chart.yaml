@@ -1,0 +1,21 @@
+apiVersion: v2
+name: kratos
+description: Helm chart for managing Kratos
+type: application
+version: "0.1.0"
+appVersion: "v0.13.0"
+dependencies:
+  # ref. https://k8s.ory.sh/helm/kratos.html
+  - name: kratos
+    version: 0.33.4   # appVersion: v0.13.0
+    repository: https://k8s.ory.sh/helm/charts
+    condition: kratos.dependency.enabled
+  # ref. https://github.com/bitnami/charts/blob/main/bitnami/postgresql
+  - name: postgresql
+    version: 12.6.0   # appVersion: 15.3.0
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.dependency.enabled
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
+home: https://github.com/devpro/helm-charts/tree/main/charts/kratos

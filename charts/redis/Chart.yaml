@@ -1,0 +1,13 @@
+apiVersion: v2
+name: redis
+description: Helm chart for managing Redis
+type: application
+version: "0.1.0"
+appVersion: "7.0.11"
+dependencies:
+  - name: redis
+    version: 17.11.3
+    repository: https://charts.bitnami.com/bitnami
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
