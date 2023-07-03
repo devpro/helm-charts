@@ -691,6 +691,30 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/keycloak-0.1.0/keycloak-0.1.0.tgz
     version: 0.1.0
+  kratos:
+  - apiVersion: v2
+    appVersion: v0.13.0
+    created: "2023-07-03T13:33:05.541987675Z"
+    dependencies:
+    - condition: kratos.dependency.enabled
+      name: kratos
+      repository: https://k8s.ory.sh/helm/charts
+      version: 0.33.4
+    - condition: postgresql.dependency.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.6.0
+    description: Helm chart for managing Kratos
+    digest: 2c43632575a252cef2776c81124f9b7988975fbf941145c7d00a87c1c75d81a3
+    home: https://github.com/devpro/helm-charts/tree/main/charts/kratos
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: kratos
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/kratos-0.1.0/kratos-0.1.0.tgz
+    version: 0.1.0
   letsencrypt:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -802,6 +826,25 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/mariadb-0.1.0/mariadb-0.1.0.tgz
     version: 0.1.0
+  minio:
+  - apiVersion: v2
+    appVersion: RELEASE.2023-04-28T18-11-17Z
+    created: "2023-07-03T13:33:05.684082271Z"
+    dependencies:
+    - name: minio
+      repository: https://charts.min.io
+      version: 5.0.9
+    description: Helm chart for managing MinIO
+    digest: b5879a9c540b3507e41af8d0bca219d8688954e9df54db4e113f14ac4bc4724c
+    home: https://github.com/devpro/helm-charts/tree/main/charts/minio
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: minio
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/minio-0.1.0/minio-0.1.0.tgz
+    version: 0.1.0
   neuvector:
   - apiVersion: v2
     appVersion: 5.1.2
@@ -890,6 +933,65 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/opentelemetry-collector-0.1.0/opentelemetry-collector-0.1.0.tgz
     version: 0.1.0
+  outscale:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2023-07-03T13:33:05.867253857Z"
+    dependencies:
+    - name: osc-cloud-controller-manager
+      repository: oci://registry-1.docker.io/outscalehelm
+      version: 0.2.0
+    - name: osc-bsu-csi-driver
+      repository: oci://registry-1.docker.io/outscalehelm
+      version: 1.2.1
+    description: Helm chart for managing Outscale Cloud
+    digest: e4144ce7c4a0a5d2722587bfffc4b8cdeba6d73fd17f094b41289170d4d261c2
+    home: https://github.com/devpro/helm-charts/tree/main/charts/outscale
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: outscale
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/outscale-0.1.0/outscale-0.1.0.tgz
+    version: 0.1.0
+  postgresql:
+  - apiVersion: v2
+    appVersion: 15.3.0
+    created: "2023-07-03T13:33:06.057548729Z"
+    dependencies:
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.5.5
+    description: Helm chart for managing PostgreSQL
+    digest: c7c9a1b8777ce4977de29b00dfb255bcc61f3dc00bc680c3a984495fa30a4691
+    home: https://github.com/devpro/helm-charts/tree/main/charts/postgresql
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: postgresql
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/postgresql-0.1.0/postgresql-0.1.0.tgz
+    version: 0.1.0
+  prometheus:
+  - apiVersion: v2
+    appVersion: 2.43.0
+    created: "2023-07-03T13:33:06.225677535Z"
+    dependencies:
+    - name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 21.0.0
+    description: Helm chart for managing Prometheus
+    digest: 6b0445c07492240547aa999b327f8b851e12ed73ce17c2618fb408b67a76a2f7
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: prometheus
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/prometheus-0.1.0/prometheus-0.1.0.tgz
+    version: 0.1.0
   rabbitmq:
   - apiVersion: v2
     appVersion: 3.11.5
@@ -959,6 +1061,24 @@ entries:
     type: application
     urls:
     - https://github.com/devpro/helm-charts/releases/download/rancher-0.1.0/rancher-0.1.0.tgz
+    version: 0.1.0
+  redis:
+  - apiVersion: v2
+    appVersion: 7.0.11
+    created: "2023-07-03T13:33:06.415814105Z"
+    dependencies:
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.11.3
+    description: Helm chart for managing Redis
+    digest: 3172bc4a06eea47c318d0b6449f9de5e77bfa6916828491a5f5e38a808d15add
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: redis
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/redis-0.1.0/redis-0.1.0.tgz
     version: 0.1.0
   reportportal:
   - apiVersion: v2
@@ -1120,4 +1240,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2023-04-22T20:24:41.302669171Z"
+generated: "2023-07-03T13:33:06.415922306Z"
