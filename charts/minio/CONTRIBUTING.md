@@ -53,7 +53,8 @@ NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller -
 # installs on a cluster
 helm upgrade --install minio . -f values.yaml --create-namespace \
   --set minio.resources.requests.memory=512Mi \
-  --set minio.replicas=1 --set minio.mode=standalone \
+  --set minio.replicas=1 \
+  --set minio.mode=standalone \
   --set minio.persistence.enabled=true,minio.persistence.size=10Gi \
   --set minio.rootUser=admin,minio.rootPassword=pasWd8char \
   --set minio.ingress.enabled=true,minio.ingress.ingressClassName=nginx,minio.ingress.annotations.'cert-manager\.io/cluster-issuer'=letsencrypt-prod \
