@@ -42,7 +42,7 @@ jobs:
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       - name: Host charts repository on GitHub Pages
-        uses: helm/chart-releaser-action@v1.6.0
+        uses: helm/chart-releaser-action@v1.5.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       # important: it needs to be done in the same pipeline as another pages workflow won't be triggered by the pust on the gh-pages branch
