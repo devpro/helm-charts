@@ -13,11 +13,6 @@ helm repo update
 # installs the chart with default parameters
 helm upgrade --install minio devpro/minio --create-namespace --namespace minio
 
-# installs with a fixed password
-helm upgrade --install minio devpro/minio --create-namespace \
-  --set postgresql.auth.postgresPassword=secretpassword \
-  --namespace minio
-
 # cleans up
 helm uninstall minio -n minio
 kubectl delete ns minio
