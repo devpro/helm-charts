@@ -1,0 +1,9 @@
+dependencies:
+- name: kratos
+  repository: https://k8s.ory.sh/helm/charts
+  version: 0.33.4
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 12.6.0
+digest: sha256:cf4c7369ecaf6bfb8c2d35ae11f60c7b9b3cb692f4b357b19b4beb66f8edb00d
+generated: "2023-07-03T11:39:45.082206693+02:00"

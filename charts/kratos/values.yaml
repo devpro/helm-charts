@@ -1,0 +1,20 @@
+# https://github.com/ory/k8s/blob/master/helm/charts/kratos/values.yaml
+kratos:
+  kratos:
+    config:
+      identity:
+        default_schema_id: default
+        schemas:
+          - id: default
+            url: file:///etc/config/identity.default.schema.json
+
+# https://github.com/bitnami/charts/blob/main/bitnami/postgresql/values.yaml
+postgresql:
+  dependency:
+    enabled: false
+  primary:
+    initdb:
+      scripts:
+        # creates the database (ref. https://artifacthub.io/packages/helm/bitnami/postgresql#initialize-a-fresh-instance)
+        init.sql: |
+          CREATE DATABASE kratos;

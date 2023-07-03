@@ -19,6 +19,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [WordPress](charts/wordpress/README.md) 🗸
 * Authentication / Identity
   * [Keycloak](charts/keycloak/README.md) 🗸
+  * [Kratos](charts/kratos/README.md) 🗸
 * Cloud providers
   * [Azure Storage](charts/azure-storage/README.md) 🗸
   * [Outscale](charts/outscale/README.md)
