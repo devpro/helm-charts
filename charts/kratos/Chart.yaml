@@ -7,12 +7,12 @@ appVersion: "v0.13.0"
 dependencies:
   # ref. https://k8s.ory.sh/helm/kratos.html
   - name: kratos
-    version: 0.33.4 # appVersion: v0.13.0
+    version: 0.33.4   # appVersion: v0.13.0
     repository: https://k8s.ory.sh/helm/charts
     condition: kratos.dependency.enabled
   # ref. https://github.com/bitnami/charts/blob/main/bitnami/postgresql
   - name: postgresql
-    version: 12.6.0 # appVersion: 15.3.0
+    version: 12.6.0   # appVersion: 15.3.0
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.dependency.enabled
 maintainers:
