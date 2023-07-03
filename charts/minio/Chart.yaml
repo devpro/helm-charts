@@ -1,0 +1,14 @@
+apiVersion: v2
+name: minio
+description: Helm chart for managing MinIO
+type: application
+version: "0.1.0"
+appVersion: "RELEASE.2023-04-28T18-11-17Z"
+dependencies:
+  - name: minio
+    version: 5.0.9 # appVersion: RELEASE.2023-04-28T18-11-17Z
+    repository: https://charts.min.io
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
+home: https://github.com/devpro/helm-charts/tree/main/charts/minio
