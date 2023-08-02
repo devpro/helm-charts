@@ -1,0 +1,6 @@
+dependencies:
+- name: r2devops
+  repository: https://charts.r2devops.io
+  version: 0.2.3
+digest: sha256:f8aceadb79f7ca74fece51320b95c43a9df3d82dfa11938efc02d4f6a64aea5d
+generated: "2023-08-02T15:36:19.705603475+02:00"
