@@ -992,6 +992,44 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/prometheus-0.1.0/prometheus-0.1.0.tgz
     version: 0.1.0
+  promyze:
+  - apiVersion: v2
+    appVersion: 4.12.1
+    created: "2023-08-02T13:53:55.222527007Z"
+    dependencies:
+    - name: promyze
+      repository: https://promyze.github.io/helm-charts
+      version: 0.3.4
+    description: Helm chart for managing Promyze
+    digest: 2c479b9d926b46f6c2fcf1118d0cb36226a569ed11ff88dc4932dcf84d49fa69
+    home: https://github.com/devpro/helm-charts/tree/main/charts/promyze
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: promyze
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/promyze-0.1.0/promyze-0.1.0.tgz
+    version: 0.1.0
+  r2devops:
+  - apiVersion: v2
+    appVersion: 1.14.1
+    created: "2023-08-02T13:53:55.374583518Z"
+    dependencies:
+    - name: r2devops
+      repository: https://charts.r2devops.io
+      version: 0.2.3
+    description: Helm chart for managing R2Devops
+    digest: 091d5bfc84cf74606c3d3bdb3132b72d409ddc7e6131a819f44e2310ec3470a2
+    home: https://github.com/devpro/helm-charts/tree/main/charts/r2devops
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: r2devops
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/r2devops-0.1.0/r2devops-0.1.0.tgz
+    version: 0.1.0
   rabbitmq:
   - apiVersion: v2
     appVersion: 3.11.5
@@ -1240,4 +1278,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2023-07-03T13:33:06.415922306Z"
+generated: "2023-08-02T13:53:55.374694118Z"
