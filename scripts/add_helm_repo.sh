@@ -20,6 +20,7 @@ helm repo add neuvector             https://neuvector.github.io/neuvector-helm
 helm repo add open-telemetry        https://open-telemetry.github.io/opentelemetry-helm-charts
 helm repo add ory                   https://k8s.ory.sh/helm/charts
 helm repo add prometheus-community  https://prometheus-community.github.io/helm-charts
+helm repo add promyze               https://promyze.github.io/helm-charts
 helm repo add r2devops              https://charts.r2devops.io
 helm repo add rancher-latest        https://releases.rancher.com/server-charts/latest
 helm repo add reportportal          https://reportportal.github.io/kubernetes

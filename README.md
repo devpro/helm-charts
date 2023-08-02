@@ -31,7 +31,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [PostgreSQL](charts/postgresql/README.md) 🗸
   * [RabbitMQ](charts/rabbitmq/README.md) 🗸
   * [Redis](charts/redis/README.md) 🗸
-* Learning Platforms
+* Learning platforms
   * [HobbyFarm](charts/hobbyfarm/README.md) 🗸
 * Networking / Messaging
   * [cert-manager](charts/cert-manager/README.md) 🗸
@@ -79,6 +79,8 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Jenkins](charts/jenkins/README.md) 🗸
   * [Jira](charts/jira/README.md)
   * [Nexus](charts/nexus/README.md)
+  * [R2Devops](charts/r2devops/README.md) 🗸
+  * [Promyze](charts/promyze/README.md) 🗸
   * [SonarQube](charts/sonarqube/README.md) 🗸
   * [Tekton](charts/tekton/README.md)
 * Testing
