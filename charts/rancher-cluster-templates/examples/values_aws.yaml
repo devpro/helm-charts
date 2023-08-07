@@ -1,0 +1,126 @@
+cloudprovider: amazonec2
+
+cloudCredentialSecretName: amazonec2
+
+# Specify nodepool options. Can add multiple node groups, specify etcd, controlplane and worker roles.
+nodepools:
+- etcd: true
+  controlplane: true
+  worker: true
+
+  # specify node labels
+  labels: {}
+
+  # specify node taints
+  taints: {}
+
+  # specify nodepool size
+  quantity: 1
+
+  # Pause node pool
+  paused: false
+
+  # specify displayName
+  # displayName: ""
+
+  # specify rolling update mechanism
+  # rollingUpdate:
+  #   maxSurge: "1"
+
+  # specify machineDeployment Labels
+  # machineDeploymentLabels: {}
+
+  # specify machineDeployment annotations
+  # machineDeploymentAnnotations: {}
+
+  # specify nodepool name
+  name: ec2-nodepool-1
+
+  # AWS machine image
+  # ami: ""
+
+  # AWS spot instance duration in minutes (60, 120, 180, 240, 300, or 360)
+  # blockDurationMinutes: 0
+
+  # AWS root device name
+  deviceName: "/dev/sda1"
+
+  # Encrypt the EBS volume using the AWS Managed CMK
+  encryptEbsVolume: false
+
+  # Optional endpoint URL (hostname only or fully qualified)
+  endpoint: ""
+
+  # AWS IAM Instance Profile
+  iamInstanceProfile: ""
+
+  # Disable SSL when sending requests
+  insecureTransport: false
+
+  # AWS instance type
+  instanceType: t3a.medium
+
+  # AWS region
+  region: us-west-2
+
+  # Whether to create `rancher-node` security group. If false, can provide with existing security group
+  createSecurityGroup: true
+  # createSecurityGroup: false
+  # securityGroups: []
+
+  # AWS keypair to use
+  keypairName: ""
+
+  # Skip adding default rules to security groups
+  securityGroupReadonly: false
+
+  # File contents for sshKeyContents
+  sshKeyContents: ""
+
+  # AWS VPC subnet id
+  subnetId: ""
+
+  # Set this flag to enable CloudWatch monitoring
+  monitoring: false
+
+  # Make the specified port number accessible from the Internet
+  # openPort: ["8080", "8443"]
+
+  # Only use a private IP address
+  privateAddressOnly: false
+
+  # Set this flag to request spot instance
+  requestSpotInstance: false
+
+  # AWS Tags (e.g. key1,value1,key2,value2)
+  # tags: "foo,bar"
+
+  # Set retry count for recoverable failures (use -1 to disable)
+  retries: 5
+
+  # AWS root disk size (in GB)
+  rootSize: 16
+
+  # AWS spot instance bid price (in dollar)
+  spotPrice: 0.5
+
+  # Set the name of the ssh user
+  sshUser: ubuntu
+
+  # Amazon EBS volume type
+  volumeType: gp2
+
+  # AWS VPC id
+  # vpcId: ""
+
+  # Create an EBS optimized instance
+  useEbsOptimizedInstance: false
+
+  # Force the usage of private IP address
+  usePrivateAddress: false
+
+  # File contents for userdata
+  userdata: ""
+
+  # AWS zone for instance (i.e. a,b,c,d,e)
+  zone: a

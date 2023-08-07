@@ -1,0 +1,44 @@
+cloudprovider: harvester
+
+cloudCredentialSecretName: harvester
+
+# Specify nodepool options. Can add multiple node groups, specify etcd, controlplane and worker roles.
+nodepools:
+- etcd: true
+  controlplane: true
+  worker: true
+
+  # specify node labels
+  labels: {}
+
+  # specify node taints
+  taints: {}
+
+  # specify nodepool size
+  quantity: 1
+
+  # Pause node pool
+  # paused: false
+
+  # specify displayName
+  # displayName: ""
+
+  # specify rolling update mechanism
+  # rollingUpdate:
+  #   maxSurge: "1"
+
+  # specify machineDeployment Labels
+  # machineDeploymentLabels: {}
+
+  # specify machineDeployment annotations
+  # machineDeploymentAnnotations: {}
+
+  name: harvester-nodepool-1
+  diskSize: 40
+  diskBus: virtio
+  cpuCount: 4
+  memorySize: 8
+  networkName: default/network-name-1
+  imageName: default/image-rand
+  vmNamespace: default
+  sshUser: ubuntu

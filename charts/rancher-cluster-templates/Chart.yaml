@@ -4,6 +4,9 @@ description: Helm chart for managing Rancher cluster templates
 type: application
 version: "0.1.0"
 appVersion: "0.1.0"
+annotations:
+  catalog.cattle.io/type: cluster-template
+  catalog.cattle.io/namespace: fleet-default
 maintainers:
   - name: devpro
     email: bertrand@devpro.fr
