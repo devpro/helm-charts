@@ -49,6 +49,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Traefik](charts/traefik/README.md) 🗸
 * Management
   * [Rancher](charts/rancher/README.md) 🗸
+  * [Rancher Cluster Templates](charts/rancher-cluster-templates/README.md) 🗸
 * Observability
   * [Elastic Stack](charts/elastic-stack/README.md)
   * [OpenTelemetry Collector](charts/opentelemetry-collector/README.md) 🗸

@@ -47,9 +47,9 @@ monitoring: {{ $nodepool.monitoring }}
 {{- end }}
 {{- if $nodepool.openPort}}
 openPort:
-{{- range $i, $port := $nodepool.openPort }}
-- {{ $port }}
-{{- end }}
+  {{- range $i, $port := $nodepool.openPort }}
+  - {{ $port }}
+  {{- end }}
 {{- end }}
 {{- if $nodepool.privateAddressOnly }}
 privateAddressOnly: {{ $nodepool.privateAddressOnly }}
@@ -67,11 +67,11 @@ retries: {{ $nodepool.retries }}
 rootSize: {{ $nodepool.rootSize }}
 {{- end }}
 securityGroup:
-{{- if $nodepool.createSecurityGroup }}
-- rancher-nodes
-{{- else }}
-{{ toYaml $nodepool.securityGroups }}
-{{- end }}
+  {{- if $nodepool.createSecurityGroup }}
+  - rancher-nodes
+  {{- else }}
+  {{ toYaml $nodepool.securityGroups | indent 2 }}
+  {{- end }}
 {{- if $nodepool.securityGroupReadonly }}
 securityGroupReadonly: {{ $nodepool.securityGroupReadonly }}
 {{- end }}

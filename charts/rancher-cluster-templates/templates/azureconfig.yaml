@@ -28,9 +28,9 @@ managedDisks: {{ $nodepool.managedDisks }}
 noPublicIp: {{ $nodepool.noPublicIp }}
 {{- if $nodepool.openPort}}
 openPort:
-{{- range $i, $port := $nodepool.openPort }}
-- {{ $port }}
-{{- end }}
+  {{- range $i, $port := $nodepool.openPort }}
+  - {{ $port }}
+  {{- end }}
 {{- end }}
 privateIpAddress: {{ $nodepool.privateIpAddress }}
 resourceGroup: {{ $nodepool.resourceGroup }}

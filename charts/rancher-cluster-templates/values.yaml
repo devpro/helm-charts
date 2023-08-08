@@ -14,7 +14,7 @@ cloudCredentialSecretName: ""
 cloudprovider: ""
 
 # kubernetes version
-kubernetesVersion: ""
+kubernetesVersion: "v1.24.14+rke2r1"
 
 # RKE (Rancher Kubernetes Engine, Kubernetes distribution) options
 rke:
