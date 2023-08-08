@@ -1,3 +1,4 @@
+# Amazon EC2 configuration (ref. amazonec2configs.rke-machine-config.cattle.io CRD)
 {{- if eq .Values.cloudprovider "amazonec2" }}
 {{- range $index, $nodepool := .Values.nodepools }}
 ---
