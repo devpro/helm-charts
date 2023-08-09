@@ -1,13 +1,50 @@
-cloudprovider: azure
+cluster:
+  name: CLUSTER_NAME
 
-cloudCredentialSecretName: azure
+cloudprovider: azure
+cloudCredentialSecretName: CLOUD_CREDENTIAL_SECRET
+# agentEnvs: []
+
+# clusterMembers:
+# - principalName: "local://u-z8zl5"
+#   roleTemplateName: "cluster-member"
 
 nodepools:
 - etcd: true
   controlplane: true
   worker: true
   labels: {}
-  taints: {}
+  annotations: {}
   quantity: 1
   paused: false
   name: nodepool-1
+  # displayName: ""
+  # rollingUpdate:
+  #   maxUnavailable: "5"
+  #   maxSurge: "1"
+  # machineDeploymentLabels: {}
+  # machineDeploymentAnnotations: {}
+  availabilitySet: "avs-AZURE_PREFIX"
+  # clientId: ""
+  # customData: ""
+  # diskSize: "30"
+  # dns: ""
+  # environment: AzurePublicCloud   # Azure environment (e.g. AzurePublicCloud, AzureChinaCloud)?
+  # faultDomainCount: "3"
+  image: "Canonical:UbuntuServer:20.04-LTS:latest"
+  region: westus
+  managedDisks: false
+  noPublicIp: false
+  # openPort: ["8080", "8443"]
+  # privateIpAddress: ""
+  resourceGroup: "rg-AZURE_PREFIX"
+  size: Standard_D2_v2
+  sshUser: azureuser
+  staticPublicIp: false
+  storageType: Standard_LRS
+  subnet: rke2
+  subnetPrefix: "192.168.0.0/16"
+  # subscriptionId: ""
+  # updateDomainCount: "5"
+  usePrivateIp: false
+  vnet: "vnet-AZURE_PREFIX"

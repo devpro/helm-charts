@@ -1,7 +1,7 @@
-# Harvester configuration (ref. harvesterconfigs.rke-machine-config.cattle.io CRD)
 {{- if eq .Values.cloudprovider "harvester" }}
 {{- range $index, $nodepool := .Values.nodepools }}
 ---
+# Harvester configuration (ref. harvesterconfigs.rke-machine-config.cattle.io CRD)
 apiVersion: rke-machine-config.cattle.io/v1
 kind: HarvesterConfig
 metadata:

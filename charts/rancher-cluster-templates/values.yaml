@@ -3,23 +3,20 @@ cluster:
   labels: {}
   annotations: {}
 
-# cloud credential secret name (do not need to be provided if using custom driver)
-cloudCredentialSecretName: ""
-
 # cloud provider name (values can be aws, azure, cloudscale, digitalocean, equinix, exoscale, harvester, linode, nutanix, openstack, outscale, vsphere)
 cloudprovider: ""
+
+# cloud credential secret name (do not need to be provided if using custom driver)
+cloudCredentialSecretName: ""
 
 kubernetesVersion: "v1.24.14+rke2r1"
 
 # Rancher Kubernetes Engine options (Kubernetes distribution)
 rke:
-  # enable local auth endpoint
   localClusterAuthEndpoint:
     enabled: false
-  # specify fqdn of local access endpoint
-  # fqdn: foo.bar.example
-  # specify cacert of local access endpoint
-  # caCerts: ""
+    fqdn: foo.bar.example
+    caCerts: ""
 
 # specify user principal ids to be assiged as cluster members
 # clusterMembers:

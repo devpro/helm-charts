@@ -1,7 +1,7 @@
-# Linode configuration (ref. linodeconfigs.rke-machine-config.cattle.io CRD)
 {{- if eq .Values.cloudprovider "linode" }}
 {{- range $index, $nodepool := .Values.nodepools }}
 ---
+# Linode configuration (ref. linodeconfigs.rke-machine-config.cattle.io CRD)
 apiVersion: rke-machine-config.cattle.io/v1
 kind: LinodeConfig
 metadata:

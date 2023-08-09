@@ -1,7 +1,7 @@
-# Amazon EC2 configuration (ref. amazonec2configs.rke-machine-config.cattle.io CRD)
 {{- if eq .Values.cloudprovider "aws" }}
 {{- range $index, $nodepool := .Values.nodepools }}
 ---
+# Amazon EC2 configuration (ref. amazonec2configs.rke-machine-config.cattle.io CRD)
 apiVersion: rke-machine-config.cattle.io/v1
 kind: Amazonec2Config
 metadata:

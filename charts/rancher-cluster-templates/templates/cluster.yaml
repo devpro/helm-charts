@@ -1,5 +1,5 @@
-# Cluster configuration (ref. cluster.provisioning.cattle.io CRD)
 ---
+# Cluster configuration (ref. cluster.provisioning.cattle.io CRD)
 apiVersion: provisioning.cattle.io/v1
 kind: Cluster
 metadata:
@@ -20,7 +20,9 @@ spec:
   {{- if .Values.kubernetesVersion }}
   kubernetesVersion: {{ .Values.kubernetesVersion }}
   {{- end }}
-  enableNetworkPolicy: true
+  {{- if .Values.enableNetworkPolicy }}
+  enableNetworkPolicy: {{ .Values.enableNetworkPolicy }}
+  {{- end }}
   {{- if .Values.rke.localClusterAuthEndpoint.enabled }}
   localClusterAuthEndpoint:
     enabled: {{ .Values.rke.localClusterAuthEndpoint.enabled }}

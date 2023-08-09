@@ -1,7 +1,7 @@
-# CloudScale configuration (ref. cloudscaleconfigs.rke-machine-config.cattle.io CRD)
 {{- if eq .Values.cloudprovider "cloudscale" }}
 {{- range $index, $nodepool := .Values.nodepools }}
 ---
+# CloudScale configuration (ref. cloudscaleconfigs.rke-machine-config.cattle.io CRD)
 apiVersion: rke-machine-config.cattle.io/v1
 kind: CloudscaleConfig
 metadata:

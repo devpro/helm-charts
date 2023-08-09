@@ -1,7 +1,7 @@
-# Equinix Metal configuration (ref. packetconfigs.rke-machine-config.cattle.io CRD)
 {{- if eq .Values.cloudprovider "equinix" }}
 {{- range $index, $nodepool := .Values.nodepools }}
 ---
+# Equinix Metal configuration (ref. packetconfigs.rke-machine-config.cattle.io CRD)
 apiVersion: rke-machine-config.cattle.io/v1
 kind: PacketConfig
 metadata:

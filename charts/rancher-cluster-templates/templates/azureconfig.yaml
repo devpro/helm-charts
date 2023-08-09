@@ -1,29 +1,39 @@
-# Azure configuration (ref. azureconfigs.rke-machine-config.cattle.io CRD)
 {{- if eq .Values.cloudprovider "azure" }}
 {{- range $index, $nodepool := .Values.nodepools }}
 ---
+# Azure configuration (ref. azureconfigs.rke-machine-config.cattle.io CRD)
 apiVersion: rke-machine-config.cattle.io/v1
 kind: AzureConfig
 metadata:
   name: {{ $nodepool.name }}
   namespace: fleet-default
-  # annotations:
-  #   key: string
-{{- if $nodepool.labels }}
+  {{- if $nodepool.annotations }}
   labels:
-{{ toYaml $nodepool.labels | indent 4 }}
-{{- end }}
-availabilitySet: {{ $nodepool.availabilitySet }}
+    {{- toYaml $nodepool.annotations | indent 4 }}
+  {{- end }}
+  {{- if $nodepool.labels }}
+  labels:
+    {{- toYaml $nodepool.labels | indent 4 }}
+  {{- end }}
+availabilitySet: {{ default (printf "avs-%s" $.Values.cluster.name) $nodepool.availabilitySet }}
+{{- if $nodepool.clientId }}
 clientId: {{ $nodepool.clientId }}
+{{- end }}
 # clientSecret: string
+{{- if $nodepool.clientId }}
 customData: {{ $nodepool.customData }}
-diskSize: {{ $nodepool.diskSize }}
+{{- end }}
+diskSize: "{{ default "30" $nodepool.diskSize }}"
+{{- if $nodepool.dns }}
 dns: {{ $nodepool.dns }}
+{{- end }}
 # dockerPort: string
+{{- if $nodepool.environment }}
 environment: {{ $nodepool.environment }}
-faultDomainCount: {{ $nodepool.faultDomainCount }}
+{{- end }}
+faultDomainCount: "{{ default "3" $nodepool.faultDomainCount }}"
 image: {{ $nodepool.image }}
-location: {{ $nodepool.location }}
+location: {{ $nodepool.region }}
 managedDisks: {{ $nodepool.managedDisks }}
 noPublicIp: {{ $nodepool.noPublicIp }}
 # nsg: string
@@ -33,7 +43,9 @@ openPort:
   - {{ $port }}
   {{- end }}
 {{- end }}
+{{- if $nodepool.privateIpAddress }}
 privateIpAddress: {{ $nodepool.privateIpAddress }}
+{{- end }}
 resourceGroup: {{ $nodepool.resourceGroup }}
 size: {{ $nodepool.size }}
 sshUser: {{ $nodepool.sshUser }}
@@ -41,9 +53,13 @@ staticPublicIp: {{ $nodepool.staticPublicIp }}
 storageType: {{ $nodepool.storageType }}
 subnet: {{ $nodepool.subnet }}
 subnetPrefix: {{ $nodepool.subnetPrefix }}
+{{- if $nodepool.subscriptionId }}
 subscriptionId: {{ $nodepool.subscriptionId }}
+{{- end }}
 # tenantId: string
+{{- if $nodepool.updateDomainCount }}
 updateDomainCount: {{ $nodepool.updateDomainCount }}
+{{- end }}
 usePrivateIp: {{ $nodepool.usePrivateIp }}
 vnet: {{ $nodepool.vnet }}
 {{- end }}

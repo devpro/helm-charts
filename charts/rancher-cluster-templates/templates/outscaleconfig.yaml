@@ -1,7 +1,7 @@
-# Outscale configuration (ref. outscaleconfigs.rke-machine-config.cattle.io CRD)
 {{- if eq .Values.cloudprovider "outscale" }}
 {{- range $index, $nodepool := .Values.nodepools }}
 ---
+# Outscale configuration (ref. outscaleconfigs.rke-machine-config.cattle.io CRD)
 apiVersion: rke-machine-config.cattle.io/v1
 kind: OutscaleConfig
 metadata:

@@ -1,7 +1,7 @@
-# Nutanix configuration (ref. nutanixconfigs.rke-machine-config.cattle.io CRD)
 {{- if eq .Values.cloudprovider "nutanix" }}
 {{- range $index, $nodepool := .Values.nodepools }}
 ---
+# Nutanix configuration (ref. nutanixconfigs.rke-machine-config.cattle.io CRD)
 apiVersion: rke-machine-config.cattle.io/v1
 kind: NutanixConfig
 metadata:

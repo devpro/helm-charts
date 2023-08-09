@@ -1,7 +1,7 @@
-# OpenStack configuration (ref. openstackconfigs.rke-machine-config.cattle.io CRD)
 {{- if eq .Values.cloudprovider "openstack" }}
 {{- range $index, $nodepool := .Values.nodepools }}
 ---
+# OpenStack configuration (ref. openstackconfigs.rke-machine-config.cattle.io CRD)
 apiVersion: rke-machine-config.cattle.io/v1
 kind: OpenstackConfig
 metadata:
