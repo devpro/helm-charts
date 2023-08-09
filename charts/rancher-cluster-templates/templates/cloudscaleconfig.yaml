@@ -1,0 +1,43 @@
+# CloudScale configuration (ref. cloudscaleconfigs.rke-machine-config.cattle.io CRD)
+{{- if eq .Values.cloudprovider "cloudscale" }}
+{{- range $index, $nodepool := .Values.nodepools }}
+---
+apiVersion: rke-machine-config.cattle.io/v1
+kind: CloudscaleConfig
+metadata:
+  name: #string
+  namespace: default
+  # annotations:
+  #   key: string
+{{- if $nodepool.labels }}
+  labels:
+{{ toYaml $nodepool.labels | indent 4 }}
+{{- end }}
+# antiAffinityWith: string
+# flavor: string
+# image: string
+# noPublicNetwork: boolean
+# serverGroups:
+#   - string
+# sshKeyPath: string
+# sshPort: string
+{{- if $nodepool.sshUser }}
+sshUser: {{ $nodepool.sshUser }}
+{{- end }}
+# token: string
+# useIpv6: boolean
+# usePrivateNetwork: boolean
+{{- if $nodepool.userdata }}
+userdata: {{ $nodepool.userdata }}
+{{- end }}
+# userdatafile: string
+# volumeBulk:
+#   - string
+# volumeSizeGb: string
+# volumeSsd:
+#  - string
+{{- if $nodepool.zone }}
+zone: {{ $nodepool.zone }}
+{{- end }}
+{{- end }}
+{{- end }}

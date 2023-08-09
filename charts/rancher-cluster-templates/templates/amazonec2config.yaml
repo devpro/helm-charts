@@ -7,6 +7,12 @@ kind: Amazonec2Config
 metadata:
   name: {{ $nodepool.name }}
   namespace: fleet-default
+{{- if $nodepool.labels }}
+  labels:
+{{ toYaml $nodepool.labels | indent 4 }}
+{{- end }}
+  # annotations:
+# accessKey: string
 {{- if $nodepool.ami }}
 ami: {{ $nodepool.ami }}
 {{- end }}
@@ -16,20 +22,13 @@ blockDurationMinutes: {{ $nodepool.blockDurationMinutes }}
 {{- if $nodepool.deviceName }}
 deviceName: {{ $nodepool.deviceName }}
 {{- end }}
-common:
-{{- if $nodepool.labels }}
-  labels:
-{{ toYaml $nodepool.labels | indent 4 }}
-{{- end }}
-{{- if $nodepool.taints }}
-  taints:
-{{ toYaml $nodepool.taints | indent 4 }}
-{{- end }}
 {{- if $nodepool.encryptEbsVolume }}
 encryptEbsVolume: {{ $nodepool.encryptEbsVolume }}
 {{- end }}
 {{- if $nodepool.endpoint }}
 endpoint: {{ $nodepool.endpoint }}
+# httpEndpoint:
+# httpTokens:
 {{- end }}
 {{- if $nodepool.iamInstanceProfile }}
 iamInstanceProfile: {{ $nodepool.iamInstanceProfile }}
@@ -42,6 +41,7 @@ instanceType: {{ $nodepool.instanceType }}
 {{- end }}
 {{- if $nodepool.keypairName }}
 keypairName: {{ $nodepool.keypairName }}
+# kmsKey:
 {{- end }}
 {{- if $nodepool.monitoring }}
 monitoring: {{ $nodepool.monitoring }}
@@ -67,6 +67,7 @@ retries: {{ $nodepool.retries }}
 {{- if $nodepool.rootSize }}
 rootSize: {{ $nodepool.rootSize }}
 {{- end }}
+# secretKey:
 securityGroup:
   {{- if $nodepool.createSecurityGroup }}
   - rancher-nodes

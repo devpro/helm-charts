@@ -1,3 +1,4 @@
+# Azure configuration (ref. azureconfigs.rke-machine-config.cattle.io CRD)
 {{- if eq .Values.cloudprovider "azure" }}
 {{- range $index, $nodepool := .Values.nodepools }}
 ---
@@ -6,26 +7,26 @@ kind: AzureConfig
 metadata:
   name: {{ $nodepool.name }}
   namespace: fleet-default
-common:
+  # annotations:
+  #   key: string
 {{- if $nodepool.labels }}
   labels:
 {{ toYaml $nodepool.labels | indent 4 }}
 {{- end }}
-{{- if $nodepool.taints }}
-  taints:
-{{ toYaml $nodepool.taints | indent 4 }}
-{{- end }}
 availabilitySet: {{ $nodepool.availabilitySet }}
 clientId: {{ $nodepool.clientId }}
+# clientSecret: string
 customData: {{ $nodepool.customData }}
 diskSize: {{ $nodepool.diskSize }}
 dns: {{ $nodepool.dns }}
+# dockerPort: string
 environment: {{ $nodepool.environment }}
 faultDomainCount: {{ $nodepool.faultDomainCount }}
 image: {{ $nodepool.image }}
 location: {{ $nodepool.location }}
 managedDisks: {{ $nodepool.managedDisks }}
 noPublicIp: {{ $nodepool.noPublicIp }}
+# nsg: string
 {{- if $nodepool.openPort}}
 openPort:
   {{- range $i, $port := $nodepool.openPort }}
@@ -41,6 +42,7 @@ storageType: {{ $nodepool.storageType }}
 subnet: {{ $nodepool.subnet }}
 subnetPrefix: {{ $nodepool.subnetPrefix }}
 subscriptionId: {{ $nodepool.subscriptionId }}
+# tenantId: string
 updateDomainCount: {{ $nodepool.updateDomainCount }}
 usePrivateIp: {{ $nodepool.usePrivateIp }}
 vnet: {{ $nodepool.vnet }}

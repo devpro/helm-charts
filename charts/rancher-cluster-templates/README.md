@@ -16,13 +16,13 @@ helm upgrade --install my-cluster rancher-cluster-templates -f values.yaml --nam
 helm uninstall my-cluster -n fleet-default
 ```
 
-For more information, look at the [general usage](https://github.com/devpro/helm-charts#usage) section.
+For more information about the usage, in particular for the automation part, look at the [general usage](https://github.com/devpro/helm-charts#usage) section.
 
 ## Configuration
 
 ### Infrastructure providers
 
-Provider                              | Values                                                   | Templates                                               | Node Driver
+Provider                              | Examples                                                 | Templates                                               | Node Driver
 --------------------------------------|----------------------------------------------------------|---------------------------------------------------------|----------------
 **Amazon Web Services (AWS)**         | [values_aws](examples/values_aws.yaml)                   | [amazonec2config](templates/amazonec2config.yaml)       | `Amazon EC2`
 **Azure**                             | [values_azure](examples/values_azure.yaml)               | [azureconfig](templates/azureconfig.yaml)               | `Azure`
@@ -39,7 +39,7 @@ Provider                              | Values                                  
 
 ## Contributing
 
-Look at the [guide](CONTRIBUTING.md).
+Follow the [guide](CONTRIBUTING.md).
 
 ## Inspirations
 
