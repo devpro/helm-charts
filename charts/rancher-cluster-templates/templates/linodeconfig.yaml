@@ -1,0 +1,33 @@
+# Linode configuration (ref. linodeconfigs.rke-machine-config.cattle.io CRD)
+{{- if eq .Values.cloudprovider "linode" }}
+{{- range $index, $nodepool := .Values.nodepools }}
+---
+apiVersion: rke-machine-config.cattle.io/v1
+kind: LinodeConfig
+metadata:
+  name: {{ $nodepool.name }}
+  namespace: default
+  # annotations:
+  #   key: string
+{{- if $nodepool.labels }}
+  labels:
+{{ toYaml $nodepool.labels | indent 4 }}
+{{- end }}
+# authorizedUsers: string
+# createPrivateIp: boolean
+# dockerPort: string
+image: {{ $nodepool.image }}
+# instanceType: string
+# label: string
+region: {{ $nodepool.region }}
+# rootPass: string
+sshPort: {{ $nodepool.sshPort | quote }}
+sshUser: {{ $nodepool.sshUser }}
+# stackscript: string
+# stackscriptData: string
+# swapSize: string
+tags: {{ $nodepool.tags }}
+# token: string
+# uaPrefix: string
+{{- end }}
+{{- end }}

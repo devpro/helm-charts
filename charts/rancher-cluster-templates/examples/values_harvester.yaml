@@ -6,32 +6,9 @@ nodepools:
 - etcd: true
   controlplane: true
   worker: true
-
-  # specify node labels
   labels: {}
-
-  # specify node taints
   taints: {}
-
-  # specify nodepool size
   quantity: 1
-
-  # Pause node pool
-  # paused: false
-
-  # specify displayName
-  # displayName: ""
-
-  # specify rolling update mechanism
-  # rollingUpdate:
-  #   maxSurge: "1"
-
-  # specify machineDeployment Labels
-  # machineDeploymentLabels: {}
-
-  # specify machineDeployment annotations
-  # machineDeploymentAnnotations: {}
-
   name: harvester-nodepool-1
   diskSize: 40
   diskBus: virtio

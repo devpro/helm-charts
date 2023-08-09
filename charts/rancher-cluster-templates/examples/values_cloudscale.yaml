@@ -1,0 +1,13 @@
+cloudprovider: cloudscale
+
+cloudCredentialSecretName: cloudscale
+
+nodepools:
+- etcd: true
+  controlplane: true
+  worker: true
+  labels: {}
+  taints: {}
+  quantity: 1
+  paused: false
+  name: nodepool-1

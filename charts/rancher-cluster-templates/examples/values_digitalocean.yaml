@@ -6,70 +6,15 @@ nodepools:
 - etcd: true
   controlplane: true
   worker: true
-
-  # specify node labels
   labels: {}
-
-  # specify node taints
   taints: {}
-
-  # specify nodepool size
   quantity: 1
-
-  # Pause node pool
-  # paused: false
-
-  # specify displayName
-  # displayName: ""
-
-  # specify rolling update mechanism
-  # rollingUpdate:
-  #   maxSurge: "1"
-
-  # specify machineDeployment Labels
-  # machineDeploymentLabels: {}
-
-  # specify machineDeployment annotations
-  # machineDeploymentAnnotations: {}
-
-  # specify nodepool name
-  name: digitalocean-nodepool-1
-
-  # enable backups for droplet
-  # backups: true
-
-  # Digital Ocean Image
+  name: nodepool-1
   image: ubuntu-20-04-x64
-
-  # enable ipv6 for droplet
   ipv6: false
-
-  # enable monitoring for droplet
   monitoring: false
-
-  # enable private networking for droplet
   privateNetworking: false
-
-  # Digital Ocean region
   region: sfo3
-
-  # Digital Ocean size
   size: s-4vcpu-8gb
-
-  # File contents for sshKeyContents
-  # sshKeyContents: ""
-
-  # SSH key fingerprint
-  # sshKeyFingerprint: ""
-
-  # SSH port
   sshPort: 22
-
-  # SSH username
   sshUser: root
-
-  # comma-separated list of tags to apply to the Droplet
-  # tags: ""
-
-  # File contents for userdata
-  # userdata: ""

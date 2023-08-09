@@ -1,0 +1,31 @@
+# Exoscale configuration (ref. exoscaleconfigs.rke-machine-config.cattle.io CRD)
+{{- if eq .Values.cloudprovider "exoscale" }}
+{{- range $index, $nodepool := .Values.nodepools }}
+---
+apiVersion: rke-machine-config.cattle.io/v1
+kind: ExoscaleConfig
+metadata:
+  name: {{ $nodepool.name }}
+  namespace: default
+  # annotations:
+  #   key: string
+{{- if $nodepool.labels }}
+  labels:
+{{ toYaml $nodepool.labels | indent 4 }}
+{{- end }}
+# affinityGroup:
+#   - string
+# apiKey: string
+# apiSecretKey: string
+# availabilityZone: string
+# diskSize: string
+image: {{ $nodepool.image }}
+# instanceProfile: string
+# securityGroup:
+#   - string
+# sshKey: string
+sshUser: {{ $nodepool.sshUser }}
+# url: string
+userdata: {{ $nodepool.userdata }}
+{{- end }}
+{{- end }}

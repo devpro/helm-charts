@@ -5,7 +5,7 @@
 apiVersion: rke-machine-config.cattle.io/v1
 kind: OutscaleConfig
 metadata:
-  name: #string
+  name: {{ $nodepool.name }}
   namespace: default
   # annotations:
   #   key: string

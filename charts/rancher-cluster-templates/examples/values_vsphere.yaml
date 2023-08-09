@@ -6,111 +6,14 @@ nodepools:
 - etcd: true
   controlplane: true
   worker: true
-
-  # specify node labels
   labels: {}
-
-  # specify node taints
   taints: {}
-
-  # specify nodepool size
   quantity: 1
-
-  # Pause node pool
   paused: false
-
-  # specify displayName
-  # displayName: ""
-
-  # specify rolling update mechanism
-  # rollingUpdate:
-  #   maxSurge: "1"
-
-  # specify machineDeployment Labels
-  # machineDeploymentLabels: {}
-
-  # specify machineDeployment annotations
-  # machineDeploymentAnnotations: {}
-
-  # specify nodepool name
-  name: vsphere-nodepool-1
-
-  # vSphere vm configuration parameters (used for guestinfo)
-  # cfgparam: []
-
-  # If you choose creation type clone a name of what you want to clone is required
-  # cloneFrom: ""
-
-  # Contents of cloud-config yaml file to put into the ISO user-data; Format should be:
-  # cloudConfig: |
-  #   #cloud-config
-  #   <custom cloud-config>
-
-  # vSphere cloud-init filepath or url to add to guestinfo, filepath will be read and base64 encoded before adding
-  # cloudinit: ""
-
-  # If you choose to clone from a content library template specify the name of the library
-  # contentLibrary: ""
-
-  # vSphere CPU number for docker VM
+  name: nodepool-1
   cpuCount: "2"
-
-  # 'Creation type when creating a new virtual machine. Supported values: vm, template, library, legacy'
   creationType: "vm"
-
-  # vSphere custom attribute, format key/value e.g. '200=mycustom value'
-  # customAttribute: ["200=mycustom value"]
-
-  # vSphere datacenter for virtual machine
-  # datacenter: ""
-
-  # vSphere datastore for virtual machine
-  # datastore: ""
-
-  # vSphere datastore cluster for virtual machine
-  # datastoreCluster: ""
-
-  # vSphere size of disk for docker VM (in MB)
   diskSize: "20480"
-
-  # vSphere folder for the docker VM. This folder must already exist in the datacenter
-  # folder: ""
-
-  # vSphere compute resource where the docker VM will be instantiated. This can be omitted if using a cluster with DRS
-  # hostsystem: ""
-
-  # vSphere size of memory for docker VM (in MB)
-  # memorySize: "2048"
-
-  # vSphere network where the virtual machine will be attached
-  # network: ""
-
-  # vSphere resource pool for docker VM
-  # pool: ""
-
-  # If using a non-B2D image you can specify the ssh port
   sshPort: "22"
-
-  # If using a non-B2D image the uploaded keys will need chown'ed, defaults to staff e.g. docker:staff
   sshUserGroup: staff
-
-  # vSphere tag id e.g. urn:xxx
-  # tag: ["urn:xxx"]
-
-  # 'vSphere vApp IP allocation policy. Supported values are: dhcp, fixed, transient and fixedAllocated'
-  # vappIpallocationpolicy: ""
-
-  # 'vSphere vApp IP protocol for this deployment. Supported values are: IPv4 and IPv6'
-  # vappIpprotocol: ""
-
-  # vSphere vApp properties
-  # vappProperty: []
-
-  # 'vSphere OVF environment transports to use for properties. Supported values are: iso and com.vmware.guestInfo'
-  # vappTransport: ""
-
-  # vSphere IP/hostname for vCenter
-  # vcenter: ""
-
-  # vSphere Port for vCenter
   vcenterPort: 443

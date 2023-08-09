@@ -1,3 +1,4 @@
+# VMware vSphere configuration (ref. vmwarevsphereconfigs.rke-machine-config.cattle.io CRD)
 {{- if eq .Values.cloudprovider "vsphere" }}
 {{- range $index, $nodepool := .Values.nodepools }}
 ---
@@ -6,7 +7,22 @@ kind: VmwarevsphereConfig
 metadata:
   name: {{ $nodepool.name }}
   namespace: fleet-default
+  # annotations:
+  #   key: string
+{{- if $nodepool.labels }}
+  labels:
+{{ toYaml $nodepool.labels | indent 4 }}
+{{- end }}
+# boot2dockerUrl: string
+{{- if $nodepool.cfgparam }}
+cfgparam: {{ $nodepool.cfgparam }}
+{{- end }}
+cloneFrom: {{ $nodepool.cloneFrom }}
+cloudConfig: |
+{{ $nodepool.cloudConfig | indent 2 }}
+cloudinit: {{ $nodepool.cloudinit }}
 common:
+#  cloudCredentialSecretName: string
 {{- if $nodepool.labels }}
   labels:
 {{ toYaml $nodepool.labels | indent 4 }}
@@ -15,13 +31,6 @@ common:
   taints:
 {{ toYaml $nodepool.taints | indent 4 }}
 {{- end }}
-{{- if $nodepool.cfgparam }}
-cfgparam: {{ $nodepool.cfgparam }}
-{{- end }}
-cloneFrom: {{ $nodepool.cloneFrom }}
-cloudConfig: |
-{{ $nodepool.cloudConfig | indent 2 }}
-cloudinit: {{ $nodepool.cloudinit }}
 contentLibrary: {{ $nodepool.contentLibrary }}
 cpuCount: {{ $nodepool.cpuCount | quote }}
 creationType: {{ $nodepool.creationType }}
@@ -35,10 +44,15 @@ hostsystem: {{ $nodepool.hostsystem }}
 memorySize: {{ $nodepool.memorySize | quote }}
 network: {{ $nodepool.network }}
 pool: {{ $nodepool.pool }}
+# os: string
+# password: string
+# providerID: string
+# sshPassword: string
 sshPort: {{ $nodepool.sshPort | quote }}
 sshUser: {{ $nodepool.sshUser }}
 sshUserGroup: {{ $nodepool.sshUserGroup }}
 tag: {{ $nodepool.tag }}
+# username: string
 vappIpallocationpolicy: {{ $nodepool.vappIpallocationpolicy }}
 vappIpprotocol: {{ $nodepool.vappIpprotocol }}
 vappProperty: {{ $nodepool.vappProperty }}
