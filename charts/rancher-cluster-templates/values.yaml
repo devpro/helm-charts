@@ -1,12 +1,12 @@
 cluster:
-  name: ""
+  name: "mycluster"
   labels: {}
   annotations: {}
 
 # cloud credential secret name (do not need to be provided if using custom driver)
 cloudCredentialSecretName: ""
 
-# cloud provider name (values can be amazonec2, azure, cloudscale, digitalocean, equinix, exoscale, harvester, linode, nutanix, openstack, outscale, vsphere)
+# cloud provider name (values can be aws, azure, cloudscale, digitalocean, equinix, exoscale, harvester, linode, nutanix, openstack, outscale, vsphere)
 cloudprovider: ""
 
 kubernetesVersion: "v1.24.14+rke2r1"

@@ -46,3 +46,4 @@ terminationTime: {{ $nodepool.terminationTime }}
 userdata: {{ $nodepool.userdata }}
 {{- end }}
 {{- end }}
+{{- end }}

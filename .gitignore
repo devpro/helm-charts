@@ -3,4 +3,6 @@
 
 # local temporary files
 temp*.yaml
+temp.sh
 /charts/temp/
+values_mine.yaml

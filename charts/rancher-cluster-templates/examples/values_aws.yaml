@@ -1,6 +1,6 @@
-cloudprovider: amazonec2
+cloudprovider: aws
 
-cloudCredentialSecretName: amazonec2
+cloudCredentialSecretName: aws
 
 nodepools:
 - etcd: true

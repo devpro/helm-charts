@@ -30,25 +30,38 @@ spec:
   rkeConfig:
     {{- if ne .Values.cloudprovider "custom" }}
     machinePools:
-      {{- if .Values.nodepools }} {{ range $index, $nodepool := .Values.nodepools }}
+      {{- if .Values.nodepools }}
+      {{ range $index, $nodepool := .Values.nodepools }}
       - controlPlaneRole: {{ $nodepool.controlplane }}
         etcdRole: {{ $nodepool.etcd }}
         workerRole: {{ $nodepool.worker }}
         quantity: {{ $nodepool.quantity }}
         name: {{ $nodepool.name }}
         machineConfigRef:
-          {{- if eq $.Values.cloudprovider "amazonec2" }}
+          {{- if eq $.Values.cloudprovider "aws" }}
           kind: Amazonec2Config
-          {{- else if eq $.Values.cloudprovider "vsphere" }}
-          kind: VmwarevsphereConfig
-          {{- else if eq $.Values.cloudprovider "harvester" }}
-          kind: HarvesterConfig
-          {{- else if eq $.Values.cloudprovider "digitalocean" }}
-          kind: DigitaloceanConfig
           {{- else if eq $.Values.cloudprovider "azure" }}
           kind: AzureConfig
-          {{- else if eq $.Values.cloudprovider "azure" }}
+          {{- else if eq $.Values.cloudprovider "cloudscale" }}
+          kind: CloudscaleConfig
+          {{- else if eq $.Values.cloudprovider "digitalocean" }}
+          kind: DigitaloceanConfig
+          {{- else if eq $.Values.cloudprovider "equinix" }}
           kind: PacketConfig
+          {{- else if eq $.Values.cloudprovider "exoscale" }}
+          kind: ExoscaleConfig
+          {{- else if eq $.Values.cloudprovider "harvester" }}
+          kind: HarvesterConfig
+          {{- else if eq $.Values.cloudprovider "linode" }}
+          kind: LinodeConfig
+          {{- else if eq $.Values.cloudprovider "nutanix" }}
+          kind: NutanixConfig
+          {{- else if eq $.Values.cloudprovider "openstack" }}
+          kind: OpenstackConfig
+          {{- else if eq $.Values.cloudprovider "outscale" }}
+          kind: OutscaleConfig
+          {{- else if eq $.Values.cloudprovider "vsphere" }}
+          kind: VmwarevsphereConfig
           {{- end}}
           name: {{ $nodepool.name }}
         paused: {{ $nodepool.paused }}
@@ -69,12 +82,13 @@ spec:
         {{- end }}
         {{- if $nodepool.machineDeploymentLabels }}
         machineDeploymentLabels:
-  {{ toYaml $nodepool.machineDeploymentLabels | indent 10 }}
+{{ toYaml $nodepool.machineDeploymentLabels | indent 10 }}
         {{- end }}
         {{- if $nodepool.machineDeploymentAnnotations }}
         machineDeploymentAnnotations:
-  {{ toYaml $nodepool.machineDeploymentAnnotations | indent 10 }}
+{{ toYaml $nodepool.machineDeploymentAnnotations | indent 10 }}
         {{- end }}
+      {{- end }}
       {{- end }}
     {{- end }}
     machineGlobalConfig:
@@ -158,7 +172,7 @@ spec:
   agentEnvVars:
 {{ toYaml .Values.agentEnvs | indent 4 }}
   {{- end }}
-  clusterAPIConfig:
-  # defaultClusterRoleForProjectMembers:
-  # defaultPodSecurityPolicyTemplateName:
-  # redeploySystemAgentGeneration:
+  # clusterAPIConfig:
+  #   defaultClusterRoleForProjectMembers:
+  #   defaultPodSecurityPolicyTemplateName:
+  #   redeploySystemAgentGeneration:

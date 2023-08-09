@@ -5,6 +5,9 @@ This Helm chart will create a Kubernetes cluster from Rancher through [Cluster T
 ## Usage
 
 ```bash
+# double checks you are on Rancher local cluster
+kubectl get nodes
+
 # makes sure adds devpro Helm repository has been added
 helm repo add devpro https://devpro.github.io/helm-charts
 helm repo update
