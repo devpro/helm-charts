@@ -3,8 +3,12 @@ cluster:
   labels: {}
   annotations: {}
 
-# cloud provider name (values can be aws, azure, cloudscale, digitalocean, equinix, exoscale, harvester, linode, nutanix, openstack, outscale, vsphere)
+# cloud provider name (values can be aws, azure, cloudscale, digitalocean, equinix, exoscale, harvester, linode, nutanix, openstack, outscale, vsphere or custom)
 cloudprovider: ""
+
+agentEnvs: []
+  # - name: string
+  #   value: string
 
 # cloud credential secret name (do not need to be provided if using custom driver)
 cloudCredentialSecretName: ""
