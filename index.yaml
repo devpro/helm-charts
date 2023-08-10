@@ -1100,6 +1100,24 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/rancher-0.1.0/rancher-0.1.0.tgz
     version: 0.1.0
+  rancher-cluster-templates:
+  - annotations:
+      catalog.cattle.io/namespace: fleet-default
+      catalog.cattle.io/type: cluster-template
+    apiVersion: v2
+    appVersion: 0.1.0
+    created: "2023-08-10T10:15:29.582631002Z"
+    description: Helm chart for managing Rancher cluster templates
+    digest: bf3a8f14f188cef7a48ddfb24a1e719cbfda20a050c61d0d6650c1a8546273aa
+    home: https://github.com/devpro/helm-charts/tree/main/charts/rancher-cluster-templates
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: rancher-cluster-templates
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/rancher-cluster-templates-0.1.0/rancher-cluster-templates-0.1.0.tgz
+    version: 0.1.0
   redis:
   - apiVersion: v2
     appVersion: 7.0.11
@@ -1278,4 +1296,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2023-08-02T13:53:55.374694118Z"
+generated: "2023-08-10T10:15:29.582718003Z"
