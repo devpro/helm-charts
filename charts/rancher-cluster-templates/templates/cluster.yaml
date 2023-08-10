@@ -33,7 +33,7 @@ spec:
     {{- if ne .Values.cloudprovider "custom" }}
     machinePools:
       {{- if .Values.nodepools }}
-      {{ range $index, $nodepool := .Values.nodepools }}
+      {{- range $index, $nodepool := .Values.nodepools }}
       - controlPlaneRole: {{ $nodepool.controlplane }}
         etcdRole: {{ $nodepool.etcd }}
         workerRole: {{ $nodepool.worker }}

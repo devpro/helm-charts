@@ -7,12 +7,12 @@ This Helm chart will create a Kubernetes cluster from Rancher through [Cluster T
 ### Quickstart
 
 ```bash
-# double checks you are on Rancher local cluster
-kubectl get nodes
-
 # makes sure adds devpro Helm repository has been added
 helm repo add devpro https://devpro.github.io/helm-charts
 helm repo update
+
+# double checks you are connected to the Kubernetes cluster hosting Rancher
+kubectl get nodes
 
 # installs the chart with default parameters
 helm upgrade --install my-cluster rancher-cluster-templates -f values.yaml --namespace fleet-default
@@ -20,13 +20,6 @@ helm upgrade --install my-cluster rancher-cluster-templates -f values.yaml --nam
 # removes the installation
 helm uninstall my-cluster -n fleet-default
 ```
-
-### Going further
-
-* GitOps approach
-  * [ArgoCD](https://github.com/devpro/helm-charts#from-argocd)
-  * [Fleet](https://github.com/devpro/helm-charts#from-fleet)
-* [Rancher Apps](https://github.com/devpro/helm-charts#from-rancher)
 
 ## Configuration
 
@@ -50,6 +43,14 @@ Provider                              | Examples                                
 ## Contributing
 
 Follow the [guide](CONTRIBUTING.md).
+
+### Going further
+
+* [Azure](docs/azure.md)
+* GitOps approach
+  * [ArgoCD](https://github.com/devpro/helm-charts#from-argocd)
+  * [Fleet](https://github.com/devpro/helm-charts#from-fleet)
+* [Rancher Apps](https://github.com/devpro/helm-charts#from-rancher)
 
 ## Inspirations
 

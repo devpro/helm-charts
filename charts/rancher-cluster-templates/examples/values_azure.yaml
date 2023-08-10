@@ -2,7 +2,7 @@ cluster:
   name: CLUSTER_NAME
 
 cloudprovider: azure
-cloudCredentialSecretName: CLOUD_CREDENTIAL_SECRET
+cloudCredentialSecretName: CLOUD_CREDENTIAL_SECRET  # Cloud Credential for Azure (example: cattle-global-data:<secret-id>)
 # agentEnvs: []
 
 # clusterMembers:
@@ -25,26 +25,20 @@ nodepools:
   # machineDeploymentLabels: {}
   # machineDeploymentAnnotations: {}
   availabilitySet: "avs-AZURE_PREFIX"
-  # clientId: ""
-  # customData: ""
-  # diskSize: "30"
-  # dns: ""
-  # environment: AzurePublicCloud   # Azure environment (e.g. AzurePublicCloud, AzureChinaCloud)?
-  # faultDomainCount: "3"
-  image: "Canonical:UbuntuServer:20.04-LTS:latest"
+  environment: AzurePublicCloud
+  image: "Canonical:0001-com-ubuntu-server-focal:20_04-lts-gen2:20.04.202307240"
+  managedDisks: true
+  nsg: "nsg-AZURE_PREFIX"
   region: westus
-  managedDisks: false
-  noPublicIp: false
-  # openPort: ["8080", "8443"]
-  # privateIpAddress: ""
+  openPort:
+    - 6443/tcp    # Kubernetes API
+    - 2379/tcp    # etcd client port
+    - 2380/tcp    # etcd peer port
+    - 10250/tcp   # kubelet
   resourceGroup: "rg-AZURE_PREFIX"
-  size: Standard_D2_v2
+  size: Standard_DS2_v2
   sshUser: azureuser
-  staticPublicIp: false
   storageType: Standard_LRS
   subnet: rke2
   subnetPrefix: "192.168.0.0/16"
-  # subscriptionId: ""
-  # updateDomainCount: "5"
-  usePrivateIp: false
   vnet: "vnet-AZURE_PREFIX"

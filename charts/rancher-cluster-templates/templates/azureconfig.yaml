@@ -16,9 +16,7 @@ metadata:
     {{- toYaml $nodepool.labels | indent 4 }}
   {{- end }}
 availabilitySet: {{ default (printf "avs-%s" $.Values.cluster.name) $nodepool.availabilitySet }}
-{{- if $nodepool.clientId }}
-clientId: {{ $nodepool.clientId }}
-{{- end }}
+# clientId: string
 # clientSecret: string
 {{- if $nodepool.clientId }}
 customData: {{ $nodepool.customData }}
@@ -27,40 +25,35 @@ diskSize: "{{ default "30" $nodepool.diskSize }}"
 {{- if $nodepool.dns }}
 dns: {{ $nodepool.dns }}
 {{- end }}
-# dockerPort: string
-{{- if $nodepool.environment }}
-environment: {{ $nodepool.environment }}
-{{- end }}
+dockerPort: "{{ default "2376" $nodepool.dockerPort }}"
+environment: {{ default "AzurePublicCloud" $nodepool.environment }}
 faultDomainCount: "{{ default "3" $nodepool.faultDomainCount }}"
 image: {{ $nodepool.image }}
 location: {{ $nodepool.region }}
-managedDisks: {{ $nodepool.managedDisks }}
-noPublicIp: {{ $nodepool.noPublicIp }}
-# nsg: string
+managedDisks: {{ default "true" $nodepool.managedDisks }}
+noPublicIp: {{ default "false" $nodepool.noPublicIp }}
+nsg: {{ $nodepool.nsg }}
 {{- if $nodepool.openPort}}
 openPort:
   {{- range $i, $port := $nodepool.openPort }}
   - {{ $port }}
   {{- end }}
 {{- end }}
+# plan: string
 {{- if $nodepool.privateIpAddress }}
 privateIpAddress: {{ $nodepool.privateIpAddress }}
 {{- end }}
 resourceGroup: {{ $nodepool.resourceGroup }}
 size: {{ $nodepool.size }}
-sshUser: {{ $nodepool.sshUser }}
-staticPublicIp: {{ $nodepool.staticPublicIp }}
+sshUser: {{ default "azureuser" $nodepool.sshUser }}
+staticPublicIp: {{ default "false" $nodepool.staticPublicIp }}
 storageType: {{ $nodepool.storageType }}
 subnet: {{ $nodepool.subnet }}
-subnetPrefix: {{ $nodepool.subnetPrefix }}
-{{- if $nodepool.subscriptionId }}
-subscriptionId: {{ $nodepool.subscriptionId }}
-{{- end }}
+subnetPrefix: {{ default "192.168.0.0/16" $nodepool.subnetPrefix }}
+# subscriptionId: string
 # tenantId: string
-{{- if $nodepool.updateDomainCount }}
-updateDomainCount: {{ $nodepool.updateDomainCount }}
-{{- end }}
-usePrivateIp: {{ $nodepool.usePrivateIp }}
+updateDomainCount: "{{ default "5" $nodepool.updateDomainCount }}"
+usePrivateIp: {{ default "false" $nodepool.usePrivateIp }}
 vnet: {{ $nodepool.vnet }}
 {{- end }}
 {{- end }}
