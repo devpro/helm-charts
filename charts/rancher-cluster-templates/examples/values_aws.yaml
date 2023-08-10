@@ -1,37 +1,40 @@
+cluster:
+  name: CLUSTER_NAME
+
 cloudprovider: aws
 
-cloudCredentialSecretName: aws
+cloudCredentialSecretName: CLOUD_CREDENTIAL_SECRET
 
 nodepools:
-- etcd: true
-  controlplane: true
-  worker: true
-  labels: {}
-  taints: {}
-  quantity: 1
-  paused: false
-  name: nodepool-1
-  deviceName: "/dev/sda1"
-  encryptEbsVolume: false
-  endpoint: ""
-  iamInstanceProfile: ""
-  insecureTransport: false
-  instanceType: t3a.medium
-  region: us-west-2
-  createSecurityGroup: true
-  keypairName: ""
-  securityGroupReadonly: false
-  sshKeyContents: ""
-  subnetId: ""
-  monitoring: false
-  privateAddressOnly: false
-  requestSpotInstance: false
-  retries: 5
-  rootSize: 16
-  spotPrice: 0.5
-  sshUser: ubuntu
-  volumeType: gp2
-  useEbsOptimizedInstance: false
-  usePrivateAddress: false
-  userdata: ""
-  zone: a
+  - etcd: true
+    controlplane: true
+    worker: true
+    labels: {}
+    taints: {}
+    quantity: 1
+    paused: false
+    name: nodepool-1
+    deviceName: "/dev/sda1"
+    encryptEbsVolume: false
+    endpoint: ""
+    iamInstanceProfile: ""
+    insecureTransport: false
+    instanceType: t3a.medium
+    region: us-west-2
+    createSecurityGroup: true
+    keypairName: ""
+    securityGroupReadonly: false
+    sshKeyContents: ""
+    subnetId: ""
+    monitoring: false
+    privateAddressOnly: false
+    requestSpotInstance: false
+    retries: 5
+    rootSize: 16
+    spotPrice: 0.5
+    sshUser: ubuntu
+    storageType: gp2
+    useEbsOptimizedInstance: false
+    usePrivateAddress: false
+    userdata: ""
+    zone: a

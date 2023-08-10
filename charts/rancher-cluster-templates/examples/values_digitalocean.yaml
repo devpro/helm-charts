@@ -1,20 +1,23 @@
+cluster:
+  name: CLUSTER_NAME
+
 cloudprovider: digitalocean
 
-cloudCredentialSecretName: digitalocean
+cloudCredentialSecretName: CLOUD_CREDENTIAL_SECRET
 
 nodepools:
-- etcd: true
-  controlplane: true
-  worker: true
-  labels: {}
-  taints: {}
-  quantity: 1
-  name: nodepool-1
-  image: ubuntu-20-04-x64
-  ipv6: false
-  monitoring: false
-  privateNetworking: false
-  region: sfo3
-  size: s-4vcpu-8gb
-  sshPort: 22
-  sshUser: root
+  - etcd: true
+    controlplane: true
+    worker: true
+    labels: {}
+    taints: {}
+    quantity: 1
+    name: nodepool-1
+    image: ubuntu-20-04-x64
+    ipv6: false
+    monitoring: false
+    privateNetworking: false
+    region: sfo3
+    size: s-4vcpu-8gb
+    sshPort: 22
+    sshUser: root

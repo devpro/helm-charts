@@ -13,8 +13,8 @@ metadata:
 {{- end }}
   # annotations:
 # accessKey: string
-{{- if $nodepool.ami }}
-ami: {{ $nodepool.ami }}
+{{- if $nodepool.machineImage }}
+ami: {{ $nodepool.machineImage }}
 {{- end }}
 {{- if $nodepool.blockDurationMinutes }}
 blockDurationMinutes: {{ $nodepool.blockDurationMinutes }}
@@ -46,7 +46,7 @@ keypairName: {{ $nodepool.keypairName }}
 {{- if $nodepool.monitoring }}
 monitoring: {{ $nodepool.monitoring }}
 {{- end }}
-{{- if $nodepool.openPort}}
+{{- if $nodepool.openPorts}}
 openPort:
   {{- range $i, $port := $nodepool.openPort }}
   - {{ $port }}
@@ -104,8 +104,8 @@ usePrivateAddress: {{ $nodepool.usePrivateAddress }}
 {{- if $nodepool.userdata }}
 userdata: {{ $nodepool.userdata }}
 {{- end }}
-{{- if $nodepool.volumeType }}
-volumeType: {{ $nodepool.volumeType }}
+{{- if $nodepool.storageType }}
+volumeType: {{ $nodepool.storageType }}
 {{- end }}
 {{- if $nodepool.vpcId }}
 vpcId: {{ $nodepool.vpcId }}

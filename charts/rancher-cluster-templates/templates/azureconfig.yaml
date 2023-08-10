@@ -18,7 +18,7 @@ metadata:
 availabilitySet: {{ default (printf "avs-%s" $.Values.cluster.name) $nodepool.availabilitySet }}
 # clientId: string
 # clientSecret: string
-{{- if $nodepool.clientId }}
+{{- if $nodepool.customData }}
 customData: {{ $nodepool.customData }}
 {{- end }}
 diskSize: "{{ default "30" $nodepool.diskSize }}"
@@ -26,16 +26,16 @@ diskSize: "{{ default "30" $nodepool.diskSize }}"
 dns: {{ $nodepool.dns }}
 {{- end }}
 dockerPort: "{{ default "2376" $nodepool.dockerPort }}"
-environment: {{ default "AzurePublicCloud" $nodepool.environment }}
+environment: {{ default "AzurePublicCloud" $nodepool.azureEnvironment }}
 faultDomainCount: "{{ default "3" $nodepool.faultDomainCount }}"
-image: {{ $nodepool.image }}
+image: {{ $nodepool.machineImage }}
 location: {{ $nodepool.region }}
 managedDisks: {{ default "true" $nodepool.managedDisks }}
 noPublicIp: {{ default "false" $nodepool.noPublicIp }}
-nsg: {{ $nodepool.nsg }}
-{{- if $nodepool.openPort}}
+nsg: {{ $nodepool.networkSecurityGroup }}
+{{- if $nodepool.openPorts}}
 openPort:
-  {{- range $i, $port := $nodepool.openPort }}
+  {{- range $i, $port := $nodepool.openPorts }}
   - {{ $port }}
   {{- end }}
 {{- end }}
@@ -44,7 +44,7 @@ openPort:
 privateIpAddress: {{ $nodepool.privateIpAddress }}
 {{- end }}
 resourceGroup: {{ $nodepool.resourceGroup }}
-size: {{ $nodepool.size }}
+size: {{ $nodepool.instanceType }}
 sshUser: {{ default "azureuser" $nodepool.sshUser }}
 staticPublicIp: {{ default "false" $nodepool.staticPublicIp }}
 storageType: {{ $nodepool.storageType }}
@@ -54,6 +54,6 @@ subnetPrefix: {{ default "192.168.0.0/16" $nodepool.subnetPrefix }}
 # tenantId: string
 updateDomainCount: "{{ default "5" $nodepool.updateDomainCount }}"
 usePrivateIp: {{ default "false" $nodepool.usePrivateIp }}
-vnet: {{ $nodepool.vnet }}
+vnet: {{ $nodepool.virtualNetwork }}
 {{- end }}
 {{- end }}
