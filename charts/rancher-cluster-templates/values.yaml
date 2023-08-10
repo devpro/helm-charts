@@ -3,8 +3,12 @@ cluster:
   labels: {}
   annotations: {}
 
-# cloud provider name (values can be aws, azure, cloudscale, digitalocean, equinix, exoscale, harvester, linode, nutanix, openstack, outscale, vsphere)
+# cloud provider name (values can be aws, azure, cloudscale, digitalocean, equinix, exoscale, harvester, linode, nutanix, openstack, outscale, vsphere or custom)
 cloudprovider: ""
+
+agentEnvs: []
+  # - name: string
+  #   value: string
 
 # cloud credential secret name (do not need to be provided if using custom driver)
 cloudCredentialSecretName: ""
@@ -32,46 +36,65 @@ monitoring:
   #   foo: bar
 
 nodepools: []
-# - etcd: true
-#   controlplane: true
-#   worker: true
-#   labels: {}
-#   taints: {}
-#   quantity: 1
-#   paused: false
-#   displayName: ""
-#   rollingUpdate:
-#     maxSurge: "1"
-#   machineDeploymentLabels: {}
-#   machineDeploymentAnnotations: {}
-#   name: ""
-#   ami: ""                         # AWS machine image
-#   blockDurationMinutes: 0         # AWS spot instance duration in minutes (60, 120, 180, 240, 300, or 360)
-#   deviceName: "/dev/sda1"         # AWS root device name
-#   encryptEbsVolume: false         # AWS Encrypt the EBS volume using the AWS Managed CMK
-#   endpoint: ""                    # Optional endpoint URL (hostname only or fully qualified)
-#   iamInstanceProfile: ""          # AWS IAM Instance Profile
-#   insecureTransport: false        # Disable SSL when sending requests
-#   instanceType: t3a.medium        # AWS instance type
-#   region: us-west-2               # AWS datacenter region
-#   createSecurityGroup: true       # Whether to create `rancher-node` security group. If false, can provide with existing security group
-#   securityGroups: []
-#   keypairName: ""                 # AWS keypair to use
-#   securityGroupReadonly: false    # skip adding default rules to security groups
-#   sshKeyContents: ""              # AWS file content
-#   subnetId: ""                    # AWS VPC subnet id
-#   monitoring: false               # AWS flag to enable CloudWatch monitoring
-#   openPort: ["8080", "8443"]      # AWS port numbers accessible from the Internet
-#   privateAddressOnly: false       # AWS flag to only use a private IP address
-#   requestSpotInstance: false      # AWS flag to request spot instance
-#   tags: "foo,bar"                 # AWS tags (e.g. key1,value1,key2,value2)
-#   retries: 5                      # AWS retry count for recoverable failures (use -1 to disable)
-#   rootSize: 16                    # AWS root disk size (in GB)
-#   spotPrice: 0.5                  # AWS spot instance bid price (in dollar)
-#   sshUser: ubuntu                 # AWS SSH username
-#   volumeType: gp2                 # AWS Amazon EBS volume type
-#   vpcId: ""                       # AWS VPC id
-#   useEbsOptimizedInstance: false  # AWS create an EBS optimized instance
-#   usePrivateAddress: false        # AWS force the usage of private IP address
-#   userdata: ""                    # AWS file contents for userdata
-#   zone: a                         # AWS zone for instance (i.e. a,b,c,d,e)
+  # - etcd: true
+  #   controlplane: true
+  #   worker: true
+  #   annotations: {}
+  #   labels: {}
+  #   quantity: 1
+  #   paused: false
+  #   name: ""
+  #   displayName: ""
+  #   rollingUpdate:
+  #     maxSurge: "1"
+  #     maxUnavailable: "5"
+  #   machineDeploymentAnnotations: {}
+  #   machineDeploymentLabels: {}
+  #   region: ""                                # AWS, Azure
+  #   machineImage: ""                          # AWS, Azure
+  #   instanceType: ""                          # AWS, Azure
+  #   storageType: ""                           # AWS, Azure
+  #   sshUser: ""                               # AWS, Azure
+  #   openPorts:                                # AWS, Azure
+  #    - 42/tcp
+  #   blockDurationMinutes: 0                   # AWS spot instance duration in minutes (60, 120, 180, 240, 300, or 360)
+  #   deviceName: "/dev/sda1"                   # AWS root device name
+  #   encryptEbsVolume: false                   # AWS Encrypt the EBS volume using the AWS Managed CMK
+  #   endpoint: ""                              # Optional endpoint URL (hostname only or fully qualified)
+  #   iamInstanceProfile: ""                    # AWS IAM Instance Profile
+  #   insecureTransport: false                  # Disable SSL when sending requests
+  #   createSecurityGroup: true                 # Whether to create `rancher-node` security group. If false, can provide with existing security group
+  #   securityGroups: []
+  #   keypairName: ""                           # AWS keypair to use
+  #   securityGroupReadonly: false              # skip adding default rules to security groups
+  #   sshKeyContents: ""                        # AWS file content
+  #   subnetId: ""                              # AWS VPC subnet id
+  #   monitoring: false                         # AWS flag to enable CloudWatch monitoring
+  #   privateAddressOnly: false                 # AWS flag to only use a private IP address
+  #   requestSpotInstance: false                # AWS flag to request spot instance
+  #   tags: "foo,bar"                           # AWS tags (e.g. key1,value1,key2,value2)
+  #   retries: 5                                # AWS retry count for recoverable failures (use -1 to disable)
+  #   rootSize: 16                              # AWS root disk size (in GB)
+  #   spotPrice: 0.5                            # AWS spot instance bid price (in dollar)
+  #   vpcId: ""                                 # AWS VPC id
+  #   useEbsOptimizedInstance: false            # AWS create an EBS optimized instance
+  #   usePrivateAddress: false                  # AWS force the usage of private IP address
+  #   userdata: ""                              # AWS file contents for userdata
+  #   zone: a                                   # AWS zone for instance (i.e. a,b,c,d,e)
+  #   availabilitySet: "avs-AZURE_PREFIX"       # Azure only
+  #   azureEnvironment: AzurePublicCloud        # Azure only
+  #   customData: ""                            # Azure only
+  #   diskSize: "30"                            # Azure only
+  #   dockerPort: "2376"                        # Azure only
+  #   faultDomainCount: "3"                     # Azure only
+  #   managedDisks: true                        # Azure only
+  #   networkSecurityGroup: "nsg-AZURE_PREFIX"  # Azure only
+  #   noPublicIp: false                         # Azure only
+  #   privateIpAddress: ""                      # Azure only
+  #   resourceGroup: "rg-AZURE_PREFIX"          # Azure only
+  #   staticPublicIp: ""                        # Azure only
+  #   subnet: rke2                              # Azure only
+  #   subnetPrefix: "192.168.0.0/16"            # Azure only
+  #   updateDomainCount: "5"                    # Azure only
+  #   usePrivateIp: false                       # Azure only
+  #   virtualNetwork: "vnet-AZURE_PREFIX"       # Azure only

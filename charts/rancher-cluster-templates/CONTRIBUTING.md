@@ -33,5 +33,5 @@ helm uninstall rke2-azure-cluster01 -n fleet-default
 
 ## How to troubleshoot
 
-* Follow the steps from the start by looking at the machine-provision job (in fleet-default namespace)
+* Follow the steps from the start by looking at the machine-provision job (in `fleet-default` namespace)
 * In case of issue with remaining Kubernetes resources even after helm uninstall, force delete the machine

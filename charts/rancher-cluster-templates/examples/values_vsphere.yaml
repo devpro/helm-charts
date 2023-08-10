@@ -1,19 +1,22 @@
+cluster:
+  name: CLUSTER_NAME
+
 cloudprovider: vsphere
 
-cloudCredentialSecretName: vsphere
+cloudCredentialSecretName: CLOUD_CREDENTIAL_SECRET
 
 nodepools:
-- etcd: true
-  controlplane: true
-  worker: true
-  labels: {}
-  taints: {}
-  quantity: 1
-  paused: false
-  name: nodepool-1
-  cpuCount: "2"
-  creationType: "vm"
-  diskSize: "20480"
-  sshPort: "22"
-  sshUserGroup: staff
-  vcenterPort: 443
+  - etcd: true
+    controlplane: true
+    worker: true
+    labels: {}
+    taints: {}
+    quantity: 1
+    paused: false
+    name: nodepool-1
+    cpuCount: "2"
+    creationType: "vm"
+    diskSize: "20480"
+    sshPort: "22"
+    sshUserGroup: staff
+    vcenterPort: 443
