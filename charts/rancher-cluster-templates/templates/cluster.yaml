@@ -5,41 +5,94 @@ kind: Cluster
 metadata:
   {{- if .Values.cluster.labels }}
   labels:
-{{ toYaml .Values.cluster.labels | indent 4 }}
+    {{- toYaml .Values.cluster.labels | indent 4 }}
   {{- end }}
   {{- if .Values.cluster.annotations }}
   annotations:
-{{ toYaml .Values.cluster.annotations | indent 4 }}
+    {{- toYaml .Values.cluster.annotations | indent 4 }}
   {{- end }}
   name: {{ .Values.cluster.name }}
   namespace: fleet-default
 spec:
+  {{- if .Values.agentEnvs }}
+  agentEnvVars:
+    {{- toYaml .Values.agentEnvs | indent 4 }}
+  {{- end }}
   {{- if .Values.cloudCredentialSecretName }}
   cloudCredentialSecretName: {{ .Values.cloudCredentialSecretName }}
+  {{- end }}
+  # clusterAPIConfig:
+  #   clusterName: string
+  # defaultClusterRoleForProjectMembers: string
+  # defaultPodSecurityPolicyTemplateName: string
+  {{- if .Values.enableNetworkPolicy }}
+  enableNetworkPolicy: {{ .Values.enableNetworkPolicy }}
   {{- end }}
   {{- if .Values.kubernetesVersion }}
   kubernetesVersion: {{ .Values.kubernetesVersion }}
   {{- end }}
-  {{- if .Values.enableNetworkPolicy }}
-  enableNetworkPolicy: {{ .Values.enableNetworkPolicy }}
-  {{- end }}
-  {{- if .Values.rke.localClusterAuthEndpoint.enabled }}
   localClusterAuthEndpoint:
     enabled: {{ .Values.rke.localClusterAuthEndpoint.enabled }}
+    {{- if .Values.rke.localClusterAuthEndpoint.enabled }}
     fqdn: {{ .Values.rke.localClusterAuthEndpoint.fqdn }}
     caCerts: {{ .Values.rke.localClusterAuthEndpoint.caCerts }}
-  {{- end }}
+    {{- end }}
+  # redeploySystemAgentGeneration: integer
   rkeConfig:
+    # additionalManifest: string
+    # chartValues: object
+    # etcd: object
+    # etcdSnapshotCreate:
+    #   generation: integer
+    # etcdSnapshotRestore:
+    #   generation: integer
+    #   name: string
+    #   restoreRKEConfig: string
+    # infrastructureRef:
+    #   apiVersion: string
+    #   fieldPath: string
+    #   kind: string
+    #   name: string
+    #   namespace: string
+    #   resourceVersion: string
+    #   uid: string
+    machineGlobalConfig:
+      # audit-policy-file: ""                         # Path to the file that defines the audit policy configuration
+      # cluster-cidr: ""                              # IPv4/IPv6 network CIDRs to use for pod IPs (default: 10.42.0.0/16)
+      # cluster-dns: ""                               # IPv4 Cluster IP for coredns service. Should be in your service-cidr range (default: 10.43.0.10)
+      # cluster-domain: ""                            # Cluster Domain (default: "cluster.local")
+      cni: calico                                     # CNI Plugin to deploy, one of none, canal, cilium (default: "canal")
+      # disable: false                                # Do not deploy packaged components and delete any deployed components (valid items: rke2-coredns, rke2-ingress-nginx, rke2-kube-proxy, rke2-metrics-server)
+      # etcd-disable-snapshots: false                 # Disable automatic etcd snapshots
+      # etcd-expose-metrics: false                    # Expose etcd metrics to client interface. (Default false)
+      # etcd-snapshot-dir: ""                         # Directory to save db snapshots. (Default location: ${data-dir}/db/snapshots)
+      # etcd-snapshot-name: ""                        # Set the base name of etcd snapshots. Default: etcd-snapshot-<unix-timestamp> (default: "etcd-snapshot")
+      # etcd-snapshot-retention: 5                    # Number of snapshots to retain (default: 5)
+      # etcd-snapshot-schedule-cron: "0 */12 * * *"   # Snapshot interval time in cron spec. eg. every 5 hours '* */5 * * *' (default: "0 */12 * * *")
+      # kube-apiserver-arg: ""                        # Customized flag for kube-apiserver process
+      # kube-scheduler-arg: ""                        # Customized flag for kube-scheduler process
+      # kube-controller-manager-arg: ""               # Customized flag for kube-controller-manager process
+      # profile: "cis-1.6"                            # Validate system configuration against the selected benchmark (valid items: cis-1.5, cis-1.6)
+      # secrets-encryption: false                     # Enable Secret encryption at rest
+      # service-cidr: "10.43.0.0/16"                  # IPv4/IPv6 network CIDRs to use for service IPs (default: 10.43.0.0/16)
+      # service-node-port-range: "30000-32767"        # Port range to reserve for services with NodePort visibility (default: "30000-32767")
+      # tls-san: []                                   # Add additional hostnames or IPv4/IPv6 addresses as Subject Alternative Names on the server TLS cert
     {{- if ne .Values.cloudprovider "custom" }}
     machinePools:
       {{- if .Values.nodepools }}
       {{- range $index, $nodepool := .Values.nodepools }}
       - controlPlaneRole: {{ $nodepool.controlplane }}
+        # cloudCredentialSecretName: string
+        {{- if $nodepool.displayName }}
+        displayName: {{ $nodepool.displayName }}
+        {{- end }}
+        # drainBeforeDelete: boolean
+        # drainBeforeDeleteTimeout: boolean
         etcdRole: {{ $nodepool.etcd }}
-        workerRole: {{ $nodepool.worker }}
-        quantity: {{ $nodepool.quantity }}
-        name: {{ $nodepool.name }}
+        # labels: object
         machineConfigRef:
+          # apiVersion: string
+          # fieldPath: string
           {{- if eq $.Values.cloudprovider "aws" }}
           kind: Amazonec2Config
           {{- else if eq $.Values.cloudprovider "azure" }}
@@ -66,54 +119,35 @@ spec:
           kind: VmwarevsphereConfig
           {{- end}}
           name: {{ $nodepool.name }}
+          # namespace: string
+          # resourceVersion: string
+          # uid: string
+        {{- if $nodepool.machineDeploymentAnnotations }}
+        machineDeploymentAnnotations:
+          {{- toYaml $nodepool.machineDeploymentAnnotations | indent 10 }}
+        {{- end }}
+        {{- if $nodepool.machineDeploymentLabels }}
+        machineDeploymentLabels:
+          {{- toYaml $nodepool.machineDeploymentLabels | indent 10 }}
+        {{- end }}
+        # machineOS: string
+        # maxUnhealthy: string
+        # nodeStartupTimeout: string
+        name: {{ $nodepool.name }}
         paused: {{ $nodepool.paused }}
-        displayName: {{ $nodepool.displayName }}
-        # drainBeforeDelete:
-        # drainBeforeDeleteTimeout:
-        # machineOS:
-        # maxUnhealthy:
-        # labels:
-        # nodeStartupTimeout:
-        # taints:
-        # unhealthyRange:
-        # unhealthyNodeTimeout:
+        quantity: {{ $nodepool.quantity }}
         {{- if $nodepool.rollingUpdate }}
         rollingUpdate:
           maxUnavailable: {{ $nodepool.rollingUpdate.maxUnavailable }}
           maxSurge: {{ $nodepool.rollingUpdate.maxSurge }}
         {{- end }}
-        {{- if $nodepool.machineDeploymentLabels }}
-        machineDeploymentLabels:
-{{ toYaml $nodepool.machineDeploymentLabels | indent 10 }}
-        {{- end }}
-        {{- if $nodepool.machineDeploymentAnnotations }}
-        machineDeploymentAnnotations:
-{{ toYaml $nodepool.machineDeploymentAnnotations | indent 10 }}
-        {{- end }}
+        # taints: object
+        # unhealthyNodeTimeout: string
+        # unhealthyRange: string
+        workerRole: {{ $nodepool.worker }}
       {{- end }}
       {{- end }}
     {{- end }}
-    machineGlobalConfig:
-      # audit-policy-file: ""                         # Path to the file that defines the audit policy configuration
-      # cluster-cidr: ""                              # IPv4/IPv6 network CIDRs to use for pod IPs (default: 10.42.0.0/16)
-      # cluster-dns: ""                               # IPv4 Cluster IP for coredns service. Should be in your service-cidr range (default: 10.43.0.10)
-      # cluster-domain: ""                            # Cluster Domain (default: "cluster.local")
-      cni: calico                                     # CNI Plugin to deploy, one of none, canal, cilium (default: "canal")
-      # disable: false                                # Do not deploy packaged components and delete any deployed components (valid items: rke2-coredns, rke2-ingress-nginx, rke2-kube-proxy, rke2-metrics-server)
-      # etcd-disable-snapshots: false                 # Disable automatic etcd snapshots
-      # etcd-expose-metrics: false                    # Expose etcd metrics to client interface. (Default false)
-      # etcd-snapshot-dir: ""                         # Directory to save db snapshots. (Default location: ${data-dir}/db/snapshots)
-      # etcd-snapshot-name: ""                        # Set the base name of etcd snapshots. Default: etcd-snapshot-<unix-timestamp> (default: "etcd-snapshot")
-      # etcd-snapshot-retention: 5                    # Number of snapshots to retain (default: 5)
-      # etcd-snapshot-schedule-cron: "0 */12 * * *"   # Snapshot interval time in cron spec. eg. every 5 hours '* */5 * * *' (default: "0 */12 * * *")
-      # kube-apiserver-arg: ""                        # Customized flag for kube-apiserver process
-      # kube-scheduler-arg: ""                        # Customized flag for kube-scheduler process
-      # kube-controller-manager-arg: ""               # Customized flag for kube-controller-manager process
-      # profile: "cis-1.6"                            # Validate system configuration against the selected benchmark (valid items: cis-1.5, cis-1.6)
-      # secrets-encryption: false                     # Enable Secret encryption at rest
-      # service-cidr: "10.43.0.0/16"                  # IPv4/IPv6 network CIDRs to use for service IPs (default: 10.43.0.0/16)
-      # service-node-port-range: "30000-32767"        # Port range to reserve for services with NodePort visibility (default: "30000-32767")
-      # tls-san: []                                   # Add additional hostnames or IPv4/IPv6 addresses as Subject Alternative Names on the server TLS cert
     # machineSelectorConfig:
     #   config:
     #     node-name: ""
@@ -129,52 +163,54 @@ spec:
     #     cloud-provider-config: ""         # Cloud provider configuration file path
     #   machineLabelSelector:
     #     matchExpressions:
-    #     matchExpressions:
-    # provisionGeneration:
+    #       - key: string
+    #         operator: string
+    #         values:
+    #           - string
+    # provisionGeneration: integer
     # registries:
     #   configs:
-    #     authConfigSecretName:
-    #     caBundle:
-    #     insecureSkipVerify:
-    #     tlsSecretName:
+    #     authConfigSecretName: string
+    #     caBundle: string
+    #     insecureSkipVerify: boolean
+    #     tlsSecretName: string
     #   mirrors:
     #     endpoint:
-    #     rewrite:
+    #       - string
+    #     rewrite: object
     # rotateCertificates:
-    #   generation:
+    #   generation: integer
     #   services:
+    #     - string
     # rotateEncryptionKeys:
-    #   generation:
+    #   generation: integer
     upgradeStrategy:
       controlPlaneConcurrency: "10%"
       controlPlaneDrainOptions:
         enabled: false
-        # deleteEmptyDirData: false
-        # disableEviction: false
-        # gracePeriod: 0
-        # ignoreErrors: false
-        # skipWaitForDeleteTimeoutSeconds: 0
-        # timeout: 0
+        # deleteEmptyDirData: boolean
+        # disableEviction: boolean
+        # gracePeriod: integer
+        # ignoreDaemonSets: boolean
+        # ignoreErrors: boolean
+        # postDrainHooks:
+        #   - annotation: string
+        # preDrainHooks:
+        #   - annotation: string
+        # skipWaitForDeleteTimeoutSeconds: integer
+        # timeout: integer
       workerConcurrency: "10%"
       workerDrainOptions:
         enabled: false
-        # deleteEmptyDirData: false
-        # disableEviction: false
-        # gracePeriod: 0
-        # ignoreErrors: false
-        # skipWaitForDeleteTimeoutSeconds: 0
-        # timeout: 0
-    # additionalManifest:
-    # chartValues:
-    # etcd:
-    # etcdSnapshotCreate:
-    # etcdSnapshotRestore:
-    # infrastructureRef:
-  {{- if .Values.agentEnvs }}
-  agentEnvVars:
-{{ toYaml .Values.agentEnvs | indent 4 }}
-  {{- end }}
-  # clusterAPIConfig:
-  #   defaultClusterRoleForProjectMembers:
-  #   defaultPodSecurityPolicyTemplateName:
-  #   redeploySystemAgentGeneration:
+        # deleteEmptyDirData: boolean
+        # disableEviction: boolean
+        # force: boolean
+        # gracePeriod: integer
+        # ignoreDaemonSets: boolean
+        # ignoreErrors: boolean
+        # postDrainHooks:
+        #   - annotation: string
+        # preDrainHooks:
+        #   - annotation: string
+        # skipWaitForDeleteTimeoutSeconds: integer
+        # timeout: integer
