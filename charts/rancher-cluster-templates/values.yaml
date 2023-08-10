@@ -50,13 +50,14 @@ nodepools: []
   #     maxUnavailable: "5"
   #   machineDeploymentAnnotations: {}
   #   machineDeploymentLabels: {}
-  #   region: ""                                # AWS, Azure
-  #   machineImage: ""                          # AWS, Azure
-  #   instanceType: ""                          # AWS, Azure
-  #   storageType: ""                           # AWS, Azure
+  #   region: ""                                # AWS, Azure, Outscale
+  #   machineImage: ""                          # AWS, Azure, Outscale
+  #   instanceType: ""                          # AWS, Azure, Outscale
+  #   storageType: ""                           # AWS, Azure, Outscale
   #   sshUser: ""                               # AWS, Azure
   #   openPorts:                                # AWS, Azure
   #    - 42/tcp
+  #   diskSize: "30"                            # Azure, Outscale
   #   blockDurationMinutes: 0                   # AWS spot instance duration in minutes (60, 120, 180, 240, 300, or 360)
   #   deviceName: "/dev/sda1"                   # AWS root device name
   #   encryptEbsVolume: false                   # AWS Encrypt the EBS volume using the AWS Managed CMK
@@ -84,7 +85,6 @@ nodepools: []
   #   availabilitySet: "avs-AZURE_PREFIX"       # Azure only
   #   azureEnvironment: AzurePublicCloud        # Azure only
   #   customData: ""                            # Azure only
-  #   diskSize: "30"                            # Azure only
   #   dockerPort: "2376"                        # Azure only
   #   faultDomainCount: "3"                     # Azure only
   #   managedDisks: true                        # Azure only
@@ -98,3 +98,4 @@ nodepools: []
   #   updateDomainCount: "5"                    # Azure only
   #   usePrivateIp: false                       # Azure only
   #   virtualNetwork: "vnet-AZURE_PREFIX"       # Azure only
+  #   diskIops: "1500"                          # Cloudscale only
