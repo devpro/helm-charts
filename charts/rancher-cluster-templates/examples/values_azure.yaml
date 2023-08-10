@@ -1,0 +1,44 @@
+cluster:
+  name: CLUSTER_NAME
+
+cloudprovider: azure
+cloudCredentialSecretName: CLOUD_CREDENTIAL_SECRET  # Cloud Credential for Azure (example: cattle-global-data:<secret-id>)
+# agentEnvs: []
+
+# clusterMembers:
+# - principalName: "local://u-z8zl5"
+#   roleTemplateName: "cluster-member"
+
+nodepools:
+- etcd: true
+  controlplane: true
+  worker: true
+  labels: {}
+  annotations: {}
+  quantity: 1
+  paused: false
+  name: nodepool-1
+  # displayName: ""
+  # rollingUpdate:
+  #   maxUnavailable: "5"
+  #   maxSurge: "1"
+  # machineDeploymentLabels: {}
+  # machineDeploymentAnnotations: {}
+  availabilitySet: "avs-AZURE_PREFIX"
+  environment: AzurePublicCloud
+  image: "Canonical:0001-com-ubuntu-server-focal:20_04-lts-gen2:20.04.202307240"
+  managedDisks: true
+  nsg: "nsg-AZURE_PREFIX"
+  region: westus
+  openPort:
+    - 6443/tcp    # Kubernetes API
+    - 2379/tcp    # etcd client port
+    - 2380/tcp    # etcd peer port
+    - 10250/tcp   # kubelet
+  resourceGroup: "rg-AZURE_PREFIX"
+  size: Standard_DS2_v2
+  sshUser: azureuser
+  storageType: Standard_LRS
+  subnet: rke2
+  subnetPrefix: "192.168.0.0/16"
+  vnet: "vnet-AZURE_PREFIX"

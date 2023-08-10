@@ -1,0 +1,60 @@
+{{- if eq .Values.cloudprovider "openstack" }}
+{{- range $index, $nodepool := .Values.nodepools }}
+---
+# OpenStack configuration (ref. openstackconfigs.rke-machine-config.cattle.io CRD)
+apiVersion: rke-machine-config.cattle.io/v1
+kind: OpenstackConfig
+metadata:
+  name: {{ $nodepool.name }}
+  namespace: default
+  # annotations:
+  #   key: string
+{{- if $nodepool.labels }}
+  labels:
+{{ toYaml $nodepool.labels | indent 4 }}
+{{- end }}
+# activeTimeout: string
+# applicationCredentialId: string
+# applicationCredentialName: string
+# applicationCredentialSecret: string
+# authUrl: string
+# availabilityZone: string
+# bootFromVolume: boolean
+# cacert: string
+# configDrive: boolean
+# domainId: string
+# domainName: string
+# endpointType: string
+# flavorId: string
+# flavorName: string
+# floatingipPool: string
+# imageId: string
+# imageName: string
+# insecure: boolean
+# ipVersion: string
+# keypairName: string
+# netId: string
+# netName: string
+# novaNetwork: boolean
+# password: string
+# privateKeyFile: string
+region: {{ $nodepool.region }}
+# secGroups: string
+sshPort: {{ $nodepool.sshPort | quote }}
+sshUser: {{ $nodepool.sshUser }}
+# tenantDomainId: string
+# tenantDomainName: string
+# tenantId: string
+# tenantName: string
+# userDataFile: string
+# userDomainId: string
+# userDomainName: string
+# userId: string
+# username: string
+# volumeDevicePath: string
+# volumeId: string
+# volumeName: string
+# volumeSize: string
+# volumeType: string
+{{- end }}
+{{- end }}

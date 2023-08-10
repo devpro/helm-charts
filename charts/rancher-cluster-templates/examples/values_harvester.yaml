@@ -1,0 +1,20 @@
+cloudprovider: harvester
+
+cloudCredentialSecretName: harvester
+
+nodepools:
+- etcd: true
+  controlplane: true
+  worker: true
+  labels: {}
+  taints: {}
+  quantity: 1
+  name: harvester-nodepool-1
+  diskSize: 40
+  diskBus: virtio
+  cpuCount: 4
+  memorySize: 8
+  networkName: default/network-name-1
+  imageName: default/image-rand
+  vmNamespace: default
+  sshUser: ubuntu

@@ -1,0 +1,77 @@
+cluster:
+  name: "mycluster"
+  labels: {}
+  annotations: {}
+
+# cloud provider name (values can be aws, azure, cloudscale, digitalocean, equinix, exoscale, harvester, linode, nutanix, openstack, outscale, vsphere)
+cloudprovider: ""
+
+# cloud credential secret name (do not need to be provided if using custom driver)
+cloudCredentialSecretName: ""
+
+kubernetesVersion: "v1.24.14+rke2r1"
+
+# Rancher Kubernetes Engine options (Kubernetes distribution)
+rke:
+  localClusterAuthEndpoint:
+    enabled: false
+    fqdn: foo.bar.example
+    caCerts: ""
+
+# specify user principal ids to be assiged as cluster members
+# clusterMembers:
+# - principalName: "local://u-z8zl5"
+#   roleTemplateName: "cluster-member"
+
+monitoring:
+  enabled: false
+  # specify which version to install, can be semver range. If version is empty or is semver range, it will pick up the latest version.
+  # version: ""
+  # specify cutsom values set
+  # values:
+  #   foo: bar
+
+nodepools: []
+# - etcd: true
+#   controlplane: true
+#   worker: true
+#   labels: {}
+#   taints: {}
+#   quantity: 1
+#   paused: false
+#   displayName: ""
+#   rollingUpdate:
+#     maxSurge: "1"
+#   machineDeploymentLabels: {}
+#   machineDeploymentAnnotations: {}
+#   name: ""
+#   ami: ""                         # AWS machine image
+#   blockDurationMinutes: 0         # AWS spot instance duration in minutes (60, 120, 180, 240, 300, or 360)
+#   deviceName: "/dev/sda1"         # AWS root device name
+#   encryptEbsVolume: false         # AWS Encrypt the EBS volume using the AWS Managed CMK
+#   endpoint: ""                    # Optional endpoint URL (hostname only or fully qualified)
+#   iamInstanceProfile: ""          # AWS IAM Instance Profile
+#   insecureTransport: false        # Disable SSL when sending requests
+#   instanceType: t3a.medium        # AWS instance type
+#   region: us-west-2               # AWS datacenter region
+#   createSecurityGroup: true       # Whether to create `rancher-node` security group. If false, can provide with existing security group
+#   securityGroups: []
+#   keypairName: ""                 # AWS keypair to use
+#   securityGroupReadonly: false    # skip adding default rules to security groups
+#   sshKeyContents: ""              # AWS file content
+#   subnetId: ""                    # AWS VPC subnet id
+#   monitoring: false               # AWS flag to enable CloudWatch monitoring
+#   openPort: ["8080", "8443"]      # AWS port numbers accessible from the Internet
+#   privateAddressOnly: false       # AWS flag to only use a private IP address
+#   requestSpotInstance: false      # AWS flag to request spot instance
+#   tags: "foo,bar"                 # AWS tags (e.g. key1,value1,key2,value2)
+#   retries: 5                      # AWS retry count for recoverable failures (use -1 to disable)
+#   rootSize: 16                    # AWS root disk size (in GB)
+#   spotPrice: 0.5                  # AWS spot instance bid price (in dollar)
+#   sshUser: ubuntu                 # AWS SSH username
+#   volumeType: gp2                 # AWS Amazon EBS volume type
+#   vpcId: ""                       # AWS VPC id
+#   useEbsOptimizedInstance: false  # AWS create an EBS optimized instance
+#   usePrivateAddress: false        # AWS force the usage of private IP address
+#   userdata: ""                    # AWS file contents for userdata
+#   zone: a                         # AWS zone for instance (i.e. a,b,c,d,e)

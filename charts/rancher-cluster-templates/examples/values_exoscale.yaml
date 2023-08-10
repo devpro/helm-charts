@@ -1,0 +1,12 @@
+cloudprovider: exoscale
+
+cloudCredentialSecretName: exoscale
+
+nodepools:
+- etcd: true
+  controlplane: true
+  worker: true
+  labels: {}
+  taints: {}
+  quantity: 1
+  name: nodepool-1

@@ -1,0 +1,12 @@
+cloudprovider: equinix
+
+cloudCredentialSecretName: equinix
+
+nodepools:
+- etcd: true
+  controlplane: true
+  worker: true
+  labels: {}
+  taints: {}
+  quantity: 1
+  name: nodepool-1

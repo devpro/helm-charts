@@ -1,0 +1,31 @@
+{{- if eq .Values.cloudprovider "digitalocean" }}
+{{- range $index, $nodepool := .Values.nodepools }}
+---
+# Digital Ocean configuration (ref. digitaloceanconfigs.rke-machine-config.cattle.io CRD)
+apiVersion: rke-machine-config.cattle.io/v1
+kind: DigitaloceanConfig
+metadata:
+  name: {{ $nodepool.name }}
+  namespace: fleet-default
+  # annotations:
+  #   key: string
+{{- if $nodepool.labels }}
+  labels:
+{{ toYaml $nodepool.labels | indent 4 }}
+{{- end }}
+# accessToken: string
+backups: {{ $nodepool.backups }}
+image: {{ $nodepool.image }}
+ipv6: {{ $nodepool.ipv6 }}
+monitoring: {{ $nodepool.monitoring }}
+privateNetworking: {{ $nodepool.privateNetworking }}
+region: {{ $nodepool.region }}
+size: {{ $nodepool.size }}
+sshKeyContents: {{ $nodepool.sshKeyContents }}
+sshKeyFingerprint: {{ $nodepool.sshKeyFingerprint }}
+sshPort: {{ $nodepool.sshPort | quote }}
+sshUser: {{ $nodepool.sshUser }}
+tags: {{ $nodepool.tags }}
+userdata: {{ $nodepool.userdata }}
+{{- end }}
+{{- end }}

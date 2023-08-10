@@ -1,0 +1,36 @@
+{{- if eq .Values.cloudprovider "nutanix" }}
+{{- range $index, $nodepool := .Values.nodepools }}
+---
+# Nutanix configuration (ref. nutanixconfigs.rke-machine-config.cattle.io CRD)
+apiVersion: rke-machine-config.cattle.io/v1
+kind: NutanixConfig
+metadata:
+  name: {{ $nodepool.name }}
+  namespace: default
+  # annotations:
+  #   key: string
+{{- if $nodepool.labels }}
+  labels:
+{{ toYaml $nodepool.labels | indent 4 }}
+{{- end }}
+# cloudInit: string
+# cluster: string
+# diskSize: string
+# endpoint: string
+# insecure: boolean
+# password: string
+# port: string
+# storageContainer: string
+# username: string
+# vmCategories:
+#   - string
+# vmCores: string
+# vmCpuPassthrough: boolean
+# vmCpus: string
+vmImage: {{ $nodepool.image }}
+# vmImageSize: string
+# vmMem: string
+# vmNetwork:
+#   - string
+{{- end }}
+{{- end }}

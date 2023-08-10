@@ -1,0 +1,38 @@
+{{- if eq .Values.cloudprovider "harvester" }}
+{{- range $index, $nodepool := .Values.nodepools }}
+---
+# Harvester configuration (ref. harvesterconfigs.rke-machine-config.cattle.io CRD)
+apiVersion: rke-machine-config.cattle.io/v1
+kind: HarvesterConfig
+metadata:
+  name: {{ $nodepool.name }}
+  namespace: fleet-default
+  # annotations:
+  #   key: string
+{{- if $nodepool.labels }}
+  labels:
+{{ toYaml $nodepool.labels | indent 4 }}
+{{- end }}
+#cloudConfig: string
+#clusterId: string
+#clusterType: string
+cpuCount: {{ $nodepool.cpuCount | quote }}
+diskBus: {{ $nodepool.diskBus }}
+diskSize: {{ $nodepool.diskSize | quote }}
+imageName: {{ $nodepool.imageName }}
+#keyPairName: string
+#kubeconfigContent: string
+memorySize: {{ $nodepool.memorySize | quote }}
+#networkData: string
+#networkModel: string
+networkName: {{ $nodepool.networkName }}
+#networkType: string
+#sshPassword: string
+#sshPort: string
+#sshPrivateKeyPath: string
+sshUser: {{ $nodepool.sshUser }}
+#userData: string
+#vmAffinity: string
+vmNamespace: {{ $nodepool.vmNamespace }}
+{{- end }}
+{{- end }}

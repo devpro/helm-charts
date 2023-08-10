@@ -1,0 +1,37 @@
+{{- if eq .Values.cloudprovider "outscale" }}
+{{- range $index, $nodepool := .Values.nodepools }}
+---
+# Outscale configuration (ref. outscaleconfigs.rke-machine-config.cattle.io CRD)
+apiVersion: rke-machine-config.cattle.io/v1
+kind: OutscaleConfig
+metadata:
+  name: {{ $nodepool.name }}
+  namespace: default
+  # annotations:
+  #   key: string
+{{- if $nodepool.labels }}
+  labels:
+{{ toYaml $nodepool.labels | indent 4 }}
+{{- end }}
+# accessKey: string
+# extraTagsAll:
+#   - string
+# extraTagsInstances:
+#   - string
+{{- if $nodepool.instanceType }}
+instanceType: {{ $nodepool.instanceType }}
+{{- end }}
+{{- if $nodepool.region }}
+region: {{ $nodepool.region }}
+{{- end }}
+# rootDiskIops: string
+# rootDiskSize: string
+# rootDiskType: string
+# secretKey: string
+# securityGroupIds:
+#   - string
+{{- if $nodepool.sourceOmi }}
+sourceOmi: {{ $nodepool.sourceOmi }}
+{{- end }}
+{{- end }}
+{{- end }}
