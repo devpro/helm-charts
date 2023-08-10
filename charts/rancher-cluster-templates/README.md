@@ -1,4 +1,4 @@
-# Helm chart for Kratos
+# Helm chart for Rancher cluster templates
 
 This Helm chart will create a Kubernetes cluster from Rancher through [Cluster Templates](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/manage-clusters/manage-cluster-templates).
 
@@ -46,11 +46,12 @@ Follow the [guide](CONTRIBUTING.md).
 
 ### Going further
 
-* [Azure](docs/azure.md)
-* GitOps approach
+* Infrastructure providers
+  * [Azure](docs/azure.md)
+* Chart installation
   * [ArgoCD](https://github.com/devpro/helm-charts#from-argocd)
   * [Fleet](https://github.com/devpro/helm-charts#from-fleet)
-* [Rancher Apps](https://github.com/devpro/helm-charts#from-rancher)
+  * [Rancher Apps](https://github.com/devpro/helm-charts#from-rancher)
 
 ## Inspirations
 
