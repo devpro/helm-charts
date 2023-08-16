@@ -6,7 +6,7 @@ apiVersion: rke-machine-config.cattle.io/v1
 kind: NutanixConfig
 metadata:
   name: {{ $nodepool.name }}
-  namespace: default
+  namespace: fleet-default
   # annotations:
   #   key: string
 {{- if $nodepool.labels }}
