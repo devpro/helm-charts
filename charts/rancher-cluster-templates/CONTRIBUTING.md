@@ -14,7 +14,7 @@ helm template my-cluster . -f values.yaml -f values_mine.yaml --namespace fleet-
 
 💡 This commands must be run on the Kubernetes cluster hosting Rancher (called `local` by default).
 
-### Example with a cluster on Azure
+### Azure example
 
 ```bash
 # copies the example
@@ -25,10 +25,26 @@ sed -i "s/AZURE_PREFIX/$USER-$resourcekey/g" values_mine.yaml
 sed -i "s/CLOUD_CREDENTIAL_SECRET/<secret_name>/g" values_mine.yaml
 
 # runs the installation with Helm
-helm upgrade --install rke2-azure-cluster01 . -f values.yaml -f values_mine.yaml --namespace fleet-default
+helm upgrade --install rke2-azure01 . -f values.yaml -f values_mine.yaml --namespace fleet-default
 
 # removes the installation
-helm uninstall rke2-azure-cluster01 -n fleet-default
+helm uninstall rke2-azure01 -n fleet-default
+```
+
+### Outscale example
+
+```bash
+# copies the example
+cp examples/values_outscale.yaml values_mine.yaml
+resourcekey=$(openssl rand -hex 6)
+sed -i "s/CLUSTER_NAME/az-rke2-$resourcekey/g" values_mine.yaml
+sed -i "s/CLOUD_CREDENTIAL_SECRET/<secret_name>/g" values_mine.yaml
+
+# runs the installation with Helm
+helm upgrade --install rke2-outscale01 . -f values.yaml -f values_mine.yaml --namespace fleet-default
+
+# removes the installation
+helm uninstall rke2-outscale01 -n fleet-default
 ```
 
 ## How to troubleshoot

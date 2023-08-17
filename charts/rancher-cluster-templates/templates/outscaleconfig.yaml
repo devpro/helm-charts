@@ -6,32 +6,26 @@ apiVersion: rke-machine-config.cattle.io/v1
 kind: OutscaleConfig
 metadata:
   name: {{ $nodepool.name }}
-  namespace: default
-  # annotations:
-  #   key: string
-{{- if $nodepool.labels }}
+  namespace: fleet-default
+  {{- if $nodepool.annotations }}
+  annotations:
+    {{- toYaml $nodepool.annotations | indent 4 }}
+  {{- end }}
+  {{- if $nodepool.labels }}
   labels:
-{{ toYaml $nodepool.labels | indent 4 }}
-{{- end }}
+    {{- toYaml $nodepool.labels | indent 4 }}
+  {{- end }}
 # accessKey: string
-# extraTagsAll:
-#   - string
-# extraTagsInstances:
-#   - string
-{{- if $nodepool.instanceType }}
+extraTagsAll: []
+extraTagsInstances: []
 instanceType: {{ $nodepool.instanceType }}
-{{- end }}
-{{- if $nodepool.region }}
 region: {{ $nodepool.region }}
-{{- end }}
-# rootDiskIops: string
-# rootDiskSize: string
-# rootDiskType: string
+rootDiskIops: "{{ default "1500" $nodepool.diskIops }}"
+rootDiskSize: "{{ default "15" $nodepool.diskSize }}"
+rootDiskType: {{ default "gp2" $nodepool.storageType }}
 # secretKey: string
 # securityGroupIds:
 #   - string
-{{- if $nodepool.sourceOmi }}
-sourceOmi: {{ $nodepool.sourceOmi }}
-{{- end }}
+sourceOmi: {{ $nodepool.machineImage }}
 {{- end }}
 {{- end }}

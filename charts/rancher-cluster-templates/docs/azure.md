@@ -3,6 +3,8 @@
 ## Design
 
 * [Availability sets overview](https://learn.microsoft.com/en-us/azure/virtual-machines/availability-set-overview)
+* [Azure Virtual Network concepts and best practices](https://learn.microsoft.com/en-us/azure/virtual-network/concepts-and-best-practices)
+* [General purpose virtual machine sizes](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes-general)
 
 ## Configuration
 
