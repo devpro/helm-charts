@@ -32,10 +32,12 @@ spec:
   kubernetesVersion: {{ .Values.kubernetesVersion }}
   {{- end }}
   localClusterAuthEndpoint:
-    enabled: {{ .Values.rke.localClusterAuthEndpoint.enabled }}
     {{- if .Values.rke.localClusterAuthEndpoint.enabled }}
+    enabled: {{ .Values.rke.localClusterAuthEndpoint.enabled }}
     fqdn: {{ .Values.rke.localClusterAuthEndpoint.fqdn }}
     caCerts: {{ .Values.rke.localClusterAuthEndpoint.caCerts }}
+    {{- else }}
+    {}
     {{- end }}
   # redeploySystemAgentGeneration: integer
   rkeConfig:
@@ -134,7 +136,9 @@ spec:
         # maxUnhealthy: string
         # nodeStartupTimeout: string
         name: {{ $nodepool.name }}
+        {{- if $nodepool.paused }}
         paused: {{ $nodepool.paused }}
+        {{- end }}
         quantity: {{ $nodepool.quantity }}
         {{- if $nodepool.rollingUpdate }}
         rollingUpdate:
@@ -188,29 +192,30 @@ spec:
       controlPlaneConcurrency: "10%"
       controlPlaneDrainOptions:
         enabled: false
-        # deleteEmptyDirData: boolean
-        # disableEviction: boolean
-        # gracePeriod: integer
+        deleteEmptyDirData: false
+        disableEviction: false
+        force: false
+        gracePeriod: 0
         # ignoreDaemonSets: boolean
         # ignoreErrors: boolean
         # postDrainHooks:
         #   - annotation: string
         # preDrainHooks:
         #   - annotation: string
-        # skipWaitForDeleteTimeoutSeconds: integer
-        # timeout: integer
+        skipWaitForDeleteTimeoutSeconds: 0
+        timeout: 0
       workerConcurrency: "10%"
       workerDrainOptions:
         enabled: false
-        # deleteEmptyDirData: boolean
-        # disableEviction: boolean
-        # force: boolean
-        # gracePeriod: integer
+        deleteEmptyDirData: false
+        disableEviction: false
+        force: false
+        gracePeriod: 0
         # ignoreDaemonSets: boolean
         # ignoreErrors: boolean
         # postDrainHooks:
         #   - annotation: string
         # preDrainHooks:
         #   - annotation: string
-        # skipWaitForDeleteTimeoutSeconds: integer
-        # timeout: integer
+        skipWaitForDeleteTimeoutSeconds: 0
+        timeout: 0
