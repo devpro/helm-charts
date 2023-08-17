@@ -98,4 +98,4 @@ nodepools: []
   #   updateDomainCount: "5"                    # Azure only
   #   usePrivateIp: false                       # Azure only
   #   virtualNetwork: "vnet-AZURE_PREFIX"       # Azure only
-  #   diskIops: "1500"                          # Cloudscale only
+  #   diskIops: "1500"                          # Outscale only
