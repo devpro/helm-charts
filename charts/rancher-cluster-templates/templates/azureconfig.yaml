@@ -8,7 +8,7 @@ metadata:
   name: {{ $nodepool.name }}
   namespace: fleet-default
   {{- if $nodepool.annotations }}
-  labels:
+  annotations:
     {{- toYaml $nodepool.annotations | indent 4 }}
   {{- end }}
   {{- if $nodepool.labels }}
