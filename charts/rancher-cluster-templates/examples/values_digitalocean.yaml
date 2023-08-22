@@ -10,7 +10,6 @@ nodepools:
     controlplane: true
     worker: true
     labels: {}
-    taints: {}
     quantity: 1
     name: nodepool-1
     image: ubuntu-20-04-x64
