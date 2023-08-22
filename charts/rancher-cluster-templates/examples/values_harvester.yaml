@@ -10,7 +10,6 @@ nodepools:
     controlplane: true
     worker: true
     labels: {}
-    taints: {}
     quantity: 1
     name: harvester-nodepool-1
     diskSize: 40

@@ -93,7 +93,7 @@ sshUser: {{ $nodepool.sshUser }}
 subnetId: {{ $nodepool.subnetId }}
 {{- end }}
 {{- if $nodepool.tags }}
-tags: {{ $nodepool.tags }}
+tags: {{ join "," $nodepool.tags }}
 {{- end }}
 {{- if $nodepool.useEbsOptimizedInstance }}
 useEbsOptimizedInstance: {{ $nodepool.useEbsOptimizedInstance }}

@@ -25,20 +25,20 @@ helm uninstall my-cluster -n fleet-default
 
 💡 Node driver must be enabled in Rancher prior to Helm chart installation
 
-Provider                         | Example                                                  | Template                                                | Node Driver
----------------------------------|----------------------------------------------------------|---------------------------------------------------------|----------------
-**Amazon Web Services (AWS)**    | [values_aws](examples/values_aws.yaml)                   | [amazonec2config](templates/amazonec2config.yaml)       | `Amazon EC2`
-[**Azure**](docs/azure.md)       | [values_azure](examples/values_azure.yaml)               | [azureconfig](templates/azureconfig.yaml)               | `Azure`
-**CloudScale**                   | [values_cloudscale](examples/values_cloudscale.yaml)     | [cloudscaleconfig](templates/cloudscaleconfig.yaml)     | `Cloudscale`
-**Digitial Ocean**               | [values_digitalocean](examples/values_digitalocean.yaml) | [digitaloceanconfig](templates/digitaloceanconfig.yaml) | `DigitalOcean`
-**Exoscale**                     | [values_digitalocean](examples/values_digitalocean.yaml) | [digitaloceanconfig](templates/digitaloceanconfig.yaml) | `Exoscale`
-**Equinix Metal (prev. Packet)** | [values_equinix](examples/values_equinix.yaml)           | [packetconfig](templates/packetconfig.yaml)             | `Equinix Metal`
-**Harvester**                    | [values_harvester](examples/values_harvester.yaml)       | [harvesterconfig](templates/harvesterconfig.yaml)       | `Harvester`
-**Linode**                       | [values_linode](examples/values_linode.yaml)             | [linodeconfig](templates/linodeconfig.yaml)             | `Linode`
-**Nutanix**                      | [values_nutanix](examples/values_nutanix.yaml)           | [nutanixconfig](templates/nutanixconfig.yaml)           | `Nutanix`
-**OpenStack**                    | [values_openstack](examples/values_openstack.yaml)       | [openstackconfig](templates/openstackconfig.yaml)       | `OpenStack`
-**Outscale**                     | [values_aws](examples/values_outscale.yaml)              | [outscaleconfig](templates/outscaleconfig.yaml)         | `Outscale`
-**VMware vSphere**               | [values_vsphere](examples/values_vsphere.yaml)           | [vsphereconfig](templates/vsphereconfig.yaml)           | `vSphere`
+Provider                         | Example                                                  | Template                                                            | Node Driver
+---------------------------------|----------------------------------------------------------|---------------------------------------------------------------------|----------------
+**Amazon Web Services (AWS)**    | [values_aws](examples/values_aws.yaml)                   | [amazonec2config](templates/amazonec2config.yaml)                   | `Amazon EC2`
+[**Azure**](docs/azure.md)       | [values_azure](examples/values_azure.yaml)               | [azureconfig](templates/azureconfig.yaml)                           | `Azure`
+**CloudScale**                   | [values_cloudscale](examples/values_cloudscale.yaml)     | [cloudscaleconfig](templates/cloudscaleconfig.yaml)                 | `Cloudscale`
+**Digitial Ocean**               | [values_digitalocean](examples/values_digitalocean.yaml) | [digitaloceanconfig](templates/digitaloceanconfig.yaml)             | `DigitalOcean`
+**Exoscale**                     | [values_digitalocean](examples/values_digitalocean.yaml) | [digitaloceanconfig](templates/digitaloceanconfig.yaml)             | `Exoscale`
+**Equinix Metal (prev. Packet)** | [values_equinix](examples/values_equinix.yaml)           | [packetconfig](templates/packetconfig.yaml)                         | `Equinix Metal`
+**Harvester**                    | [values_harvester](examples/values_harvester.yaml)       | [harvesterconfig](templates/harvesterconfig.yaml)                   | `Harvester`
+**Linode**                       | [values_linode](examples/values_linode.yaml)             | [linodeconfig](templates/linodeconfig.yaml)                         | `Linode`
+**Nutanix**                      | [values_nutanix](examples/values_nutanix.yaml)           | [nutanixconfig](templates/nutanixconfig.yaml)                       | `Nutanix`
+**OpenStack**                    | [values_openstack](examples/values_openstack.yaml)       | [openstackconfig](templates/openstackconfig.yaml)                   | `OpenStack`
+**Outscale**                     | [values_aws](examples/values_outscale.yaml)              | [outscaleconfig](templates/outscaleconfig.yaml)                     | `Outscale`
+**VMware vSphere**               | [values_vsphere](examples/values_vsphere.yaml)           | [vmwarevsphereconfig.yaml](templates/vmwarevsphereconfig.yaml.yaml) | `vSphere`
 
 ### Automation
 

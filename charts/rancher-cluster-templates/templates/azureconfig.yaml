@@ -1,14 +1,13 @@
 {{- if eq .Values.cloudprovider "azure" }}
 {{- range $index, $nodepool := .Values.nodepools }}
 ---
-# Azure configuration (ref. azureconfigs.rke-machine-config.cattle.io CRD)
 apiVersion: rke-machine-config.cattle.io/v1
 kind: AzureConfig
 metadata:
   name: {{ $nodepool.name }}
   namespace: fleet-default
   {{- if $nodepool.annotations }}
-  labels:
+  annotations:
     {{- toYaml $nodepool.annotations | indent 4 }}
   {{- end }}
   {{- if $nodepool.labels }}

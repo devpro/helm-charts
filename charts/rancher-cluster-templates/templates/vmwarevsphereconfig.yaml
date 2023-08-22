@@ -1,0 +1,116 @@
+{{- if eq .Values.cloudprovider "vsphere" }}
+{{- range $index, $nodepool := .Values.nodepools }}
+---
+apiVersion: rke-machine-config.cattle.io/v1
+kind: VmwarevsphereConfig
+metadata:
+  name: {{ $nodepool.name }}
+  namespace: fleet-default
+  {{- if $nodepool.annotations }}
+  annotations:
+    {{- toYaml $nodepool.annotations | indent 4 }}
+  {{- end }}
+  {{- if $nodepool.labels }}
+  labels:
+    {{- toYaml $nodepool.labels | indent 4 }}
+  {{- end }}
+# boot2dockerUrl: string
+{{- if $nodepool.cfgparam }}
+cfgparam: {{ $nodepool.cfgparam }}
+{{- end }}
+{{- if $nodepool.cloneFrom }}
+cloneFrom: {{ $nodepool.cloneFrom }}
+{{- end }}
+{{- if $nodepool.cloudConfig }}
+cloudConfig: |
+{{ $nodepool.cloudConfig | indent 2 }}
+{{- end }}
+{{- if $nodepool.cloudinit }}
+cloudinit: {{ $nodepool.cloudinit }}
+{{- end }}
+common:
+  # cloudCredentialSecretName: string
+  {{- if $nodepool.labels }}
+  labels:
+    {{- toYaml $nodepool.labels | indent 4 }}
+  {{- end }}
+  {{- if $nodepool.taints }}
+  taints:
+    {{- toYaml $nodepool.taints | indent 4 }}
+  {{- end }}
+{{- if $nodepool.contentLibrary }}
+contentLibrary: {{ $nodepool.contentLibrary }}
+{{- end }}
+{{- if $nodepool.cpuCount }}
+cpuCount: {{ $nodepool.cpuCount | quote }}
+{{- end }}
+{{- if $nodepool.creationType }}
+creationType: {{ $nodepool.creationType }}
+{{- end }}
+{{- if $nodepool.customAttribute }}
+customAttribute: {{ $nodepool.customAttribute }}
+{{- end }}
+{{- if $nodepool.datacenter }}
+datacenter: {{ $nodepool.datacenter }}
+{{- end }}
+{{- if $nodepool.region }}
+datastore: {{ $nodepool.region }}
+{{- end }}
+{{- if $nodepool.datastoreCluster }}
+datastoreCluster: {{ $nodepool.datastoreCluster }}
+{{- end }}
+{{- if $nodepool.diskSize }}
+diskSize: {{ $nodepool.diskSize | quote }}
+{{- end }}
+{{- if $nodepool.folder }}
+folder: {{ $nodepool.folder }}
+{{- end }}
+{{- if $nodepool.hostsystem }}
+hostsystem: {{ $nodepool.hostsystem }}
+{{- end }}
+{{- if $nodepool.memorySize }}
+memorySize: {{ $nodepool.memorySize | quote }}
+{{- end }}
+{{- if $nodepool.network }}
+network: {{ $nodepool.network }}
+{{- end }}
+# os: string
+# password: string
+{{- if $nodepool.pool }}
+pool: {{ $nodepool.pool }}
+{{- end }}
+# providerID: string
+# sshPassword: string
+{{- if $nodepool.sshPort }}
+sshPort: {{ $nodepool.sshPort | quote }}
+{{- end }}
+{{- if $nodepool.sshUser }}
+sshUser: {{ $nodepool.sshUser }}
+{{- end }}
+{{- if $nodepool.sshUserGroup }}
+sshUserGroup: {{ $nodepool.sshUserGroup }}
+{{- end }}
+{{- if $nodepool.tags }}
+tag: {{ $nodepool.tags }}
+{{- end }}
+# username: string
+{{- if $nodepool.vappIpallocationpolicy }}
+vappIpallocationpolicy: {{ $nodepool.vappIpallocationpolicy }}
+{{- end }}
+{{- if $nodepool.vappIpprotocol }}
+vappIpprotocol: {{ $nodepool.vappIpprotocol }}
+{{- end }}
+{{- if $nodepool.vappProperty }}
+vappProperty: {{ $nodepool.vappProperty }}
+{{- end }}
+{{- if $nodepool.vappTransport }}
+vappTransport: {{ $nodepool.vappTransport }}
+{{- end }}
+{{- if $nodepool.vcenter }}
+vcenter: {{ $nodepool.vcenter }}
+{{- end }}
+{{- if $nodepool.vcenterPort }}
+vcenterPort: {{ $nodepool.vcenterPort | quote }}
+{{- end }}
+{{- end }}
+{{- end }}

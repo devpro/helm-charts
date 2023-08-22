@@ -10,7 +10,6 @@ nodepools:
     controlplane: true
     worker: true
     labels: {}
-    taints: {}
     quantity: 1
     paused: false
     name: nodepool-1
