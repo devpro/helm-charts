@@ -9,14 +9,39 @@ nodepools:
   - etcd: true
     controlplane: true
     worker: true
+    annotations: {}
     labels: {}
-    taints: {}
     quantity: 1
     paused: false
     name: nodepool-1
+    # region: ""
+    taints: {}
+    # cfgparam: []                # VM configuration parameters, used for guestinfo
+    # cloneFrom: ""
+    # cloudConfig: |              # contents of cloud-config yaml file to put into the ISO user-data; Format should be:
+    #   #cloud-config
+    #   <custom cloud-config>
+    # cloudinit: ""               # filepath or url to add to guestinfo, filepath will be read and base64 encoded before adding
+    # contentLibrary: ""          # if cloneFrom is set
     cpuCount: "2"
-    creationType: "vm"
-    diskSize: "20480"
-    sshPort: "22"
-    sshUserGroup: staff
+    creationType: "vm"            # supported: vm, template, library, legacy
+    # customAttribute:
+    #   - "200=mycustom value"
+    # datastore: ""
+    # datastoreCluster: ""
+    diskSize: "20480"             # in MB
+    # folder: ""                  # folder for the docker VM, which must already exist in the datacenter
+    # hostsystem: ""              # compute resource where the docker VM will be instantiated, this can be omitted if using a cluster with DRS
+    # memorySize: "2048"          # in MB
+    # network: ""                 # vSphere network where the virtual machine will be attached
+    # pool: ""                    # resource pool
+    sshPort: "22"                 # if using a non-B2D image
+    sshUserGroup: staff           # if using a non-B2D image the uploaded keys will need chown'ed, defaults to staff e.g. docker:staff
+    # tag:
+    #   - "urn:xxx"
+    # vappIpallocationpolicy: ""  # supported: dhcp, fixed, transient and fixedAllocated
+    # vappIpprotocol: ""          # supported: IPv4 and IPv6)
+    # vappProperty: []
+    # vappTransport: ""           # supported: iso and com.vmware.guestInfo (OVF environment transports)
+    # vcenter: ""                 # vCenter IP or hostname
     vcenterPort: 443

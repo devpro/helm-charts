@@ -50,14 +50,17 @@ nodepools: []
   #     maxUnavailable: "5"
   #   machineDeploymentAnnotations: {}
   #   machineDeploymentLabels: {}
-  #   region: ""                                # AWS, Azure, Outscale
+  #   region: ""                                # AWS, Azure, Outscale, vSphere
   #   machineImage: ""                          # AWS, Azure, Outscale
   #   instanceType: ""                          # AWS, Azure, Outscale
   #   storageType: ""                           # AWS, Azure, Outscale
-  #   sshUser: ""                               # AWS, Azure
+  #   sshUser: ""                               # AWS, Azure, vSphere
   #   openPorts:                                # AWS, Azure
-  #    - 42/tcp
-  #   diskSize: "30"                            # Azure, Outscale
+  #     - 42/tcp
+  #   diskSize: "30"                            # Azure, Outscale, vSphere
+  #   tags:                                     # AWS, vSphere
+  #     - foo
+  #     - bar
   #   blockDurationMinutes: 0                   # AWS spot instance duration in minutes (60, 120, 180, 240, 300, or 360)
   #   deviceName: "/dev/sda1"                   # AWS root device name
   #   encryptEbsVolume: false                   # AWS Encrypt the EBS volume using the AWS Managed CMK
@@ -73,7 +76,6 @@ nodepools: []
   #   monitoring: false                         # AWS flag to enable CloudWatch monitoring
   #   privateAddressOnly: false                 # AWS flag to only use a private IP address
   #   requestSpotInstance: false                # AWS flag to request spot instance
-  #   tags: "foo,bar"                           # AWS tags (e.g. key1,value1,key2,value2)
   #   retries: 5                                # AWS retry count for recoverable failures (use -1 to disable)
   #   rootSize: 16                              # AWS root disk size (in GB)
   #   spotPrice: 0.5                            # AWS spot instance bid price (in dollar)
@@ -99,3 +101,35 @@ nodepools: []
   #   usePrivateIp: false                       # Azure only
   #   virtualNetwork: "vnet-AZURE_PREFIX"       # Azure only
   #   diskIops: "1500"                          # Outscale only
+  #   cfgparam:                                 # vSphere only
+  #     - string
+  #   cloneFrom: ""                             # vSphere only
+  #   cloudConfig: ""                           # vSphere only
+  #   taints:                                   # vSphere only
+  #     - effect: string
+  #       key: string
+  #       timeAdded: string
+  #       value: string
+  #   contentLibrary: ""                        # vSphere only
+  #   cpuCount: ""                              # vSphere only
+  #   creationType: ""                          # vSphere only
+  #   customAttribute:                          # vSphere only
+  #     - string
+  #   datastore: ""                             # vSphere only
+  #   datastoreCluster: ""                      # vSphere only
+  #   diskSize: ""                              # vSphere only
+  #   folder: ""                                # vSphere only
+  #   hostsystem: ""                            # vSphere only
+  #   memorySize: ""                            # vSphere only
+  #   network:                                  # vSphere only
+  #     - string
+  #   pool: ""                                  # vSphere only
+  #   sshPort: ""                               # vSphere only
+  #   sshUserGroup: ""                          # vSphere only
+  #   vappIpallocationpolicy: ""                # vSphere only
+  #   vappIpprotocol: ""                        # vSphere only
+  #   vappProperty:                             # vSphere only
+  #     - string
+  #   vappTransport: ""                         # vSphere only
+  #   vcenter: ""                               # vSphere only
+  #   vcenterPort: ""                           # vSphere only
