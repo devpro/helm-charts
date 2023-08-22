@@ -7,12 +7,14 @@ kind: VmwarevsphereConfig
 metadata:
   name: {{ $nodepool.name }}
   namespace: fleet-default
-  # annotations:
-  #   key: string
-{{- if $nodepool.labels }}
+  {{- if $nodepool.annotations }}
+  annotations:
+    {{- toYaml $nodepool.annotations | indent 4 }}
+  {{- end }}
+  {{- if $nodepool.labels }}
   labels:
-{{ toYaml $nodepool.labels | indent 4 }}
-{{- end }}
+    {{- toYaml $nodepool.labels | indent 4 }}
+  {{- end }}
 # boot2dockerUrl: string
 {{- if $nodepool.cfgparam }}
 cfgparam: {{ $nodepool.cfgparam }}
@@ -23,14 +25,18 @@ cloudConfig: |
 cloudinit: {{ $nodepool.cloudinit }}
 common:
 #  cloudCredentialSecretName: string
-{{- if $nodepool.labels }}
+  {{- if $nodepool.labels }}
   labels:
-{{ toYaml $nodepool.labels | indent 4 }}
-{{- end }}
-{{- if $nodepool.taints }}
+    {{- toYaml $nodepool.labels | indent 4 }}
+  {{- end }}
+  {{- if $nodepool.taints }}
   taints:
-{{ toYaml $nodepool.taints | indent 4 }}
-{{- end }}
+    {{- toYaml $nodepool.taints | indent 4 }}
+    # - effect: string
+    #   key: string
+    #   timeAdded: string
+    #   value: string
+  {{- end }}
 contentLibrary: {{ $nodepool.contentLibrary }}
 cpuCount: {{ $nodepool.cpuCount | quote }}
 creationType: {{ $nodepool.creationType }}
@@ -43,9 +49,9 @@ folder: {{ $nodepool.folder }}
 hostsystem: {{ $nodepool.hostsystem }}
 memorySize: {{ $nodepool.memorySize | quote }}
 network: {{ $nodepool.network }}
-pool: {{ $nodepool.pool }}
 # os: string
 # password: string
+pool: {{ $nodepool.pool }}
 # providerID: string
 # sshPassword: string
 sshPort: {{ $nodepool.sshPort | quote }}
