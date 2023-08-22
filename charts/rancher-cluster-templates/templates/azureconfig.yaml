@@ -1,7 +1,6 @@
 {{- if eq .Values.cloudprovider "azure" }}
 {{- range $index, $nodepool := .Values.nodepools }}
 ---
-# Azure configuration (ref. azureconfigs.rke-machine-config.cattle.io CRD)
 apiVersion: rke-machine-config.cattle.io/v1
 kind: AzureConfig
 metadata:
