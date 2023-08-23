@@ -33,11 +33,11 @@ nodepools:
     # folder: ""                  # folder for the docker VM, which must already exist in the datacenter
     # hostsystem: ""              # compute resource where the docker VM will be instantiated, this can be omitted if using a cluster with DRS
     # memorySize: "2048"          # in MB
-    # network: ""                 # vSphere network where the virtual machine will be attached
+    # network: []                 # vSphere network where the virtual machine will be attached
     # pool: ""                    # resource pool
     sshPort: "22"                 # if using a non-B2D image
     sshUserGroup: staff           # if using a non-B2D image the uploaded keys will need chown'ed, defaults to staff e.g. docker:staff
-    # tag:
+    # tags:
     #   - "urn:xxx"
     # vappIpallocationpolicy: ""  # supported: dhcp, fixed, transient and fixedAllocated
     # vappIpprotocol: ""          # supported: IPv4 and IPv6)
