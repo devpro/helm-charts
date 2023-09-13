@@ -194,6 +194,7 @@ sudo docker run --rm -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/
   * [Rancher How-to Guides > Helm Charts > Creating Apps](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/helm-charts-in-rancher/create-apps)
 * Examples
   * [argoproj/argocd-example-apps](https://github.com/argoproj/argocd-example-apps)
+  * [helm/charts](https://github.com/helm/charts)
   * [rancher/rodeo](https://github.com/rancher/rodeo)
 * Official repositories
   * [argoproj/argo-helm](https://github.com/argoproj/argo-helm)
