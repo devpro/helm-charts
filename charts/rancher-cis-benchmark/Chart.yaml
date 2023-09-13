@@ -5,7 +5,7 @@ type: application
 version: "0.1.0"
 appVersion: "4.1.0"
 dependencies:
-  - name: rancher
+  - name: rancher-cis-benchmark
     version: 4.1.0
     repository: https://charts.rancher.io/
 maintainers:
