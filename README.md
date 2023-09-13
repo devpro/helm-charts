@@ -13,9 +13,10 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 
 * Applications
   * [Cow Demo](charts/cow-demo/README.md) 🗸
+  * [Devpro Sales Portal](charts/devpro-salesportal/README.md) 🗸
   * [Drupal](charts/drupal/README.md)
   * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
-  * [Devpro Sales Portal](charts/devpro-salesportal/README.md) 🗸
+  * [Podinfo](charts/podinfo/README.md) 🗸
   * [WordPress](charts/wordpress/README.md) 🗸
 * Authentication / Identity
   * [Keycloak](charts/keycloak/README.md) 🗸
@@ -59,6 +60,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Sealed Secrets](charts/sealed-secrets/README.md) 🗸
 * Security
   * [NeuVector](charts/neuvector/README.md) 🗸
+  * [Rancher CIS Benchmark](charts/rancher-cis-benchmark/README.md) 🗸
 * Serverless
   * [Knative](charts/knative/README.md)
 * Storage
