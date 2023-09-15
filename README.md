@@ -184,8 +184,15 @@ helm:
 * Lint charts with [helm/chart-testing](https://github.com/helm/chart-testing)
 
 ```bash
-# runs Docker image (with workaround described at https://github.com/helm/chart-testing/issues/464)
-sudo docker run --rm -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart-testing:v3.7.1 /bin/sh -c "git config --global --add safe.directory /data ; ./scripts/add_helm_repo.sh ; ct lint --target-branch main"
+# runs in a container (with workaround described at https://github.com/helm/chart-testing/issues/464)
+docker run --rm -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart-testing:v3.7.1 /bin/sh -c "git config --global --add safe.directory /data ; ./scripts/add_helm_repo.sh ; ct lint --target-branch main"
+```
+
+* (not yet available because of [Issue #575](https://github.com/stackrox/kube-linter/issues/575)) Lint charts with [stackrox/kube-linter](https://github.com/stackrox/kube-linter) ([docs](https://docs.kubelinter.io/))
+
+```bash
+# runs in a container
+docker run --rm -v $(pwd)/charts:/charts -v $(pwd)/.kube-linter.yaml:/etc/config.yaml stackrox/kube-linter lint /charts --config /etc/config.yaml
 ```
 
 ## References
