@@ -377,6 +377,24 @@ entries:
   epinio:
   - apiVersion: v2
     appVersion: 1.9.0
+    created: "2023-09-19T07:09:54.257373422Z"
+    dependencies:
+    - name: epinio
+      repository: https://epinio.github.io/helm-charts
+      version: 1.9.0
+    description: Helm chart for managing Epinio
+    digest: 0a60525a60d20a159846c0b870029748bc6d89437017cebe6239ac93e8c709c4
+    home: https://github.com/devpro/helm-charts/tree/main/charts/epinio
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: epinio
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/epinio-0.1.1/epinio-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.9.0
     created: "2023-09-19T07:00:26.750297578Z"
     dependencies:
     - name: epinio
@@ -713,6 +731,29 @@ entries:
   kratos:
   - apiVersion: v2
     appVersion: v0.13.0
+    created: "2023-09-19T07:09:54.392126998Z"
+    dependencies:
+    - condition: kratos.dependency.enabled
+      name: kratos
+      repository: https://k8s.ory.sh/helm/charts
+      version: 0.33.4
+    - condition: postgresql.dependency.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.6.0
+    description: Helm chart for managing Kratos
+    digest: e420416971c10ac7661c87f09777fa000ff5f414d18b53f65660fa08ad7d3085
+    home: https://github.com/devpro/helm-charts/tree/main/charts/kratos
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: kratos
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/kratos-0.1.1/kratos-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: v0.13.0
     created: "2023-07-03T13:33:05.541987675Z"
     dependencies:
     - condition: kratos.dependency.enabled
@@ -848,6 +889,24 @@ entries:
   minio:
   - apiVersion: v2
     appVersion: RELEASE.2023-04-28T18-11-17Z
+    created: "2023-09-19T07:09:54.53025241Z"
+    dependencies:
+    - name: minio
+      repository: https://charts.min.io
+      version: 5.0.9
+    description: Helm chart for managing MinIO
+    digest: 2ad9843f844917b753baf3a4492d9d07f6c01838e2d918c99efa7fb4c3ab0001
+    home: https://github.com/devpro/helm-charts/tree/main/charts/minio
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: minio
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/minio-0.1.1/minio-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: RELEASE.2023-04-28T18-11-17Z
     created: "2023-07-03T13:33:05.684082271Z"
     dependencies:
     - name: minio
@@ -977,6 +1036,24 @@ entries:
   podinfo:
   - apiVersion: v2
     appVersion: 6.4.1
+    created: "2023-09-19T07:09:54.642298112Z"
+    dependencies:
+    - name: podinfo
+      repository: https://stefanprodan.github.io/podinfo
+      version: 6.4.1
+    description: Helm chart for managing Podinfo
+    digest: dded8586e17208509960eb78b7c06f15c643426a8674c0e33a44dc67ff7241e4
+    home: https://github.com/devpro/helm-charts/tree/main/charts/podinfo
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: podinfo
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/podinfo-0.1.1/podinfo-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 6.4.1
     created: "2023-09-19T07:00:26.944162552Z"
     dependencies:
     - name: podinfo
@@ -1033,6 +1110,24 @@ entries:
   promyze:
   - apiVersion: v2
     appVersion: 4.12.1
+    created: "2023-09-19T07:09:54.753091137Z"
+    dependencies:
+    - name: promyze
+      repository: https://promyze.github.io/helm-charts
+      version: 0.3.4
+    description: Helm chart for managing Promyze
+    digest: e0110bd906a97deb919b9f1b6d4f09002207c8c63549e5d951f650e98570915d
+    home: https://github.com/devpro/helm-charts/tree/main/charts/promyze
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: promyze
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/promyze-0.1.1/promyze-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 4.12.1
     created: "2023-08-02T13:53:55.222527007Z"
     dependencies:
     - name: promyze
@@ -1050,6 +1145,24 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/promyze-0.1.0/promyze-0.1.0.tgz
     version: 0.1.0
   r2devops:
+  - apiVersion: v2
+    appVersion: 1.14.1
+    created: "2023-09-19T07:09:54.919894412Z"
+    dependencies:
+    - name: r2devops
+      repository: https://charts.r2devops.io
+      version: 0.2.3
+    description: Helm chart for managing R2Devops
+    digest: 734fc3b5f403c0c8876b7d6d6182993656b87154e6bd6690aa96fd5a5b8498c0
+    home: https://github.com/devpro/helm-charts/tree/main/charts/r2devops
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: r2devops
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/r2devops-0.1.1/r2devops-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     appVersion: 1.14.1
     created: "2023-08-02T13:53:55.374583518Z"
@@ -1157,6 +1270,23 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/rancher-cis-benchmark-0.1.0/rancher-cis-benchmark-0.1.0.tgz
     version: 0.1.0
   rancher-cluster-templates:
+  - annotations:
+      catalog.cattle.io/namespace: fleet-default
+      catalog.cattle.io/type: cluster-template
+    apiVersion: v2
+    appVersion: 0.1.0
+    created: "2023-09-19T07:09:55.036992019Z"
+    description: Helm chart for managing Rancher cluster templates
+    digest: c704785163a6db8889dc89cddbfaaa06a1bbda39539dac7db1fe0fb1c3c46bc8
+    home: https://github.com/devpro/helm-charts/tree/main/charts/rancher-cluster-templates
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: rancher-cluster-templates
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/rancher-cluster-templates-0.1.5/rancher-cluster-templates-0.1.5.tgz
+    version: 0.1.5
   - annotations:
       catalog.cattle.io/namespace: fleet-default
       catalog.cattle.io/type: cluster-template
@@ -1420,4 +1550,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2023-09-19T07:00:27.427873023Z"
+generated: "2023-09-19T07:09:55.037184915Z"
