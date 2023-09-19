@@ -21,4 +21,4 @@ kubectl delete ns promyze
 
 ## Going further
 
-Look at [Contibuting](CONTRIBUTING.md) page.
+Look at [Contributing](CONTRIBUTING.md) page.

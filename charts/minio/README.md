@@ -20,4 +20,4 @@ kubectl delete ns minio
 
 ## Going further
 
-Look at [Contibuting](CONTRIBUTING.md) page.
+Look at [Contributing](CONTRIBUTING.md) page.

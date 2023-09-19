@@ -1,7 +1,7 @@
 # Helm chart for Kratos
 
 This Helm chart will install [Kratos](https://www.ory.sh/kratos/) ([code](https://github.com/ory/kratos), [docs](https://www.ory.sh/docs/kratos/ory-kratos-intro)) on a Kubernetes cluster.
-It is based on [the official Helm chart](https://k8s.ory.sh/helm/kratos.html) ([code](https://github.com/ory/k8s/tree/master/helm/charts/kratos)).
+It is based on the [official Helm chart](https://k8s.ory.sh/helm/kratos.html) ([code](https://github.com/ory/k8s/tree/master/helm/charts/kratos)).
 
 ## Usage
 
@@ -27,4 +27,4 @@ Setting up the authentication flow can be tricky. Here are some links with infor
 
 ## Going further
 
-Look at [Contibuting](CONTRIBUTING.md) page.
+Look at [Contributing](CONTRIBUTING.md) page.

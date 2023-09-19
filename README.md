@@ -16,6 +16,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Devpro Sales Portal](charts/devpro-salesportal/README.md) 🗸
   * [Drupal](charts/drupal/README.md)
   * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
+  * [HobbyFarm](charts/hobbyfarm/README.md) 🗸
   * [Podinfo](charts/podinfo/README.md) 🗸
   * [WordPress](charts/wordpress/README.md) 🗸
 * Authentication / Identity
@@ -32,9 +33,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [PostgreSQL](charts/postgresql/README.md) 🗸
   * [RabbitMQ](charts/rabbitmq/README.md) 🗸
   * [Redis](charts/redis/README.md) 🗸
-* Learning platforms
-  * [HobbyFarm](charts/hobbyfarm/README.md) 🗸
-* Networking / Messaging
+* Networking & Messaging
   * [cert-manager](charts/cert-manager/README.md) 🗸
   * [Consul](charts/consul/README.md)
   * [external-dns](charts/external-dns/README.md)
@@ -56,6 +55,8 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [OpenTelemetry Collector](charts/opentelemetry-collector/README.md) 🗸
   * [Prometheus](charts/prometheus/README.md) 🗸
   * [Grafana](charts/grafana/README.md)
+* Platforms
+  * [Epinio](charts/epinio/README.md) 🗸
 * Secrets
   * [Sealed Secrets](charts/sealed-secrets/README.md) 🗸
 * Security

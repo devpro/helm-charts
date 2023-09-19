@@ -2,7 +2,7 @@ apiVersion: v2
 name: epinio
 description: Helm chart for managing Epinio
 type: application
-version: "0.1.0"
+version: "0.1.1"
 appVersion: "1.9.0"
 dependencies:
   # https://github.com/epinio/helm-charts/tree/main/chart/epinio

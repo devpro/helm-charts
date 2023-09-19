@@ -1,7 +1,7 @@
 # Helm chart for Podinfo
 
 This Helm chart will install [Podinfo](https://github.com/stefanprodan/podinfo) on a Kubernetes cluster.
-It is based on [the official Helm chart](https://github.com/stefanprodan/podinfo/tree/master/charts/podinfo).
+It is based on the [official Helm chart](https://github.com/stefanprodan/podinfo/tree/master/charts/podinfo).
 
 ## Introduction
 
@@ -26,4 +26,4 @@ kubectl delete ns podinfo
 
 ## Going further
 
-Look at the [Contibuting](CONTRIBUTING.md) page.
+Look at the [Contributing](CONTRIBUTING.md) page.
