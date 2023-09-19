@@ -54,6 +54,13 @@ jobs:
           fi
       - name: Lint charts
         run: ct lint $CHARTS_DIRECTORIES_ARG --target-branch ${{ github.event.repository.default_branch }}
+      # TODO: Enable when https://github.com/stackrox/kube-linter/issues/575 is fixed
+      # - name: Scan yamls
+      #   id: kube-lint-scan
+      #   uses: stackrox/kube-linter-action@v1
+      #   with:
+      #     directory: charts
+      #     config: .kube-linter.yaml
       # TODO: debug & fix
       # - name: Create kind cluster
       #   uses: helm/kind-action@v1.4.0

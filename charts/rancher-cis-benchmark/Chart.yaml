@@ -1,0 +1,13 @@
+apiVersion: v2
+name: rancher-cis-benchmark
+description: Helm chart for managing Rancher CIS Benchmark
+type: application
+version: "0.1.0"
+appVersion: "4.1.0"
+dependencies:
+  - name: rancher-cis-benchmark
+    version: 4.1.0
+    repository: https://charts.rancher.io/
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr

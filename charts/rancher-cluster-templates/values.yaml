@@ -29,10 +29,8 @@ rke:
 
 monitoring:
   enabled: false
-  # specify which version to install, can be semver range. If version is empty or is semver range, it will pick up the latest version.
-  # version: ""
-  # specify cutsom values set
-  # values:
+  # version: ""   # if version is empty or is semver range, the latest version will be used
+  # values:       # custom values
   #   foo: bar
 
 nodepools: []

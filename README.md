@@ -13,9 +13,10 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 
 * Applications
   * [Cow Demo](charts/cow-demo/README.md) 🗸
+  * [Devpro Sales Portal](charts/devpro-salesportal/README.md) 🗸
   * [Drupal](charts/drupal/README.md)
   * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
-  * [Devpro Sales Portal](charts/devpro-salesportal/README.md) 🗸
+  * [Podinfo](charts/podinfo/README.md) 🗸
   * [WordPress](charts/wordpress/README.md) 🗸
 * Authentication / Identity
   * [Keycloak](charts/keycloak/README.md) 🗸
@@ -59,6 +60,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Sealed Secrets](charts/sealed-secrets/README.md) 🗸
 * Security
   * [NeuVector](charts/neuvector/README.md) 🗸
+  * [Rancher CIS Benchmark](charts/rancher-cis-benchmark/README.md) 🗸
 * Serverless
   * [Knative](charts/knative/README.md)
 * Storage
@@ -182,8 +184,15 @@ helm:
 * Lint charts with [helm/chart-testing](https://github.com/helm/chart-testing)
 
 ```bash
-# runs Docker image (with workaround described at https://github.com/helm/chart-testing/issues/464)
-sudo docker run --rm -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart-testing:v3.7.1 /bin/sh -c "git config --global --add safe.directory /data ; ./scripts/add_helm_repo.sh ; ct lint --target-branch main"
+# runs in a container (with workaround described at https://github.com/helm/chart-testing/issues/464)
+docker run --rm -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart-testing:v3.7.1 /bin/sh -c "git config --global --add safe.directory /data ; ./scripts/add_helm_repo.sh ; ct lint --target-branch main"
+```
+
+* (not yet available because of [Issue #575](https://github.com/stackrox/kube-linter/issues/575)) Lint charts with [stackrox/kube-linter](https://github.com/stackrox/kube-linter) ([docs](https://docs.kubelinter.io/))
+
+```bash
+# runs in a container
+docker run --rm -v $(pwd)/charts:/charts -v $(pwd)/.kube-linter.yaml:/etc/config.yaml stackrox/kube-linter lint /charts --config /etc/config.yaml
 ```
 
 ## References
@@ -194,6 +203,7 @@ sudo docker run --rm -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/
   * [Rancher How-to Guides > Helm Charts > Creating Apps](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/helm-charts-in-rancher/create-apps)
 * Examples
   * [argoproj/argocd-example-apps](https://github.com/argoproj/argocd-example-apps)
+  * [helm/charts](https://github.com/helm/charts)
   * [rancher/rodeo](https://github.com/rancher/rodeo)
 * Official repositories
   * [argoproj/argo-helm](https://github.com/argoproj/argo-helm)

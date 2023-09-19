@@ -1,0 +1,6 @@
+dependencies:
+- name: epinio
+  repository: https://epinio.github.io/helm-charts
+  version: 1.9.0
+digest: sha256:2a7d9a9dbaeb719ba930fb014df9a01629cff73c4cd4e1f4afd7c600f0cfcbc3
+generated: "2023-09-18T16:11:52.6692354+02:00"

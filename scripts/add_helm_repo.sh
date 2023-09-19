@@ -6,6 +6,7 @@ helm repo add bitnami               https://charts.bitnami.com/bitnami
 helm repo add blob-csi-driver       https://raw.githubusercontent.com/kubernetes-sigs/blob-csi-driver/master/charts
 helm repo add cloudbees             https://public-charts.artifacts.cloudbees.com/repository/public
 helm repo add elastic               https://helm.elastic.co
+helm repo add epinio                https://epinio.github.io/helm-charts
 helm repo add gitlab                https://charts.gitlab.io/
 helm repo add ingress-nginx         https://kubernetes.github.io/ingress-nginx
 helm repo add harbor                https://helm.goharbor.io
@@ -19,9 +20,11 @@ helm repo add mongodb               https://mongodb.github.io/helm-charts
 helm repo add neuvector             https://neuvector.github.io/neuvector-helm
 helm repo add open-telemetry        https://open-telemetry.github.io/opentelemetry-helm-charts
 helm repo add ory                   https://k8s.ory.sh/helm/charts
+helm repo add podinfo               https://stefanprodan.github.io/podinfo
 helm repo add prometheus-community  https://prometheus-community.github.io/helm-charts
 helm repo add promyze               https://promyze.github.io/helm-charts
 helm repo add r2devops              https://charts.r2devops.io
+helm repo add rancher-charts        https://charts.rancher.io
 helm repo add rancher-latest        https://releases.rancher.com/server-charts/latest
 helm repo add reportportal          https://reportportal.github.io/kubernetes
 helm repo add s3gw                  https://aquarist-labs.github.io/s3gw-charts
