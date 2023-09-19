@@ -374,6 +374,25 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/elasticsearch-0.1.0/elasticsearch-0.1.0.tgz
     version: 0.1.0
+  epinio:
+  - apiVersion: v2
+    appVersion: 1.9.0
+    created: "2023-09-19T07:00:26.750297578Z"
+    dependencies:
+    - name: epinio
+      repository: https://epinio.github.io/helm-charts
+      version: 1.9.0
+    description: Helm chart for managing Epinio
+    digest: 27bf4c54fe0975cf53b8eb5990e27b5dce3191bdf832eac84a64fa7e487c1286
+    home: https://github.com/devpro/helm-charts/tree/main/charts/epinio
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: epinio
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/epinio-0.1.0/epinio-0.1.0.tgz
+    version: 0.1.0
   gitlab:
   - apiVersion: v2
     appVersion: 15.5.4
@@ -955,6 +974,25 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/outscale-0.1.0/outscale-0.1.0.tgz
     version: 0.1.0
+  podinfo:
+  - apiVersion: v2
+    appVersion: 6.4.1
+    created: "2023-09-19T07:00:26.944162552Z"
+    dependencies:
+    - name: podinfo
+      repository: https://stefanprodan.github.io/podinfo
+      version: 6.4.1
+    description: Helm chart for managing Podinfo
+    digest: 7ab9dca6e32bd55c9e00db9f6437a2c790496681f1a6c77710e033c0f62bae64
+    home: https://github.com/devpro/helm-charts/tree/main/charts/podinfo
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: podinfo
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/podinfo-0.1.0/podinfo-0.1.0.tgz
+    version: 0.1.0
   postgresql:
   - apiVersion: v2
     appVersion: 15.3.0
@@ -1100,7 +1138,42 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/rancher-0.1.0/rancher-0.1.0.tgz
     version: 0.1.0
+  rancher-cis-benchmark:
+  - apiVersion: v2
+    appVersion: 4.1.0
+    created: "2023-09-19T07:00:27.22030066Z"
+    dependencies:
+    - name: rancher-cis-benchmark
+      repository: https://charts.rancher.io/
+      version: 4.1.0
+    description: Helm chart for managing Rancher CIS Benchmark
+    digest: 86a87d9adfb6b36abe16b0b8f1e323651b51af51944dfe1c85a0ffe0b7952365
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: rancher-cis-benchmark
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/rancher-cis-benchmark-0.1.0/rancher-cis-benchmark-0.1.0.tgz
+    version: 0.1.0
   rancher-cluster-templates:
+  - annotations:
+      catalog.cattle.io/namespace: fleet-default
+      catalog.cattle.io/type: cluster-template
+    apiVersion: v2
+    appVersion: 0.1.0
+    created: "2023-09-19T07:00:27.427572719Z"
+    description: Helm chart for managing Rancher cluster templates
+    digest: 88a14c85349b7b2e90571615cbbbb0f2caef2fbbd874999568f9d4cfd1d057f3
+    home: https://github.com/devpro/helm-charts/tree/main/charts/rancher-cluster-templates
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: rancher-cluster-templates
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/rancher-cluster-templates-0.1.4/rancher-cluster-templates-0.1.4.tgz
+    version: 0.1.4
   - annotations:
       catalog.cattle.io/namespace: fleet-default
       catalog.cattle.io/type: cluster-template
@@ -1347,4 +1420,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2023-08-22T22:25:40.640086299Z"
+generated: "2023-09-19T07:00:27.427873023Z"
