@@ -7,6 +7,8 @@ It is based on the [official Helm chart](https://artifacthub.io/packages/helm/ep
 
 > Epinio is an application Platform. It deploys on Kubernetes and allows application developers and operators to work together without stepping on each others work. ([docs.epinio.io](https://docs.epinio.io/))
 
+More information on [rancher-ecosystem/epinio](https://devpro.github.io/rancher-ecosystem/epinio/).
+
 ## Quick start
 
 - Install Epinio in a Kubernetes cluster
@@ -27,7 +29,6 @@ kubectl delete ns epinio
 ```
 
 - Download [`epinio` (Epinio CLI)](https://github.com/epinio/epinio/releases/) and use it to manage workload
-
 
 ## Going further
 

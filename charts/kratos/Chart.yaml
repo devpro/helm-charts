@@ -2,7 +2,7 @@ apiVersion: v2
 name: kratos
 description: Helm chart for managing Kratos
 type: application
-version: "0.1.0"
+version: "0.1.1"
 appVersion: "v0.13.0"
 dependencies:
   # ref. https://k8s.ory.sh/helm/kratos.html

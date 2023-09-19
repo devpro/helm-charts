@@ -108,6 +108,6 @@ spec:
 
 ## Going further
 
-If you feel like it, have a look at the [contibution guide](CONTRIBUTING.md).
+If you feel like it, have a look at the [contribution guide](CONTRIBUTING.md).
 
 This chart has been inspired by two examples: [bloriot/rancher-cluster-templates](https://github.com/bloriot/rancher-cluster-templates) and [rancher/cluster-template-examples](https://github.com/rancher/cluster-template-examples).

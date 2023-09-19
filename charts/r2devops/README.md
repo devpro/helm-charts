@@ -20,4 +20,4 @@ kubectl delete ns r2devops
 
 ## Going further
 
-Look at [Contibuting](CONTRIBUTING.md) page.
+Look at [Contributing](CONTRIBUTING.md) page.

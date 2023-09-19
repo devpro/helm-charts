@@ -2,7 +2,7 @@ apiVersion: v2
 name: minio
 description: Helm chart for managing MinIO
 type: application
-version: "0.1.0"
+version: "0.1.1"
 appVersion: "RELEASE.2023-04-28T18-11-17Z"
 dependencies:
   - name: minio
