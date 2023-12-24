@@ -53,20 +53,21 @@ helm template hobbyfarm . -f values.yaml \
 NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
+# password: admin (Sup3r@dmin)
 helm upgrade --install hobbyfarm-beta . -f values.yaml --create-namespace \
-  --set hobbyfarm.ingress.enabled=true \
-  --set hobbyfarm.ingress.annotations.'cert-manager\.io/cluster-issuer'=letsencrypt-prod \
-  --set hobbyfarm.ingress.className=nginx \
-  --set hobbyfarm.ingress.tls.enabled=true \
-  --set hobbyfarm.ingress.tls.secrets.admin=hf-admin-tls \
-  --set hobbyfarm.ingress.tls.secrets.backend=hf-backend-tls \
-  --set hobbyfarm.ingress.tls.secrets.shell=hf-shell-tls \
-  --set hobbyfarm.ingress.tls.secrets.ui=hf-ui-tls \
-  --set hobbyfarm.ingress.hostnames.admin=admin.hf.${NGINX_PUBLIC_IP}.sslip.io \
-  --set hobbyfarm.ingress.hostnames.backend=api.hf.${NGINX_PUBLIC_IP}.sslip.io \
-  --set hobbyfarm.ingress.hostnames.shell=shell.hf.${NGINX_PUBLIC_IP}.sslip.io \
-  --set hobbyfarm.ingress.hostnames.ui=learn.hf.${NGINX_PUBLIC_IP}.sslip.io \
-  --set hobbyfarm.terraform.enabled=false \
-  --set hobbyfarm.users.admin.enabled=true \
-  --namespace hobbyfarm-beta
+--set hobbyfarm.ingress.enabled=true \
+--set hobbyfarm.ingress.annotations.'cert-manager\.io/cluster-issuer'=letsencrypt-prod \
+--set hobbyfarm.ingress.className=nginx \
+--set hobbyfarm.ingress.tls.enabled=true \
+--set hobbyfarm.ingress.tls.secrets.admin=hf-admin-tls \
+--set hobbyfarm.ingress.tls.secrets.backend=hf-backend-tls \
+--set hobbyfarm.ingress.tls.secrets.shell=hf-shell-tls \
+--set hobbyfarm.ingress.tls.secrets.ui=hf-ui-tls \
+--set hobbyfarm.ingress.hostnames.admin=admin.hf.${NGINX_PUBLIC_IP}.sslip.io \
+--set hobbyfarm.ingress.hostnames.backend=api.hf.${NGINX_PUBLIC_IP}.sslip.io \
+--set hobbyfarm.ingress.hostnames.shell=shell.hf.${NGINX_PUBLIC_IP}.sslip.io \
+--set hobbyfarm.ingress.hostnames.ui=learn.hf.${NGINX_PUBLIC_IP}.sslip.io \
+--set hobbyfarm.terraform.enabled=false \
+--set hobbyfarm.users.admin.enabled=true \
+--namespace hobbyfarm-beta
 ```
