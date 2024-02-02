@@ -32,12 +32,12 @@ helm template gitlab-runner . -f values.yaml \
 
 # creates helm release to have ubuntu/docker runners
 helm upgrade --install gitlab-runner-ubuntu-docker . -f values.yaml \
-  --set gitlab-runner.gitlabUrl=https://gitlab.${NGINX_PUBLIC_IP}.sslip.io/ \
-  --set gitlab-runner.runnerRegistrationToken=**** \
-  --set gitlab-runner.runners.executor=kubernetes \
-  --set gitlab-runner.runners.tags="docker" \
-  --set gitlab-runner.runners.name="Ubuntu Docker image" \
-  --namespace supply-chain
+--set gitlab-runner.gitlabUrl=https://gitlab.${NGINX_PUBLIC_IP}.sslip.io/ \
+--set gitlab-runner.runnerRegistrationToken=**** \
+--set gitlab-runner.runners.executor=kubernetes \
+--set gitlab-runner.runners.tags="docker" \
+--set gitlab-runner.runners.name="Ubuntu 20.04 Docker Runner (<project name>)" \
+--namespace supply-chain
 
 # docker executor doesn't seem to work even with privileged set to true (can be checked by looking at the /configmaps/config.template.toml file)
 # from GitLab run: ERROR: Failed to remove network for build ERROR: Preparation failed: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running? (docker.go:739:0s)
