@@ -1,0 +1,3 @@
+name: nfs-ganesha
+image: janeczku/nfs-ganesha
+tag: latest

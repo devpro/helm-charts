@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.name }}
+  name: {{ .Values.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: nfs-ganesha
+    spec:
+      containers:
+        - name: container-0
+          image: {{ .Values.image }}:{{ .Values.tag }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 2049
+              name: nfsv4
+              protocol: TCP
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - DAC_READ_SEARCH
+            privileged: true
+          volumeMounts:
+            - mountPath: /data/nfs
+              name: share
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+        - emptyDir: {}
+          name: share

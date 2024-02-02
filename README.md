@@ -69,6 +69,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Longhorn](charts/longhorn/README.md) 🗸
   * [MinIO](charts/minio/README.md) 🗸
   * [s3gw](charts/s3gw/README.md) 🗸
+  * [NFS-Ganesha](charts/nfs-ganesha/README.md) 🗸
 * Supply Chain (Software Factory)
   * [ArgoCD](charts/argo-cd/README.md) 🗸
   * [Argo Rollouts](charts/argo-rollouts/README.md)
