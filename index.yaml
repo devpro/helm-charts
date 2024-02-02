@@ -466,6 +466,23 @@ entries:
   gitlab-runner:
   - apiVersion: v2
     appVersion: 15.6.1
+    created: "2024-02-02T15:31:21.599895536Z"
+    dependencies:
+    - name: gitlab-runner
+      repository: https://charts.gitlab.io/
+      version: 0.47.1
+    description: Helm chart for managing GitLab Runner
+    digest: 48048d5e5c3bfe1cd997058c2b7ad4c0c423f191d20be7653a702b454a19e347
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: gitlab-runner
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/gitlab-runner-0.1.2/gitlab-runner-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 15.6.1
     created: "2023-02-23T09:09:18.675509153Z"
     dependencies:
     - name: gitlab-runner
@@ -534,6 +551,24 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/harbor-0.1.0/harbor-0.1.0.tgz
     version: 0.1.0
   hobbyfarm:
+  - apiVersion: v2
+    appVersion: 2.0.8
+    created: "2024-02-02T15:31:21.691674982Z"
+    dependencies:
+    - name: hobbyfarm
+      repository: https://hobbyfarm.github.io/hobbyfarm
+      version: 2.0.8
+    description: Helm chart for managing HobbyFarm
+    digest: 2ad2dff960709ce483aa779a67417717474c9b495ace4a73cc481cd60af99a71
+    home: https://github.com/devpro/helm-charts/tree/main/charts/hobbyfarm
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: hobbyfarm
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/hobbyfarm-0.1.4/hobbyfarm-0.1.4.tgz
+    version: 0.1.4
   - apiVersion: v2
     appVersion: 2.0.8
     created: "2023-04-19T19:54:09.686074728Z"
@@ -991,6 +1026,21 @@ entries:
     type: application
     urls:
     - https://github.com/devpro/helm-charts/releases/download/neuvector-0.1.0/neuvector-0.1.0.tgz
+    version: 0.1.0
+  nfs-ganesha:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2024-02-02T15:31:21.804835241Z"
+    description: Helm chart for managing NFS-Ganesha
+    digest: e9a4757dfaa78cf4956b9ffca2caf06e8a8aff8474486a7cbb516f355e54c0d9
+    home: https://github.com/devpro/helm-charts/tree/main/charts/nfs-ganesha
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: nfs-ganesha
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/nfs-ganesha-0.1.0/nfs-ganesha-0.1.0.tgz
     version: 0.1.0
   opentelemetry-collector:
   - apiVersion: v2
@@ -1550,4 +1600,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2023-09-19T07:09:55.037184915Z"
+generated: "2024-02-02T15:31:21.80501238Z"
