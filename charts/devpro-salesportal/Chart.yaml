@@ -2,11 +2,11 @@ apiVersion: v2
 name: devpro-salesportal
 description: Helm chart for Devpro Sales Portal
 type: application
-version: 0.1.2
-appVersion: "1.0.0"
+version: 0.2.0
+appVersion: "1.1.0"
 dependencies:
   - name: mongodb
-    version: 13.9.4   # MongoDB 6.0.5
+    version: 14.8.3   # MongoDB 7.0.5
     repository: https://charts.bitnami.com/bitnami
     alias: mongodb
     condition: mongodb.enabled
