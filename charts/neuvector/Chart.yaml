@@ -2,11 +2,11 @@ apiVersion: v2
 name: neuvector
 description: Helm chart for managing NeuVector
 type: application
-version: "0.2.0"
-appVersion: "5.1.2"
+version: "0.2.3"
+appVersion: "5.3.0"
 dependencies:
   - name: core
-    version: 2.4.3
+    version: 2.7.2
     repository: https://neuvector.github.io/neuvector-helm/
 maintainers:
   - name: devpro
