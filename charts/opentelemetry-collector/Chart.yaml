@@ -2,11 +2,11 @@ apiVersion: v2
 name: opentelemetry-collector
 description: Helm chart for managing OpenTelemetry Collector
 type: application
-version: "0.1.0"
-appVersion: "0.75.0"
+version: "0.2.0"
+appVersion: "0.92.0"
 dependencies:
   - name: opentelemetry-collector
-    version: 0.54.0
+    version: 0.79.0
     repository: https://open-telemetry.github.io/opentelemetry-helm-charts
 maintainers:
   - name: devpro
