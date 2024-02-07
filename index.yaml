@@ -41,6 +41,23 @@ entries:
     version: 0.1.0
   cert-manager:
   - apiVersion: v2
+    appVersion: 1.13.3
+    created: "2024-02-07T21:57:51.696191171Z"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: v1.13.3
+    description: Helm chart for managing cert-manager
+    digest: f2770329c13091aa7ea9b047ee0049fa3e531b944a249a4559efbad35428cba2
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: cert-manager
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/cert-manager-0.2.0/cert-manager-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: 1.10.0
     created: "2022-12-12T13:24:56.462685023Z"
     dependencies:
@@ -167,6 +184,25 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/cow-demo-0.1.0/cow-demo-0.1.0.tgz
     version: 0.1.0
   devpro-salesportal:
+  - apiVersion: v2
+    appVersion: 1.1.0
+    created: "2024-02-07T21:57:51.881450133Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.8.3
+    description: Helm chart for Devpro Sales Portal
+    digest: 6239bb52881b9e74ba15d4fa07f744e67be6a59b5df6e239091cb99d4507fd93
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: devpro-salesportal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/devpro-salesportal-0.2.0/devpro-salesportal-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2023-04-22T15:25:55.68726689Z"
@@ -625,6 +661,23 @@ entries:
     version: 0.1.0
   ingress-nginx:
   - apiVersion: v2
+    appVersion: 1.8.5
+    created: "2024-02-07T21:57:52.051618401Z"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 4.7.5
+    description: Helm chart for managing NGINX Ingress Controller
+    digest: 7083d2f7d8c050f143cfa65fe56b628ce98fa8509fec9ff9157af12e27d78f38
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: ingress-nginx
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/ingress-nginx-0.2.0/ingress-nginx-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: 1.4.0
     created: "2022-11-23T13:39:45.900182307Z"
     dependencies:
@@ -960,6 +1013,23 @@ entries:
     version: 0.1.0
   neuvector:
   - apiVersion: v2
+    appVersion: 5.3.0
+    created: "2024-02-07T21:57:52.263313828Z"
+    dependencies:
+    - name: core
+      repository: https://neuvector.github.io/neuvector-helm/
+      version: 2.7.2
+    description: Helm chart for managing NeuVector
+    digest: d39d7914c057fd9fcf270088c37182a6604abd20fd7373c10ae0a6e6f376057a
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: neuvector
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/neuvector-0.2.3/neuvector-0.2.3.tgz
+    version: 0.2.3
+  - apiVersion: v2
     appVersion: 5.1.2
     created: "2023-04-22T20:24:41.302582368Z"
     dependencies:
@@ -1043,6 +1113,24 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/nfs-ganesha-0.1.0/nfs-ganesha-0.1.0.tgz
     version: 0.1.0
   opentelemetry-collector:
+  - apiVersion: v2
+    appVersion: 0.92.0
+    created: "2024-02-07T21:57:52.427374089Z"
+    dependencies:
+    - name: opentelemetry-collector
+      repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+      version: 0.79.0
+    description: Helm chart for managing OpenTelemetry Collector
+    digest: ac1de47d2be57662da28e6332afe3a3480a87d4f81725523e43de320af96bff4
+    home: https://github.com/devpro/helm-charts/tree/main/charts/opentelemetry-collector
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: opentelemetry-collector
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/opentelemetry-collector-0.2.0/opentelemetry-collector-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: 0.75.0
     created: "2023-04-19T19:54:09.913182945Z"
@@ -1479,6 +1567,23 @@ entries:
     version: 0.1.0
   sealed-secrets:
   - apiVersion: v2
+    appVersion: 0.24.5
+    created: "2024-02-07T21:57:52.592860262Z"
+    dependencies:
+    - name: sealed-secrets
+      repository: https://bitnami-labs.github.io/sealed-secrets
+      version: 2.14.1
+    description: Helm chart for managing Sealed Secrets
+    digest: 7ae9514d6954404ec02c6857d6ad4c8958b44c0c10ac79129558f1c7fe3f6da5
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: sealed-secrets
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/sealed-secrets-0.2.0/sealed-secrets-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: 0.19.1
     created: "2022-11-23T13:39:46.277028899Z"
     dependencies:
@@ -1600,4 +1705,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2024-02-02T15:31:21.80501238Z"
+generated: "2024-02-07T21:57:52.593016755Z"
