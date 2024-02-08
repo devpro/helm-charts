@@ -4,6 +4,7 @@ front:
   name: salesportal-wasmapp
   image: docker.io/devprofr/salesportal-wasmapp
   tag: 1.1.7818547414
+  port: 80
   replicaCount: 1
   healthEndpoint: /health
   db: {}
@@ -29,6 +30,7 @@ adapter:
   image: docker.io/devprofr/salesportal-crmadapterwebapi
   tag: 1.1.7818547414
   replicaCount: 1
+  port: 8080
   healthEndpoint: /health
   db: {}
   extraEnv: []
@@ -43,6 +45,7 @@ data:
   image: docker.io/devprofr/salesportal-crmdatawebapi
   tag: 1.1.7818547414
   replicaCount: 1
+  port: 8080
   healthEndpoint: /health
   db:
     connectionString: ""
