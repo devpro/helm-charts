@@ -589,6 +589,31 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/gitlab-runner-0.1.0/gitlab-runner-0.1.0.tgz
     version: 0.1.0
+  grafana-stack:
+  - apiVersion: v2
+    appVersion: 10.3.1
+    created: "2024-02-12T14:28:32.000888522Z"
+    dependencies:
+    - name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 7.3.0
+    - name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: 5.42.2
+    - name: tempo
+      repository: https://grafana.github.io/helm-charts
+      version: 1.7.1
+    description: Helm chart for managing Grafana Stack
+    digest: 54a9091166fa3475537b53d83d41d399f83293cccd8fd2b818371e522cedada6
+    home: https://github.com/devpro/helm-charts/tree/main/charts/grafana-stack
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: grafana-stack
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/grafana-stack-0.2.0/grafana-stack-0.2.0.tgz
+    version: 0.2.0
   harbor:
   - apiVersion: v2
     appVersion: 2.6.2
@@ -1152,6 +1177,24 @@ entries:
     version: 0.1.0
   opentelemetry-collector:
   - apiVersion: v2
+    appVersion: 0.93.0
+    created: "2024-02-12T14:28:32.136802105Z"
+    dependencies:
+    - name: opentelemetry-collector
+      repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+      version: 0.80.1
+    description: Helm chart for managing OpenTelemetry Collector
+    digest: 490a08e7d556102e18c8d6104cfae0a0fb72c5cebd853c89f9b3e9bd159cd623
+    home: https://github.com/devpro/helm-charts/tree/main/charts/opentelemetry-collector
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: opentelemetry-collector
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/opentelemetry-collector-0.2.1/opentelemetry-collector-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
     appVersion: 0.92.0
     created: "2024-02-07T21:57:52.427374089Z"
     dependencies:
@@ -1266,6 +1309,23 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/postgresql-0.1.0/postgresql-0.1.0.tgz
     version: 0.1.0
   prometheus:
+  - apiVersion: v2
+    appVersion: v2.49.1
+    created: "2024-02-12T14:28:32.264651642Z"
+    dependencies:
+    - name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 25.11.1
+    description: Helm chart for managing Prometheus
+    digest: 0c399b3f163c8e4f88520a5c57dbb31ac3735fb2ed73a3534e4db04b10bc9c9c
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: prometheus
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/prometheus-0.2.0/prometheus-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: 2.43.0
     created: "2023-07-03T13:33:06.225677535Z"
@@ -1727,6 +1787,23 @@ entries:
     version: 0.1.0
   wordpress:
   - apiVersion: v2
+    appVersion: 6.4.3
+    created: "2024-02-12T14:28:32.390070521Z"
+    dependencies:
+    - name: wordpress
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.2.5
+    description: Helm chart for managing WordPress
+    digest: 1e9269c1f9a68e4ab4b717800d26bfedfa4564e5e4cfb652cbec143a3de45922
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: wordpress
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/wordpress-0.2.0/wordpress-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: 6.1.0
     created: "2022-11-21T08:37:56.835938363Z"
     dependencies:
@@ -1743,4 +1820,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2024-02-08T11:26:19.839404651Z"
+generated: "2024-02-12T14:28:32.390199371Z"
