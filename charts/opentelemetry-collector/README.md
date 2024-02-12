@@ -36,7 +36,7 @@ helm dependency update
 ```bash
 # creates the release from the local files
 helm upgrade --install opentelemetry-collector . -f values.yaml --create-namespace \
-  --namespace opentelemetry-collector
+--namespace opentelemetry-collector
 
 # (optional) forwards port for local access
 kubectl port-forward daemonsets/opentelemetry-collector-agent 4317:4317 -n opentelemetry-collector
