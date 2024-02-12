@@ -1,0 +1,17 @@
+# ref: https://github.com/devpro/helm-charts/tree/main/charts/opentelemetry-collector
+defaultNamespace: observability
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: opentelemetry-collector
+  version: 0.1.0
+  releaseName: opentelemetry-collector
+targetCustomizations:
+  - name: demo
+    helm:
+      values:
+        opentelemetry-collector:
+          config:
+            exporters:
+              logging:
+                loglevel: debug
+    clusterName: demo

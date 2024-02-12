@@ -52,9 +52,11 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Rancher Cluster Templates](charts/rancher-cluster-templates/README.md) 🗸
 * Observability
   * [Elastic Stack](charts/elastic-stack/README.md)
+  * [Grafana](charts/grafana/README.md)
+  * [Grafana Stack](charts/grafana-stack/README.md) 🗸
   * [OpenTelemetry Collector](charts/opentelemetry-collector/README.md) 🗸
   * [Prometheus](charts/prometheus/README.md) 🗸
-  * [Grafana](charts/grafana/README.md)
+  * Splunk
 * Platforms
   * [Epinio](charts/epinio/README.md) 🗸
 * Secrets
@@ -99,6 +101,7 @@ Limitation: [Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn'
 
 ## Samples
 
+* [DevOpsDays Geneva 2023](samples/devopsdays-geneva-2023/README.md)
 * [SUSE Exchange Paris 2023](samples/suse-exchange-paris-2023/README.md)
 
 ## Usage

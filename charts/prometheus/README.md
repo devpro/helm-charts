@@ -10,7 +10,7 @@ See [README](../../README.md#from-helm-cli) for requirements.
 ```bash
 # install with default parameters
 helm upgrade --install prometheus devpro/prometheus --create-namespace \
-  --namespace prometheus
+--namespace prometheus
 
 # checks all pods are running after some time
 kubectl get pod -n prometheus
@@ -29,7 +29,7 @@ helm dependency update
 
 # checks the Kubernetes objects generated from the chart
 helm template prometheus . -f values.yaml \
-  --namespace prometheus > temp.yaml
+--namespace prometheus > temp.yaml
 ```
 
 ## How to deploy manually from the sources
@@ -39,7 +39,7 @@ helm template prometheus . -f values.yaml \
 ```bash
 # applies the manifest (add "--debug > output.yaml" in case of issue)
 helm upgrade --install prometheus . -f values.yaml --create-namespace \
-  --namespace prometheus
+--namespace prometheus
 
 # forwards service port for local access
 kubectl port-forward service/prometheus-server 9090:80 -n prometheus

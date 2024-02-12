@@ -8,6 +8,7 @@ helm repo add cloudbees             https://public-charts.artifacts.cloudbees.co
 helm repo add elastic               https://helm.elastic.co
 helm repo add epinio                https://epinio.github.io/helm-charts
 helm repo add gitlab                https://charts.gitlab.io/
+helm repo add grafana               https://grafana.github.io/helm-charts
 helm repo add ingress-nginx         https://kubernetes.github.io/ingress-nginx
 helm repo add harbor                https://helm.goharbor.io
 helm repo add hobbyfarm             https://hobbyfarm.github.io/hobbyfarm

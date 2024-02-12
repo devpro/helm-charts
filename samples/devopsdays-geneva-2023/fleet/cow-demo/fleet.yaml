@@ -1,0 +1,24 @@
+# ref: https://github.com/devpro/helm-charts/tree/main/charts/cow-demo
+defaultNamespace: sample-apps
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: cow-demo
+  version: 0.1.1
+  releaseName: cow-demo
+  values:
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
+      tls:
+        secretName: "cow-demo-tls"
+targetCustomizations:
+  - name: demo
+    # TODO: update W.X.Y.Z to your external IP address (look at Ingress Controller)
+    helm:
+      values:
+        replicaCount: 1
+        host: cow-demo.W.X.Y.Z.sslip.io
+        cow:
+          color: red
+    clusterName: demo

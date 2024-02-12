@@ -33,11 +33,11 @@ NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller -
 
 # applies the manifest (add "--debug > output.yaml" in case of issue)
 helm upgrade --install -f values.yaml --create-namespace \
-  --set ingress.enabled=true \
-  --set ingress.ingressClassName=nginx \
-  --set ingress.selfSigned=true \
-  --set ingress.hostname=wordpress.${NGINX_PUBLIC_IP}.sslip.io \
-  --namespace sample-apps wordpress .
+--set ingress.enabled=true \
+--set ingress.ingressClassName=nginx \
+--set ingress.selfSigned=true \
+--set ingress.hostname=wordpress.${NGINX_PUBLIC_IP}.sslip.io \
+--namespace sample-apps wordpress .
 
 # looks
 kubectl get all -n sample-apps

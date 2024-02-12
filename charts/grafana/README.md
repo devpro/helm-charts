@@ -1,3 +1,3 @@
-# Grafana Stack
+# Grafan
 
-[CNCF Live Webinar: Intro to open source observability with Grafana, Prometheus, Loki, and Tempo](https://community.cncf.io/events/details/cncf-cncf-online-programs-presents-cncf-live-webinar-intro-to-open-source-observability-with-grafana-prometheus-loki-and-tempo/) - November 16, 2021
+This Helm chart will install [Grafana](https://grafana.com/) ([GitHub org](https://github.com/grafana)) on a Kubernetes cluster.
