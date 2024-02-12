@@ -1,0 +1,15 @@
+# ref: https://github.com/devpro/helm-charts/tree/main/charts/letsencrypt
+defaultNamespace: cert-manager
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: letsencrypt
+  version: 0.1.2
+  releaseName: letsencrypt
+  # TODO: replace your@own.email with your email address
+  values:
+    registration:
+      emailAddress: your@own.email
+dependsOn:
+  - selector:
+      matchLabels:
+        app: cert-manager

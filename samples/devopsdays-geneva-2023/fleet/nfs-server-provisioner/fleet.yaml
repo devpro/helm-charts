@@ -1,0 +1,7 @@
+# ref: https://github.com/rancher/rodeo/blob/master/charts/nfs-server-provisioner
+defaultNamespace: kube-system
+helm:
+  repo: https://rancher.github.io/rodeo
+  chart: nfs-server-provisioner
+  version: 1.2.6
+  releaseName: nfs-server-provisioner

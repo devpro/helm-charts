@@ -1,0 +1,34 @@
+# ref: https://github.com/devpro/helm-charts/tree/main/charts/neuvector
+defaultNamespace: neuvector
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: neuvector
+  version: 0.2.0
+  releaseName: neuvector
+  values:
+    core:
+      controller:
+        replicas: 1
+      cve:
+        scanner:
+          replicas: 1
+      manager:
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
+          tls: true
+          secretName: neuvector-tls-secret
+targetCustomizations:
+  - name: demo
+    # TODO: update W.X.Y.Z to your external IP address (look at Ingress Controller)
+    helm:
+      values:
+        core:
+          k3s:
+            enabled: true
+          manager:
+            ingress:
+              host: neuvector.W.X.Y.Z.sslip.io
+    clusterName: demo

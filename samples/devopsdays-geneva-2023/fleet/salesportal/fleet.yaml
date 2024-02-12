@@ -1,0 +1,51 @@
+# ref: https://github.com/devpro/helm-charts/tree/main/charts/devpro-salesportal
+defaultNamespace: sales-portal
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: devpro-salesportal
+  version: 0.1.2
+  releaseName: devpro-salesportal
+  values:
+    front:
+      tls:
+        secretName: sales-portal-tls
+    adapter:
+      tls:
+        secretName: crm-adapter-tls
+    data:
+      tls:
+        secretName: crm-data-tls
+    ingress:
+      enabled: true
+      className: nginx
+targetCustomizations:
+  - name: demo
+    # TODO: update W.X.Y.Z to your external IP address (look at Ingress Controller)
+    helm:
+      values:
+        front:
+          host: sales-portal.W.X.Y.Z.sslip.io
+          tag: 1.0.4768413825
+        adapter:
+          host: crm-adapter.W.X.Y.Z.sslip.io
+          tag: 1.0.4768413825
+        data:
+          host: crm-data.W.X.Y.Z.sslip.io
+          tag: 1.0.4768413825
+          db:
+            connectionString: mongodb://root:admin@devpro-salesportal-mongodb:27017/sales-portal?authSource=admin
+            databaseName: sales-portal
+        ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
+        dotnet:
+          environment: Development
+          enableSwagger: true
+          enableOpenTelemetry: false
+          skipCertificateValidation: true
+          logLevel: Debug
+        mongodb:
+          enabled: true
+          auth:
+            rootPassword: admin
+    clusterName: demo

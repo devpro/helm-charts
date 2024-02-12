@@ -99,6 +99,7 @@ Limitation: [Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn'
 
 ## Samples
 
+* [DevOpsDays Geneva 2023](samples/devopsdays-geneva-2023/README.md)
 * [SUSE Exchange Paris 2023](samples/suse-exchange-paris-2023/README.md)
 
 ## Usage

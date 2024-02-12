@@ -1,0 +1,11 @@
+# ref: https://github.com/devpro/helm-charts/tree/main/charts/keycloak
+defaultNamespace: authentication
+helm:
+  repo: https://devpro.github.io/helm-charts
+  chart: keycloak
+  version: 0.1.0
+  releaseName: keycloak
+  # TODO: replace your@own.email with your email address
+  values:
+    registration:
+      emailAddress: your@own.email
