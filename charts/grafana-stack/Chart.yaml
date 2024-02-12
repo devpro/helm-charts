@@ -1,0 +1,20 @@
+apiVersion: v2
+name: grafana-stack
+description: Helm chart for managing Grafana Stack
+type: application
+version: "0.2.0"
+appVersion: "10.3.1"
+dependencies:
+  - name: grafana
+    version: 7.3.0    # appVersion: 10.3.1
+    repository: https://grafana.github.io/helm-charts
+  - name: loki
+    version: 5.42.2    # appVersion: 2.9.4
+    repository: https://grafana.github.io/helm-charts
+  - name: tempo
+    version: 1.7.1    # appVersion: 2.3.0
+    repository: https://grafana.github.io/helm-charts
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
+home: https://github.com/devpro/helm-charts/tree/main/charts/grafana-stack
