@@ -1,0 +1,10 @@
+apiVersion: v2
+name: game-2048
+description: Helm chart for Game 2048
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
+home: https://github.com/devpro/helm-charts/tree/main/charts/game-2048
