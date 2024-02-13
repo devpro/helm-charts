@@ -1,0 +1,19 @@
+name: game-2048
+image: alexwhen/docker-2048
+tag: latest
+replicaCount: 1
+ingress:
+  enabled: false
+  className: "nginx"
+  host: "game-2048.dummy"
+  annotations: {}
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+  tls:
+    secretName: "game-2048-tls"
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 64Mi
