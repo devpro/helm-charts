@@ -16,6 +16,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Devpro Sales Portal](charts/devpro-salesportal/README.md) 🗸
   * [Drupal](charts/drupal/README.md)
   * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
+  * [Game 2048](charts/game-2048/README.md) 🗸
   * [HobbyFarm](charts/hobbyfarm/README.md) 🗸
   * [Podinfo](charts/podinfo/README.md) 🗸
   * [WordPress](charts/wordpress/README.md) 🗸
