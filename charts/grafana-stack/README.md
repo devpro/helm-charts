@@ -22,6 +22,7 @@ kubectl get pod -n grafana
 ```bash
 # searches for the latest version
 helm search repo grafana/grafana
+helm search repo grafana/mimir-distributed
 helm search repo grafana/loki
 helm search repo grafana/tempo
 
