@@ -4,7 +4,6 @@ opentelemetry-collector:
   config:
     receivers:
       jaeger: null
-      prometheus: null
       zipkin: null
     service:
       pipelines:
@@ -33,3 +32,12 @@ opentelemetry-collector:
             - batch
           receivers:
             - otlp
+  ports:
+    jaeger-compact:
+      enabled: false
+    jaeger-thrift:
+      enabled: false
+    jaeger-grpc:
+      enabled: false
+    zipkin:
+      enabled: false

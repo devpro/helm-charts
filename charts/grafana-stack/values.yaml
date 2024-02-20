@@ -1,5 +1,6 @@
-# https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
-grafana: {}
+grafana:
+  enabled: true
+  # https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
   # ingress:
   #   enabled: false
   #   ingressClassName: nginx
@@ -11,8 +12,14 @@ grafana: {}
   #       hosts:
   #         - grafana.local
 
-# https://github.com/grafana/loki/blob/main/production/helm/loki/values.yaml
-loki: {}
+loki:
+  enabled: true
+  # https://github.com/grafana/loki/blob/main/production/helm/loki/values.yaml
 
-# https://github.com/grafana/helm-charts/blob/main/charts/tempo/values.yaml
-tempo: {}
+tempo:
+  enabled: true
+  # https://github.com/grafana/helm-charts/blob/main/charts/tempo/values.yaml
+
+mimir-distributed:
+  enabled: false
+  # https://github.com/grafana/mimir/blob/main/operations/helm/charts/mimir-distributed/values.yaml

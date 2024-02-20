@@ -70,11 +70,11 @@ spec:
             - name: CrmDataWebApi__Url
               value: "https://{{ $.Values.data.host }}"
             - name: Logging__LogLevel__Default
-              value: {{ $.Values.dotnet.logLevel }}
-            - name: Logging__LogLevel__Microsoft__AspNetCore
-              value: {{ $.Values.dotnet.logLevel }}
+              value: {{ $.Values.dotnet.logLevels.default }}
+            - name: Logging__LogLevel__Microsoft.AspNetCore
+              value: {{ $.Values.dotnet.logLevels.framework }}
             - name: Logging__LogLevel__Devpro
-              value: {{ $.Values.dotnet.logLevel }}
+              value: {{ $.Values.dotnet.logLevels.application }}
             {{- if $.Values.dotnet.skipCertificateValidation }}
             - name: Application__IsCertificateValidationSkipped
               value: "true"
