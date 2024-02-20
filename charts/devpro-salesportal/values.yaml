@@ -3,7 +3,7 @@ front:
   host: sales-portal.random
   name: salesportal-wasmapp
   image: docker.io/devprofr/salesportal-wasmapp
-  tag: 1.1.7899986777
+  tag: 1.1.7976633545
   port: 80
   replicaCount: 1
   healthEndpoint: /health
@@ -27,7 +27,7 @@ adapter:
   host: crm-adapter.random
   name: salesportal-crmadapterwebapi
   image: docker.io/devprofr/salesportal-crmadapterwebapi
-  tag: 1.1.7899986777
+  tag: 1.1.7976633545
   replicaCount: 1
   port: 8080
   healthEndpoint: /health
@@ -43,7 +43,7 @@ data:
   host: crm-data.random
   name: salesportal-crmdatawebapi
   image: docker.io/devprofr/salesportal-crmdatawebapi
-  tag: 1.1.7899986777
+  tag: 1.1.7976633545
   replicaCount: 1
   port: 8080
   healthEndpoint: /health
