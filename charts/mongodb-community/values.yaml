@@ -1,0 +1,31 @@
+databases: []
+  # - name: demo
+  #   members: 3
+  #   type: ReplicaSet
+  #   version: "6.0.5"
+  #   users:
+  #     - name: clusteradmin
+  #       db: admin
+  #       passwordSecretRef:
+  #         name: my-user-password
+  #         key: password
+  #       roles:
+  #         - name: clusterAdmin
+  #           db: admin
+  #         - name: userAdminAnyDatabase
+  #           db: admin
+  #       scramCredentialsSecretName: clusteradmin-scram
+  #   journalCompressor: zlib
+
+# https://github.com/mongodb/helm-charts/blob/main/charts/community-operator/values.yaml
+community-operator:
+  operator:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 500Mi
+      requests:
+        cpu: 250m
+        memory: 200Mi
+  community-operator-crds:
+    enabled: false

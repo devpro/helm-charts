@@ -21,6 +21,7 @@ helm repo add mongodb               https://mongodb.github.io/helm-charts
 helm repo add neuvector             https://neuvector.github.io/neuvector-helm
 helm repo add open-telemetry        https://open-telemetry.github.io/opentelemetry-helm-charts
 helm repo add ory                   https://k8s.ory.sh/helm/charts
+helm repo add percona               https://percona.github.io/percona-helm-charts/
 helm repo add podinfo               https://stefanprodan.github.io/podinfo
 helm repo add prometheus-community  https://prometheus-community.github.io/helm-charts
 helm repo add promyze               https://promyze.github.io/helm-charts
