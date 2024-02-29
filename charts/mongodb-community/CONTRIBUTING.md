@@ -1,4 +1,4 @@
-# Contribute to Epinio Helm chart
+# Contribute to MongoDB Community Helm chart
 
 ## How to update the dependencies
 
@@ -37,6 +37,7 @@ databases:
         passwordSecretRef:
           name: mongodb-clusteradmin
           key: password
+        # https://www.mongodb.com/docs/manual/reference/built-in-roles/
         roles:
           - name: clusterAdmin
             db: admin
