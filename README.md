@@ -43,6 +43,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Kafka](charts/kafka/README.md)
   * [Kong](charts/kong/README.md)
   * [Let's Encrypt](charts/letsencrypt/README.md) 🗸
+  * [Linkerd](charts/linkerd/README.md)
   * [MetalLB](charts/metallb/README.md)
   * [MQTT](charts/mqtt/README.md)
   * [NATS](charts/nats/README.md)
