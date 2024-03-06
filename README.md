@@ -165,7 +165,7 @@ helm:
 ### From Rancher
 
 * In your cluster
-  * Go to "Apps" > "Repositories", click on "Create" and enter "https://devpro.github.io/helm-charts" as "Index URL", then click on "Create"
+  * Go to "Apps" > "Repositories", click on "Create" and enter `https://devpro.github.io/helm-charts` as "Index URL", then click on "Create"
   * Go to "Apps" > "Charts", look at the available applications (charts) and install the one(s) you want
 
 ## Cluster setup logic
