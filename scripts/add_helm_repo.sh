@@ -18,6 +18,7 @@ helm repo add kasten                https://charts.kasten.io/
 helm repo add longhorn              https://charts.longhorn.io
 helm repo add minio                 https://charts.min.io/
 helm repo add mongodb               https://mongodb.github.io/helm-charts
+helm repo add nats                  https://nats-io.github.io/k8s/helm/charts
 helm repo add neuvector             https://neuvector.github.io/neuvector-helm
 helm repo add open-telemetry        https://open-telemetry.github.io/opentelemetry-helm-charts
 helm repo add ory                   https://k8s.ory.sh/helm/charts
