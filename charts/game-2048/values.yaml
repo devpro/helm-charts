@@ -2,10 +2,11 @@ name: game-2048
 image: alexwhen/docker-2048
 tag: latest
 replicaCount: 1
+port: 80
 ingress:
   enabled: false
   className: "nginx"
-  host: "game-2048.dummy"
+  host: ""
   annotations: {}
     # cert-manager.io/cluster-issuer: letsencrypt-prod
   tls:

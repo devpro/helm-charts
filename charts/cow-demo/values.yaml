@@ -1,14 +1,16 @@
 name: cow-demo
 image: monachus/rancher-demo
-tag: latest
+tag: v1.4.1
 replicaCount: 2
-host: "cow-demo.example.com"
+port: 80
 ingress:
   enabled: false
   className: "nginx"
-  # annotations:
-  #   nginx.ingress.kubernetes.io/ssl-redirect: "false"
-  #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  host: ""
+  annotations: {}
+    # nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
   tls:
     secretName: "cow-demo-tls"
 cow:
