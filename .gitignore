@@ -5,4 +5,4 @@
 temp*.yaml
 temp.sh
 /charts/temp/
-values_mine.yaml
+values_*.y*ml

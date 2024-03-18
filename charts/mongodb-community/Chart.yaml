@@ -1,0 +1,15 @@
+apiVersion: v2
+name: mongodb-community
+description: Helm chart for MongoDB Community
+type: application
+version: 0.1.0
+appVersion: "0.9.0"
+dependencies:
+  # https://github.com/mongodb/helm-charts/tree/main/charts/community-operator
+  - name: community-operator
+    version: 0.9.0
+    repository: https://mongodb.github.io/helm-charts
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
+home: https://github.com/devpro/helm-charts/tree/main/charts/mongodb-community

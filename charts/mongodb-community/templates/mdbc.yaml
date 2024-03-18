@@ -1,0 +1,20 @@
+{{ range .Values.databases }}
+---
+apiVersion: mongodbcommunity.mongodb.com/v1
+kind: MongoDBCommunity
+metadata:
+  name: {{ .name }}
+spec:
+  members: {{ .members }}
+  type: {{ default "ReplicaSet" .type }}
+  version: {{ .version }}
+  security:
+    authentication:
+      modes: ["SCRAM"]
+  {{- with .users }}
+  users:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  additionalMongodConfig:
+    storage.wiredTiger.engineConfig.journalCompressor: {{ default "zlib" .journalCompressor }}
+{{ end }}

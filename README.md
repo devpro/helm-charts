@@ -30,7 +30,8 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Elasticsearch](charts/elasticsearch/README.md) 🗸
   * [MariaDB](charts/mariadb/README.md) 🗸
   * [memcached](charts/memcached/README.md)
-  * [MongoDB](charts/mongodb/README.md)
+  * [MongoDB (Bitnami)](charts/mongodb-bitnami/README.md) 🗸
+  * [MongoDB Community](charts/mongodb-community/README.md) 🗸
   * [PostgreSQL](charts/postgresql/README.md) 🗸
   * [RabbitMQ](charts/rabbitmq/README.md) 🗸
   * [Redis](charts/redis/README.md) 🗸
@@ -43,9 +44,10 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Kafka](charts/kafka/README.md)
   * [Kong](charts/kong/README.md)
   * [Let's Encrypt](charts/letsencrypt/README.md) 🗸
+  * [Linkerd](charts/linkerd/README.md)
   * [MetalLB](charts/metallb/README.md)
   * [MQTT](charts/mqtt/README.md)
-  * [NATS](charts/nats/README.md)
+  * [NATS](charts/nats/README.md) 🗸
   * [NGINX Ingress Controller](charts/ingress-nginx/README.md) 🗸
   * [Traefik](charts/traefik/README.md) 🗸
 * Management
@@ -164,7 +166,7 @@ helm:
 ### From Rancher
 
 * In your cluster
-  * Go to "Apps" > "Repositories", click on "Create" and enter "https://devpro.github.io/helm-charts" as "Index URL", then click on "Create"
+  * Go to "Apps" > "Repositories", click on "Create" and enter `https://devpro.github.io/helm-charts` as "Index URL", then click on "Create"
   * Go to "Apps" > "Charts", look at the available applications (charts) and install the one(s) you want
 
 ## Cluster setup logic
