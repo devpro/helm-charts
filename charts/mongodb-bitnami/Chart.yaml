@@ -1,0 +1,16 @@
+apiVersion: v2
+name: mongodb-bitnami
+description: Helm chart for MongoDB Bitnami
+type: application
+version: 0.2.0
+appVersion: "7.0.5"
+dependencies:
+  # ttps://github.com/bitnami/charts/blob/main/bitnami/mongodb
+  - name: mongodb
+    version: 14.10.1   # MongoDB 7.0.5
+    repository: https://charts.bitnami.com/bitnami
+    alias: mongodb
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
+home: https://github.com/devpro/helm-charts/tree/main/charts/mongodb-bitnami
