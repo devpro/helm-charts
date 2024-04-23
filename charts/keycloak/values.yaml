@@ -1,23 +1,14 @@
 # https://github.com/bitnami/charts/blob/main/bitnami/keycloak/values.yaml
-# Chart 7.1.17: https://github.com/bitnami/charts/blob/a919764ab7eef235a7496bd6c205e3b1814d40e6/bitnami/keycloak/values.yaml
 # https://hub.docker.com/r/bitnami/keycloak/
 keycloak:
-  auth:
-    adminPassword: Admin1234
+  auth: {}
+    # adminPassword: Admin1234
     # existingSecret: keycloak-credentials
     # passwordSecretKey: admin-password
   # production: false
   ingress:
     enabled: true
     ingressClassName: nginx
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+    annotations: {}
+      # cert-manager.io/cluster-issuer: letsencrypt-prod
     tls: true
-  extraEnvVars:
-    # - name: KEYCLOAK_LOG_LEVEL
-    #   value: DEBUG
-    # specific to Keycloak 16
-    - name: KEYCLOAK_PROXY_ADDRESS_FORWARDING
-      value: "true"
-    - name: KEYCLOAK_FRONTEND_URL
-      value: ""

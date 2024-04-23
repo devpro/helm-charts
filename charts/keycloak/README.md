@@ -1,59 +1,44 @@
-# Keycloack
+# Helm chart for Keycloak
 
-This Helm chart will install [Keycloack](https://www.keycloak.org/) ([docs](https://www.keycloak.org/documentation), [code](https://github.com/keycloak/keycloak))
-and is based from the [Bitnami Helm chart](https://bitnami.com/stack/keycloak/helm) ([code](https://github.com/bitnami/charts/tree/main/bitnami/keycloak)).
+This Helm chart will install [Keycloack](https://www.keycloak.org/) ([docs](https://www.keycloak.org/documentation), [code](https://github.com/keycloak/keycloak)) in a Kubernetes cluster.
+It is based on [Bitnami Helm chart](https://bitnami.com/stack/keycloak/helm) ([code](https://github.com/bitnami/charts/tree/main/bitnami/keycloak)).
 
-## How to update the chart
+## Quick start
+
+- Add Devpro Helm repository (if this is the first the repo is used)
 
 ```bash
-# adds helm chart repository
-helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo add devpro https://devpro.github.io/helm-charts
 helm repo update
-
-# searches for the latest version
-helm search repo -l keycloak
-
-# manual: update version number in Chart.yaml
-
-# updates Chart.lock
-helm dependency update
 ```
 
-## How to deploy manually
+- Review the default configuration from [values.yaml](values.yaml)
+
+- Install or update the chart
 
 ```bash
-# gets ingress controller public IP
-NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
-
-# checks the Kubernetes objects generated from the chart
-helm template keycloak . -f values.yaml \
-  --namespace authentication > temp.yaml
-
-# applies the manifest (add "--debug > output.yaml" in case of issue)
-helm upgrade --install keycloak . -f values.yaml --create-namespace \
-  --set keycloak.ingress.hostname=keycloak.${NGINX_PUBLIC_IP}.sslip.io \
-  --set keycloak.extraEnvVars[1].value="https://keycloak.${NGINX_PUBLIC_IP}.sslip.io/auth/" \
-  --namespace authentication
-
-# checks everything is ok
-kubectl get svc,deploy,pod,ingress,pv,certificate -n authentication
-
-# manual: open https://keycloak.${NGINX_PUBLIC_IP}.sslip.io/ (and login with user/Admin1234)
-
-# if needed, deletes the chart
-helm uninstall keycloak -n authentication
+helm upgrade --install keycloak devpro/keycloak --namespace keycloak
 ```
 
-## How to start once the application is running
+- [Get started with Keycloak on Kubernetes](https://www.keycloak.org/getting-started/getting-started-kube)
 
-* [Get started with Keycloak on Kubernetes](https://www.keycloak.org/getting-started/getting-started-kube)
+- Clean-up
 
-## How to investigate
+```bash
+helm uninstall keycloak -n keycloak
+kubectl delete ns keycloak
+```
 
-### Known issues
+## Known issues
 
-* Creating the secret at the same time as the chart may cause issue, create the secret first
+- Creating the secret at the same time as the chart may cause issue, create the secret first
 
-* Rancher is not compatible with Quarkus ([Keycloak 17.0.0](https://www.keycloak.org/2022/02/keycloak-1700-released.html))
-  * [Migrating to Quarkus distribution](https://www.keycloak.org/migration/migrating-to-quarkus)
-  * [Rancher issue #38625](https://github.com/rancher/rancher/issues/38625) ([Rancher PR #38822](https://github.com/rancher/rancher/pull/38822))
+- Rancher is not compatible with Quarkus ([Keycloak 17.0.0](https://www.keycloak.org/2022/02/keycloak-1700-released.html))
+  - [Migrating to Quarkus distribution](https://www.keycloak.org/migration/migrating-to-quarkus)
+  - [Rancher issue #38625](https://github.com/rancher/rancher/issues/38625) ([Rancher PR #38822](https://github.com/rancher/rancher/pull/38822))
+
+- Use `extraStartupArgs` value to fix the issue with NGINX Ingress Controller (see [Issue #5074](https://github.com/bitnami/charts/issues/5074))
+
+## Going further
+
+Look at the [Contributing](CONTRIBUTING.md) page.
