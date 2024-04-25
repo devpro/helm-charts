@@ -145,6 +145,19 @@ entries:
     version: 0.1.0
   cow-demo:
   - apiVersion: v2
+    appVersion: 2.0.0
+    created: "2024-04-25T09:43:11.086683802Z"
+    description: Helm chart for Cow Demo Application
+    digest: d3b466018382a7e42e8966020136815c535af3471d12b53a8e697b4d3b7fa73b
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: cow-demo
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/cow-demo-0.2.0/cow-demo-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: 1.0.0
     created: "2023-02-23T09:09:18.409978533Z"
     description: Helm chart for Cow Demo Application
@@ -507,6 +520,20 @@ entries:
   game-2048:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2024-04-25T09:43:11.226477428Z"
+    description: Helm chart for Game 2048
+    digest: d9378bb0e9a49fa3753090e2d3a322cacea0d5c51e314e44ca8f6e8baa8030e9
+    home: https://github.com/devpro/helm-charts/tree/main/charts/game-2048
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: game-2048
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/game-2048-0.1.1/game-2048-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2024-02-13T14:48:44.926752496Z"
     description: Helm chart for Game 2048
     digest: 0288ae2bfb32f3fe509b6f5526d10af0a806ad196db8286eeb1e919d10f5bf1a
@@ -624,6 +651,37 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/gitlab-runner-0.1.0/gitlab-runner-0.1.0.tgz
     version: 0.1.0
   grafana-stack:
+  - apiVersion: v2
+    appVersion: 10.3.1
+    created: "2024-04-25T09:43:11.371770704Z"
+    dependencies:
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 7.3.0
+    - condition: loki.enabled
+      name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: 5.42.2
+    - condition: tempo.enabled
+      name: tempo
+      repository: https://grafana.github.io/helm-charts
+      version: 1.7.1
+    - condition: mimir-distributed.enabled
+      name: mimir-distributed
+      repository: https://grafana.github.io/helm-charts
+      version: 5.2.1
+    description: Helm chart for managing Grafana Stack
+    digest: 3bd99afdd08fd602f83587a8ad1d50ca134a29d0f7c6cb62b1df08c40500aefd
+    home: https://github.com/devpro/helm-charts/tree/main/charts/grafana-stack
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: grafana-stack
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/grafana-stack-0.2.2/grafana-stack-0.2.2.tgz
+    version: 0.2.2
   - apiVersion: v2
     appVersion: 10.3.1
     created: "2024-02-12T14:28:32.000888522Z"
@@ -862,6 +920,23 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/kasten-k10-0.1.0/kasten-k10-0.1.0.tgz
     version: 0.1.0
   keycloak:
+  - apiVersion: v2
+    appVersion: 23.0.6
+    created: "2024-04-25T09:43:11.480745712Z"
+    dependencies:
+    - name: keycloak
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.7.0
+    description: Helm chart for managing Keycloak
+    digest: 13ff7b1e495782973bcc26e1c63f83657ea89b4ebee8bedfe405bdafc32e0131
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: keycloak
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/keycloak-0.2.0/keycloak-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: 18.0.0
     created: "2022-12-27T14:21:28.696926657Z"
@@ -1108,6 +1183,64 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/minio-0.1.0/minio-0.1.0.tgz
     version: 0.1.0
+  mongodb-bitnami:
+  - apiVersion: v2
+    appVersion: 7.0.5
+    created: "2024-04-25T09:43:11.598409865Z"
+    dependencies:
+    - alias: mongodb
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.10.1
+    description: Helm chart for MongoDB Bitnami
+    digest: 639a77e3d6961c99054d5f0ea25c5cb2e645ea57d9001da80bb80c297b2de607
+    home: https://github.com/devpro/helm-charts/tree/main/charts/mongodb-bitnami
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: mongodb-bitnami
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/mongodb-bitnami-0.2.0/mongodb-bitnami-0.2.0.tgz
+    version: 0.2.0
+  mongodb-community:
+  - apiVersion: v2
+    appVersion: 0.9.0
+    created: "2024-04-25T09:43:11.715945468Z"
+    dependencies:
+    - name: community-operator
+      repository: https://mongodb.github.io/helm-charts
+      version: 0.9.0
+    description: Helm chart for MongoDB Community
+    digest: bb880b101467081a8ba7c05813a61fef8e43138983f8096e47d8bcf9d895e536
+    home: https://github.com/devpro/helm-charts/tree/main/charts/mongodb-community
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: mongodb-community
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/mongodb-community-0.1.0/mongodb-community-0.1.0.tgz
+    version: 0.1.0
+  nats:
+  - apiVersion: v2
+    appVersion: 2.10.11
+    created: "2024-04-25T09:43:11.796342324Z"
+    dependencies:
+    - name: nats
+      repository: https://nats-io.github.io/k8s/helm/charts
+      version: 1.1.9
+    description: Helm chart for NATS
+    digest: 1f26f1984ab3fffff8b046feb2ae67d4542e5d6bc0a094a286b84bbb34d60bb8
+    home: https://github.com/devpro/helm-charts/tree/main/charts/nats
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: nats
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/nats-0.2.0/nats-0.2.0.tgz
+    version: 0.2.0
   neuvector:
   - apiVersion: v2
     appVersion: 5.3.0
@@ -1854,4 +1987,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2024-02-20T21:35:21.895992844Z"
+generated: "2024-04-25T09:43:11.796601349Z"
