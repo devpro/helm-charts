@@ -1,6 +1,6 @@
 name: cow-demo
-image: monachus/rancher-demo
-tag: v1.4.1
+image: devprofr/cow-demo
+tag: 1.0.8830193847
 replicaCount: 2
 port: 80
 ingress:
@@ -13,8 +13,11 @@ ingress:
     # cert-manager.io/cluster-issuer: letsencrypt-prod
   tls:
     secretName: "cow-demo-tls"
-cow:
-  color: red
+pet:
+  # choice: cows, chameleons, cowmeleons
+  type: cows
+  # choice: red, orange, yellow, olive, green, teal, blue, violet, purple, pink, black
+  color: blue
 resources: {}
   # limits:
   #   cpu: 100m

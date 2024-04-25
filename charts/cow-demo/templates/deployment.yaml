@@ -24,8 +24,10 @@ spec:
           image: "{{ $.Values.image }}:{{ $.Values.tag }}"
           imagePullPolicy: Always
           env:
-            - name: COW_COLOR
-              value: {{ $.Values.cow.color }}
+            - name: CONTAINER_COLOR
+              value: {{ $.Values.pet.color }}
+            - name: PETS
+              value: {{ $.Values.pet.type }}
           ports:
             - name: http
               containerPort: 8080
