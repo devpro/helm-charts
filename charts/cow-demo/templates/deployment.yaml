@@ -20,14 +20,17 @@ spec:
         app.kubernetes.io/name: {{ $name }}
     spec:
       containers:
-        - name: {{ $name }}
+        - name: webapp
           image: "{{ $.Values.image }}:{{ $.Values.tag }}"
           imagePullPolicy: Always
           env:
-            - name: COW_COLOR
-              value: {{ $.Values.cow.color }}
+            - name: CONTAINER_COLOR
+              value: {{ $.Values.pet.color }}
+            - name: PETS
+              value: {{ $.Values.pet.type }}
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 8080
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

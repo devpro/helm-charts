@@ -3,16 +3,17 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: {{ $name }}
   labels:
     app: {{ $name }}
     app.kubernetes.io/name: {{ $name }}
-  name: {{ $name }}-svc
 spec:
   type: ClusterIP
-  ports:
-    - port: 80
-      protocol: TCP
-      targetPort: 8080
   selector:
     app: {{ $name }}
     app.kubernetes.io/name: {{ $name }}
+  ports:
+    - name: http
+      port: {{ $.Values.port }}
+      protocol: TCP
+      targetPort: 8080

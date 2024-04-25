@@ -18,9 +18,11 @@ helm repo add kasten                https://charts.kasten.io/
 helm repo add longhorn              https://charts.longhorn.io
 helm repo add minio                 https://charts.min.io/
 helm repo add mongodb               https://mongodb.github.io/helm-charts
+helm repo add nats                  https://nats-io.github.io/k8s/helm/charts
 helm repo add neuvector             https://neuvector.github.io/neuvector-helm
 helm repo add open-telemetry        https://open-telemetry.github.io/opentelemetry-helm-charts
 helm repo add ory                   https://k8s.ory.sh/helm/charts
+helm repo add percona               https://percona.github.io/percona-helm-charts/
 helm repo add podinfo               https://stefanprodan.github.io/podinfo
 helm repo add prometheus-community  https://prometheus-community.github.io/helm-charts
 helm repo add promyze               https://promyze.github.io/helm-charts
@@ -28,7 +30,6 @@ helm repo add r2devops              https://charts.r2devops.io
 helm repo add rancher-charts        https://charts.rancher.io
 helm repo add rancher-latest        https://releases.rancher.com/server-charts/latest
 helm repo add reportportal          https://reportportal.github.io/kubernetes
-helm repo add s3gw                  https://aquarist-labs.github.io/s3gw-charts
 helm repo add sealed-secrets        https://bitnami-labs.github.io/sealed-secrets
 helm repo add sonarqube             https://sonarsource.github.io/helm-chart-sonarqube
 helm repo add traefik               https://traefik.github.io/charts

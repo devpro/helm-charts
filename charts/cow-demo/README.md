@@ -7,6 +7,9 @@ Helm chart to deploy cow demonstration application.
 ```bash
 # lints the chart
 helm lint .
+
+# creates Kubernetes template file from chart
+helm template cow-demo . -f values.yaml --namespace demo > temp.yaml
 ```
 
 ## How to deploy manually
@@ -15,17 +18,13 @@ helm lint .
 # gets ingress controller public IP
 NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 
-# creates Kubernetes template file from chart
-helm template cow-demo . -f values.yaml \
-  --namespace demo > temp.yaml
-
 # applies the manifest (add "--debug > output.yaml" in case of issue)
-helm upgrade --install cow-demo . -f values.yaml \
-  --set cow.color=green \
-  --set host=cow-demo.${NGINX_PUBLIC_IP}.sslip.io \
-  --set 'ingress.annotations.cert-manager\.io/cluster-issuer=selfsigned-cluster-issuer' \
-  --set 'ingress.enabled=true' \
-  --namespace demo --create-namespace
+helm upgrade --install cow-demo . -f values.yaml --namespace demo \
+--set pet.color=green \
+--set host=cow-demo.${NGINX_PUBLIC_IP}.sslip.io \
+--set ingress.annotations.'cert-manager\.io/cluster-issuer'=selfsigned-cluster-issuer \
+--set ingress.enabled=true \
+--create-namespace
 
 # checks everythings is ok
 kubectl get all -n demo
@@ -41,8 +40,4 @@ helm delete cow-demo -n demo
 
 ### AMD64
 
-* [monachus/rancher-demo](https://hub.docker.com/r/monachus/rancher-demo) ([code](https://github.com/oskapt/rancher-demo))
-
-### ARM64
-
-* [bashofmann/rancher-demo](https://hub.docker.com/r/bashofmann/rancher-demo) ([code](https://github.com/bashofmann/rancher-demo))
+* [devprofr/cow-demo](https://hub.docker.com/r/devprofr/cow-demo) ([code](https://github.com/devpro/container-images/tree/main/src/cow-demo))
