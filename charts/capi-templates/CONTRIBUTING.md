@@ -41,6 +41,16 @@ Generate the manifest file for review:
 helm template capi-gke-demo . -f values.yaml -f values_gke.yaml > temp.yaml
 ```
 
+Can be compared with the one generated with clusterctl:
+
+```bash
+export GCP_PROJECT=$GCLOUD_PROJECT_ID
+export GCP_REGION=$GCLOUD_REGION
+export GCP_NETWORK_NAME=$GCLOUD_VPC
+export WORKER_MACHINE_COUNT=1
+clusterctl generate cluster gke-capi-bthomas-demo --flavor gke -i gcp  > capi-gke-quickstart.yaml
+```
+
 Apply changes with Helm:
 
 ```bash
@@ -58,5 +68,6 @@ Delete resources:
 
 ```bash
 helm delete capi-gke-demo -n demo
+while kubectl get cluster gke-capi-bthomas-demo -n demo &>/dev/null; do sleep 1; done
 kubectl delete ns demo
 ```

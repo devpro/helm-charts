@@ -15,9 +15,9 @@ helm repo add devpro https://devpro.github.io/helm-charts
 helm repo update
 ```
 
-### GKE (Google Cloud Kubernetes Engine)
+### Create GKE cluster
 
-Configure the cluster:
+Create the configuration file:
 
 ```bash
 cat <<EOF > values_gke.yaml
@@ -33,7 +33,7 @@ googlecloud:
 EOF
 ```
 
-Creates the cluster:
+Create the cluster:
 
 ```bash
 helm install capi-gke-demo devpro/capi-templates -f values_gke.yaml
