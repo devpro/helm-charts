@@ -1,0 +1,22 @@
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: {{ .Values.name }}
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+        {{- toYaml .Values.network.pods.cidrBlocks | nindent 8 }}
+  controlPlaneRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    {{- if eq .Values.type "gke" }}
+    kind: GCPManagedControlPlane
+    name: {{ $.Values.name }}-control-plane
+    {{- end }}
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    {{- if eq .Values.type "gke" }}
+    kind: GCPManagedCluster
+    name: {{ $.Values.name }}
+    {{- end }}

@@ -1,0 +1,19 @@
+{{- if eq .Values.type "gke" }}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: GCPManagedCluster
+metadata:
+  name: {{ .Values.name }}
+spec:
+  project: {{ .Values.googlecloud.project }}
+  region: {{ .Values.googlecloud.region }}
+  network:
+    name: {{ .Values.googlecloud.vpc }}
+    {{- if .Values.googlecloud.subnet.name }}
+    autoCreateSubnetworks: false
+    subnets:
+      - name: {{ .Values.googlecloud.subnet.name  }}
+        cidrBlock: {{ .Values.googlecloud.subnet.cidr }}
+        region: {{ .Values.googlecloud.region }}
+    {{- end }}
+{{- end }}
