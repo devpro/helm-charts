@@ -1,4 +1,4 @@
-{{- $applications := list .Values.backend .Values.frontend .Values.nodejsApi -}}
+{{- $applications := list .Values.backend .Values.frontend .Values.nodejsApi .Values.legacy -}}
 {{ range $applications }}
 {{- $name := .name -}}
 {{- if .enabled -}}
@@ -33,6 +33,13 @@ spec:
                 - key: "kubernetes.io/arch"
                   operator: In
                   values: ["amd64"]
+              {{- if .nodeAffinity.os }}
+              - matchExpressions:
+                - key: kubernetes.io/os
+                  operator: In
+                  values:
+                  - {{ .nodeAffinity.os }}
+              {{- end }}
       containers:
         - name: {{ .name }}
           image: {{ .image }}:{{ .tag }}
@@ -41,14 +48,22 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          {{- if .healthEndpoint }}
           livenessProbe:
             httpGet:
               path: {{ .healthEndpoint }}
               port: http
+            {{- if .livenessProbeConfig }}
+            {{- toYaml .livenessProbeConfig | nindent 12 }}
+            {{- end }}
           readinessProbe:
             httpGet:
               path: {{ .healthEndpoint }}
               port: http
+            {{- if .readinessProbeConfig }}
+            {{- toYaml .readinessProbeConfig | nindent 12 }}
+            {{- end }}
+          {{- end }}
           resources:
             {{- toYaml .resources | nindent 12 }}
           {{- with .env }}
