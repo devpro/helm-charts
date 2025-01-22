@@ -28,18 +28,18 @@ spec:
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
+          nodeSelectorTerms:
+            - matchExpressions:
                 - key: "kubernetes.io/arch"
                   operator: In
                   values: ["amd64"]
-              {{- if .nodeAffinity.os }}
-              - matchExpressions:
-                - key: kubernetes.io/os
-                  operator: In
-                  values:
-                  - {{ .nodeAffinity.os }}
-              {{- end }}
+                {{- if .nodeAffinity.os }}
+                - matchExpressions:
+                    - key: kubernetes.io/os
+                      operator: In
+                      values:
+                        - {{ .nodeAffinity.os }}
+                {{- end }}
       containers:
         - name: {{ .name }}
           image: {{ .image }}:{{ .tag }}
