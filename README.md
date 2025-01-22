@@ -14,7 +14,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Applications
   * [Cow Demo](charts/cow-demo/README.md) 🗸
   * [Devpro Sales Portal](charts/devpro-salesportal/README.md) 🗸
-  * [Drupal](charts/drupal/README.md)
+  * [Drupal](docs/upstream/drupal.md)
   * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
   * [Game 2048](charts/game-2048/README.md) 🗸
   * [HobbyFarm](charts/hobbyfarm/README.md) 🗸
@@ -29,7 +29,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Data stores
   * [Elasticsearch](charts/elasticsearch/README.md) 🗸
   * [MariaDB](charts/mariadb/README.md) 🗸
-  * [memcached](charts/memcached/README.md)
+  * [memcached](docs/upstream/memcached.md)
   * [MongoDB (Bitnami)](charts/mongodb-bitnami/README.md) 🗸
   * [MongoDB Community](charts/mongodb-community/README.md) 🗸
   * [PostgreSQL](charts/postgresql/README.md) 🗸
@@ -37,16 +37,16 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Redis](charts/redis/README.md) 🗸
 * Networking & Messaging
   * [cert-manager](charts/cert-manager/README.md) 🗸
-  * [Consul](charts/consul/README.md)
-  * [external-dns](charts/external-dns/README.md)
-  * [HAProxy](charts/haproxy/README.md)
-  * [Istio](charts/istio/README.md)
-  * [Kafka](charts/kafka/README.md)
-  * [Kong](charts/kong/README.md)
+  * [Consul](docs/upstream/consul.md)
+  * [external-dns](docs/upstream/external-dns.md)
+  * [HAProxy](docs/upstream/haproxy.md)
+  * [Istio](docs/upstream/istio.md)
+  * [Kafka](docs/upstream/kafka.md)
+  * [Kong](docs/upstream/kong.md)
   * [Let's Encrypt](charts/letsencrypt/README.md) 🗸
-  * [Linkerd](charts/linkerd/README.md)
-  * [MetalLB](charts/metallb/README.md)
-  * [MQTT](charts/mqtt/README.md)
+  * [Linkerd](docs/upstream/linkerd.md)
+  * [MetalLB](docs/upstream/metallb.md)
+  * [MQTT](docs/upstream/mqtt.md)
   * [NATS](charts/nats/README.md) 🗸
   * [NGINX Ingress Controller](charts/ingress-nginx/README.md) 🗸
   * [Traefik](charts/traefik/README.md) 🗸
@@ -54,7 +54,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Rancher](charts/rancher/README.md) 🗸
   * [Rancher Cluster Templates](charts/rancher-cluster-templates/README.md) 🗸
 * Observability
-  * [Elastic Stack](charts/elastic-stack/README.md)
+  * [Elastic Stack](docs/upstream/elastic-stack.md)
   * [Grafana Stack](charts/grafana-stack/README.md) 🗸
   * [OpenTelemetry Collector](charts/opentelemetry-collector/README.md) 🗸
   * [Prometheus](charts/prometheus/README.md) 🗸
@@ -67,7 +67,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [NeuVector](charts/neuvector/README.md) 🗸
   * [Rancher CIS Benchmark](charts/rancher-cis-benchmark/README.md) 🗸
 * Serverless
-  * [Knative](charts/knative/README.md)
+  * [Knative](docs/upstream/knative.md)
 * Storage
   * [Kasten K10](charts/kasten-k10/README.md) 🗸
   * [Longhorn](charts/longhorn/README.md) 🗸
@@ -76,22 +76,22 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [NFS-Ganesha](charts/nfs-ganesha/README.md) 🗸
 * Supply Chain (Software Factory)
   * [ArgoCD](charts/argo-cd/README.md) 🗸
-  * [Argo Rollouts](charts/argo-rollouts/README.md)
-  * [Artifactory](charts/artifactory/README.md)
-  * [Azure DevOps Agent](charts/azure-devops-agent/README.md)
+  * [Argo Rollouts](docs/upstream/argo-rollouts.md)
+  * [Artifactory](docs/upstream/artifactory.md)
+  * [Azure DevOps Agent](docs/upstream/azure-devops-agent.md)
   * [CloudBees CI](charts/cloudbees-ci/README.md) 🗸
   * [Concourse](charts/concourse/README.md)
-  * [Drone](charts/drone/README.md)
+  * [Drone](docs/upstream/drone.md)
   * [GitLab](charts/gitlab/README.md) 🗸
   * [GitLab Runner](charts/gitlab-runner/README.md) 🗸
   * [Harbor](charts/harbor/README.md) 🗸
   * [Jenkins](charts/jenkins/README.md) 🗸
-  * [Jira](charts/jira/README.md)
-  * [Nexus](charts/nexus/README.md)
+  * [Jira](docs/upstream/jira.md)
+  * [Nexus](docs/upstream/nexus.md)
   * [R2Devops](charts/r2devops/README.md) 🗸
   * [Promyze](charts/promyze/README.md) 🗸
   * [SonarQube](charts/sonarqube/README.md) 🗸
-  * [Tekton](charts/tekton/README.md)
+  * [Tekton](docs/upstream/tekton.md)
 * Testing
   * [Report Portal](charts/reportportal/README.md) 🗸
 

@@ -1,6 +1,6 @@
-## Drupal
+# Drupal
 
-### Stable repository for Drupal
+## Stable repository
 
 [stable/drupal](https://github.com/helm/charts/tree/master/stable/drupal) refers to [bitnami chart](https://bitnami.com/stack/drupal/helm).
 
@@ -12,6 +12,6 @@ You should be able to access your new Drupal installation through [drupal.local]
 
 If [drupal.local](http://drupal.local/) doesn't work, look at the services state and see if the public ip of the LoadBalancer is defined. If you're on MiniKube it may be undefined, in this case look at minikube services `minikube service d8cluster-drupal --url` and open the link in the URL.
 
-### Additional reading on Drupal
+## Additional reading
 
 - Article from Jeff Geerling on [Running Drupal in Kubernetes with Docker in production](https://www.jeffgeerling.com/blog/2019/running-drupal-kubernetes-docker-production) _April 12, 2019_

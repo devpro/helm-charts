@@ -80,4 +80,5 @@ Troubleshooting:
 
 ```bash
 kubectl exec -it ecorp-legacy-xxx-xxx -n ecorp -- curl http://10.42.xx.xx:80
+kubectl delete pod ecorp-legacy-xxx-xxx -n ecorp --grace-period=0 --force
 ```
