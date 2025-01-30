@@ -1,0 +1,47 @@
+host: random.demo
+name: random-demo
+image: docker.io/devprofr/random-demo
+tag: 1.0.42
+replicaCount: 1
+healthEndpoint: /health
+port: 80
+additionalPodLabels: {}
+  # rabbitmq-client: "true"
+env: {}
+  # - name: SomeKey
+  #   value: "someValue"
+  # - name: PORT
+  #   value: "80"
+  # - name: RABBITMQ_URL
+  #   value: "amqp://<user>:<password>@rabbitmq.rabbitmq.svc.cluster.local:5672"
+tls: {}
+  # secretName: chart-example-tls
+ingressExtraHosts:
+  # needed for calls from frontend (needs manual update of hosts file and go to swagger page to accept invalid certificate)
+  - host: back.ecorp.demo
+    paths:
+      - path: /
+        pathType: Prefix
+resources: {}
+  # limits:
+  #   cpu: 200m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 64Mi
+nodeAffinity: {}
+  # os: windows
+# livenessProbeConfig:
+#   initialDelaySeconds: 30
+#   periodSeconds: 10
+#   failureThreshold: 3
+# readinessProbeConfig:
+#   initialDelaySeconds: 60
+#   periodSeconds: 15
+#   failureThreshold: 3
+
+ingress:
+  enabled: false
+  className: nginx
+  annotations: {}
+    # nginx.ingress.kubernetes.io/ssl-redirect: "false"

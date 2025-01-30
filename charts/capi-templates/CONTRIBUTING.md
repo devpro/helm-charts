@@ -2,8 +2,9 @@
 
 ## Quality check
 
+Check code style
+
 ```bash
-# lints (code style)
 helm lint
 ```
 
