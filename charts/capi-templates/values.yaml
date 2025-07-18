@@ -4,8 +4,8 @@ type:
 replicas: 1
 network:
   pods:
-   cidrBlocks:
-    - 192.168.0.0/16
+    cidrBlocks:
+      - 192.168.0.0/16
 googlecloud:
   # project ID
   project:
