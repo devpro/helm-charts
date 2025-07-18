@@ -35,6 +35,8 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [PostgreSQL](charts/postgresql/README.md) 🗸
   * [RabbitMQ](charts/rabbitmq/README.md) 🗸
   * [Redis](charts/redis/README.md) 🗸
+* Infrastucture automation
+  * [Terraform Backend MongoDB](charts/terraform-backend-mongodb) 🗸
 * Networking & Messaging
   * [cert-manager](charts/cert-manager/README.md) 🗸
   * [Consul](docs/upstream/consul.md)
