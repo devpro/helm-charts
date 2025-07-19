@@ -22,4 +22,5 @@ helm upgrade --install traefik/traefik --namespace traefik --create-namespace
 
 # uninstalls
 helm uninstall traefik -n traefik
+kubectl delete ns traefik
 ```

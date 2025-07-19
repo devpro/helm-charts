@@ -14,11 +14,11 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Applications
   * [Cow Demo](charts/cow-demo/README.md) 🗸
   * [Devpro Sales Portal](charts/devpro-salesportal/README.md) 🗸
-  * [Drupal](docs/upstream/drupal.md)
+  * [Drupal](docs/upstream/drupal.md) 🗸
   * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
   * [Game 2048](charts/game-2048/README.md) 🗸
   * [HobbyFarm](charts/hobbyfarm/README.md) 🗸
-  * [Podinfo](charts/podinfo/README.md) 🗸
+  * [Podinfo](docs/upstream/podinfo.md) 🗸
   * [WordPress](charts/wordpress/README.md) 🗸
 * Authentication / Identity
   * [Keycloak](charts/keycloak/README.md) 🗸
@@ -28,13 +28,13 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Outscale](charts/outscale/README.md)
 * Data stores
   * [Elasticsearch](charts/elasticsearch/README.md) 🗸
-  * [MariaDB](charts/mariadb/README.md) 🗸
+  * [MariaDB](docs/upstream/mariadb.md) 🗸
   * [memcached](docs/upstream/memcached.md)
   * [MongoDB (Bitnami)](charts/mongodb-bitnami/README.md) 🗸
   * [MongoDB Community](charts/mongodb-community/README.md) 🗸
   * [PostgreSQL](charts/postgresql/README.md) 🗸
   * [RabbitMQ](charts/rabbitmq/README.md) 🗸
-  * [Redis](charts/redis/README.md) 🗸
+  * [Redis](docs/upstream/redis.md) 🗸
 * Infrastucture automation
   * [Terraform Backend MongoDB](charts/terraform-backend-mongodb) 🗸
 * Networking & Messaging
@@ -49,9 +49,9 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Linkerd](docs/upstream/linkerd.md)
   * [MetalLB](docs/upstream/metallb.md)
   * [MQTT](docs/upstream/mqtt.md)
-  * [NATS](charts/nats/README.md) 🗸
+  * [NATS](docs/upstream/nats.md) 🗸
   * [NGINX Ingress Controller](charts/ingress-nginx/README.md) 🗸
-  * [Traefik](docs/upstream/traefik.md)
+  * [Traefik](docs/upstream/traefik.md) 🗸
 * Management
   * [Rancher](charts/rancher/README.md) 🗸
   * [Rancher Cluster Templates](charts/rancher-cluster-templates/README.md) 🗸
@@ -74,15 +74,15 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Kasten K10](charts/kasten-k10/README.md) 🗸
   * [Longhorn](charts/longhorn/README.md) 🗸
   * [MinIO](charts/minio/README.md) 🗸
-  * [s3gw](docs/upstream/s3gw.md)
+  * [s3gw](docs/upstream/s3gw.md) 🗸
   * [NFS-Ganesha](charts/nfs-ganesha/README.md) 🗸
 * Supply Chain (Software Factory)
-  * [ArgoCD](charts/argo-cd/README.md) 🗸
+  * [Argo CD](docs/upstream/argo-cd.md) 🗸
   * [Argo Rollouts](docs/upstream/argo-rollouts.md)
   * [Artifactory](docs/upstream/artifactory.md)
   * [Azure DevOps Agent](docs/upstream/azure-devops-agent.md)
-  * [CloudBees CI](charts/cloudbees-ci/README.md) 🗸
-  * [Concourse](charts/concourse/README.md)
+  * [CloudBees CI](docs/upstream/cloudbees-ci.md) 🗸
+  * [Concourse](docs/upstream/concourse.md) 🗸
   * [Drone](docs/upstream/drone.md)
   * [GitLab](charts/gitlab/README.md) 🗸
   * [GitLab Runner](charts/gitlab-runner/README.md) 🗸
