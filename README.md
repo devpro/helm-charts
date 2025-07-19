@@ -51,7 +51,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [MQTT](docs/upstream/mqtt.md)
   * [NATS](charts/nats/README.md) 🗸
   * [NGINX Ingress Controller](charts/ingress-nginx/README.md) 🗸
-  * [Traefik](charts/traefik/README.md) 🗸
+  * [Traefik](docs/upstream/traefik.md)
 * Management
   * [Rancher](charts/rancher/README.md) 🗸
   * [Rancher Cluster Templates](charts/rancher-cluster-templates/README.md) 🗸
@@ -74,7 +74,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Kasten K10](charts/kasten-k10/README.md) 🗸
   * [Longhorn](charts/longhorn/README.md) 🗸
   * [MinIO](charts/minio/README.md) 🗸
-  * [s3gw](charts/s3gw/README.md) 🗸
+  * [s3gw](docs/upstream/s3gw.md)
   * [NFS-Ganesha](charts/nfs-ganesha/README.md) 🗸
 * Supply Chain (Software Factory)
   * [ArgoCD](charts/argo-cd/README.md) 🗸

@@ -4,13 +4,32 @@
 
 [stable/drupal](https://github.com/helm/charts/tree/master/stable/drupal) refers to [bitnami chart](https://bitnami.com/stack/drupal/helm).
 
-Install with the default values (+ mandatory fields that are required): `helm install d8cluster stable/drupal --set mariadb.rootUser.password=password,mariadb.db.password=secretpassword`.
+Install with the default values (+ mandatory fields that are required):
 
-Wait for the pods to be created: `kubectl get pods`.
+```bash
+helm install d8cluster stable/drupal \
+  --set mariadb.rootUser.password=password
+  --set mariadb.db.password=secretpassword
+```
 
-You should be able to access your new Drupal installation through [drupal.local](http://drupal.local/) and log with username = "user" and password = `kubectl get secret --namespace default d8cluster-drupal -o jsonpath="{.data.drupal-password}" | base64 --decode`.
+Wait for the pods to be created:
 
-If [drupal.local](http://drupal.local/) doesn't work, look at the services state and see if the public ip of the LoadBalancer is defined. If you're on MiniKube it may be undefined, in this case look at minikube services `minikube service d8cluster-drupal --url` and open the link in the URL.
+```bash
+kubectl get pods
+```
+
+You should be able to access your new Drupal installation through [drupal.local](http://drupal.local/) and log with username "user" and password given by:
+
+```bash
+kubectl get secret --namespace default d8cluster-drupal -o jsonpath="{.data.drupal-password}" | base64 --decode
+```
+
+If [drupal.local](http://drupal.local/) doesn't work, look at the services state and see if the public ip of the LoadBalancer is defined.
+If you're on MiniKube it may be undefined, in this case look at minikube services and open the link in the URL:
+
+```bash
+minikube service d8cluster-drupal --url
+```
 
 ## Additional reading
 
