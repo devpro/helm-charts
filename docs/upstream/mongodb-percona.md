@@ -1,14 +1,16 @@
-# Percona Server for MongoDB
+# MongoDB by Percona
 
-🌐 Helm chart: [docs](https://docs.percona.com/percona-operator-for-mongodb/helm.html), [code](https://github.com/percona/percona-helm-charts)
+Let's see how to run MongoDB in a Kubernetes cluster, using Percona distribution.
 
-[How to Run MongoDB on Kubernetes: Solutions, Pros and Cons](https://www.percona.com/blog/run-mongodb-in-kubernetes-solutions-pros-and-cons/) - January 5, 2024
+See [How to Run MongoDB on Kubernetes: Solutions, Pros and Cons](https://www.percona.com/blog/run-mongodb-in-kubernetes-solutions-pros-and-cons/) - January 5, 2024
+
+## Configuration
+
+We'll use the Percona Helm chart ([docs](https://docs.percona.com/percona-operator-for-mongodb/helm.html), [code](https://github.com/percona/percona-helm-charts)).
+
+## Deployment
 
 ```bash
-helm repo add percona https://percona.github.io/percona-helm-charts/
-helm repo update
-helm search repo -l percona/psmdb-operator
-
 kubectl create namespace mongodb-percona
 
 # https://github.com/percona/percona-helm-charts/blob/main/charts/psmdb-operator/values.yaml

@@ -1,3 +1,3 @@
 # Longhorn
 
-This Helm chart will install [Loghorn](https://longhorn.io/), a Cloud native distributed block storage for Kubernetes.
+This Helm chart will install [Longhorn](https://longhorn.io/), a Cloud native distributed block storage for Kubernetes.

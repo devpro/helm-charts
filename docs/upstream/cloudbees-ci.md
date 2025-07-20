@@ -1,4 +1,4 @@
-# Argo CD
+# CloudBees CI
 
 Let's see how to run [CloudBees CI](https://docs.cloudbees.com/docs/cloudbees-ci/latest/) ([GitHub](https://github.com/cloudbees)) in a Kubernetes cluster.
 

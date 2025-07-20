@@ -1,31 +1,33 @@
-# Let's Encrypt
+# Helm chart for Let's Encrypt certificate issuers
 
-This Helm chart will install [Let's Encrpyt](https://letsencrypt.org/) ([docs](https://letsencrypt.org/docs/)).
+This Helm chart will install certificate issuers using [Let's Encrpyt](https://letsencrypt.org/) ([docs](https://letsencrypt.org/docs/)).
 
-💡 Helm chart will be installed in `cert-manager` namespace and must be installed after `cert-manager` chart
+💡 The certificates require `cert-manager` to be installed on the Kubernetes cluster
 
-## How to deploy manually
+## Usage
 
 ```bash
-# checks the Kubernetes objects generated from the chart
-helm template letsencrypt . -f values.yaml \
-  --namespace cert-manager > temp.yaml
+# adds devpro Helm repository (if not already done)
+helm repo add devpro https://devpro.github.io/helm-charts
+helm repo update
 
-# installs the chart with helm
-helm upgrade --install letsencrypt . -f values.yaml \
-  --set registration.emailAddress=mypersonal@email.address \
-  --namespace cert-manager
+# installs the chart with default parameters
+helm upgrade --install letsencrypt devpro/letsencrypt --namespace cert-manager \
+  --set registration.emailAddress=mypersonal@email.address
+  --set ingress.className=traefik
 
 # checks installation is ok
 kubectl get ClusterIssuers -n cert-manager
 
-# if needed, deletes the chart
-helm delete letsencrypt -n cert-manager
+# cleans up
+helm uninstall letsencrypt -n cert-manager
 ```
 
-## How to investigate
+## Troubleshooting
 
-### Check existing resources
+### Certificate not created
+
+Look at the objects:
 
 ```bash
 kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges --all-namespaces

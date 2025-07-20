@@ -12,90 +12,90 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 ## Catalog
 
 * Applications
-  * [Cow Demo](charts/cow-demo/README.md) 🗸
-  * [Devpro Sales Portal](charts/devpro-salesportal/README.md) 🗸
-  * [Drupal](docs/upstream/drupal.md) 🗸
-  * [E Corp Demo](charts/ecorp-demo/README.md) 🗸
-  * [Game 2048](charts/game-2048/README.md) 🗸
-  * [HobbyFarm](charts/hobbyfarm/README.md) 🗸
-  * [Podinfo](docs/upstream/podinfo.md) 🗸
-  * [WordPress](charts/wordpress/README.md) 🗸
+  * [Cow Demo](charts/cow-demo/README.md)
+  * [Devpro Sales Portal](charts/devpro-salesportal/README.md)
+  * [Drupal](docs/upstream/drupal.md)
+  * [E Corp Demo](charts/ecorp-demo/README.md)
+  * [Game 2048](charts/game-2048/README.md)
+  * [HobbyFarm](charts/hobbyfarm/README.md)
+  * [Podinfo](docs/upstream/podinfo.md)
+  * [WordPress](charts/wordpress/README.md)
 * Authentication / Identity
-  * [Keycloak](charts/keycloak/README.md) 🗸
-  * [Kratos](charts/kratos/README.md) 🗸
+  * [Keycloak](charts/keycloak/README.md)
+  * [Kratos](charts/kratos/README.md)
 * Cloud providers
-  * [Azure Storage](charts/azure-storage/README.md) 🗸
-  * [Outscale](charts/outscale/README.md)
+  * [Azure Storage](charts/azure-storage/README.md)
+  <!-- * [Outscale](charts/outscale/README.md) -->
 * Data stores
-  * [Elasticsearch](charts/elasticsearch/README.md) 🗸
-  * [MariaDB](docs/upstream/mariadb.md) 🗸
-  * [memcached](docs/upstream/memcached.md)
-  * [MongoDB (Bitnami)](charts/mongodb-bitnami/README.md) 🗸
-  * [MongoDB Community](charts/mongodb-community/README.md) 🗸
-  * [PostgreSQL](charts/postgresql/README.md) 🗸
-  * [RabbitMQ](charts/rabbitmq/README.md) 🗸
-  * [Redis](docs/upstream/redis.md) 🗸
+  * [Elasticsearch](docs/upstream/elasticsearch.md)
+  * [MariaDB](docs/upstream/mariadb.md)
+  <!-- * [memcached](docs/upstream/memcached.md) -->
+  * [MongoDB (Bitnami)](charts/mongodb-bitnami/README.md)
+  * [MongoDB Community](charts/mongodb-community/README.md)
+  * [PostgreSQL](docs/upstream/postgresql.md)
+  * [RabbitMQ](charts/rabbitmq/README.md)
+  * [Redis](docs/upstream/redis.md)
 * Infrastucture automation
-  * [Terraform Backend MongoDB](charts/terraform-backend-mongodb) 🗸
+  * [Terraform Backend MongoDB](charts/terraform-backend-mongodb)
 * Networking & Messaging
-  * [cert-manager](charts/cert-manager/README.md) 🗸
-  * [Consul](docs/upstream/consul.md)
+  * [cert-manager](charts/cert-manager/README.md)
+  <!-- * [Consul](docs/upstream/consul.md) -->
   * [external-dns](docs/upstream/external-dns.md)
-  * [HAProxy](docs/upstream/haproxy.md)
+  <!-- * [HAProxy](docs/upstream/haproxy.md)
   * [Istio](docs/upstream/istio.md)
   * [Kafka](docs/upstream/kafka.md)
-  * [Kong](docs/upstream/kong.md)
-  * [Let's Encrypt](charts/letsencrypt/README.md) 🗸
-  * [Linkerd](docs/upstream/linkerd.md)
+  * [Kong](docs/upstream/kong.md) -->
+  * [Let's Encrypt](charts/letsencrypt/README.md)
+  <!-- * [Linkerd](docs/upstream/linkerd.md)
   * [MetalLB](docs/upstream/metallb.md)
-  * [MQTT](docs/upstream/mqtt.md)
-  * [NATS](docs/upstream/nats.md) 🗸
-  * [NGINX Ingress Controller](charts/ingress-nginx/README.md) 🗸
-  * [Traefik](docs/upstream/traefik.md) 🗸
+  * [MQTT](docs/upstream/mqtt.md) -->
+  * [NATS](docs/upstream/nats.md)
+  * [NGINX Ingress Controller](charts/ingress-nginx/README.md)
+  * [Traefik](docs/upstream/traefik.md)
 * Management
-  * [Rancher](charts/rancher/README.md) 🗸
-  * [Rancher Cluster Templates](charts/rancher-cluster-templates/README.md) 🗸
+  * [Rancher](charts/rancher/README.md)
+  * [Rancher Cluster Templates](charts/rancher-cluster-templates/README.md)
 * Observability
-  * [Elastic Stack](docs/upstream/elastic-stack.md)
-  * [Grafana Stack](charts/grafana-stack/README.md) 🗸
-  * [OpenTelemetry Collector](charts/opentelemetry-collector/README.md) 🗸
-  * [Prometheus](charts/prometheus/README.md) 🗸
+  <!-- * [Elastic Stack](docs/upstream/elastic-stack.md) -->
+  * [Grafana Stack](charts/grafana-stack/README.md)
+  * [OpenTelemetry Collector](charts/opentelemetry-collector/README.md)
+  * [Prometheus](docs/upstream/prometheus.md)
   * Splunk
 * Platforms
-  * [Epinio](charts/epinio/README.md) 🗸
+  * [Epinio](charts/epinio/README.md)
 * Secrets
-  * [Sealed Secrets](charts/sealed-secrets/README.md) 🗸
+  * [Sealed Secrets](charts/sealed-secrets/README.md)
 * Security
-  * [NeuVector](charts/neuvector/README.md) 🗸
-  * [Rancher CIS Benchmark](charts/rancher-cis-benchmark/README.md) 🗸
-* Serverless
-  * [Knative](docs/upstream/knative.md)
+  * [NeuVector](charts/neuvector/README.md)
+  * [Rancher CIS Benchmark](charts/rancher-cis-benchmark/README.md)
+<!-- * Serverless
+  * [Knative](docs/upstream/knative.md) -->
 * Storage
-  * [Kasten K10](charts/kasten-k10/README.md) 🗸
-  * [Longhorn](charts/longhorn/README.md) 🗸
-  * [MinIO](charts/minio/README.md) 🗸
-  * [s3gw](docs/upstream/s3gw.md) 🗸
-  * [NFS-Ganesha](charts/nfs-ganesha/README.md) 🗸
+  * [Kasten](docs/upstream/kasten.md)
+  * [Longhorn](charts/longhorn/README.md)
+  * [MinIO](charts/minio/README.md)
+  * [s3gw](docs/upstream/s3gw.md)
+  * [NFS-Ganesha](charts/nfs-ganesha/README.md)
 * Supply Chain (Software Factory)
-  * [Argo CD](docs/upstream/argo-cd.md) 🗸
-  * [Argo Rollouts](docs/upstream/argo-rollouts.md)
+  * [Argo CD](docs/upstream/argo-cd.md)
+  <!-- * [Argo Rollouts](docs/upstream/argo-rollouts.md)
   * [Artifactory](docs/upstream/artifactory.md)
-  * [Azure DevOps Agent](docs/upstream/azure-devops-agent.md)
-  * [CloudBees CI](docs/upstream/cloudbees-ci.md) 🗸
-  * [Concourse](docs/upstream/concourse.md) 🗸
-  * [Drone](docs/upstream/drone.md)
-  * [GitLab](charts/gitlab/README.md) 🗸
-  * [GitLab Runner](charts/gitlab-runner/README.md) 🗸
-  * [Harbor](charts/harbor/README.md) 🗸
-  * [Jenkins](charts/jenkins/README.md) 🗸
-  * [Jira](docs/upstream/jira.md)
-  * [Nexus](docs/upstream/nexus.md)
-  * [R2Devops](charts/r2devops/README.md) 🗸
-  * [Promyze](charts/promyze/README.md) 🗸
-  * [SonarQube](charts/sonarqube/README.md) 🗸
-  * [Tekton](docs/upstream/tekton.md)
+  * [Azure DevOps Agent](docs/upstream/azure-devops-agent.md) -->
+  * [CloudBees CI](docs/upstream/cloudbees-ci.md)
+  * [Concourse](docs/upstream/concourse.md)
+  <!-- * [Drone](docs/upstream/drone.md) -->
+  * [GitLab](charts/gitlab/README.md)
+  * [GitLab Runner](charts/gitlab-runner/README.md)
+  * [Harbor](charts/harbor/README.md)
+  * [Jenkins](charts/jenkins/README.md)
+  <!-- * [Jira](docs/upstream/jira.md)
+  * [Nexus](docs/upstream/nexus.md) -->
+  * [R2Devops](charts/r2devops/README.md)
+  * [Promyze](charts/promyze/README.md)
+  * [SonarQube](docs/upstream/sonarqube.md)
+  <!-- * [Tekton](docs/upstream/tekton.md) -->
 * Testing
-  * [Report Portal](charts/reportportal/README.md) 🗸
+  * [Report Portal](docs/upstream/reportportal.md)
 
 Limitation: [Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn't support multiple chart directories ou multiple levels so all charts must be in `charts` repository
 

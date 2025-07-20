@@ -1,61 +1,65 @@
-# Helm chart for Report Portal
+# ReportPortal
 
-This Helm chart will install [Report Portal](https://reportportal.io/) ([docs](https://reportportal.io/docs/), [code](https://github.com/reportportal))
-and is based from the [official Helm chart](https://reportportal.github.io/kubernetes) ([code](https://github.com/reportportal/kubernetes)).
+Let's see how to run [ReportPortal](https://reportportal.io/) ([docs](https://reportportal.io/docs/), [code](https://github.com/reportportal)) in a Kubernetes cluster.
 
-Report Portal chart has optional Helm dependencies on [Elasticsearch](https://github.com/elastic/helm-charts/tree/main/elasticsearch), [MinIO](https://github.com/bitnami/charts/tree/main/bitnami/minio/),
-[PostgreSQL](https://github.com/bitnami/charts/tree/main/bitnami/postgresql) and [RabbitMQ](https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq/).
+## Dependencies
 
-## How to use
+ReportPortal chart has optional Helm dependencies:
 
-- With Helm CLI (see [README](../../README.md#from-helm-cli) for requirements)
+- [Elasticsearch](https://github.com/elastic/helm-charts/tree/main/elasticsearch)
+- [MinIO](https://github.com/bitnami/charts/tree/main/bitnami/minio/)
+- [PostgreSQL](https://github.com/bitnami/charts/tree/main/bitnami/postgresql)
+- [RabbitMQ](https://github.com/bitnami/charts/tree/main/bitnami/rabbitmq/)
+
+## Configuration
+
+We'll use the [official Helm chart](https://reportportal.github.io/kubernetes) ([code](https://github.com/reportportal/kubernetes)):
+
+- [values.yaml](https://github.com/SonarSource/helm-chart-sonarqube/blob/master/charts/sonarqube/values.yaml)
+
+And dependant configuration:
+
+```yaml
+# https://github.com/elastic/helm-charts/blob/main/elasticsearch/values.yaml
+elasticsearch: {}
+# https://github.com/bitnami/charts/blob/main/bitnami/minio/values.yaml
+minio: {}
+# https://github.com/bitnami/charts/blob/main/bitnami/postgresql/values.yaml
+postgresql: {}
+# https://github.com/bitnami/charts/blob/main/bitnami/rabbitmq/values.yaml
+rabbitmq: {}
+```
+
+## Deployment
 
 ```bash
-# install with default parameters
-helm upgrade --install reportportal devpro/reportportal --create-namespace \
-  --namespace reportportal
+# adds Helm chart repository
+helm repo add reportportal https://reportportal.github.io/kubernetes
+helm repo update
 
-# checks all pods are running after some time
+# installs
+helm upgrade --install reportportal reportportal/reportportal --namespace reportportal --create-namespace
+
+# checks everything is ok
 kubectl get pod -n reportportal
 
-# if needed, deletes the chart
+# uninstalls
 helm uninstall reportportal -n reportportal
 kubectl delete ns reportportal
 ```
 
-## How to start once the application is running
+## Examples
 
-👷 TODO
+### NGINX, sslip.io, cert-manager, Let's Encrypt
 
-## How to create or update the chart
-
-```bash
-# adds helm chart repository
-helm repo add reportportal https://reportportal.github.io/kubernetes
-
-# searches for the latest version
-helm search repo -l reportportal
-
-# manual: update version number in Chart.yaml
-
-# updates Chart.lock
-helm dependency update
-
-# checks the Kubernetes objects generated from the chart
-helm template reportportal . -f values.yaml \
-  --namespace reportportal > temp.yaml
-```
-
-## How to deploy manually from the sources
-
-### Sample with cert-manager, Let's Encrypt & NGINX Ingress Controller
+Install the Helm chart:
 
 ```bash
-# retrieves public IP
+# gets ingress controller public IP
 NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 
-# applies the manifest (add "--debug > output.yaml" in case of issue)
-helm upgrade --install reportportal . -f values.yaml --create-namespace \
+# installs the application
+helm upgrade --install reportportal reportportal/reportportal --namespace reportportal --create-namespace \
   --set reportportal.ingress.hosts[0]=reportportal.${NGINX_PUBLIC_IP}.sslip.io \
   --set reportportal.ingress.annotations.'cert-manager\.io/cluster-issuer'=selfsigned-cluster-issuer \
   --set reportportal.ingress.tls[0].hosts[0]=reportportal.${NGINX_PUBLIC_IP}.sslip.io \
@@ -85,6 +89,5 @@ helm upgrade --install reportportal . -f values.yaml --create-namespace \
   --set reportportal.rabbitmq.endpoint.address=reportportale-rabbitmq.default.svc.cluster.local \
   --set reportportal.rabbitmq.endpoint.password=rabbitmq \
   --set reportportal.rabbitmq.auth.username=rabbitmq \
-  --set reportportal.rabbitmq.auth.password=rabbitmq \
-  --namespace reportportal
+  --set reportportal.rabbitmq.auth.password=rabbitmq
 ```
