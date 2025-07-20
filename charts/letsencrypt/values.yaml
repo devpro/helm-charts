@@ -1,4 +1,6 @@
 registration:
   emailAddress:
 ingress:
-  className: nginx
+  className:
+selfsigned:
+  enabled: false
