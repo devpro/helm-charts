@@ -11,8 +11,7 @@ Know more about Longhorn: [devpro.github.io](https://devpro.github.io/rancher-ec
 
 ```bash
 # install with default parameters
-helm upgrade --install longhorn devpro/longhorn --create-namespace \
-  --namespace longhorn-system
+helm upgrade --install longhorn devpro/longhorn --namespace longhorn-system --create-namespace
 
 # watches the installation and checks all pods are running after some time
 kubectl get pod -n longhorn-system --watch
