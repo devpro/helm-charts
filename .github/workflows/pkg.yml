@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout git repository
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       # https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address
@@ -36,36 +36,36 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
       - name: Install Helm
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@v4.3.0
         with:
-          version: 3.10.1
+          version: latest
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       - name: Host charts repository on GitHub Pages
-        uses: helm/chart-releaser-action@v1.5.0
+        uses: helm/chart-releaser-action@v1.7.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       # important: it needs to be done in the same pipeline as another pages workflow won't be triggered by the pust on the gh-pages branch
       # (tried with a PAT and several options but didn't work)
       - name: Checkout gh-pages branch
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v4
         with:
           ref: gh-pages
       - name: Setup Go environment
-        uses: actions/setup-go@v3.3.1
+        uses: actions/setup-go@v5
       - name: Generate index.html
         run: |
-          go install github.com/halkeye/helm-repo-html@v0.0.8
+          go install github.com/halkeye/helm-repo-html@v0.2.1
           /home/runner/go/bin/helm-repo-html
       - name: Setup Pages
-        uses: actions/configure-pages@v1
+        uses: actions/configure-pages@v5
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
           destination: ./_site
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
   deploy:
     environment:
       name: github-pages
@@ -75,4 +75,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
