@@ -2,7 +2,8 @@
 
 This Helm chart will install certificate issuers using [Let's Encrpyt](https://letsencrypt.org/) ([docs](https://letsencrypt.org/docs/)).
 
-💡 The certificates require `cert-manager` to be installed on the Kubernetes cluster
+💡 The certificates require `cert-manager` to be installed on the Kubernetes cluster.
+Let's Encrypt certificates can't be added to a `cert-manager` chart as they require `cert-manager-webhook` to be working, it needs to be done in a second step.
 
 ## Usage
 

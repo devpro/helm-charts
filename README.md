@@ -38,7 +38,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
 * Infrastucture automation
   * [Terraform Backend MongoDB](charts/terraform-backend-mongodb)
 * Networking & Messaging
-  * [cert-manager](charts/cert-manager/README.md)
+  * [cert-manager](docs/upstream/cert-manager.md)
   <!-- * [Consul](docs/upstream/consul.md) -->
   * [external-dns](docs/upstream/external-dns.md)
   <!-- * [HAProxy](docs/upstream/haproxy.md)
@@ -50,7 +50,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [MetalLB](docs/upstream/metallb.md)
   * [MQTT](docs/upstream/mqtt.md) -->
   * [NATS](docs/upstream/nats.md)
-  * [NGINX Ingress Controller](charts/ingress-nginx/README.md)
+  * [NGINX Ingress Controller](docs/upstream/ingress-nginx.md)
   * [Traefik](docs/upstream/traefik.md)
 * Management
   * [Rancher](charts/rancher/README.md)
@@ -62,7 +62,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Prometheus](docs/upstream/prometheus.md)
   * Splunk
 * Platforms
-  * [Epinio](charts/epinio/README.md)
+  * [Epinio](docs/upstream/epinio.md)
 * Secrets
   * [Sealed Secrets](charts/sealed-secrets/README.md)
 * Security
@@ -72,7 +72,7 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   * [Knative](docs/upstream/knative.md) -->
 * Storage
   * [Kasten](docs/upstream/kasten.md)
-  * [Longhorn](charts/longhorn/README.md)
+  * [Longhorn](docs/upstream/longhorn.md)
   * [MinIO](charts/minio/README.md)
   * [s3gw](docs/upstream/s3gw.md)
   * [NFS-Ganesha](charts/nfs-ganesha/README.md)
@@ -86,8 +86,8 @@ Helm charts to ease the deployment of containers on Kubernetes clusters and get 
   <!-- * [Drone](docs/upstream/drone.md) -->
   * [GitLab](charts/gitlab/README.md)
   * [GitLab Runner](charts/gitlab-runner/README.md)
-  * [Harbor](charts/harbor/README.md)
-  * [Jenkins](charts/jenkins/README.md)
+  * [Harbor](docs/upstream/harbor.md)
+  * [Jenkins](docs/upstream/jenkins.md)
   <!-- * [Jira](docs/upstream/jira.md)
   * [Nexus](docs/upstream/nexus.md) -->
   * [R2Devops](charts/r2devops/README.md)
