@@ -27,20 +27,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout git repository
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v4
         with:
           # note: important to have chart-testing work (see https://github.com/helm/chart-testing/issues/186)
           fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install Node.js dependencies
+        run: npm ci
+      - name: Build with VitePress
+        run: npm run docs:build
       - name: Install Helm
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@v4.3.0
         with:
-          version: 3.10.1
+          version: latest
       - name: Install Python
-        uses: actions/setup-python@v4.3.0
+        uses: actions/setup-python@v5.3.0
         with:
-          python-version: 3.11
-      - name: Install chart-testing
-        uses: helm/chart-testing-action@v2.3.1
+          python-version: '3.x'
+          check-latest: true
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.7.0
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       - name: List changed charts
@@ -53,6 +63,7 @@ jobs:
             echo "changed_charts=$charts" >> $GITHUB_OUTPUT
           fi
       - name: Lint charts
+        if: steps.list-changed.outputs.changed == 'true'
         run: ct lint $CHARTS_DIRECTORIES_ARG --target-branch ${{ github.event.repository.default_branch }}
       # TODO: Enable when https://github.com/stackrox/kube-linter/issues/575 is fixed
       # - name: Scan yamls

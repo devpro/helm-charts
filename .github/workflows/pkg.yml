@@ -14,7 +14,8 @@ name: PKG
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -30,6 +31,15 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install Node.js dependencies
+        run: npm ci
+      - name: Build with VitePress
+        run: npm run docs:build
       # https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address
       - name: Configure Git
         run: |
@@ -64,6 +74,10 @@ jobs:
         with:
           source: ./
           destination: ./_site
+      - name: Copy docs to website folder
+        run: |
+          mkdir -p _site/docs
+          cp -r docs/.vitepress/dist/* _site/docs/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
   deploy:
