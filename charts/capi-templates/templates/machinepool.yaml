@@ -1,0 +1,19 @@
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachinePool
+metadata:
+  name: {{ .Values.name }}-mp-0
+spec:
+  clusterName: {{ .Values.name }}
+  replicas: {{ .Values.replicas }}
+  template:
+    spec:
+      bootstrap:
+        dataSecretName: ""
+      clusterName: {{ .Values.name }}
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        {{- if eq .Values.type "gke" }}
+        kind: GCPManagedMachinePool
+        name: {{ .Values.name }}-mp-0
+        {{- end }}

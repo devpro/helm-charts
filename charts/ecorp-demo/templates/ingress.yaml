@@ -1,4 +1,4 @@
-{{- $applications := list .Values.backend .Values.frontend .Values.nodejsApi -}}
+{{- $applications := list .Values.backend .Values.frontend .Values.nodejsApi .Values.legacy -}}
 {{ range $applications }}
 {{- $name := .name -}}
 {{- if and $.Values.ingress.enabled .enabled -}}

@@ -1,0 +1,15 @@
+apiVersion: v2
+name: terraform-backend-mongodb
+description: Helm chart for Terraform Backend MongoDB
+type: application
+version: 0.1.0
+appVersion: "1.1.0"
+dependencies:
+  - name: mongodb
+    version: 16.5.25   # MongoDB 8.0.10
+    repository: https://charts.bitnami.com/bitnami
+    alias: mongodb
+    condition: mongodb.enabled
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr

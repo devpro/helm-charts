@@ -1,0 +1,13 @@
+{{- if eq .Values.type "gke" }}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: GCPManagedMachinePool
+metadata:
+  name: {{ .Values.name }}-mp-0
+spec:
+  nodeLocations:
+    - {{ .Values.googlecloud.zone }}
+  # scaling:
+  #   minCount: 1
+  #   maxCount: 3
+{{- end }}

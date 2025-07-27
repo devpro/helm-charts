@@ -1,6 +1,0 @@
-dependencies:
-- name: k10
-  repository: https://charts.kasten.io
-  version: 5.5.5
-digest: sha256:bbda0ffd08d41b4725c050917bd81d3ff89c9a46b1dcf08c576dee7b713af70c
-generated: "2023-02-23T12:49:28.344459441+01:00"

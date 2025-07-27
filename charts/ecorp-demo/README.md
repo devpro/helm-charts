@@ -42,3 +42,43 @@ kubectl get Secrets,Issuers,ClusterIssuers,Certificates,CertificateRequests,Orde
 # if needed, deletes the chart
 helm delete ecorp-demo -n ecorp
 ```
+
+## Examples
+
+### Legacy only
+
+Create the configuration file:
+
+```bash
+cat <<EOF > values_legacy.yaml
+frontend:
+  enabled: false
+backend:
+  enabled: false
+nodejsApi:
+  enabled: false
+legacy:
+  enabled: true
+  host: ecorp-legacy.${NGINX_PUBLIC_IP}.sslip.io
+  tls:
+    secretName: ecorp-legacy-tls
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+EOF
+```
+
+Create the cluster:
+
+```bash
+helm upgrade --install ecorp-demo . -f values.yaml -f values_legacy.yaml --namespace ecorp --create-namespace
+```
+
+Troubleshooting:
+
+```bash
+kubectl exec -it ecorp-legacy-xxx-xxx -n ecorp -- curl http://10.42.xx.xx:80
+kubectl delete pod ecorp-legacy-xxx-xxx -n ecorp --grace-period=0 --force
+```

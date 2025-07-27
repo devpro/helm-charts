@@ -6,3 +6,10 @@ temp*.yaml
 temp.sh
 /charts/temp/
 values_*.y*ml
+
+# NPM packages
+node_modules/
+
+# VitePress local files
+docs/.vitepress/dist
+docs/.vitepress/cache

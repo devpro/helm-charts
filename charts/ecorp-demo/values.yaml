@@ -17,6 +17,7 @@ frontend:
     # requests:
     #   cpu: 100m
     #   memory: 64Mi
+  nodeAffinity: {}
 
 backend:
   enabled: true
@@ -53,14 +54,8 @@ backend:
           pathType: Prefix
   additionalPodLabels: {}
   tls: {}
-    # secretName: chart-example-tls
   resources: {}
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 64Mi
+  nodeAffinity: {}
 
 nodejsApi:
   enabled: false
@@ -79,6 +74,29 @@ nodejsApi:
     #   value: "amqp://<user>:<password>@rabbitmq.rabbitmq.svc.cluster.local:5672"
   tls: {}
   resources: {}
+  nodeAffinity: {}
+
+legacy:
+  enabled: false
+  host: legacy.random.ecorp.demo
+  name: ecorp-legacy
+  image: docker.io/devprofr/winsamplenet48mvcwebapp
+  tag: 1.0.12886370230
+  replicaCount: 1
+  healthEndpoint: /
+  livenessProbeConfig:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    failureThreshold: 3
+  readinessProbeConfig:
+    initialDelaySeconds: 60
+    periodSeconds: 15
+    failureThreshold: 3
+  env: {}
+  tls: {}
+  resources: {}
+  nodeAffinity:
+    os: windows
 
 aspnetcore:
   environment: Production

@@ -1,0 +1,91 @@
+{{- $applications := list .Values.webapi -}}
+{{ range $applications }}
+{{- $name := .name -}}
+{{- if .enabled -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .name }}
+  labels:
+    app: {{ .name }}
+    app.kubernetes.io/name: {{ .name }}
+spec:
+  replicas: {{ .replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .name }}
+      app.kubernetes.io/name: {{ .name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $name }}
+        app.kubernetes.io/name: {{ $name }}
+        {{- if .additionalPodLabels }}
+        {{- toYaml .additionalPodLabels | nindent 8 }}
+        {{- end }}
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: "kubernetes.io/arch"
+                  operator: In
+                  values: ["amd64"]
+      containers:
+        - name: {{ .name }}
+          image: {{ .image }}:{{ .tag }}
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: {{ .targetPort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: {{ .healthEndpoint }}
+              port: http
+          readinessProbe:
+            httpGet:
+              path: {{ .healthEndpoint }}
+              port: http
+          resources:
+            {{- toYaml .resources | nindent 12 }}
+          env:
+          {{- if .extraEnv }}
+            {{- toYaml .extraEnv | nindent 12 }}
+          {{- end }}
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.hostIP
+            # TODO: only add this variables when needed and manage http calls
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "{{ $.Values.dotnet.environment }}"
+            - name: Logging__LogLevel__Default
+              value: {{ $.Values.dotnet.logLevels.default }}
+            - name: Logging__LogLevel__Microsoft.AspNetCore
+              value: {{ $.Values.dotnet.logLevels.framework }}
+            - name: Logging__LogLevel__Farseer
+              value: {{ $.Values.dotnet.logLevels.application }}
+            {{- if $.Values.dotnet.enableSwagger }}
+            - name: Application__IsSwaggerEnabled
+              value: "true"
+            {{- end }}
+            {{- if $.Values.dotnet.enableOpenTelemetry }}
+            - name: Application__IsOpenTelemetryEnabled
+              value: "true"
+            - name: OpenTelemetry__CollectorEndpoint
+              value: "http://$(HOST_IP):4317"
+            {{- end }}
+            {{- if .db }}
+            - name: ConnectionStrings__MongoDb
+              value: {{ .db.connectionString }}
+            - name: MongoDb__ConnectionStringName
+              value: "MongoDb"
+            - name: MongoDb__DatabaseName
+              value: {{ .db.databaseName }}
+            {{- end }}
+{{- end }}
+{{ end }}

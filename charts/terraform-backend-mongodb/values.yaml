@@ -1,0 +1,47 @@
+webapi:
+  enabled: true
+  host: tfbackend.random
+  name: tfbackend
+  image: docker.io/devprofr/terraform-backend-mongodb
+  tag: latest
+  replicaCount: 1
+  port: 80
+  targetPort: 8080
+  healthEndpoint: /health
+  db:
+    connectionString: "someconnstring"
+    databaseName: "somedb"
+  extraEnv: []
+    # - name: xxx
+    #   value: "yyyy"
+  additionalPodLabels: {}
+  tls:
+    secretName: tfbackend-tls
+  resources: {}
+    # limits:
+    #   cpu: 200m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 64Mi
+
+dotnet:
+  environment: Production
+  logLevels:
+    default: Information
+    framework: Information
+    application: Information
+  enableSwagger: false
+  enableOpenTelemetry: false
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+
+mongodb:
+  enabled: false
+  # https://github.com/bitnami/charts/blob/main/bitnami/mongodb/values.yaml
+  auth: {}
+    # rootPassword: ""
