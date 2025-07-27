@@ -43,4 +43,4 @@ Forward the service port for local access:
 kubectl port-forward service/postgresql 5432:5432 -n postgresql
 ```
 
-Use [pgAdmin](https://www.pgadmin.org/) to access the service on [localhost:5432](http://localhost:5432/) and log in with postgres/secretpassword.
+Use [pgAdmin](https://www.pgadmin.org/) to access the service on [localhost:5432](http://localhost:5432/){target="_top"} and log in with postgres/secretpassword.

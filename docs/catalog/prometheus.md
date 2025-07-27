@@ -42,4 +42,4 @@ Forward the service port for local access:
 kubectl port-forward service/prometheus-server 9090:80 -n prometheus
 ```
 
-Open in a browser [localhost:9090](http://localhost:9090/)
+Open in a browser [localhost:9090](http://localhost:9090/){target="_top"}

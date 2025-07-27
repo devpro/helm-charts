@@ -4,7 +4,7 @@ Let's see how to run [MariaDB Community Server](https://mariadb.com/products/com
 
 ## Configuration
 
-We'll use the [Bitnami chart]([Helm](https://bitnami.com/stack/mariadb/helm)):
+We'll use the [Bitnami chart](https://bitnami.com/stack/mariadb/helm):
 
 - [values.yaml](https://github.com/bitnami/charts/blob/main/bitnami/mariadb/values.yaml)
 

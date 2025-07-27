@@ -4,7 +4,7 @@ Let's see how to run [Rancher](https://www.rancher.com/) ([docs](https://docs.ra
 
 ## Configuration
 
-We'll use the [official Helm chart](https://github.com/rancher/rancher/tree/release/v2.12/chart) ([docs]((https://ranchermanager.docs.rancher.com/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster))):
+We'll use the [official Helm chart](https://github.com/rancher/rancher/tree/release/v2.12/chart) ([docs](https://ranchermanager.docs.rancher.com/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster)):
 
 - [values.yaml](https://github.com/rancher/rancher/blob/release/v2.12/chart/values.yaml)
 

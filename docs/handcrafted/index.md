@@ -2,20 +2,25 @@
 
 ## Applications
 
-* [Cow Demo](charts/cow-demo/README.md)
-* [Devpro Sales Portal](charts/devpro-salesportal/README.md)
-* [E Corp Demo](charts/ecorp-demo/README.md)
-* [Game 2048](charts/game-2048/README.md)
+* Cow Demo
+* Devpro Sales Portal
+* E Corp Demo
+* Game 2048
 
 ## Databases
 
-* [MongoDB Community](charts/mongodb-community/README.md)
+* MongoDB Community
 
 ## Infrastructure automation
 
-* [Rancher Cluster Templates](charts/rancher-cluster-templates/README.md)
-* [Terraform Backend MongoDB](charts/terraform-backend-mongodb)
+* Rancher Cluster Templates
+* [Terraform Backend MongoDB](terraform-backend-mongodb)
+
+## Observability
+
+* Grafana Stack
 
 ## Persistant storage
 
-* [NFS-Ganesha](charts/nfs-ganesha/README.md)
+* Let's Encrypt (certificate issuers)
+* NFS-Ganesha

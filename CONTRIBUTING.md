@@ -1,6 +1,10 @@
 # Contribution guide
 
-## Validate a change
+## File organization
+
+[Helm Chart Releaser](https://github.com/helm/chart-releaser) doesn't support multiple chart directories ou multiple levels so all charts must be in `charts` repository.
+
+## Code validation
 
 Lint charts with [helm/chart-testing](https://github.com/helm/chart-testing) (with workaround described at [issue #464](https://github.com/helm/chart-testing/issues/464)):
 

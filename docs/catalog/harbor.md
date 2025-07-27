@@ -4,7 +4,7 @@ Let's see how to run [Harbor](https://goharbor.io/) ([code](https://github.com/g
 
 ## Configuration
 
-We'll use the [official Helm chart](https://github.com/goharbor/harbor-helm) ([docs]((https://goharbor.io/docs/2.6.0/install-config/harbor-ha-helm/))):
+We'll use the [official Helm chart](https://github.com/goharbor/harbor-helm) ([docs](https://goharbor.io/docs/2.6.0/install-config/harbor-ha-helm/)):
 
 - [values.yaml](https://github.com/goharbor/harbor-helm/blob/master/values.yaml)
 

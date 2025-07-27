@@ -37,7 +37,7 @@ jobs:
           node-version: 22
           cache: npm
       - name: Install Node.js dependencies
-        run: npm ci
+        run: npm install
       - name: Build with VitePress
         run: npm run docs:build
       - name: Install Helm

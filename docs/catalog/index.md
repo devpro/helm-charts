@@ -5,100 +5,98 @@
 * [Drupal](drupal)
 <!-- * [HobbyFarm](hobbyfarm) -->
 * [Podinfo](podinfo)
-* [WordPress](wordpress)
+* WordPress
 
 ## Authentication / Identity
 
-* [Keycloak](keycloak)
-* [Kratos](kratos)
+* Keycloak
+* Kratos
 
 ## Cloud providers
 
-* [Azure Storage](azure-storage)
+* Azure Storage
 <!-- * [Outscale](outscale) -->
 
 ## Data stores
 
-* [Elasticsearch](docs/upstream/elasticsearch.md)
-* [MariaDB](docs/upstream/mariadb.md)
-<!-- * [memcached](docs/upstream/memcached.md) -->
-* [MongoDB](charts/mongodb-bitnami/README.md)
-* [PostgreSQL](docs/upstream/postgresql.md)
-* [RabbitMQ](docs/upstream/rabbitmq.md)
-* [Redis](docs/upstream/redis.md)
+* [Elasticsearch](elasticsearch)
+* [MariaDB](mariadb)
+<!-- * [memcached](memcached) -->
+* MongoDB
+* [PostgreSQL](postgresql)
+* [RabbitMQ](rabbitmq)
+* [Redis](redis)
 
 ## Networking & Messaging
 
-* [cert-manager](docs/upstream/cert-manager.md)
-<!-- * [Consul](docs/upstream/consul.md) -->
-* [external-dns](docs/upstream/external-dns.md)
-<!-- * [HAProxy](docs/upstream/haproxy.md)
-* [Istio](docs/upstream/istio.md)
-* [Kafka](docs/upstream/kafka.md)
-* [Kong](docs/upstream/kong.md) -->
-* [Let's Encrypt (certificate issuers)](charts/letsencrypt/README.md)
-<!-- * [Linkerd](docs/upstream/linkerd.md)
-* [MetalLB](docs/upstream/metallb.md)
-* [MQTT](docs/upstream/mqtt.md) -->
-* [NATS](docs/upstream/nats.md)
-* [NGINX (Ingress Controller)](docs/upstream/ingress-nginx.md)
-* [Traefik](docs/upstream/traefik.md)
+* [cert-manager](cert-manager)
+<!-- * [Consul](consul) -->
+* [external-dns](external-dns)
+<!-- * [HAProxy](haproxy)
+* [Istio](istio)
+* [Kafka](kafka)
+* [Kong](kong) -->
+<!-- * [Linkerd](linkerd)
+* [MetalLB](metallb)
+* [MQTT](mqtt) -->
+* [NATS](nats)
+* [NGINX (Ingress Controller)](ingress-nginx)
+* [Traefik](traefik)
 
 ## Management
 
-* [Rancher](docs/upstream/rancher.md)
+* [Rancher](rancher)
 
 ## Observability
 
-<!-- * [Elastic Stack](docs/upstream/elastic-stack.md) -->
-* [Grafana Stack](charts/grafana-stack/README.md)
-* [OpenTelemetry Collector](charts/opentelemetry-collector/README.md)
-* [Prometheus](docs/upstream/prometheus.md)
+<!-- * [Elastic Stack](elastic-stack) -->
+* OpenTelemetry Collector
+* [Prometheus](prometheus)
 <!-- * Splunk -->
 
 ## Platforms
 
-* [Epinio](docs/upstream/epinio.md)
+* [Epinio](epinio)
 
 ## Secrets
 
-* [Sealed Secrets](docs/upstream/sealed-secrets.md)
+* [Sealed Secrets](sealed-secrets)
 
 ## Security
 
-* [NeuVector](charts/neuvector/README.md)
-* [Rancher CIS Benchmark](docs/upstream/rancher-cis-benchmark.md)
+* NeuVector
+* [Rancher CIS Benchmark](rancher-cis-benchmark)
 
 <!-- * Serverless
-* [Knative](docs/upstream/knative.md) -->
+* [Knative](knative) -->
 
 ## Storage
 
-* [Kasten](docs/upstream/kasten.md)
-* [Longhorn](docs/upstream/longhorn.md)
-* [MinIO](charts/minio/README.md)
-* [s3gw](docs/upstream/s3gw.md)
+* [Kasten](kasten)
+* [Longhorn](longhorn)
+* MinIO
+* [s3gw](s3gw)
 
 ## Supply Chain (Software Factory)
 
-* [Argo CD](docs/upstream/argo-cd.md)
-<!-- * [Argo Rollouts](docs/upstream/argo-rollouts.md)
-* [Artifactory](docs/upstream/artifactory.md)
-* [Azure DevOps Agent](docs/upstream/azure-devops-agent.md) -->
-* [CloudBees CI](docs/upstream/cloudbees-ci.md)
-* [Concourse](docs/upstream/concourse.md)
-<!-- * [Drone](docs/upstream/drone.md) -->
-* [GitLab](charts/gitlab/README.md)
-* [GitLab Runner](charts/gitlab-runner/README.md)
-* [Harbor](docs/upstream/harbor.md)
-* [Jenkins](docs/upstream/jenkins.md)
-<!-- * [Jira](docs/upstream/jira.md)
-* [Nexus](docs/upstream/nexus.md) -->
-* [R2Devops](charts/r2devops/README.md)
-* [Promyze](charts/promyze/README.md)
-* [SonarQube](docs/upstream/sonarqube.md)
-<!-- * [Tekton](docs/upstream/tekton.md) -->
+* [Argo CD](argo-cd)
+<!-- * [Argo Rollouts](argo-rollouts)
+* [Artifactory](artifactory)
+* [Azure DevOps Agent](azure-devops-agent) -->
+* [CloudBees CI](cloudbees-ci)
+* [Concourse](concourse)
+<!-- * [Drone](drone) -->
+* GitLab
+* GitLab Runner
+* [Harbor](harbor)
+* [Jenkins](jenkins)
+<!-- * [Jira](jira)
+* [Nexus](nexus) -->
+* R2Devops
+* Promyze
+* [SonarQube](sonarqube)
+<!-- * [Tekton](tekton) -->
 
 ## Testing
 
-* [Report Portal](docs/upstream/reportportal.md)
+* [Report Portal](reportportal)
