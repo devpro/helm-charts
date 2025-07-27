@@ -34,7 +34,7 @@ kubectl delete ns s3gw-system
 # retrieves public IP
 NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 
-# applies the manifest (add "--debug > output.yaml" in case of issue)
+# installs the application
 helm upgrade --install s3gw s3gw/s3gw --namespace s3gw-system --create-namespace \
   --set ui.publicDomain=s3gw-ui.${NGINX_PUBLIC_IP}.sslip.io \
   --set publicDomain=s3gw.${NGINX_PUBLIC_IP}.sslip.io \

@@ -1,3 +1,0 @@
-# https://github.com/rancher/rancher/blob/release/v2.7/chart/values.yaml
-rancher:
-  replicas: 2

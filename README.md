@@ -32,7 +32,7 @@ Latest chart versions are available from [devpro.github.io/helm-charts](https://
   * [MongoDB (Bitnami)](charts/mongodb-bitnami/README.md)
   * [MongoDB Community](charts/mongodb-community/README.md)
   * [PostgreSQL](docs/upstream/postgresql.md)
-  * [RabbitMQ](charts/rabbitmq/README.md)
+  * [RabbitMQ](docs/upstream/rabbitmq.md)
   * [Redis](docs/upstream/redis.md)
 * Infrastucture automation
   * [Terraform Backend MongoDB](charts/terraform-backend-mongodb)
@@ -52,7 +52,7 @@ Latest chart versions are available from [devpro.github.io/helm-charts](https://
   * [NGINX Ingress Controller](docs/upstream/ingress-nginx.md)
   * [Traefik](docs/upstream/traefik.md)
 * Management
-  * [Rancher](charts/rancher/README.md)
+  * [Rancher](docs/upstream/rancher.md)
   * [Rancher Cluster Templates](charts/rancher-cluster-templates/README.md)
 * Observability
   <!-- * [Elastic Stack](docs/upstream/elastic-stack.md) -->
@@ -63,10 +63,10 @@ Latest chart versions are available from [devpro.github.io/helm-charts](https://
 * Platforms
   * [Epinio](docs/upstream/epinio.md)
 * Secrets
-  * [Sealed Secrets](charts/sealed-secrets/README.md)
+  * [Sealed Secrets](docs/upstream/sealed-secrets.md)
 * Security
   * [NeuVector](charts/neuvector/README.md)
-  * [Rancher CIS Benchmark](charts/rancher-cis-benchmark/README.md)
+  * [Rancher CIS Benchmark](docs/upstream/rancher-cis-benchmark.md)
 <!-- * Serverless
   * [Knative](docs/upstream/knative.md) -->
 * Storage
