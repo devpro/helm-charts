@@ -16,7 +16,10 @@ export default defineConfig({
       documentRootPath: '/docs',
       followSymlinks: true,
       collapsed: true,
-      excludeByGlobPattern: ['examples']
+      excludeByGlobPattern: ['examples'],
+      useFolderLinkFromIndexFile: true,
+      useFolderTitleFromIndexFile: true,
+      useTitleFromFileHeading: true
     }),
     socialLinks: [
       { icon: 'github', link: 'https://github.com/devpro/helm-charts' }
