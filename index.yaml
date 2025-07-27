@@ -39,6 +39,21 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/azure-storage-0.1.0/azure-storage-0.1.0.tgz
     version: 0.1.0
+  capi-templates:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-07-27T17:06:38.700662568Z"
+    description: Helm chart for Cluster API (CAPI) Templates
+    digest: c1840713d202c87b904377b973b600ca9a58865376f1021f129b5545d1d5260f
+    home: https://github.com/devpro/helm-charts/tree/main/charts/capi-templates
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: capi-templates
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/capi-templates-0.1.0/capi-templates-0.1.0.tgz
+    version: 0.1.0
   cert-manager:
   - apiVersion: v2
     appVersion: 1.13.3
@@ -199,6 +214,25 @@ entries:
   devpro-salesportal:
   - apiVersion: v2
     appVersion: 1.1.0
+    created: "2025-07-27T17:06:38.797628637Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.10.1
+    description: Helm chart for Devpro Sales Portal
+    digest: 8ea7e06d2620940fb221570bfa4f41b29984c125bae39daca0b2365e401fe990
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: devpro-salesportal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/devpro-salesportal-0.2.5/devpro-salesportal-0.2.5.tgz
+    version: 0.2.5
+  - apiVersion: v2
+    appVersion: 1.1.0
     created: "2024-02-20T21:35:21.895806656Z"
     dependencies:
     - alias: mongodb
@@ -331,6 +365,19 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/devpro-salesportal-0.1.0/devpro-salesportal-0.1.0.tgz
     version: 0.1.0
   ecorp-demo:
+  - apiVersion: v2
+    appVersion: 1.1.0
+    created: "2025-07-27T17:06:38.891283371Z"
+    description: Helm chart for E Corp demo
+    digest: 391f2a14e0baeb8af246b2d4a71c583b9e6c814ea6a4ad8a26aac1bcd8fdf7f5
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: ecorp-demo
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/ecorp-demo-0.2.0/ecorp-demo-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2022-12-27T14:21:28.149206527Z"
@@ -1036,6 +1083,19 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/kratos-0.1.0/kratos-0.1.0.tgz
     version: 0.1.0
   letsencrypt:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-07-27T17:06:38.997181119Z"
+    description: Helm chart for managing Let's Encrypt certificate issuers
+    digest: 054a26e45f222b01a64d36e7506ab74e875b5d76a43e45497e9e0f07d00fb8ad
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: letsencrypt
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/letsencrypt-0.1.4/letsencrypt-0.1.4.tgz
+    version: 0.1.4
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2022-12-12T13:24:56.903525466Z"
@@ -1934,6 +1994,26 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/sonarqube-0.1.0/sonarqube-0.1.0.tgz
     version: 0.1.0
+  terraform-backend-mongodb:
+  - apiVersion: v2
+    appVersion: 1.1.0
+    created: "2025-07-27T17:06:39.121456722Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.5.25
+    description: Helm chart for Terraform Backend MongoDB
+    digest: 57cf6f843c184270d8af6128c32f07ad4355a919683623dda1fb8527119a2015
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: terraform-backend-mongodb
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/terraform-backend-mongodb-0.1.0/terraform-backend-mongodb-0.1.0.tgz
+    version: 0.1.0
   traefik:
   - apiVersion: v2
     appVersion: 2.9.6
@@ -1987,4 +2067,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.1.1/wordpress-0.1.1.tgz
     version: 0.1.1
-generated: "2024-04-25T09:43:11.796601349Z"
+generated: "2025-07-27T17:06:39.121630046Z"
