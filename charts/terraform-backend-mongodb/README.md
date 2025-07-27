@@ -1,6 +1,6 @@
 # Helm chart for Terraform Backend MongoDB
 
-This Helm chart will deploy [Terraform Backend MongoDB](terraform-backend-mongodb) on a Kubernetes cluster.
+This Helm chart will deploy [Terraform Backend MongoDB](https://github.com/devpro/terraform-backend-mongodb) on a Kubernetes cluster.
 
 ## Usage
 
