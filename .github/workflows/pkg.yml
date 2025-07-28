@@ -1,14 +1,10 @@
-# ---------------------------------------------------------------------------------------
-# Title: Continuous Delivery (Packaging)
-#
-# Requirements:
+# title: Continuous Delivery (Packaging)
+# requirements:
 #   - Create manually "gh-pages" branch
 #   - Maintain pages files in "gh-pages" branch: index.tpl, placeholder.png
-#
-# Uses:
+# uses:
 #   - https://github.com/helm/chart-releaser-action
 #   - https://github.com/halkeye/helm-repo-html
-# ---------------------------------------------------------------------------------------
 
 name: PKG
 
@@ -22,6 +18,10 @@ permissions:
   contents: write
   pages: write
   id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -38,9 +38,14 @@ jobs:
           cache: npm
       - name: Install Node.js dependencies
         run: npm install
+      # ref. https://vitepress.dev/guide/deploy#github-pages
       - name: Build with VitePress
         run: npm run docs:build
-      # https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address
+      - name: DEBUG
+        run: |
+          id
+          ls -alrt docs/.vitepress/dist/
+      # ref. https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address
       - name: Configure Git
         run: |
           git config user.name "$GITHUB_ACTOR"
