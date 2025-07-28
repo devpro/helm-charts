@@ -44,10 +44,11 @@ jobs:
         run: npm run docs:build
       - name: DEBUG
         run: |
-          id
-          sudo mkdir -p ./_site/docs
           ls -alrt docs/.vitepress/dist/
-          sudo cp -r docs/.vitepress/dist/* ./_site/docs/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: docs
+          path: docs/.vitepress/dist/
       # ref. https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address
       - name: Configure Git
         run: |
@@ -70,6 +71,13 @@ jobs:
         with:
           # path: pages
           ref: gh-pages
+      - uses: actions/download-artifact@v4
+        with:
+          name: docs
+      - name: DEBUG
+        run: |
+          ls -alrt .
+          ls -alrt docs
       - name: Setup Go environment
         uses: actions/setup-go@v5
       - name: Generate index.html
@@ -89,7 +97,7 @@ jobs:
           id
           ls -alrt ./_site
           sudo mkdir -p ./_site/docs
-          ls -alrt docs/.vitepress/dist/
+          sudo cp -r docs/* ./_site/docs/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
   deploy:
