@@ -6,7 +6,7 @@
 This repository provides a list of community, vendor and home Helm charts to easily configure and run workloads in Kubernetes clusters.
 Feel free to [contribute](CONTRIBUTING.md)!
 
-Latest chart versions are available from [devpro.github.io/helm-charts](https://devpro.github.io/helm-charts/).
+Get started with the [documentation](https://devpro.github.io/helm-charts/docs/).
 
 ## Usage
 
