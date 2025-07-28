@@ -78,9 +78,9 @@ jobs:
         run: |
           id
           ls -alrt ./_site
-          mkdir -p ./_site/docs
+          sudo mkdir -p ./_site/docs
           ls -alrt docs/.vitepress/dist/
-          cp -r docs/.vitepress/dist/* ./_site/docs/
+          sudo cp -r docs/.vitepress/dist/* ./_site/docs/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
   deploy:
