@@ -3,16 +3,20 @@ import { generateSidebar } from 'vitepress-sidebar'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Devpro Helm Chart Guide",
-  description: "A guide to make the best use of Helm charts to manage workload in Kubernetes clusters",
-  base: '/helm-charts/docs/',
+  lang: 'en-US',
+  title: "Kube Workload Toolkit",
+  description: "Deploy on Kubernetes with confidence using tested charts and clear recipes",
+  base: '/helm-charts/',
+  outDir: '../public',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Catalog', link: '/catalog' },
-      { text: 'Handcrafted', link: '/handcrafted' }
+      { text: 'Setup', link: '/setup' },
+      { text: 'Application guides', link: '/application-guides' },
+      { text: 'Custom charts', link: '/custom-charts' }
     ],
+    // https://vitepress-sidebar.cdget.com/guide/options
     sidebar: generateSidebar({
       documentRootPath: '/docs',
       followSymlinks: true,
@@ -26,5 +30,11 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/devpro/helm-charts' }
     ],
     outline: false
+  },
+  markdown: {
+    theme: {
+      light: 'catppuccin-latte',
+      dark: 'catppuccin-mocha',
+    }
   }
 })

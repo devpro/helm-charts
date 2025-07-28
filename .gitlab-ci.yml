@@ -1,0 +1,21 @@
+stages:
+  - deploy
+
+# avoid duplicate GitLab pipeline runs from GitHub notifications (two messages are received on a commit on a branch with a Pull Request)
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+
+pages:
+  stage: deploy
+  image: node:22
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - npm install
+    - npm run docs:build
+  artifacts:
+    paths:
+      - public

@@ -3,22 +3,30 @@
 layout: home
 
 hero:
-  name: "Helm charts guide"
-  text: "Kubernetes workload"
-  tagline: "Use Helm and Cloud Native ecosystem to simplify systems and achieve operational excellence"
+  name: "Kube Workload Toolkit"
+  text: "Custom charts & application guides"
+  tagline: "Deploy on Kubernetes with confidence using tested charts and clear recipes"
   actions:
     - theme: brand
-      text: Curated catalog
-      link: /catalog
-    - theme: alt
-      text: Handcrafted
-      link: /handcrafted
+      text: Getting started
+      link: /setup
+    # - theme: alt
+    #   text: Application guides
+    #   link: /application-guides
+    # - theme: alt
+    #   text: Custom charts
+    #   link: /custom-charts
 
 features:
-  - title: Cloud Native greatness
-    details: Provide highly available and secure services to your customers
-  - title: GitOps ready
-    details: Apply state-of-the-art infrastructure automation
-  - title: Open Source community
-    details: Leverage best-in-class technologies supported by major companies and used by large communities
+  - title: GitOps Ready
+    details: Streamline deployments with declarative, version-controlled workflows, enabling automated and repeatable Kubernetes setups.
+    icon: 🚀
+    # link: https://github.com/catppuccin/catppuccin
+    # linkText: View on GitHub
+  - title: Open Source Power
+    details: Leverage community-driven tools, with transparent, customizable charts for collaboration and trust.
+    icon: ⚡️
+  - title: Cloud Native Excellence
+    details: Run scalable, resilient Kubernetes workload, designed for portability and automation across any environment.
+    icon: ⭐
 ---
