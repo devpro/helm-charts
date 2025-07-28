@@ -5,6 +5,7 @@ import { generateSidebar } from 'vitepress-sidebar'
 export default defineConfig({
   title: "Devpro Helm Chart Guide",
   description: "A guide to make the best use of Helm charts to manage workload in Kubernetes clusters",
+  base: '/helm-charts/docs/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
