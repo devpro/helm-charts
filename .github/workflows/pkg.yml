@@ -45,7 +45,6 @@ jobs:
       - name: DEBUG
         run: |
           id
-          ls -alrt ./_site 2>&1
           sudo mkdir -p ./_site/docs
           ls -alrt docs/.vitepress/dist/
           sudo cp -r docs/.vitepress/dist/* ./_site/docs/
@@ -91,7 +90,6 @@ jobs:
           ls -alrt ./_site
           sudo mkdir -p ./_site/docs
           ls -alrt docs/.vitepress/dist/
-          sudo cp -r docs/.vitepress/dist/* ./_site/docs/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
   deploy:
