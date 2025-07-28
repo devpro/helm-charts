@@ -76,16 +76,19 @@ jobs:
           destination: ./_site
       - name: Copy docs to website folder
         run: |
-          mkdir -p _site/docs
-          cp -r docs/.vitepress/dist/* _site/docs/
+          id
+          ls -alrt ./_site
+          mkdir -p ./_site/docs
+          ls -alrt docs/.vitepress/dist/
+          cp -r docs/.vitepress/dist/* ./_site/docs/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
   deploy:
+    runs-on: ubuntu-latest
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
