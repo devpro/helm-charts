@@ -1,10 +1,7 @@
-# ---------------------------------------------------------
-# Title: Continuous Integration
-#
-# Uses:
+# title: Continuous Integration
+# uses:
 #   - https://github.com/helm/chart-testing-action
 #   - https://github.com/helm/kind-action
-# ---------------------------------------------------------
 
 name: CI
 
