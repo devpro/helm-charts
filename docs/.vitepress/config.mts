@@ -6,7 +6,7 @@ export default defineConfig({
   lang: 'en-US',
   title: "Kube Workload Toolkit",
   description: "Deploy on Kubernetes with confidence using tested charts and clear recipes",
-  base: '/helm-charts/',
+  // base: '/helm-charts/docs/',
   outDir: '../public',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
