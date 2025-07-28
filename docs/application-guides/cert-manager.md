@@ -2,7 +2,8 @@
 
 Let's see how to run [cert-manager](https://cert-manager.io/) ([GitHub](https://github.com/cert-manager/cert-manager), [docs](https://cert-manager.io/docs/)) in a Kubernetes cluster.
 
-💡 Kubernetes objects should be installed in `cert-manager` namespace
+> [!NOTE]
+> Kubernetes objects should be installed in `cert-manager` namespace
 
 ## Configuration
 

@@ -1,12 +1,18 @@
-# Helm Charts
+# Kube toolkit
 
 [![CI](https://github.com/devpro/helm-charts/actions/workflows/ci.yml/badge.svg)](https://github.com/devpro/helm-charts/actions/workflows/ci.yml)
 [![PKG](https://github.com/devpro/helm-charts/actions/workflows/pkg.yml/badge.svg)](https://github.com/devpro/helm-charts/actions/workflows/pkg.yml)
 
-This repository provides a list of community, vendor and home Helm charts to easily configure and run workloads in Kubernetes clusters.
-Feel free to [contribute](CONTRIBUTING.md)!
+Welcome! This project provides:
+
+- **Curated Guides**: Step-by-step instructions for installing popular applications using their official Helm charts in a Kubernetes cluster.
+- **Custom Helm Charts**: A collection of Helm charts that were created for deploying unique workloads on Kubernetes.
+
+Whether you're deploying custom solutions or setting up well-known applications like NGINX or Prometheus, this repository aims to simplify your Kubernetes journey with tested configurations and clear documentation.
 
 Get started with the [documentation](https://devpro.github.io/helm-charts/docs/).
+
+Feel free to [contribute](CONTRIBUTING.md)!
 
 ## Usage
 

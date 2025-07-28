@@ -1,4 +1,7 @@
-# Catalog
+# Application guides
+
+> [!NOTE]
+> The CNCF provides the [Cloud Native Interactive Landscape](https://landscape.cncf.io/) for a more complete view on Cloud Native components
 
 ## Applications
 

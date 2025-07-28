@@ -1,6 +1,19 @@
 .VPDoc.has-aside .content-container {
   max-width: 100% !important;
 }
+
 .VPDoc.has-aside .aside {
   display: none !important;
+}
+
+.VPHomeHero .name {
+  max-width: 80% !important;
+}
+
+.VPHomeHero .text {
+  max-width: 80% !important;
+}
+
+.VPHomeHero .tagline {
+  max-width: 80% !important;
 }

@@ -1,15 +1,15 @@
-# Handcrafted
+# Custom charts
 
-## Applications
+## Databases
+
+* MongoDB Community
+
+## Demo applications
 
 * Cow Demo
 * Devpro Sales Portal
 * E Corp Demo
 * Game 2048
-
-## Databases
-
-* MongoDB Community
 
 ## Infrastructure automation
 
