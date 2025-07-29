@@ -13,7 +13,7 @@ spec:
   type: ClusterIP
   ports:
     - port: {{ .port }}
-      targetPort: {{ .targetPort }}
+      targetPort: {{ .containerPort }}
       protocol: TCP
       name: http
   selector:

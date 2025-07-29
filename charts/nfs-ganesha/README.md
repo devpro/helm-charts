@@ -2,13 +2,10 @@
 
 This Helm chart will install [NFS-Ganesha](https://nfs-ganesha.github.io/) ([code](https://github.com/nfs-ganesha/nfs-ganesha)) on a Kubernetes cluster.
 
-## Installation
+## Usage
+
+Installs the application:
 
 ```bash
-# installs the chart with default parameters
-helm upgrade --install nfs-ganesha devpro/nfs-ganesha --create-namespace --namespace nfs-ganesha
+helm upgrade --install nfs-ganesha devpro/nfs-ganesha --namespace nfs-ganesha --create-namespace
 ```
-
-## Open collaboration
-
-Look at the [contributing guide](CONTRIBUTING.md).

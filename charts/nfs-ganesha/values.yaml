@@ -1,3 +1,4 @@
 name: nfs-ganesha
 image: janeczku/nfs-ganesha
+# images are hosted on DockerHub: https://hub.docker.com/r/janeczku/nfs-ganesha/tags
 tag: latest

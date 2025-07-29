@@ -3,6 +3,7 @@ image: devprofr/game-2048
 tag: "1.0.8328752292"
 replicaCount: 1
 port: 80
+containerPort: 80
 ingress:
   enabled: false
   className: "nginx"

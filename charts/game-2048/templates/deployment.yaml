@@ -9,6 +9,8 @@ metadata:
     app.kubernetes.io/name: {{ $name }}
 spec:
   replicas: {{ $.Values.replicaCount }}
+  strategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app: {{ $name }}
@@ -25,7 +27,16 @@ spec:
           imagePullPolicy: Always
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ $.Values.containerPort }}
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      restartPolicy: Always
