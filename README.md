@@ -1,16 +1,16 @@
-# Kube toolkit
+# Kube Workload Toolkit
 
 [![CI](https://github.com/devpro/helm-charts/actions/workflows/ci.yml/badge.svg)](https://github.com/devpro/helm-charts/actions/workflows/ci.yml)
 [![PKG](https://github.com/devpro/helm-charts/actions/workflows/pkg.yml/badge.svg)](https://github.com/devpro/helm-charts/actions/workflows/pkg.yml)
 
 Welcome! This project provides:
 
-- **Curated Guides**: Step-by-step instructions for installing popular applications using their official Helm charts in a Kubernetes cluster.
-- **Custom Helm Charts**: A collection of Helm charts that were created for deploying unique workloads on Kubernetes.
+- **Curated guides**: Step-by-step instructions for installing popular applications using their official Helm charts in a Kubernetes cluster.
+- **Custom Helm charts**: A collection of charts that were created for deploying unique workloads on Kubernetes.
 
 Whether you're deploying custom solutions or setting up well-known applications like NGINX or Prometheus, this repository aims to simplify your Kubernetes journey with tested configurations and clear documentation.
 
-Get started with the [documentation](https://devpro.github.io/helm-charts/docs/).
+🚀 Get started with the [Kube Workload Toolkit](https://kwt.devpro.fr/)
 
 Feel free to [contribute](CONTRIBUTING.md)!
 
@@ -77,20 +77,6 @@ helm:
   * Go to "Apps" > "Repositories", click on "Create" and enter `https://devpro.github.io/helm-charts` as "Index URL", then click on "Create"
   * Go to "Apps" > "Charts", look at the available applications (charts) and install the one(s) you want
 
-## Cluster setup logic
-
-* Create a Kubernetes Cluster and get CLI access (download `kubectl` configuration)
-* Install & configure kube add-ons
-  * Install certificate issuer ([cert-manager](./charts/cert-manager/README.md))
-  * Create storage class
-  * Create Ingress Controller ([NGINX](./charts/ingress-nginx/README.md) or HAProxy)
-  * Create load balancer
-  * Install secret management ([Sealed Secrets](./charts/sealed-secrets/README.md))
-  * Deploy GitOps tool ([ArgoCD](./charts/argocd/README.md) or Fleet)
-* Setup Security ([NeuVector](./charts/neuvector/README.md))
-* Install Observability ([OpenTelemetry, Prometheus, Grafana](./charts/otel-prometheus-grafana/README.md))
-* Setup Continuous Deployment
-  * Configure GitOps repositories and deploy backing services and applications
 
 ## Samples
 
