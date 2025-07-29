@@ -53,7 +53,7 @@
 ## Observability
 
 <!-- * [Elastic Stack](elastic-stack) -->
-* OpenTelemetry Collector
+* [OpenTelemetry Collector](opentelemetry-collector)
 * [Prometheus](prometheus)
 <!-- * Splunk -->
 
@@ -67,7 +67,7 @@
 
 ## Security
 
-* NeuVector
+* [NeuVector](neuvector)
 * [Rancher CIS Benchmark](rancher-cis-benchmark)
 
 <!-- * Serverless
@@ -95,8 +95,8 @@
 * [Jenkins](jenkins)
 <!-- * [Jira](jira)
 * [Nexus](nexus) -->
-* R2Devops
-* Promyze
+* [R2Devops](r2devops)
+* [Promyze](promyze)
 * [SonarQube](sonarqube)
 <!-- * [Tekton](tekton) -->
 

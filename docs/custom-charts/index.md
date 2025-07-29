@@ -18,7 +18,7 @@
 
 ## Observability
 
-* Grafana Stack
+* [Grafana Stack](grafana-stack)
 
 ## Persistant storage
 
