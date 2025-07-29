@@ -2,31 +2,16 @@
 
 This Helm chart will deploy [Terraform Backend MongoDB](https://github.com/devpro/terraform-backend-mongodb) on a Kubernetes cluster.
 
-## Usage
+## Repository
 
-Add Helm chart repository:
+This is a custom chart:
 
 ```bash
 helm repo add devpro https://devpro.github.io/helm-charts
 helm repo update
 ```
 
-Install the chart:
-
-```bash
-helm upgrade --install tfbackend devpro/terraform-backend-mongodb -f values.yaml -namespace tfbackend --create-namespace
-```
-
-Uninstall the chart:
-
-```bash
-helm delete tfbackend
-kubectl delete ns tfbackend
-```
-
-## Configuration
-
-### `values.yaml` file
+Create the `values.yaml` file to override [default parameters](https://github.com/devpro/helm-charts/blob/main/charts/terraform-backend-mongodb/values.yaml).
 
 ::: code-group
 
@@ -59,3 +44,32 @@ webapi:
 ```
 
 :::
+
+## Deployment
+
+Install the application:
+
+```bash
+helm upgrade --install tfbackend devpro/terraform-backend-mongodb -f values.yaml -namespace tfbackend --create-namespace
+```
+
+## Optional checks
+
+If enabled, open the Swagger page from the browser (`<url>/swagger`).
+
+Forward MongoDB port for local access:
+
+```bash
+kubectl port-forward service/tfbackend-mongodb 27017:27017 -n tfbackend
+```
+
+Use MongoDB Compass to look at the database.
+
+## Clean-up
+
+Uninstall the application and delete the namespace:
+
+```bash
+helm delete tfbackend -n tfbackend
+kubectl delete ns tfbackend
+```

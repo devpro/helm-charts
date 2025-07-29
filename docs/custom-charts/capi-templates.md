@@ -1,16 +1,19 @@
-# Contribute
+# Cluster API (CAPI) Templates
 
-## Quality check
+Let's see how to simplify the use of CAPI (Cluster API) to manage your Kubernetes clusters.
 
-Check code style
+## Repository
+
+This is a custom chart:
 
 ```bash
-helm lint
+helm repo add devpro https://devpro.github.io/helm-charts
+helm repo update
 ```
 
-## Deployment from the sources
+## Usage
 
-### GKE (Google Cloud Kubernetes Engine)
+### Create GKE (Google Cloud Kubernetes Engine) cluster
 
 Initialize CAPI:
 
@@ -20,7 +23,7 @@ export EXP_CAPG_GKE=true
 clusterctl init --infrastructure gcp
 ```
 
-Configure the cluster:
+Create the configuration file:
 
 ```bash
 cat <<EOF > values_gke.yaml
@@ -36,26 +39,10 @@ googlecloud:
 EOF
 ```
 
-Generate the manifest file for review:
+Create the cluster:
 
 ```bash
-helm template capi-gke-demo . -f values.yaml -f values_gke.yaml > temp.yaml
-```
-
-Can be compared with the one generated with clusterctl:
-
-```bash
-export GCP_PROJECT=$GCLOUD_PROJECT_ID
-export GCP_REGION=$GCLOUD_REGION
-export GCP_NETWORK_NAME=$GCLOUD_VPC
-export WORKER_MACHINE_COUNT=1
-clusterctl generate cluster gke-capi-bthomas-demo --flavor gke -i gcp  > capi-gke-quickstart.yaml
-```
-
-Apply changes with Helm:
-
-```bash
-helm upgrade --install capi-gke-demo . -f values.yaml -f values_gke.yaml --namespace demo --create-namespace
+helm upgrade --install capi-gke-demo devpro/capi-templates -f values_gke.yaml --namespace demo --create-namespace
 ```
 
 Look at the cluster provisioning:

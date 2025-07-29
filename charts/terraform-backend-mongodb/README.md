@@ -2,6 +2,10 @@
 
 This Helm chart will deploy [Terraform Backend MongoDB](https://github.com/devpro/terraform-backend-mongodb) on a Kubernetes cluster.
 
+## Getting started
+
+Start with the [documentation](https://kwt.devpro.fr/custom-charts/terraform-backend-mongodb.html).
+
 ## Usage
 
 Add [Helm](https://helm.sh) repository:
@@ -17,11 +21,6 @@ Install the chart:
 helm upgrade --install tfbackend devpro/terraform-backend-mongodb --create-namespace --namespace tfbackend
 ```
 
-Uninstall the chart:
+## Chart updates
 
-```bash
-helm delete tfbackend
-kubectl delete ns tfbackend
-```
-
-More information on the [contribution guide](CONTRIBUTING.md).
+Check the [contribution guide](CONTRIBUTING.md).

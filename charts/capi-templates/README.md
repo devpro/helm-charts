@@ -2,9 +2,11 @@
 
 This chart will simplify the use of CAPI (Cluster API) to manage your Kubernetes clusters.
 
-Contributions are welcome! See how with this [short guide](CONTRIBUTING.md).
-
 ## Getting started
+
+Start with the [documentation](https://kwt.devpro.fr/custom-charts/capi-templates.html).
+
+## Usage
 
 ### Setup
 
@@ -31,6 +33,22 @@ googlecloud:
   subnet:
     name: $GCLOUD_SUBNET
 EOF
+```
+
+Generate the manifest file for review:
+
+```bash
+helm template capi-gke-demo devpro/capi-templates -f values_gke.yaml > temp.yaml
+```
+
+Can be compared with the one generated with clusterctl:
+
+```bash
+export GCP_PROJECT=$GCLOUD_PROJECT_ID
+export GCP_REGION=$GCLOUD_REGION
+export GCP_NETWORK_NAME=$GCLOUD_VPC
+export WORKER_MACHINE_COUNT=1
+clusterctl generate cluster gke-capi-bthomas-demo --flavor gke -i gcp  > capi-gke-quickstart.yaml
 ```
 
 Create the cluster:

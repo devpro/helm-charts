@@ -77,7 +77,7 @@
 
 * [Kasten](kasten)
 * [Longhorn](longhorn)
-* MinIO
+* [MinIO](minio)
 * [s3gw](s3gw)
 
 ## Supply Chain (Software Factory)
