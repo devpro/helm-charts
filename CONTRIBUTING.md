@@ -18,6 +18,12 @@
 
 ### Check manifest before installation
 
+Lint the chart:
+
+```bash
+helm lint
+```
+
 Generate the Kubernetes manifest yaml:
 
 ```bash
@@ -40,6 +46,9 @@ Lint charts with [helm/chart-testing](https://github.com/helm/chart-testing) (wi
 docker run --rm -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart-testing:v3.13.0 \
   /bin/sh -c "git config --global --add safe.directory /data ; ./scripts/add_helm_repo.sh ; ct lint --target-branch main"
 ```
+
+Beware if you're on Windows, as some files may be with the EOL CRLF.
+You can find them with `find charts/ -type f -exec file {} \; | grep CLRF`, update the EOL (change save from VS Code), and also check on the repo with `git show main:charts/nfs-ganesha/.helmignore | od -c`.
 
 Lint charts with [KubeLinter](https://docs.kubelinter.io/):
 

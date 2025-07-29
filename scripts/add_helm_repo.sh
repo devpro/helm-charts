@@ -8,4 +8,5 @@ helm repo add grafana               https://grafana.github.io/helm-charts
 helm repo add hobbyfarm             https://hobbyfarm.github.io/hobbyfarm
 helm repo add minio                 https://charts.min.io/
 helm repo add mongodb               https://mongodb.github.io/helm-charts
+helm repo add ory                   https://k8s.ory.sh/helm/charts
 helm repo update

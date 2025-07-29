@@ -12,9 +12,9 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Setup', link: '/setup' },
       { text: 'Application guides', link: '/application-guides' },
-      { text: 'Custom charts', link: '/custom-charts' }
+      { text: 'Custom charts', link: '/custom-charts' },
+      { text: 'Setup', link: '/setup' }
     ],
     // https://vitepress-sidebar.cdget.com/guide/options
     sidebar: generateSidebar({
