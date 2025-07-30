@@ -1,4 +1,4 @@
-# Azure Cloud
+# Microsoft Azure
 
 ## Design
 

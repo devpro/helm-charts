@@ -13,7 +13,8 @@
 
 ## Infrastructure automation
 
-* Rancher Cluster Templates
+* [Cluster API (CAPI) Templates](capi-templates)
+* [Rancher Cluster Templates](rancher-cluster-templates)
 * [Terraform Backend MongoDB](terraform-backend-mongodb)
 
 ## Observability

@@ -18,8 +18,8 @@ Create the `values.yaml` file to override [default parameters](https://github.co
 ::: code-group
 
 ```yaml [Ingress]
+# https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
 grafana:
-  # https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
   ingress:
     enabled: true
     ingressClassName: nginx

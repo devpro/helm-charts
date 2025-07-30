@@ -15,10 +15,12 @@ helm repo add devpro https://devpro.github.io/helm-charts
 helm repo update
 ```
 
+Create the `values.yaml` file to override [default values](values.yaml).
+
 Install the chart:
 
 ```bash
-helm upgrade --install tfbackend devpro/terraform-backend-mongodb --create-namespace --namespace tfbackend
+helm upgrade --install tfbackend devpro/terraform-backend-mongodb -f values.yaml --namespace tfbackend --create-namespace
 ```
 
 ## Chart updates
