@@ -1,4 +1,8 @@
-# Custom charts
+---
+order: 2
+---
+
+# Custom Charts
 
 ## Databases
 
@@ -13,12 +17,13 @@
 
 ## Infrastructure automation
 
-* Rancher Cluster Templates
+* [Cluster API (CAPI) Templates](capi-templates)
+* [Rancher Cluster Templates](rancher-cluster-templates)
 * [Terraform Backend MongoDB](terraform-backend-mongodb)
 
 ## Observability
 
-* Grafana Stack
+* [Grafana Stack](grafana-stack)
 
 ## Persistant storage
 

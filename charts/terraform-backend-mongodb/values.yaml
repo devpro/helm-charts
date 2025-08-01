@@ -3,10 +3,11 @@ webapi:
   host: tfbackend.random
   name: tfbackend
   image: docker.io/devprofr/terraform-backend-mongodb
-  tag: latest
+  # images are hosted on DockerHub: https://hub.docker.com/r/devprofr/terraform-backend-mongodb/tags
+  tag: 1.1.16541432676
   replicaCount: 1
   port: 80
-  targetPort: 8080
+  containerPort: 8080
   healthEndpoint: /health
   db:
     connectionString: "someconnstring"

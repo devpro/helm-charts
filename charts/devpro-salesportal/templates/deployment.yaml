@@ -12,6 +12,8 @@ metadata:
     app.kubernetes.io/name: {{ .name }}
 spec:
   replicas: {{ .replicaCount }}
+  strategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app: {{ .name }}
@@ -97,5 +99,6 @@ spec:
             - name: MongoDb__DatabaseName
               value: {{ .db.databaseName }}
             {{- end }}
+      restartPolicy: Always
 {{- end }}
 {{ end }}

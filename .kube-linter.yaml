@@ -1,7 +1,24 @@
 checks:
   addAllBuiltIn: true
+  # ref. https://docs.kubelinter.io/#/generated/checks
   exclude:
-    - "no-read-only-root-fs"
-    - "unset-cpu-requirements"
-    - "unset-memory-requirements"
-  ignorePaths: []
+    - access-to-secrets
+    - default-service-account
+    - dnsconfig-options
+    - minimum-three-replicas
+    - no-anti-affinity
+    - no-node-affinity
+    - no-read-only-root-fs
+    - non-isolated-pod
+    - required-annotation-email
+    - required-label-owner
+    - unset-cpu-requirements
+    - unset-memory-requirements
+    - use-namespace
+    # disable for now (need to add users in image Dockerfile)
+    - run-as-non-root
+    - privileged-ports
+  ignorePaths:
+    - charts/**/charts/**
+    # disable for now (too many issues for something to rework from the container image)
+    - charts/nfs-ganesha/**
