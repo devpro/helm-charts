@@ -13,8 +13,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Application guides', link: '/application-guides' },
-      { text: 'Custom charts', link: '/custom-charts' },
-      { text: 'Setup', link: '/setup' }
+      { text: 'Custom charts', link: '/custom-charts' }
     ],
     // https://vitepress-sidebar.cdget.com/guide/options
     sidebar: generateSidebar({
@@ -24,7 +23,8 @@ export default defineConfig({
       excludeByGlobPattern: ['examples'],
       useFolderLinkFromIndexFile: true,
       useFolderTitleFromIndexFile: true,
-      useTitleFromFileHeading: true
+      useTitleFromFileHeading: true,
+      sortMenusByFrontmatterOrder: true
     }),
     socialLinks: [
       { icon: 'github', link: 'https://github.com/devpro/helm-charts' }

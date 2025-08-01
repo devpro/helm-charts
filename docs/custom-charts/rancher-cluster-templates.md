@@ -24,7 +24,7 @@ Provider                         | Template              | Node Driver
 
 ## Repository
 
-This is a custom chart:
+Make sure to have the **devpro** Helm repository:
 
 ```bash
 helm repo add devpro https://devpro.github.io/helm-charts

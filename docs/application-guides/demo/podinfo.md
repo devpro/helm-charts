@@ -4,7 +4,8 @@ Let's see how to run [Podinfo](https://github.com/stefanprodan/podinfo) in a Kub
 
 ## Introduction
 
-> Podinfo is a tiny web application made with Go that showcases best practices of running microservices in Kubernetes. Podinfo is used by CNCF projects like Flux and Flagger for end-to-end testing and workshops. ([github.com](https://github.com/stefanprodan/podinfo))
+> Podinfo is a tiny web application made with Go that showcases best practices of running microservices in Kubernetes.
+> Podinfo is used by CNCF projects like Flux and Flagger for end-to-end testing and workshops. ([github.com](https://github.com/stefanprodan/podinfo))
 
 See also [golang.ch](https://golang.ch/a-tiny-web-application-golang-showcases-best-practices-of-running-microservices-in-kubernetes/)
 

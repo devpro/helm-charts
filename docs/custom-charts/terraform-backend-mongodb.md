@@ -1,15 +1,17 @@
 # Terraform Backend MongoDB
 
-This Helm chart will deploy [Terraform Backend MongoDB](https://github.com/devpro/terraform-backend-mongodb) on a Kubernetes cluster.
+Let's see how to deploy [Terraform Backend MongoDB](https://github.com/devpro/terraform-backend-mongodb) on a Kubernetes cluster.
 
 ## Repository
 
-This is a custom chart:
+Make sure to have the **devpro** Helm repository:
 
 ```bash
 helm repo add devpro https://devpro.github.io/helm-charts
 helm repo update
 ```
+
+## Configuration
 
 Create the `values.yaml` file to override [default parameters](https://github.com/devpro/helm-charts/blob/main/charts/terraform-backend-mongodb/values.yaml).
 
@@ -39,8 +41,8 @@ mongodb:
     rootPassword: admin
 webapi:
   db:
-    connectionString: mongodb://root:admin@tfbackend-mongodb:27017/terraform_backend_beta?authSource=admin
-    databaseName: terraform_backend_beta
+    connectionString: mongodb://root:admin@tfbackend-mongodb:27017/tfbackend_beta?authSource=admin
+    databaseName: tfbackend_beta
 ```
 
 :::

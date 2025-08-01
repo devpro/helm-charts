@@ -1,105 +1,107 @@
-# Application guides
+---
+order: 2
+---
+
+# Application Guides
 
 > [!NOTE]
 > The CNCF provides the [Cloud Native Interactive Landscape](https://landscape.cncf.io/) for a more complete view on Cloud Native components
 
-## Applications
+## Code quality
 
-* [Drupal](drupal)
-<!-- * [HobbyFarm](hobbyfarm) -->
-* [Podinfo](podinfo)
-* WordPress
+* [Promyze](code-quality/promyze)
+* [SonarQube](code-quality/sonarqube)
 
-## Authentication / Identity
+## Databases
 
-* Keycloak
-* Kratos
-
-## Cloud providers
-
-* Azure Storage
-<!-- * [Outscale](outscale) -->
-
-## Data stores
-
-* [Elasticsearch](elasticsearch)
-* [MariaDB](mariadb)
+* [Elasticsearch](databases/elasticsearch)
+* [MariaDB](databases/mariadb)
 <!-- * [memcached](memcached) -->
-* MongoDB
-* [PostgreSQL](postgresql)
-* [RabbitMQ](rabbitmq)
-* [Redis](redis)
+* [MongoDB (Percona)](databases/mongodb-percona)
+* [PostgreSQL](databases/postgresql)
+* [Redis](databases/redis)
 
-## Networking & Messaging
+## Demo
 
-* [cert-manager](cert-manager)
-<!-- * [Consul](consul) -->
-* [external-dns](external-dns)
-<!-- * [HAProxy](haproxy)
-* [Istio](istio)
-* [Kafka](kafka)
-* [Kong](kong) -->
-<!-- * [Linkerd](linkerd)
-* [MetalLB](metallb)
-* [MQTT](mqtt) -->
-* [NATS](nats)
-* [NGINX (Ingress Controller)](ingress-nginx)
-* [Traefik](traefik)
+* [Podinfo](demo/podinfo)
 
-## Management
+## Developer platforms
 
-* [Rancher](rancher)
+<!-- * Backstage -->
+* [Drupal](developer-platforms/drupal)
+* [Epinio](developer-platforms/epinio)
+<!-- * [Knative](knative) -->
+
+## Kubernetes management
+
+* [Rancher](kubernetes-management/rancher)
+
+## Messaging
+
+<!-- * [Kafka](kafka) -->
+<!-- * [MQTT](mqtt) -->
+* [NATS](messaging/nats)
+* [RabbitMQ](messaging/rabbitmq)
+
+## Networking
+
+* [external-dns](networking/external-dns)
+<!-- * [HAProxy](haproxy) -->
+<!-- * [Kong](kong) -->
+<!-- * [MetalLB](metallb) -->
+* [NGINX](networking/nginx.md)
+<!-- ngrok -->
+* [Traefik](networking/traefik)
 
 ## Observability
 
 <!-- * [Elastic Stack](elastic-stack) -->
-* [OpenTelemetry Collector](opentelemetry-collector)
-* [Prometheus](prometheus)
+* [OpenTelemetry Collector](observability/opentelemetry-collector)
+* [Prometheus](observability/prometheus)
 <!-- * Splunk -->
 
-## Platforms
+## Pipeline orchestration
 
-* [Epinio](epinio)
+* [Argo CD](pipeline-orchestration/argo-cd)
+<!-- * [Argo Rollouts](argo-rollouts)
+* [Azure DevOps Agent](azure-devops-agent) -->
+* [CloudBees CI](pipeline-orchestration/cloudbees-ci)
+* [Concourse](pipeline-orchestration/concourse)
+<!-- * [Drone](drone) -->
+<!-- Gitea -->
+<!-- * GitLab -->
+<!-- * GitLab Runner -->
+* [Jenkins](pipeline-orchestration/jenkins)
+<!-- * [Tekton](tekton) -->
 
-## Secrets
+## Quality assurance
 
-* [Sealed Secrets](sealed-secrets)
+* [Report Portal](quality-assurance/reportportal)
+
+## Registries
+
+* [Artifactory](registries/artifactory)
+* [Harbor](registries/harbor)
+<!-- * [Nexus](nexus) -->
+<!-- Spegel -->
 
 ## Security
 
-* [NeuVector](neuvector)
-* [Rancher CIS Benchmark](rancher-cis-benchmark)
+* [cert-manager](security/cert-manager)
+* [NeuVector](security/neuvector)
+* [R2Devops](security/r2devops)
+* [Rancher CIS Benchmark](security/rancher-cis-benchmark)
+* [Sealed Secrets](security/sealed-secrets)
 
-<!-- * Serverless
-* [Knative](knative) -->
+<!-- ## Services meshes -->
+
+<!-- * [Istio](istio) -->
+<!-- * [Linkerd](linkerd) -->
 
 ## Storage
 
-* [Kasten](kasten)
-* [Longhorn](longhorn)
-* [MinIO](minio)
-* [s3gw](s3gw)
-
-## Supply Chain (Software Factory)
-
-* [Argo CD](argo-cd)
-<!-- * [Argo Rollouts](argo-rollouts)
-* [Artifactory](artifactory)
-* [Azure DevOps Agent](azure-devops-agent) -->
-* [CloudBees CI](cloudbees-ci)
-* [Concourse](concourse)
-<!-- * [Drone](drone) -->
-* GitLab
-* GitLab Runner
-* [Harbor](harbor)
-* [Jenkins](jenkins)
-<!-- * [Jira](jira)
-* [Nexus](nexus) -->
-* [R2Devops](r2devops)
-* [Promyze](promyze)
-* [SonarQube](sonarqube)
-<!-- * [Tekton](tekton) -->
-
-## Testing
-
-* [Report Portal](reportportal)
+* [Kasten](storage/kasten)
+* [Longhorn](storage/longhorn)
+* [MinIO](storage/minio)
+<!-- * Pure Storage -->
+* [s3gw](storage/s3gw)

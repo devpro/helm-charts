@@ -1,10 +1,13 @@
-# Cluster API (CAPI) Templates
+# Cluster API Templates
 
-Let's see how to simplify the use of CAPI (Cluster API) to manage your Kubernetes clusters.
+Let's see how to simplify the use of [Cluster API (CAPI)] to manage your Kubernetes clusters.
+
+> [!NOTE]
+> Cluster API is a Kubernetes sub-project focused on providing declarative APIs and tooling to simplify provisioning, upgrading, and operating multiple Kubernetes clusters.
 
 ## Repository
 
-This is a custom chart:
+Make sure to have the **devpro** Helm repository:
 
 ```bash
 helm repo add devpro https://devpro.github.io/helm-charts

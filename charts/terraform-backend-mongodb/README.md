@@ -8,7 +8,7 @@ Start with the [documentation](https://kwt.devpro.fr/custom-charts/terraform-bac
 
 ## Usage
 
-Add [Helm](https://helm.sh) repository:
+Add the chart repository:
 
 ```bash
 helm repo add devpro https://devpro.github.io/helm-charts
@@ -17,12 +17,12 @@ helm repo update
 
 Create the `values.yaml` file to override [default values](values.yaml).
 
-Install the chart:
+Install the application:
 
 ```bash
 helm upgrade --install tfbackend devpro/terraform-backend-mongodb -f values.yaml --namespace tfbackend --create-namespace
 ```
 
-## Chart updates
+## Going further
 
 Check the [contribution guide](CONTRIBUTING.md).

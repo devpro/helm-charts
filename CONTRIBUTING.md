@@ -65,15 +65,40 @@ docker run --rm -v $(pwd)/charts:/charts -v $(pwd)/.kube-linter.yaml:/etc/config
 
 ## Documentation website
 
+### Static Site Generator
+
 The website is built with [VitePress](https://vitepress.dev/) and:
 
-- plugins: [VitePress Sidebar](https://github.com/jooy2/vitepress-sidebar)
-- theme: [Catppuccin for VitePress](https://github.com/catppuccin/vitepress)
+- plugins: [VitePress Sidebar](https://vitepress-sidebar.cdget.com/)
+- theme: [Catppuccin for VitePress](https://vitepress.catppuccin.com/)
 
 The project was generated using `npx vitepress init`.
 
-Run locally the website with:
+### Local review
+
+Run the website with:
 
 ```bash
 npm run docs:dev
+```
+
+### Markdown tips
+
+- Use Alerts when it makes sense:
+
+```md
+> [!NOTE]
+> Highlights information that users should take into account, even when skimming.
+
+> [!TIP]
+> Optional information to help a user be more successful.
+
+> [!IMPORTANT]
+> Crucial information necessary for users to succeed.
+
+> [!WARNING]
+> Critical content demanding immediate user attention due to potential risks.
+
+> [!CAUTION]
+> Negative potential consequences of an action.
 ```

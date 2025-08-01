@@ -1,4 +1,8 @@
-# Custom charts
+---
+order: 2
+---
+
+# Custom Charts
 
 ## Databases
 

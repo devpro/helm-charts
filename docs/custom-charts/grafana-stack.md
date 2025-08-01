@@ -1,10 +1,10 @@
 # Grafana stack
 
-Let's see how to run [Grafana stack](https://grafana.com/about/grafana-stack/) ([GitHub](https://github.com/grafana)) in a Kubernetes cluster.
+Let's see how to run [Grafana stack](https://grafana.com/about/grafana-stack/) ([GitHub](https://github.com/grafana)) in a Kubernetes cluster, from a custom chart based on the [community repository](https://github.com/grafana/helm-charts).
 
 ## Repository
 
-This is a custom chart based on the [community Helm charts](https://github.com/grafana/helm-charts):
+Make sure to have the **devpro** Helm repository:
 
 ```bash
 helm repo add devpro https://devpro.github.io/helm-charts

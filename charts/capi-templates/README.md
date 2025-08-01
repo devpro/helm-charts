@@ -1,6 +1,6 @@
 # Kubernetes CAPI Templates Helm Chart
 
-This chart will simplify the use of CAPI (Cluster API) to manage your Kubernetes clusters.
+This chart will simplify the use of [Cluster API (CAPI))](https://cluster-api.sigs.k8s.io/) to manage your Kubernetes clusters.
 
 ## Getting started
 
