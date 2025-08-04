@@ -12,6 +12,8 @@ metadata:
     app.kubernetes.io/name: {{ .name }}
 spec:
   replicas: {{ .replicaCount }}
+  strategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app: {{ .name }}
@@ -39,7 +41,7 @@ spec:
           imagePullPolicy: Always
           ports:
             - name: http
-              containerPort: {{ .targetPort }}
+              containerPort: {{ .containerPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -51,6 +53,11 @@ spec:
               port: http
           resources:
             {{- toYaml .resources | nindent 12 }}
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1654   # "app" user
+            runAsGroup: 1654  # "app" group
+            allowPrivilegeEscalation: false
           env:
           {{- if .extraEnv }}
             {{- toYaml .extraEnv | nindent 12 }}
@@ -87,5 +94,6 @@ spec:
             - name: MongoDb__DatabaseName
               value: {{ .db.databaseName }}
             {{- end }}
+      restartPolicy: Always
 {{- end }}
 {{ end }}

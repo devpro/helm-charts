@@ -2,7 +2,7 @@ apiVersion: v2
 name: game-2048
 description: Helm chart for Game 2048
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "1.0.0"
 maintainers:
   - name: devpro

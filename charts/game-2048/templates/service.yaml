@@ -16,4 +16,4 @@ spec:
     - name: http
       port: {{ $.Values.port }}
       protocol: TCP
-      targetPort: 80
+      targetPort: {{ $.Values.containerPort }}

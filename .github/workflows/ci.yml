@@ -1,7 +1,7 @@
 # title: Continuous Integration
 # uses:
 #   - https://github.com/helm/chart-testing-action
-#   - https://github.com/helm/kind-action
+#   - https://github.com/stackrox/kube-linter-action
 
 name: CI
 
@@ -46,6 +46,12 @@ jobs:
         with:
           python-version: '3.x'
           check-latest: true
+      - name: Use KubeLinter
+        id: kube-lint-scan
+        uses: stackrox/kube-linter-action@v1
+        with:
+          directory: charts
+          config: .kube-linter.yaml
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.7.0
       - name: Add dependency chart repositories

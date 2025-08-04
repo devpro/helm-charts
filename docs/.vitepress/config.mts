@@ -6,13 +6,12 @@ export default defineConfig({
   lang: 'en-US',
   title: "Kube Workload Toolkit",
   description: "Deploy on Kubernetes with confidence using tested charts and clear recipes",
-  base: '/helm-charts/',
+  // base: '/helm-charts/docs/',
   outDir: '../public',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Setup', link: '/setup' },
       { text: 'Application guides', link: '/application-guides' },
       { text: 'Custom charts', link: '/custom-charts' }
     ],
@@ -24,7 +23,8 @@ export default defineConfig({
       excludeByGlobPattern: ['examples'],
       useFolderLinkFromIndexFile: true,
       useFolderTitleFromIndexFile: true,
-      useTitleFromFileHeading: true
+      useTitleFromFileHeading: true,
+      sortMenusByFrontmatterOrder: true
     }),
     socialLinks: [
       { icon: 'github', link: 'https://github.com/devpro/helm-charts' }

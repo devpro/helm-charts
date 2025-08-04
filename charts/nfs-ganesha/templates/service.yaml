@@ -1,18 +1,18 @@
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Values.name }}-nodeport
-spec:
-  selector:
-    app: {{ .Values.name }}
-  type: NodePort
-  ports:
-    - name: nfsv4
-      nodePort: 32049
-      port: 2049
-      protocol: TCP
-      targetPort: 2049
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: {{ .Values.name }}-nodeport
+# spec:
+#   selector:
+#     app: {{ .Values.name }}
+#   type: NodePort
+#   ports:
+#     - name: nfsv4
+#       nodePort: 32049
+#       port: 2049
+#       protocol: TCP
+#       targetPort: 2049
 ---
 apiVersion: v1
 kind: Service
