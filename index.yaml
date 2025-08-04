@@ -24,6 +24,20 @@ entries:
   capi-templates:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2025-08-04T09:43:19.49139104Z"
+    description: Helm chart for Cluster API (CAPI) Templates
+    digest: e81bf795832b938767c13818d74396963f9f2e05ad627ea552c61ce8455b54a6
+    home: https://github.com/devpro/helm-charts/tree/main/charts/capi-templates
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: capi-templates
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/capi-templates-0.1.1/capi-templates-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2025-07-27T17:06:38.700662568Z"
     description: Helm chart for Cluster API (CAPI) Templates
     digest: c1840713d202c87b904377b973b600ca9a58865376f1021f129b5545d1d5260f
@@ -37,6 +51,19 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/capi-templates-0.1.0/capi-templates-0.1.0.tgz
     version: 0.1.0
   cow-demo:
+  - apiVersion: v2
+    appVersion: 2.0.0
+    created: "2025-08-04T09:43:19.618834547Z"
+    description: Helm chart for Cow Demo Application
+    digest: f89d1b7973798cb6da6c9dde8e68c1bba5598a0fe535fc031b8c7191440d2b96
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: cow-demo
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/cow-demo-0.2.1/cow-demo-0.2.1.tgz
+    version: 0.2.1
   - apiVersion: v2
     appVersion: 2.0.0
     created: "2024-04-25T09:43:11.086683802Z"
@@ -90,6 +117,25 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/cow-demo-0.1.0/cow-demo-0.1.0.tgz
     version: 0.1.0
   devpro-salesportal:
+  - apiVersion: v2
+    appVersion: 1.1.0
+    created: "2025-08-04T09:43:19.741279022Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.10.1
+    description: Helm chart for Devpro Sales Portal
+    digest: a500ee732ca8e136f4489e8b19cc19ddbaeee493fafa2197ed1073645e99b53f
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: devpro-salesportal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/devpro-salesportal-0.2.6/devpro-salesportal-0.2.6.tgz
+    version: 0.2.6
   - apiVersion: v2
     appVersion: 1.1.0
     created: "2025-07-27T17:06:38.797628637Z"
@@ -245,6 +291,19 @@ entries:
   ecorp-demo:
   - apiVersion: v2
     appVersion: 1.1.0
+    created: "2025-08-04T09:43:19.88607993Z"
+    description: Helm chart for E Corp demo
+    digest: adb2337de212ba11588aa87060d46dbd706e65632df597d01525e9837260309b
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: ecorp-demo
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/ecorp-demo-0.2.1/ecorp-demo-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 1.1.0
     created: "2025-07-27T17:06:38.891283371Z"
     description: Helm chart for E Corp demo
     digest: 391f2a14e0baeb8af246b2d4a71c583b9e6c814ea6a4ad8a26aac1bcd8fdf7f5
@@ -389,6 +448,20 @@ entries:
   game-2048:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2025-08-04T09:43:20.016828089Z"
+    description: Helm chart for Game 2048
+    digest: 4a3455ebce6243cf1ca2f8bc75ca2c2edab30c76c6cf6afc6a498764a05769ff
+    home: https://github.com/devpro/helm-charts/tree/main/charts/game-2048
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: game-2048
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/game-2048-0.1.2/game-2048-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2024-04-25T09:43:11.226477428Z"
     description: Helm chart for Game 2048
     digest: d9378bb0e9a49fa3753090e2d3a322cacea0d5c51e314e44ca8f6e8baa8030e9
@@ -493,6 +566,20 @@ entries:
   nfs-ganesha:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2025-08-04T09:43:20.139297937Z"
+    description: Helm chart for managing NFS-Ganesha
+    digest: ae6a3166856d9c5cef22e815bda2ebc0a1785f1b67ba9b3b91f867546fd9c97f
+    home: https://github.com/devpro/helm-charts/tree/main/charts/nfs-ganesha
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: nfs-ganesha
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/nfs-ganesha-0.1.1/nfs-ganesha-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2024-02-02T15:31:21.804835241Z"
     description: Helm chart for managing NFS-Ganesha
     digest: e9a4757dfaa78cf4956b9ffca2caf06e8a8aff8474486a7cbb516f355e54c0d9
@@ -506,6 +593,23 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/nfs-ganesha-0.1.0/nfs-ganesha-0.1.0.tgz
     version: 0.1.0
   rancher-cluster-templates:
+  - annotations:
+      catalog.cattle.io/namespace: fleet-default
+      catalog.cattle.io/type: cluster-template
+    apiVersion: v2
+    appVersion: 0.1.0
+    created: "2025-08-04T09:43:20.271752566Z"
+    description: Helm chart for managing Rancher cluster templates
+    digest: 7094a658ca1151d5d280fb2786ba6c87ed01555d7300f8c2e13ae3c91543f62b
+    home: https://github.com/devpro/helm-charts/tree/main/charts/rancher-cluster-templates
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: rancher-cluster-templates
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/rancher-cluster-templates-0.1.6/rancher-cluster-templates-0.1.6.tgz
+    version: 0.1.6
   - annotations:
       catalog.cattle.io/namespace: fleet-default
       catalog.cattle.io/type: cluster-template
@@ -611,6 +715,25 @@ entries:
   terraform-backend-mongodb:
   - apiVersion: v2
     appVersion: 1.1.0
+    created: "2025-08-04T09:43:20.400841444Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.5.25
+    description: Helm chart for Terraform Backend MongoDB
+    digest: 05cc75914bde240e5994e8c1ea5dc7853ecf79b41a0ae89177685bfc2519b423
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: terraform-backend-mongodb
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/terraform-backend-mongodb-0.1.1/terraform-backend-mongodb-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.1.0
     created: "2025-07-27T17:06:39.121456722Z"
     dependencies:
     - alias: mongodb
@@ -628,4 +751,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/terraform-backend-mongodb-0.1.0/terraform-backend-mongodb-0.1.0.tgz
     version: 0.1.0
-generated: "2025-07-27T17:06:39.121630046Z"
+generated: "2025-08-04T09:43:20.400977819Z"
