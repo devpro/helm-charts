@@ -544,6 +544,33 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/grafana-stack-0.2.0/grafana-stack-0.2.0.tgz
     version: 0.2.0
+  letsencrypt:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-07-27T17:06:38.997181119Z"
+    description: Helm chart for managing Let's Encrypt certificate issuers
+    digest: 054a26e45f222b01a64d36e7506ab74e875b5d76a43e45497e9e0f07d00fb8ad
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: letsencrypt
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/letsencrypt-0.1.4/letsencrypt-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-12-12T13:24:56.903525466Z"
+    description: Helm chart for managing Let's Encrypt
+    digest: 55677ef9331ad369102533734609e1316a6a4afc4875234fcd28748208ee266c
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: letsencrypt
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/letsencrypt-0.1.2/letsencrypt-0.1.2.tgz
+    version: 0.1.2
   mongodb-community:
   - apiVersion: v2
     appVersion: 0.9.0
