@@ -53,6 +53,19 @@ entries:
   cow-demo:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2025-09-09T20:15:20.460110225Z"
+    description: Helm chart for Cow Demo Application
+    digest: bb5c777e04b901f9fd1387ffe9b7c0e671eaaf128768914769cf23de5d9e0f4d
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: cow-demo
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/cow-demo-0.2.2/cow-demo-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2025-08-04T09:43:19.618834547Z"
     description: Helm chart for Cow Demo Application
     digest: f89d1b7973798cb6da6c9dde8e68c1bba5598a0fe535fc031b8c7191440d2b96
@@ -778,4 +791,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/terraform-backend-mongodb-0.1.0/terraform-backend-mongodb-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-04T09:43:20.400977819Z"
+generated: "2025-09-09T20:15:20.460207478Z"
