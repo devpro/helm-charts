@@ -74,7 +74,17 @@ The website is built with [VitePress](https://vitepress.dev/) and:
 
 The project was generated using `npx vitepress init`.
 
+Website files are in `docs` folder.
+
+For configuration, look at [docs/.vitepress/config.mts](docs/.vitepress/config.mts).
+
 ### Local review
+
+Install dependencies:
+
+```bash
+npm install
+```
 
 Run the website with:
 
