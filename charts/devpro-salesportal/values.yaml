@@ -74,6 +74,17 @@ ingress:
 
 mongodb:
   enabled: false
-  # https://github.com/bitnami/charts/blob/main/bitnami/mongodb/values.yaml
+# https://github.com/bitnami/charts/blob/main/bitnami/mongodb/values.yaml
+  global:
+  #   imageRegistry: ""
+  #   imagePullSecrets: []
+  #   defaultStorageClass: ""
+  #   storageClass: ""
+    security:
+      allowInsecureImages: true
+  image:
+    registry: docker.io
+    repository: bitnamisecure/mongodb
+    tag: latest
   auth: {}
     # rootPassword: ""

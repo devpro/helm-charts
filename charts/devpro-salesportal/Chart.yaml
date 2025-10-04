@@ -6,7 +6,7 @@ version: 0.2.7
 appVersion: "1.1.18203306613"
 dependencies:
   - name: mongodb
-    version: 14.10.1   # MongoDB 7.0.5
+    version: 16.5.45   # MongoDB 8.0.13
     repository: https://charts.bitnami.com/bitnami
     alias: mongodb
     condition: mongodb.enabled
