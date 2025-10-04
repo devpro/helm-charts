@@ -2,7 +2,7 @@ apiVersion: v2
 name: capi-templates
 description: Helm chart for Cluster API (CAPI) Templates
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "1.0.0"
 home: https://github.com/devpro/helm-charts/tree/main/charts/capi-templates
 maintainers:
