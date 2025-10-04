@@ -8,7 +8,7 @@ metadata:
   labels:
     app: {{ .name }}
     app.kubernetes.io/name: {{ .name }}
-  name: {{ .name }}-svc
+  name: {{ .name }}
 spec:
   type: ClusterIP
   ports:

@@ -58,11 +58,6 @@ docker run --rm -v $(pwd)/charts:/charts -v $(pwd)/.kube-linter.yaml:/etc/config
   lint /charts --config /etc/config.yaml
 ```
 
-### View Chart repository references
-
-- [aws/eks-charts](https://github.com/aws/eks-charts)
-- [rancher/helm3-charts](https://github.com/rancher/helm3-charts)
-
 ## Documentation website
 
 ### Static Site Generator
@@ -74,7 +69,17 @@ The website is built with [VitePress](https://vitepress.dev/) and:
 
 The project was generated using `npx vitepress init`.
 
+Website files are in `docs` folder.
+
+For configuration, look at [docs/.vitepress/config.mts](docs/.vitepress/config.mts).
+
 ### Local review
+
+Install dependencies:
+
+```bash
+npm install
+```
 
 Run the website with:
 
@@ -102,3 +107,29 @@ npm run docs:dev
 > [!CAUTION]
 > Negative potential consequences of an action.
 ```
+
+- Containers
+
+```md
+::: info
+This is an info box.
+:::
+
+::: tip
+This is a tip.
+:::
+
+::: warning
+This is a warning.
+:::
+
+::: danger
+This is a dangerous warning.
+:::
+
+::: details
+This is a details block.
+:::
+```
+
+- [Markdown Extensions](https://vitepress.dev/guide/markdown)

@@ -1,6 +1,6 @@
 # Cluster API Templates
 
-Let's see how to simplify the use of [Cluster API (CAPI)] to manage your Kubernetes clusters.
+Let's see how to simplify the use of [Cluster API (CAPI)](https://cluster-api.sigs.k8s.io/) to manage your Kubernetes clusters.
 
 > [!NOTE]
 > Cluster API is a Kubernetes sub-project focused on providing declarative APIs and tooling to simplify provisioning, upgrading, and operating multiple Kubernetes clusters.

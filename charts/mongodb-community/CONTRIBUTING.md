@@ -2,6 +2,8 @@
 
 ## How to update the dependencies
 
+This chart uses [MongoDB Controllers for Kubernetes Operator](https://www.mongodb.com/docs/kubernetes/current/) ([code](https://github.com/mongodb/mongodb-kubernetes/tree/master/helm_chart)).
+
 ```bash
 # makes sure the repository has been added and refreshed
 helm repo add mongodb https://mongodb.github.io/helm-charts
@@ -20,7 +22,7 @@ helm dependency update
 
 ```bash
 # installs the operator
-helm install community-operator-crds mongodb/community-operator-crds --namespace mongodb --version "0.9.0" --create-namespace --namespace mongodb
+helm install community-operator-crds mongodb/community-operator-crds --namespace mongodb --version "0.13.0" --create-namespace --namespace mongodb
 
 # creates the user(s) secret containing the password value
 kubectl create secret generic mongodb-clusteradmin --from-literal=username=clusteradmin --from-literal=password='S!B\*d$zDsb=' --namespace mongodb
@@ -30,7 +32,7 @@ cat <<EOF | tee values_mine.yaml
 databases:
   - name: mongodb-demo
     members: 3
-    version: "7.0.5"    # https://hub.docker.com/_/mongo/tags
+    version: "8.0"    # https://hub.docker.com/_/mongo/tags
     users:
       - name: clusteradmin
         db: admin

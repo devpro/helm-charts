@@ -9,7 +9,6 @@ It is based on the [official charts](https://mongodb.github.io/helm-charts/) ([c
 
 ```bash
 helm repo add devpro https://devpro.github.io/helm-charts
-helm repo add mongodb https://mongodb.github.io/helm-charts
 helm repo update
 ```
 

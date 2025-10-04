@@ -11,9 +11,9 @@ order: 2
 ## Demo applications
 
 * Cow Demo
-* Devpro Sales Portal
 * E Corp Demo
 * Game 2048
+* [Sales Portal](sales-portal.md)
 
 ## Infrastructure automation
 

@@ -29,12 +29,15 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: 'https://github.com/devpro/helm-charts' }
     ],
-    outline: false
+    outline: false,
+    search: {
+      provider: 'local'
+    }
   },
   markdown: {
     theme: {
       light: 'catppuccin-latte',
-      dark: 'catppuccin-mocha',
+      dark: 'catppuccin-mocha'
     }
   }
 })
