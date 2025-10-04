@@ -24,6 +24,20 @@ entries:
   capi-templates:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2025-10-04T16:19:36.092626342Z"
+    description: Helm chart for Cluster API (CAPI) Templates
+    digest: 960fbc307307e7043fbeb15bdba47dd6efdea571f5bc43e1fcf6b1e6d3609d2b
+    home: https://github.com/devpro/helm-charts/tree/main/charts/capi-templates
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: capi-templates
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/capi-templates-0.1.2/capi-templates-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2025-08-04T09:43:19.49139104Z"
     description: Helm chart for Cluster API (CAPI) Templates
     digest: e81bf795832b938767c13818d74396963f9f2e05ad627ea552c61ce8455b54a6
@@ -130,6 +144,25 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/cow-demo-0.1.0/cow-demo-0.1.0.tgz
     version: 0.1.0
   devpro-salesportal:
+  - apiVersion: v2
+    appVersion: 1.1.18203306613
+    created: "2025-10-04T16:19:36.20105515Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.5.45
+    description: Helm chart for Devpro Sales Portal
+    digest: cc8480fd12803190e072c088971dce39fc100f7fffea480452cac89adc7b2171
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: devpro-salesportal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/devpro-salesportal-0.2.7/devpro-salesportal-0.2.7.tgz
+    version: 0.2.7
   - apiVersion: v2
     appVersion: 1.1.0
     created: "2025-08-04T09:43:19.741279022Z"
@@ -586,6 +619,24 @@ entries:
     version: 0.1.2
   mongodb-community:
   - apiVersion: v2
+    appVersion: 0.13.0
+    created: "2025-10-04T16:19:36.316231992Z"
+    dependencies:
+    - name: community-operator
+      repository: https://mongodb.github.io/helm-charts
+      version: 0.13.0
+    description: Helm chart for MongoDB Community
+    digest: 3b6e9bb0d750836e637409294c3c060afd8a3645440c753d66ceb9ec40a5d90b
+    home: https://github.com/devpro/helm-charts/tree/main/charts/mongodb-community
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: mongodb-community
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/mongodb-community-0.1.1/mongodb-community-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: 0.9.0
     created: "2024-04-25T09:43:11.715945468Z"
     dependencies:
@@ -791,4 +842,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/terraform-backend-mongodb-0.1.0/terraform-backend-mongodb-0.1.0.tgz
     version: 0.1.0
-generated: "2025-09-09T20:15:20.460207478Z"
+generated: "2025-10-04T16:19:36.316348661Z"
