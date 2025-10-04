@@ -1,76 +1,85 @@
 # Longhorn
 
-Let's see how to run [Longhorn](https://longhorn.io/) ([docs](https://longhorn.io/docs/), [code](https://github.com/longhorn/longhorn)) in a Kubernetes cluster.
+Let's see how to run [Longhorn](https://longhorn.io/) in a Kubernetes cluster with the [official Helm chart](https://longhorn.io/docs/deploy/install/install-with-helm/).
+
+📝 [DevPro note](https://tech.devpro.fr/organizations/companies/suse/longhorn/)
+
+## Repository
+
+First, we add the [Helm repository](https://github.com/longhorn/charts):
+
+```bash
+helm repo add longhorn https://charts.longhorn.io
+helm repo update
+```
 
 ## Configuration
 
-We'll use the [official Helm chart](https://longhorn.io/docs/1.9.0/deploy/install/install-with-helm/) ([code](https://github.com/longhorn/charts)):
+Create the `values.yaml` file to override [default parameters.yaml](https://github.com/longhorn/charts/blob/master/charts/longhorn/values.yaml).
 
-- [values.yaml](https://github.com/longhorn/charts/blob/master/charts/longhorn/values.yaml)
+::: code-group
+
+```yaml [Default]
+# persistence:
+#   defaultClass: true
+# longhornUI:
+#   replicas: 2
+```
+
+```yaml [Ingress]
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  host: longhorn.mydomain.io
+  tls: true
+  tlsSecret: longhorn-tls
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/auth-secret: basic-auth
+    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required "
+    nginx.ingress.kubernetes.io/proxy-body-size: 10000m
+```
+
+:::
+
+## Authentication
+
+🌐 [Create an Ingress with Basic Authentication (nginx)](https://longhorn.io/docs/deploy/accessing-the-ui/longhorn-ingress/)
+
+Create a password for the UI:
+
+```bash
+USER=<USERNAME_HERE>; PASSWORD=<PASSWORD_HERE>; echo "${USER}:$(openssl passwd -stdin -apr1 <<< ${PASSWORD})" >> auth
+kubectl -n longhorn-system create secret generic basic-auth --from-file=auth
+```
 
 ## Deployment
 
+Install the application:
+
 ```bash
-# adds Helm chart repository
-helm repo add longhorn https://charts.longhorn.io
-helm repo update
+helm upgrade --install longhorn longhorn/longhorn -f values.yaml --namespace longhorn-system --create-namespace
+```
 
-# installs
-helm upgrade --install longhorn longhorn/longhorn --namespace longhorn-system --create-namespace
+Watch objects being created:
 
-# checks everything is ok
+```bash
 kubectl get pod -n longhorn-system
 kubectl get sc longhorn
+```
 
-# uninstalls
+> [!TIP]
+> A new storage class has been created (default class by default) with the name `longhorn`
+
+If ingress has been set, you can access Longhorn dashboard (web UI).
+
+## Clean-up
+
+Uninstall the application and delete the namespace:
+
+```bash
 helm uninstall longhorn -n longhorn-system
 kubectl delete ns longhorn-system
-```
-
-## Examples
-
-### Kubernetes cluster with NGINX Ingress Controller, UI secured by password, cert-manager and Let's Encrypt issuers
-
-Install Longhorn:
-
-```bash
-# creates a password for the UI (see https://longhorn.io/docs/1.4.0/deploy/accessing-the-ui/longhorn-ingress/)
-USER=<USERNAME_HERE>; PASSWORD=<PASSWORD_HERE>; echo "${USER}:$(openssl passwd -stdin -apr1 <<< ${PASSWORD})" >> auth
-kubectl -n longhorn-system create secret generic basic-auth --from-file=auth
-
-# retrieves public IP
-NGINX_PUBLIC_IP=`kubectl get service -n ingress-nginx ingress-nginx-controller --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
-
-# installs the chart
-helm upgrade --install longhorn . -f values.yaml --namespace longhorn-system --create-namespace \
-  --set longhorn.ingress.enabled=true \
-  --set longhorn.ingress.ingressClassName=nginx \
-  --set longhorn.ingress.host=longhorn.${NGINX_PUBLIC_IP}.sslip.io \
-  --set longhorn.ingress.tls=true \
-  --set 'longhorn.ingress.annotations.cert-manager\.io/cluster-issuer=letsencrypt-prod' \
-  --set 'longhorn.ingress.annotations.nginx\.ingress\.kubernetes\.io/auth-type=basic' \
-  --set 'longhorn.ingress.annotations.nginx\.ingress\.kubernetes\.io/ssl-redirect="false"' \
-  --set 'longhorn.ingress.annotations.nginx\.ingress\.kubernetes\.io/auth-secret=basic-auth' \
-  --set 'longhorn.ingress.annotations.nginx\.ingress\.kubernetes\.io/auth-realm="Authentication Required "' \
-  --set 'longhorn.ingress.annotations.nginx\.ingress\.kubernetes\.io/proxy-body-size=10000m'
-```
-
-Open Longhorn dashboard (UI), in this case `https://longhorn.${NGINX_PUBLIC_IP}.sslip.io/`.
-
-### MariaDB persistence storage
-
-```bash
-# installs MariaDB
-helm upgrade --install mariadb bitnami/mariadb --namespace mariadb-system --create-namespace \
-  --set global.storageClass=longhorn
-
-# checks the pod (state should be Running)
-kubectl get pod -n mariadb-system
-
-# checks the persistent volume and claims (status should be Bound)
-kubectl get pvc,pv -n mariadb-system
-
-# cleans-up resources
-helm delete mariadb -n mariadb-system
-kubectl delete persistentvolumeclaim/data-mariadb-0 -n mariadb-system
 ```
