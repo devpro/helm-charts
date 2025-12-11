@@ -146,6 +146,25 @@ entries:
   devpro-salesportal:
   - apiVersion: v2
     appVersion: 1.1.18203306613
+    created: "2025-12-11T12:26:55.303950501Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.1.10
+    description: Helm chart for Devpro Sales Portal
+    digest: 37596635c1dd0f8cc157de32beeff6d1c0eec71cd03bcfd767b86ad22aff5e90
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: devpro-salesportal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/devpro-salesportal-0.2.8/devpro-salesportal-0.2.8.tgz
+    version: 0.2.8
+  - apiVersion: v2
+    appVersion: 1.1.18203306613
     created: "2025-10-04T16:19:36.20105515Z"
     dependencies:
     - alias: mongodb
@@ -805,6 +824,25 @@ entries:
     version: 0.1.0
   terraform-backend-mongodb:
   - apiVersion: v2
+    appVersion: 1.2.0
+    created: "2025-12-11T12:26:55.543657948Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.1.10
+    description: Helm chart for Terraform Backend MongoDB
+    digest: 690154cba3915fea077c03721834a0a0b56b5a3d1d825df2e2bd6d3ee8c162e5
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: terraform-backend-mongodb
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/terraform-backend-mongodb-0.1.2/terraform-backend-mongodb-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
     appVersion: 1.1.0
     created: "2025-08-04T09:43:20.400841444Z"
     dependencies:
@@ -842,4 +880,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/terraform-backend-mongodb-0.1.0/terraform-backend-mongodb-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-04T16:19:36.316348661Z"
+generated: "2025-12-11T12:26:55.543743106Z"
