@@ -15,6 +15,7 @@ checks:
     - unset-cpu-requirements
     - unset-memory-requirements
     - use-namespace
+    - latest-tag
     # disable for now (need to add users in image Dockerfile)
     - run-as-non-root
     - privileged-ports
