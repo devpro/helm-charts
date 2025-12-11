@@ -29,11 +29,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -65,7 +65,7 @@ jobs:
       # important: it needs to be done in the same pipeline as another pages workflow won't be triggered by the pust on the gh-pages branch
       # (tried with a PAT and several options but didn't work)
       - name: Checkout gh-pages branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: gh-pages
       # - uses: actions/download-artifact@v4
@@ -73,7 +73,7 @@ jobs:
       #     name: docs
       #     path: docs
       - name: Setup Go environment
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
       - name: Generate index.html
         run: |
           go install github.com/halkeye/helm-repo-html@v0.2.1
@@ -92,7 +92,7 @@ jobs:
       #     sudo mkdir -p ./_site/docs
       #     sudo cp -r docs/* ./_site/docs/
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
   deploy:
     runs-on: ubuntu-latest
     needs: build

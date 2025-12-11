@@ -24,12 +24,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           # note: important to have chart-testing work (see https://github.com/helm/chart-testing/issues/186)
           fetch-depth: 0
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -42,7 +42,7 @@ jobs:
         with:
           version: latest
       - name: Install Python
-        uses: actions/setup-python@v5.3.0
+        uses: actions/setup-python@v6
         with:
           python-version: '3.x'
           check-latest: true
@@ -53,7 +53,7 @@ jobs:
           directory: charts
           config: .kube-linter.yaml
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.7.0
+        uses: helm/chart-testing-action@v2.8.0
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       - name: List changed charts
