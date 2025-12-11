@@ -6,6 +6,7 @@ temp*.yaml
 temp.sh
 /charts/temp/
 values_*.y*ml
+values.mine.y*ml
 
 # NPM packages
 node_modules/

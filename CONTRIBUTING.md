@@ -35,7 +35,7 @@ helm template myapp . -f values.yaml --namespace myns > temp.yaml
 Install the application:
 
 ```bash
-helm upgrade --install myapp . -f values.yaml --namespace myns --create-namespace --debug > output.yaml
+helm upgrade --install myapp . -f values.yaml --namespace myns --create-namespace
 ```
 
 ### Run locally CI checks

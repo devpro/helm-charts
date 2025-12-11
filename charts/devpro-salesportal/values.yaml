@@ -3,7 +3,8 @@ front:
   host: sales-portal.random
   name: salesportal-wasmapp
   image: docker.io/devprofr/salesportal-wasmapp
-  tag: 1.1.18203306613
+  # images are hosted on DockerHub: https://hub.docker.com/r/devprofr/salesportal-wasmapp/tags
+  tag: latest             # IMPORTANT: latest should never be used in Production
   port: 80
   replicaCount: 1
   healthEndpoint: /health
@@ -27,7 +28,8 @@ adapter:
   host: crm-adapter.random
   name: salesportal-crmadapterwebapi
   image: docker.io/devprofr/salesportal-crmadapterwebapi
-  tag: 1.1.18203306613
+  # images are hosted on DockerHub: https://hub.docker.com/r/devprofr/salesportal-crmadapterwebapi/tags
+  tag: latest             # IMPORTANT: latest should never be used in Production
   replicaCount: 1
   port: 8080
   healthEndpoint: /health
@@ -43,7 +45,8 @@ data:
   host: crm-data.random
   name: salesportal-crmdatawebapi
   image: docker.io/devprofr/salesportal-crmdatawebapi
-  tag: 1.1.18203306613
+  # images are hosted on DockerHub: https://hub.docker.com/r/devprofr/salesportal-crmdatawebapi/tags
+  tag: latest             # IMPORTANT: latest should never be used in Production
   replicaCount: 1
   port: 8080
   healthEndpoint: /health
@@ -72,9 +75,9 @@ ingress:
   annotations: {}
     # cert-manager.io/cluster-issuer: letsencrypt-prod
 
+# embedded chart configuration: https://github.com/bitnami/charts/blob/main/bitnami/mongodb/values.yaml
 mongodb:
   enabled: false
-# https://github.com/bitnami/charts/blob/main/bitnami/mongodb/values.yaml
   global:
   #   imageRegistry: ""
   #   imagePullSecrets: []
@@ -84,7 +87,7 @@ mongodb:
       allowInsecureImages: true
   image:
     registry: docker.io
-    repository: bitnamisecure/mongodb
-    tag: latest
+    repository: bitnami/mongodb     # other options: chainguard/mongodb
+    tag: latest                     # IMPORTANT: latest should never be used in Production
   auth: {}
     # rootPassword: ""

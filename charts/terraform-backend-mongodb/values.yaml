@@ -4,7 +4,7 @@ webapi:
   name: tfbackend
   image: docker.io/devprofr/terraform-backend-mongodb
   # images are hosted on DockerHub: https://hub.docker.com/r/devprofr/terraform-backend-mongodb/tags
-  tag: 1.1.16541432676
+  tag: latest             # IMPORTANT: latest should never be used in Production
   replicaCount: 1
   port: 80
   containerPort: 8080
@@ -41,8 +41,19 @@ ingress:
   annotations: {}
     # cert-manager.io/cluster-issuer: letsencrypt-prod
 
+# embedded chart configuration: https://github.com/bitnami/charts/blob/main/bitnami/mongodb/values.yaml
 mongodb:
   enabled: false
-  # https://github.com/bitnami/charts/blob/main/bitnami/mongodb/values.yaml
+  global:
+  #   imageRegistry: ""
+  #   imagePullSecrets: []
+  #   defaultStorageClass: ""
+  #   storageClass: ""
+    security:
+      allowInsecureImages: true
+  image:
+    registry: docker.io
+    repository: bitnami/mongodb     # other options: chainguard/mongodb
+    tag: latest                     # IMPORTANT: latest should never be used in Production
   auth: {}
     # rootPassword: ""
