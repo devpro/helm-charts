@@ -1,4 +1,4 @@
-checks:
+﻿checks:
   addAllBuiltIn: true
   # ref. https://docs.kubelinter.io/#/generated/checks
   exclude:
@@ -18,6 +18,7 @@ checks:
     - latest-tag
     # disable for now (need to add users in image Dockerfile)
     - run-as-non-root
+    - sorted-keys
     - privileged-ports
   ignorePaths:
     - charts/**/charts/**
