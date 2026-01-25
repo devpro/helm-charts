@@ -880,4 +880,24 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/terraform-backend-mongodb-0.1.0/terraform-backend-mongodb-0.1.0.tgz
     version: 0.1.0
-generated: "2025-12-11T12:26:55.543743106Z"
+  todoblazor:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-01-25T11:38:36.631224455Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.1.10
+    description: Helm chart for Todo Blazor web application
+    digest: 6f15963f10b5246f788e4f32025f139a9fb4e7aaaf2facf5cec2066c4486f4e7
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: todoblazor
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/todoblazor-0.1.0/todoblazor-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-01-25T11:38:36.631322468Z"
