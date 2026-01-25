@@ -1,0 +1,58 @@
+webapp:
+  enabled: true
+  host: todoblazor.random
+  name: todoblazor
+  image: docker.io/devprofr/todoblazor
+  # images are hosted on DockerHub: https://hub.docker.com/r/devprofr/todoblazor/tags
+  tag: latest             # IMPORTANT: latest should never be used in Production
+  replicaCount: 1
+  port: 80
+  containerPort: 8080
+  healthEndpoint: /health
+  db:
+    connectionString: "someconnstring"
+    databaseName: "somedb"
+  extraEnv: []
+    # - name: xxx
+    #   value: "yyyy"
+  additionalPodLabels: {}
+  tls:
+    secretName: todoblazor-tls
+  resources: {}
+    # limits:
+    #   cpu: 200m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 64Mi
+
+dotnet:
+  environment: Production
+  logLevels:
+    default: Information
+    framework: Information
+    application: Information
+  enableOpenTelemetry: false
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+
+# embedded chart configuration: https://github.com/bitnami/charts/blob/main/bitnami/mongodb/values.yaml
+mongodb:
+  enabled: false
+  global:
+  #   imageRegistry: ""
+  #   imagePullSecrets: []
+  #   defaultStorageClass: ""
+  #   storageClass: ""
+    security:
+      allowInsecureImages: true
+  image:
+    registry: docker.io
+    repository: bitnami/mongodb     # other options: chainguard/mongodb
+    tag: latest                     # IMPORTANT: latest should never be used in Production
+  auth: {}
+    # rootPassword: ""

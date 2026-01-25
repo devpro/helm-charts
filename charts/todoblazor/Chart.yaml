@@ -1,0 +1,15 @@
+apiVersion: v2
+name: todoblazor
+description: Helm chart for Todo Blazor web application
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+dependencies:
+  - name: mongodb
+    version: 18.1.10   # MongoDB 8.2.2
+    repository: https://charts.bitnami.com/bitnami
+    alias: mongodb
+    condition: mongodb.enabled
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr

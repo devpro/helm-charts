@@ -1,4 +1,4 @@
-# Kube Workload Toolkit
+﻿# Kube Workload Toolkit
 
 [![GitLab Pipeline Status](https://gitlab.com/devpro-labs/automation/helm-charts/badges/main/pipeline.svg)](https://gitlab.com/devpro-labs/automation/helm-charts/-/pipelines)
 [![CI](https://github.com/devpro/helm-charts/actions/workflows/ci.yml/badge.svg)](https://github.com/devpro/helm-charts/actions/workflows/ci.yml)
@@ -38,7 +38,7 @@ helm install <package_name>
 
 ### From ArgoCD
 
-* Create a git repository to store Kubernetes definition files (GitOps approach)
+- Create a git repository to store Kubernetes definition files (GitOps approach)
 
 ```yaml
 # wordpress/Chart.yaml
@@ -54,11 +54,11 @@ dependencies:
     repository: https://devpro.github.io/helm-charts
 ```
 
-* Create a new application in ArgoCD to reference the git repository with the path to the folder
+- Create a new application in ArgoCD to reference the git repository with the path to the folder
 
 ### From Fleet
 
-* Create a git repository to store Kubernetes definition files (GitOps approach)
+- Create a git repository to store Kubernetes definition files (GitOps approach)
 
 ```yaml
 # wordpress/fleet.yaml
@@ -70,16 +70,15 @@ helm:
   releaseName: wordpress
 ```
 
-* Create a GitRepo to reference the git repository with the path to the folder
+- Create a GitRepo to reference the git repository with the path to the folder
 
 ### From Rancher
 
-* In your cluster
-  * Go to "Apps" > "Repositories", click on "Create" and enter `https://devpro.github.io/helm-charts` as "Index URL", then click on "Create"
-  * Go to "Apps" > "Charts", look at the available applications (charts) and install the one(s) you want
-
+- In your cluster
+  - Go to "Apps" > "Repositories", click on "Create" and enter `https://devpro.github.io/helm-charts` as "Index URL", then click on "Create"
+  - Go to "Apps" > "Charts", look at the available applications (charts) and install the one(s) you want
 
 ## Samples
 
-* [DevOpsDays Geneva 2023](samples/devopsdays-geneva-2023/README.md)
-* [SUSE Exchange Paris 2023](samples/suse-exchange-paris-2023/README.md)
+- [DevOpsDays Geneva 2023](samples/devopsdays-geneva-2023/README.md)
+- [SUSE Exchange Paris 2023](samples/suse-exchange-paris-2023/README.md)

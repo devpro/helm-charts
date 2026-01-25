@@ -1,0 +1,92 @@
+﻿{{- $applications := list .Values.webapp -}}
+{{ range $applications }}
+{{- $name := .name -}}
+{{- if .enabled -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .name }}
+  labels:
+    app: {{ .name }}
+    app.kubernetes.io/name: {{ .name }}
+spec:
+  replicas: {{ .replicaCount }}
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: {{ .name }}
+      app.kubernetes.io/name: {{ .name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $name }}
+        app.kubernetes.io/name: {{ $name }}
+        {{- if .additionalPodLabels }}
+        {{- toYaml .additionalPodLabels | nindent 8 }}
+        {{- end }}
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: "kubernetes.io/arch"
+                  operator: In
+                  values: ["amd64"]
+      containers:
+        - name: {{ .name }}
+          image: {{ .image }}:{{ .tag }}
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: {{ .containerPort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: {{ .healthEndpoint }}
+              port: http
+          readinessProbe:
+            httpGet:
+              path: {{ .healthEndpoint }}
+              port: http
+          resources:
+            {{- toYaml .resources | nindent 12 }}
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1654   # "app" user
+            runAsGroup: 1654  # "app" group
+            allowPrivilegeEscalation: false
+          env:
+          {{- if .extraEnv }}
+            {{- toYaml .extraEnv | nindent 12 }}
+          {{- end }}
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.hostIP
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "{{ $.Values.dotnet.environment }}"
+            - name: Logging__LogLevel__Default
+              value: {{ $.Values.dotnet.logLevels.default }}
+            - name: Logging__LogLevel__Microsoft.AspNetCore
+              value: {{ $.Values.dotnet.logLevels.framework }}
+            - name: Logging__LogLevel__Devpro
+              value: {{ $.Values.dotnet.logLevels.application }}
+            {{- if $.Values.dotnet.enableOpenTelemetry }}
+            - name: Application__IsOpenTelemetryEnabled
+              value: "true"
+            - name: OpenTelemetry__CollectorEndpoint
+              value: "http://$(HOST_IP):4317"
+            {{- end }}
+            {{- if .db }}
+            - name: DatabaseSettings__ConnectionString
+              value: {{ .db.connectionString }}
+            - name: DatabaseSettings__DatabaseName
+              value: {{ .db.databaseName }}
+            {{- end }}
+      restartPolicy: Always
+{{- end }}
+{{ end }}
