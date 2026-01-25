@@ -1,4 +1,4 @@
-apiVersion: v2
+﻿apiVersion: v2
 name: todoblazor
 description: Helm chart for Todo Blazor web application
 type: application

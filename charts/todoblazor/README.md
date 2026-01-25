@@ -1,4 +1,4 @@
-# Helm chart for Todo Blazor
+﻿# Helm chart for Todo Blazor
 
 This Helm chart will deploy [Todo Blazor](https://github.com/devpro/todo-blazor) on a Kubernetes cluster.
 

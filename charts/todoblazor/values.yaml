@@ -1,4 +1,4 @@
-webapp:
+﻿webapp:
   enabled: true
   host: todoblazor.random
   name: todoblazor
