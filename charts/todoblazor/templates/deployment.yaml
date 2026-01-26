@@ -81,9 +81,21 @@ spec:
             - name: OpenTelemetry__CollectorEndpoint
               value: "http://$(HOST_IP):4317"
             {{- end }}
+            {{- if $.Values.dotnet.enableHttpRedirect }}
+            - name: Features__IsHttpsRedirectionEnabled
+              value: "true"
+            {{- end }}
             {{- if .db }}
+            {{- if .db.connectionStringSecretKeyRef }}
+            - name: DatabaseSettings__ConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .db.connectionStringSecretKeyRef.name }}
+                  key: {{ .db.connectionStringSecretKeyRef.key }}
+            {{- else }}
             - name: DatabaseSettings__ConnectionString
               value: {{ .db.connectionString }}
+            {{- end }}
             - name: DatabaseSettings__DatabaseName
               value: {{ .db.databaseName }}
             {{- end }}
