@@ -25,15 +25,27 @@ helm dependency update
 
 ## Validate on a test cluster
 
+Create the secret with the connection string:
+
+```bash
+kubectl create ns demo
+kubectl create secret generic todoblazor-database \
+  --from-literal=connectionstring='mongodb://root:admin@todoblazor-mongodb:27017/todolist?authSource=admin' \
+  --namespace demo
+```
+
 Create a `values.mine.yaml` file:
 
 ```yaml
 dotnet:
   environment: Development
-  enableOpenTelemetry: false
 webapp:
+  tag: 1.0.21375563304
   db:
-    connectionString: mongodb://root:admin@todoblazor-mongodb:27017/todolist?authSource=admin
+    # connectionString: mongodb://root:admin@todoblazor-mongodb:27017/todolist?authSource=admin
+    connectionStringSecretKeyRef:
+      name: todoblazor-database
+      key: connectionstring
     databaseName: todolist
 ingress:
   enabled: true
@@ -52,7 +64,7 @@ Install or update the application:
 helm upgrade --install todoblazor . \
   -f values.yaml -f values.mine.yaml \
   --set webapp.host=todoblazor.console.$SANDBOX_ID.instruqt.io \
-  --namespace demo --create-namespace
+  --namespace demo
 ```
 
 Check everything is ok in the namespace:
@@ -64,7 +76,7 @@ kubectl get pod,svc,deploy,rs,ingress,secret,pvc -n demo
 Open the web application in a browser:
 
 ```bash
-echo https://todoblazor.console.$SANDBOX_ID.instruqt.io/swagger
+echo https://todoblazor.console.$SANDBOX_ID.instruqt.io
 ```
 
 If needed, debug with:

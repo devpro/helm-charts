@@ -10,7 +10,10 @@
   containerPort: 8080
   healthEndpoint: /health
   db:
-    connectionString: "someconnstring"
+    # connectionString: "someconnstring"
+    # connectionStringSecretKeyRef:
+    #   name: todoblazor-secret
+    #   key: db-connectionstring
     databaseName: "somedb"
   extraEnv: []
     # - name: xxx
@@ -33,6 +36,7 @@ dotnet:
     framework: Information
     application: Information
   enableOpenTelemetry: false
+  enableHttpRedirect: true
 
 ingress:
   enabled: false
