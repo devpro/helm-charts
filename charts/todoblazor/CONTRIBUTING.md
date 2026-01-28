@@ -43,16 +43,20 @@ kubectl create secret generic todoblazor-database \
 Create a `values.mine.yaml` file:
 
 ```yaml
-dotnet:
-  environment: Development
 webapp:
-  tag: 1.0.21375563304
+  tag: 1.0.21398515939
   db:
-    # connectionString: mongodb://root:admin@todoblazor-mongodb:27017/todolist?authSource=admin
     connectionStringSecretKeyRef:
       name: todoblazor-database
       key: connectionstring
     databaseName: todolist
+dotnet:
+  environment: Development
+security:
+  serviceAccount:
+    create: true
+  rbac:
+    giveClusterAdmin: true
 ingress:
   enabled: true
   className: traefik

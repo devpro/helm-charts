@@ -1,4 +1,4 @@
-{{- $applications := list .Values.webapp -}}
+﻿{{- $applications := list .Values.webapp -}}
 {{ range $applications }}
 {{- if .enabled -}}
 ---
@@ -34,6 +34,11 @@ spec:
                 - key: "kubernetes.io/arch"
                   operator: In
                   values: ["amd64"]
+      {{- if $.Values.security.serviceAccount.create }}
+      serviceAccountName: {{ .name }}
+      {{- else }}
+      serviceAccountName: default
+      {{- end }}
       containers:
         - name: {{ .name }}
           image: {{ .image }}:{{ .tag }}
