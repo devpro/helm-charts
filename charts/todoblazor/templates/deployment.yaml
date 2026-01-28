@@ -1,6 +1,5 @@
 ﻿{{- $applications := list .Values.webapp -}}
 {{ range $applications }}
-{{- $name := .name -}}
 {{- if .enabled -}}
 ---
 apiVersion: apps/v1
@@ -21,8 +20,8 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ $name }}
-        app.kubernetes.io/name: {{ $name }}
+        app: {{ .name }}
+        app.kubernetes.io/name: {{ .name }}
         {{- if .additionalPodLabels }}
         {{- toYaml .additionalPodLabels | nindent 8 }}
         {{- end }}
@@ -35,6 +34,11 @@ spec:
                 - key: "kubernetes.io/arch"
                   operator: In
                   values: ["amd64"]
+      {{- if $.Values.security.serviceAccount.create }}
+      serviceAccountName: {{ .name }}
+      {{- else }}
+      serviceAccountName: default
+      {{- end }}
       containers:
         - name: {{ .name }}
           image: {{ .image }}:{{ .tag }}

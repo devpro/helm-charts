@@ -2,7 +2,7 @@
 name: todoblazor
 description: Helm chart for Todo Blazor web application
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "1.0.0"
 dependencies:
   - name: mongodb

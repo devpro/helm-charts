@@ -10,6 +10,7 @@
   containerPort: 8080
   healthEndpoint: /health
   db:
+    # important: connectionString or connectionStringSecretKeyRef must be provided
     # connectionString: "someconnstring"
     # connectionStringSecretKeyRef:
     #   name: todoblazor-secret
@@ -37,6 +38,12 @@ dotnet:
     application: Information
   enableOpenTelemetry: false
   enableHttpRedirect: true
+
+security:
+  serviceAccount:
+    create: false
+  rbac:
+    giveClusterAdmin: false
 
 ingress:
   enabled: false

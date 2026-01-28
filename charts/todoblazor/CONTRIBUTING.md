@@ -23,6 +23,12 @@ Update `Chart.lock`:
 helm dependency update
 ```
 
+## Review the generated manifest
+
+```bash
+helm template todoblazor . -f values.yaml -f values.mine.yaml --namespace demo > temp.yaml
+```
+
 ## Validate on a test cluster
 
 Create the secret with the connection string:
@@ -37,16 +43,20 @@ kubectl create secret generic todoblazor-database \
 Create a `values.mine.yaml` file:
 
 ```yaml
-dotnet:
-  environment: Development
 webapp:
-  tag: 1.0.21375563304
+  tag: 1.0.21398515939
   db:
-    # connectionString: mongodb://root:admin@todoblazor-mongodb:27017/todolist?authSource=admin
     connectionStringSecretKeyRef:
       name: todoblazor-database
       key: connectionstring
     databaseName: todolist
+dotnet:
+  environment: Development
+security:
+  serviceAccount:
+    create: true
+  rbac:
+    giveClusterAdmin: true
 ingress:
   enabled: true
   className: traefik
@@ -83,9 +93,9 @@ If needed, debug with:
 
 - Forward MongoDB port to view the database from Compass (with connection string "mongodb://root:admin@localhost:27017/todolist?authSource=admin")
 
-    ```bash
-    kubectl port-forward svc/todoblazor-mongodb -n demo 27017:27017
-    ```
+  ```bash
+  kubectl port-forward svc/todoblazor-mongodb -n demo 27017:27017
+  ```
 
 - Have a shell in a MongoDB container
 
