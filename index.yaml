@@ -883,6 +883,25 @@ entries:
   todoblazor:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2026-01-28T13:54:19.188099961Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.1.10
+    description: Helm chart for Todo Blazor web application
+    digest: d1a8eff16243f49c44a05eec76d28bbfa47acd150ed823a65edb8a19499cef6f
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: todoblazor
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/todoblazor-0.1.2/todoblazor-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2026-01-26T23:08:56.256464977Z"
     dependencies:
     - alias: mongodb
@@ -919,4 +938,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/todoblazor-0.1.0/todoblazor-0.1.0.tgz
     version: 0.1.0
-generated: "2026-01-26T23:08:56.256572457Z"
+generated: "2026-01-28T13:54:19.188196722Z"
