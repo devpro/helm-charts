@@ -23,6 +23,12 @@ Update `Chart.lock`:
 helm dependency update
 ```
 
+## Review the generated manifest
+
+```bash
+helm template todoblazor . -f values.yaml -f values.mine.yaml --namespace demo > temp.yaml
+```
+
 ## Validate on a test cluster
 
 Create the secret with the connection string:
@@ -83,9 +89,9 @@ If needed, debug with:
 
 - Forward MongoDB port to view the database from Compass (with connection string "mongodb://root:admin@localhost:27017/todolist?authSource=admin")
 
-    ```bash
-    kubectl port-forward svc/todoblazor-mongodb -n demo 27017:27017
-    ```
+  ```bash
+  kubectl port-forward svc/todoblazor-mongodb -n demo 27017:27017
+  ```
 
 - Have a shell in a MongoDB container
 

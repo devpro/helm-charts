@@ -1,6 +1,5 @@
-﻿{{- $applications := list .Values.webapp -}}
+{{- $applications := list .Values.webapp -}}
 {{ range $applications }}
-{{- $name := .name -}}
 {{- if .enabled -}}
 ---
 apiVersion: apps/v1
@@ -21,8 +20,8 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ $name }}
-        app.kubernetes.io/name: {{ $name }}
+        app: {{ .name }}
+        app.kubernetes.io/name: {{ .name }}
         {{- if .additionalPodLabels }}
         {{- toYaml .additionalPodLabels | nindent 8 }}
         {{- end }}

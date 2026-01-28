@@ -1,4 +1,4 @@
-﻿webapp:
+webapp:
   enabled: true
   host: todoblazor.random
   name: todoblazor
@@ -10,6 +10,7 @@
   containerPort: 8080
   healthEndpoint: /health
   db:
+    # important: connectionString or connectionStringSecretKeyRef must be provided
     # connectionString: "someconnstring"
     # connectionStringSecretKeyRef:
     #   name: todoblazor-secret
