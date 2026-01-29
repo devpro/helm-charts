@@ -1,0 +1,8 @@
+﻿argocd:
+  applications: []
+    # - name: root-apps
+    #   namespace: argocd
+    #   project: default
+    #   repository:
+    #   branch:
+    #   path:
