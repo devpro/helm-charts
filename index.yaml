@@ -553,6 +553,20 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/game-2048-0.1.0/game-2048-0.1.0.tgz
     version: 0.1.0
+  gitops-bootstrap:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-01-29T19:57:20.111585735Z"
+    description: Helm chart for managing bootstraping GitOps
+    digest: 1d3e603ad017ce57bb30787fb2ab4d512ff22e47b8dbc3987a44813347fe3be1
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: gitops-bootstrap
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/gitops-bootstrap-0.1.0/gitops-bootstrap-0.1.0.tgz
+    version: 0.1.0
   grafana-stack:
   - apiVersion: v2
     appVersion: 10.3.1
@@ -938,4 +952,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/todoblazor-0.1.0/todoblazor-0.1.0.tgz
     version: 0.1.0
-generated: "2026-01-28T13:54:19.188196722Z"
+generated: "2026-01-29T19:57:20.111688687Z"
