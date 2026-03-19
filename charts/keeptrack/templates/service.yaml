@@ -12,8 +12,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 80
-      targetPort: http
+    - port: {{ .port }}
+      targetPort: {{ .containerPort }}
       protocol: TCP
       name: http
   selector:

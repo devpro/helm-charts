@@ -7,7 +7,10 @@ temp.sh
 /charts/temp/
 values_*.y*ml
 values.mine.y*ml
+
+# secret files
 kubeconfig
+firebase-service-account.json
 
 # NPM packages
 node_modules/

@@ -25,7 +25,24 @@
 
 ## Validate on a test cluster
 
-Create `values.mine.yaml` file:
+Create the namespace and secrets:
+
+```bash
+kubectl create ns demo
+kubectl create secret generic keeptrack-mongodb \
+  --from-literal=mongodb-root-password='admin' \
+  --namespace demo
+kubectl create secret generic keeptrack-app \
+  --from-literal=connectionstring='mongodb://root:admin@keeptrack-mongodb:27017/keeptrack?authSource=admin' \
+  --from-literal=firebaseapikey='***' \
+  --from-literal=firebaseauthdomain='***' \
+  --from-literal=firebaseprojectid='***' \
+  --from-literal=firebaseauthority='***' \
+  --from-file=firebaseserviceaccount=./firebase-service-account.json \
+  --namespace demo
+```
+
+Create a `values.mine.yaml` file:
 
 ```yaml
 blazorapp:
@@ -33,29 +50,28 @@ blazorapp:
 
 webapi:
   db:
-    connectionString: mongodb://root:admin@keeptrack-mongodb:27017/keeptrack_beta?authSource=admin
-    databaseName: keeptrack_beta
+    connectionStringSecretKeyRef:
+      name: keeptrack-app
+      key: connectionstring
 
 firebase:
+  auth:
+    authoritySecretKeyRef:
+      name: keeptrack-app
+      key: firebaseauthority
   webApp:
-    apiKey: "***"
-    projectId: "***"
-  serviceAccount: "***"
-  serviceAccount:
-    type: "service_account"
-    project_id: "***"
-    private_key_id: "***"
-    private_key: "***"
-    client_email: "***"
-    client_id: "***"
-    auth_uri: "***"
-    token_uri: "***"
-    auth_provider_x509_cert_url: "***"
-    client_x509_cert_url: "***"
-    universe_domain: "***"
-
-dotnet:
-  environment: Development
+    apiKeySecretKeyRef:
+      name: keeptrack-app
+      key: firebaseapikey
+    authDomainSecretKeyRef:
+      name: keeptrack-app
+      key: firebaseauthdomain
+    projectIdSecretKeyRef:
+      name: keeptrack-app
+      key: firebaseprojectid
+  serviceAccountSecretKeyRef:
+    name: keeptrack-app
+    key: firebaseserviceaccount
 
 ingress:
   enabled: true
@@ -66,21 +82,34 @@ ingress:
 mongodb:
   enabled: true
   auth:
-    rootPassword: admin
+    existingSecret: keeptrack-mongodb
 ```
 
 Review the manifest:
 
 ```bash
-helm template keeptrack . -f values.yaml -f values.mine.yaml --namespace keeptrack --debug > temp.yaml
+helm template keeptrack . -f values.yaml -f values.mine.yaml --namespace demo --debug > temp.yaml
 ```
 
 Install or update the application:
 
 ```bash
-helm upgrade --install keeptrack . -f values.yaml -f values.mine.yaml --namespace keeptrack --create-namespace
+helm upgrade --install keeptrack . -f values.yaml -f values.mine.yaml --namespace demo --create-namespace
+```
+
+Check everything is ok:
+
+```bash
+kubectl get all -n keeptrack
 ```
 
 Add `keeptrack.console.$SANDBOX_ID.instruqt.io` in the authorized domains in Firebase > (myproject) > Authentication > Settings.
 
 Open the web application in a browser.
+
+At the end, clean everything:
+
+```bash
+helm delete keeptrack -n demo
+kubectl delete ns demo
+```

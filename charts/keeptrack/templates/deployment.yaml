@@ -1,6 +1,5 @@
 ﻿{{- $applications := list .Values.blazorapp .Values.webapi -}}
 {{ range $applications }}
-{{- $name := .name -}}
 {{- if .enabled -}}
 ---
 apiVersion: apps/v1
@@ -21,19 +20,24 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ $name }}
-        app.kubernetes.io/name: {{ $name }}
+        app: {{ .name }}
+        app.kubernetes.io/name: {{ .name }}
         {{- if .additionalPodLabels }}
         {{- toYaml .additionalPodLabels | nindent 8 }}
         {{- end }}
     spec:
+      {{- if $.Values.security.serviceAccount.create }}
+      serviceAccountName: {{ .name }}
+      {{- else }}
+      serviceAccountName: default
+      {{- end }}
       containers:
         - name: {{ .name }}
           image: {{ .image }}:{{ .tag }}
           imagePullPolicy: Always
           ports:
             - name: http
-              containerPort: {{ .port }}
+              containerPort: {{ .containerPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -45,6 +49,11 @@ spec:
               port: http
           resources:
             {{- toYaml .resources | nindent 12 }}
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1654   # "app" user
+            runAsGroup: 1654  # "app" group
+            allowPrivilegeEscalation: false
           env:
           {{- if .extraEnv }}
             {{- toYaml .extraEnv | nindent 12 }}
@@ -73,27 +82,91 @@ spec:
             {{- if eq .role "frontend" }}
             - name: WebApi__BaseUrl
               value: "http://{{ $.Values.webapi.name }}"
+            {{- if $.Values.firebase.webApp.apiKeySecretKeyRef }}
+            - name: Firebase__WebAppConfiguration__ApiKey
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.firebase.webApp.apiKeySecretKeyRef.name }}
+                  key: {{ $.Values.firebase.webApp.apiKeySecretKeyRef.key }}
+            {{- else }}
             - name: Firebase__WebAppConfiguration__ApiKey
               value: "{{ $.Values.firebase.webApp.apiKey }}"
+            {{- end }}
+            {{- if $.Values.firebase.webApp.authDomainSecretKeyRef }}
             - name: Firebase__WebAppConfiguration__AuthDomain
-              value: "{{ $.Values.firebase.webApp.projectId }}.firebaseapp.com"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.firebase.webApp.authDomainSecretKeyRef.name }}
+                  key: {{ $.Values.firebase.webApp.authDomainSecretKeyRef.key }}
+            {{- else }}
+            - name: Firebase__WebAppConfiguration__AuthDomain
+              value: "{{ $.Values.firebase.webApp.authDomain }}"
+            {{- end }}
+            {{- if $.Values.firebase.webApp.projectIdSecretKeyRef }}
+            - name: Firebase__WebAppConfiguration__ProjectId
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.firebase.webApp.projectIdSecretKeyRef.name }}
+                  key: {{ $.Values.firebase.webApp.projectIdSecretKeyRef.key }}
+            {{- else }}
             - name: Firebase__WebAppConfiguration__ProjectId
               value: "{{ $.Values.firebase.webApp.projectId }}"
+            {{- end }}
+            {{- if $.Values.firebase.serviceAccountSecretKeyRef }}
             - name: Firebase__ServiceAccount
-              value:  {{ $.Values.firebase.serviceAccount | toJson | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.firebase.serviceAccountSecretKeyRef.name }}
+                  key: {{ $.Values.firebase.serviceAccountSecretKeyRef.key }}
+            {{- else }}
+            - name: Firebase__ServiceAccount
+              value: {{ $.Values.firebase.serviceAccount | toJson | quote }}
+            {{- end }}
             {{- else if eq .role "backend" }}
             - name: AllowedOrigins__0
               value: "https://{{ $.Values.blazorapp.host }}"
             - name: AllowedOrigins__0
               value: "http://{{ $.Values.blazorapp.name }}"
+            {{- if $.Values.firebase.auth.authoritySecretKeyRef }}
+            - name: Authentication__JwtBearer__Authority
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.firebase.auth.authoritySecretKeyRef.name }}
+                  key: {{ $.Values.firebase.auth.authoritySecretKeyRef.key }}
+            {{- else }}
             - name: Authentication__JwtBearer__Authority
               value: "https://securetoken.google.com/{{ $.Values.firebase.webApp.projectId }}"
+            {{- end }}
+            {{- if $.Values.firebase.webApp.projectIdSecretKeyRef }}
+            - name: Authentication__JwtBearer__TokenValidation__Audience
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.firebase.webApp.projectIdSecretKeyRef.name }}
+                  key: {{ $.Values.firebase.webApp.projectIdSecretKeyRef.key }}
+            {{- else }}
             - name: Authentication__JwtBearer__TokenValidation__Audience
               value: "{{ $.Values.firebase.webApp.projectId }}"
+            {{- end }}
+            {{- if $.Values.firebase.auth.authoritySecretKeyRef }}
+            - name: Authentication__JwtBearer__TokenValidation__Issuer
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.firebase.auth.authoritySecretKeyRef.name }}
+                  key: {{ $.Values.firebase.auth.authoritySecretKeyRef.key }}
+            {{- else }}
             - name: Authentication__JwtBearer__TokenValidation__Issuer
               value: "https://securetoken.google.com/{{ $.Values.firebase.webApp.projectId }}"
+            {{- end }}
+            {{- if .db.connectionStringSecretKeyRef }}
+            - name: Infrastructure__MongoDB__ConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .db.connectionStringSecretKeyRef.name }}
+                  key: {{ .db.connectionStringSecretKeyRef.key }}
+            {{- else }}
             - name: Infrastructure__MongoDB__ConnectionString
               value: {{ .db.connectionString }}
+            {{- end }}
             - name: Infrastructure__MongoDB__DatabaseName
               value: {{ .db.databaseName }}
             {{- end }}

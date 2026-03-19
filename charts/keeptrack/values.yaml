@@ -3,13 +3,14 @@
   role: frontend
   name: keeptrack-blazorapp
   image: docker.io/devprofr/keeptrack-blazorapp
-  port: 8080
+  port: 80
+  containerPort: 8080
   healthEndpoint: /health
   tls:
     secretName: keeptrack-blazorapp-tls
   # optional
-  replicaCount: 1
   tag: 1.1.23099092819      # ref. https://hub.docker.com/r/devprofr/keeptrack-blazorapp/tags
+  replicaCount: 1
   resources: {}
     # limits:
     #   cpu: 200m
@@ -29,7 +30,8 @@ webapi:
   role: backend
   name: keeptrack-webapi
   image: docker.io/devprofr/keeptrack-webapi
-  port: 8080
+  port: 80
+  containerPort: 8080
   healthEndpoint: /health
   tls:
     secretName: keeptrack-webapi-tls
@@ -42,8 +44,12 @@ webapi:
   additionalPodLabels: {}
   # mandatory
   db:
-    connectionString: ""
-    databaseName: ""
+    # important: connectionString or connectionStringSecretKeyRef must be provided
+    # connectionStringSecretKeyRef:
+    #   name: ""
+    #   key: ""
+    # connectionString: "someconnstring"
+    databaseName: "keeptrack"
 
 dotnet:
   environment: Production
@@ -54,23 +60,40 @@ dotnet:
   scalarEnabled: false
   httpsRedirectionEnabled: false
 
+security:
+  serviceAccount:
+    create: false
+
 # mandatory
 firebase:
   webApp:
-    apiKey: ""
-    projectId: ""
-  serviceAccount:
-    type: "service_account"
-    project_id: ""
-    private_key_id: ""
-    private_key: ""
-    client_email: ""
-    client_id: ""
-    auth_uri: ""
-    token_uri: ""
-    auth_provider_x509_cert_url: ""
-    client_x509_cert_url: ""
-    universe_domain: ""
+    # apiKeySecretKeyRef:
+    #   name: ""
+    #   key: ""
+    # apiKey: ""
+    # authDomainSecretKeyRef:
+    #   name: ""
+    #   key: ""
+    # authDomain: ""
+    # projectIdSecretKeyRef:
+    #   name: ""
+    #   key: ""
+    # projectId: ""
+  # serviceAccountSecretKeyRef:
+    #   name: ""
+    #   key: ""
+  # serviceAccount:
+  #   type: "service_account"
+  #   project_id: ""
+  #   private_key_id: ""
+  #   private_key: ""
+  #   client_email: ""
+  #   client_id: ""
+  #   auth_uri: ""
+  #   token_uri: ""
+  #   auth_provider_x509_cert_url: ""
+  #   client_x509_cert_url: ""
+  #   universe_domain: ""
 
 ingress:
   enabled: false
@@ -94,3 +117,4 @@ mongodb:
     tag: latest                     # IMPORTANT: latest should never be used in Production
   auth: {}
     # rootPassword: ""
+    # existingSecret: ""
