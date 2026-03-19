@@ -1,0 +1,86 @@
+﻿blazorapp:
+  enabled: true
+  role: frontend
+  name: keeptrack-blazorapp
+  image: docker.io/devprofr/keeptrack-blazorapp
+  port: 8080
+  healthEndpoint: /health
+  tls:
+    secretName: keeptrack-blazorapp-tls
+  # optional
+  replicaCount: 1
+  tag: 1.1.23099092819      # ref. https://hub.docker.com/r/devprofr/keeptrack-blazorapp/tags
+  resources: {}
+    # limits:
+    #   cpu: 200m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 64Mi
+  extraEnv: []
+    # - name: xxx
+    #   value: "yyyy"
+  additionalPodLabels: {}
+  # mandatory
+  host: ""
+
+webapi:
+  enabled: true
+  role: backend
+  name: keeptrack-webapi
+  image: docker.io/devprofr/keeptrack-webapi
+  port: 8080
+  healthEndpoint: /health
+  tls:
+    secretName: keeptrack-webapi-tls
+  # optional
+  host: ""
+  replicaCount: 1
+  tag: 1.1.23099092819    # ref. https://hub.docker.com/r/devprofr/keeptrack-webapi/tags
+  resources: {}
+  extraEnv: []
+  additionalPodLabels: {}
+  # mandatory
+  db:
+    connectionString: ""
+    databaseName: ""
+
+dotnet:
+  environment: Production
+  logLevels:
+    default: Information
+    framework: Information
+    application: Information
+  scalarEnabled: false
+  httpsRedirectionEnabled: false
+
+# mandatory
+firebase:
+  webApp:
+    apiKey: ""
+    authDomain: ""
+    projectId: ""
+  serviceAccount: ""
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+
+# embedded chart configuration: https://github.com/bitnami/charts/blob/main/bitnami/mongodb/values.yaml
+mongodb:
+  enabled: false
+  global:
+  #   imageRegistry: ""
+  #   imagePullSecrets: []
+  #   defaultStorageClass: ""
+  #   storageClass: ""
+    security:
+      allowInsecureImages: true
+  image:
+    registry: docker.io
+    repository: bitnami/mongodb     # other options: chainguard/mongodb
+    tag: latest                     # IMPORTANT: latest should never be used in Production
+  auth: {}
+    # rootPassword: ""
