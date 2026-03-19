@@ -125,7 +125,7 @@ spec:
             {{- else if eq .role "backend" }}
             - name: AllowedOrigins__0
               value: "https://{{ $.Values.blazorapp.host }}"
-            - name: AllowedOrigins__0
+            - name: AllowedOrigins__1
               value: "http://{{ $.Values.blazorapp.name }}"
             {{- if $.Values.firebase.auth.authoritySecretKeyRef }}
             - name: Authentication__JwtBearer__Authority
