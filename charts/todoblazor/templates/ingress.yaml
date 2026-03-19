@@ -1,6 +1,6 @@
 ﻿{{- $applications := list .Values.webapp -}}
 {{ range $applications }}
-{{- if and $.Values.ingress.enabled .enabled -}}
+{{- if and $.Values.ingress.enabled .enabled .host -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
