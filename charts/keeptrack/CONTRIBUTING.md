@@ -100,7 +100,7 @@ helm upgrade --install keeptrack . -f values.yaml -f values.mine.yaml --namespac
 Check everything is ok:
 
 ```bash
-kubectl get all -n keeptrack
+kubectl get all -n demo
 ```
 
 Add `keeptrack.console.$SANDBOX_ID.instruqt.io` in the authorized domains in Firebase > (myproject) > Authentication > Settings.
