@@ -1,4 +1,4 @@
-# local downloaded chart compressed files
+﻿# local downloaded chart compressed files
 /**/charts/*.tgz
 
 # local temporary files
@@ -7,6 +7,7 @@ temp.sh
 /charts/temp/
 values_*.y*ml
 values.mine.y*ml
+kubeconfig
 
 # NPM packages
 node_modules/

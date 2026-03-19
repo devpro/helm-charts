@@ -1,4 +1,4 @@
-{{- $applications := list .Values.front .Values.adapter .Values.data -}}
+﻿{{- $applications := list .Values.blazorapp .Values.webapi -}}
 {{ range $applications }}
 {{- if .enabled -}}
 ---

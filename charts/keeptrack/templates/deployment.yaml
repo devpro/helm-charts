@@ -1,4 +1,4 @@
-﻿{{- $applications := list .Values.front .Values.adapter .Values.data -}}
+﻿{{- $applications := list .Values.blazorapp .Values.webapi -}}
 {{ range $applications }}
 {{- $name := .name -}}
 {{- if .enabled -}}
@@ -76,11 +76,11 @@ spec:
             - name: Firebase__WebAppConfiguration__ApiKey
               value: "{{ $.Values.firebase.webApp.apiKey }}"
             - name: Firebase__WebAppConfiguration__AuthDomain
-              value: "{{ $.Values.firebase.webApp.authDomain }}"
+              value: "{{ $.Values.firebase.webApp.projectId }}.firebaseapp.com"
             - name: Firebase__WebAppConfiguration__ProjectId
               value: "{{ $.Values.firebase.webApp.projectId }}"
             - name: Firebase__ServiceAccount
-              value: "{{ $.Values.firebase.serviceAccount }}"
+              value:  {{ $.Values.firebase.serviceAccount | toJson | quote }}
             {{- else if eq .role "backend" }}
             - name: AllowedOrigins__0
               value: "https://{{ $.Values.blazorapp.host }}"
