@@ -1,9 +1,9 @@
 ﻿apiVersion: v2
-name: todoblazor
-description: Helm chart for Todo Blazor web application
+name: keeptrack
+description: Helm chart for Keeptrack
 type: application
-version: 0.1.3
-appVersion: "1.0.0"
+version: 0.1.0
+appVersion: "1.1.18203306613"
 dependencies:
   - name: mongodb
     version: 18.6.16   # MongoDB 8.2.6

@@ -26,7 +26,7 @@ helm dependency update
 ## Review the generated manifest
 
 ```bash
-helm template todoblazor . -f values.yaml -f values.mine.yaml --namespace demo > temp.yaml
+helm template todoblazor . -f values.yaml -f values.mine.yaml --namespace demo --debug > temp.yaml
 ```
 
 ## Validate on a test cluster
@@ -35,8 +35,11 @@ Create the secret with the connection string:
 
 ```bash
 kubectl create ns demo
-kubectl create secret generic todoblazor-database \
-  --from-literal=connectionstring='mongodb://root:admin@todoblazor-mongodb:27017/todolist?authSource=admin' \
+kubectl create secret generic todoblazor-mongodb \
+  --from-literal=mongodb-root-password='admin' \
+  --namespace demo
+kubectl create secret generic todoblazor-webapp \
+  --from-literal=connectionstring='mongodb://root:admin@todoblazor-mongodb:27017/todoblazor?authSource=admin' \
   --namespace demo
 ```
 
@@ -44,19 +47,11 @@ Create a `values.mine.yaml` file:
 
 ```yaml
 webapp:
-  tag: 1.0.21398515939
+  host: todoblazor.console.$SANDBOX_ID.instruqt.io
   db:
     connectionStringSecretKeyRef:
-      name: todoblazor-database
+      name: todoblazor-webapp
       key: connectionstring
-    databaseName: todolist
-dotnet:
-  environment: Development
-security:
-  serviceAccount:
-    create: true
-  rbac:
-    giveClusterAdmin: true
 ingress:
   enabled: true
   className: traefik
@@ -65,16 +60,13 @@ ingress:
 mongodb:
   enabled: true
   auth:
-    rootPassword: admin
+    existingSecret: todoblazor-mongodb
 ```
 
 Install or update the application:
 
 ```bash
-helm upgrade --install todoblazor . \
-  -f values.yaml -f values.mine.yaml \
-  --set webapp.host=todoblazor.console.$SANDBOX_ID.instruqt.io \
-  --namespace demo
+helm upgrade --install todoblazor . -f values.yaml -f values.mine.yaml --namespace demo
 ```
 
 Check everything is ok in the namespace:

@@ -1,27 +1,15 @@
 ﻿webapp:
   enabled: true
-  host: todoblazor.random
   name: todoblazor
   image: docker.io/devprofr/todoblazor
-  # images are hosted on DockerHub: https://hub.docker.com/r/devprofr/todoblazor/tags
-  tag: latest             # IMPORTANT: latest should never be used in Production
-  replicaCount: 1
   port: 80
   containerPort: 8080
   healthEndpoint: /health
-  db:
-    # important: connectionString or connectionStringSecretKeyRef must be provided
-    # connectionString: "someconnstring"
-    # connectionStringSecretKeyRef:
-    #   name: todoblazor-secret
-    #   key: db-connectionstring
-    databaseName: "somedb"
-  extraEnv: []
-    # - name: xxx
-    #   value: "yyyy"
-  additionalPodLabels: {}
   tls:
     secretName: todoblazor-tls
+  # optional
+  tag: 1.1.22760735534    # ref. https://hub.docker.com/r/devprofr/todoblazor/tags
+  replicaCount: 1
   resources: {}
     # limits:
     #   cpu: 200m
@@ -29,6 +17,19 @@
     # requests:
     #   cpu: 100m
     #   memory: 64Mi
+  extraEnv: []
+    # - name: xxx
+    #   value: "yyyy"
+  additionalPodLabels: {}
+  # mandatory
+  host: ""
+  db:
+    # important: connectionString or connectionStringSecretKeyRef must be provided
+    # connectionString: "someconnstring"
+    # connectionStringSecretKeyRef:
+    #   name: todoblazor-secret
+    #   key: db-connectionstring
+    databaseName: "todoblazor"
 
 dotnet:
   environment: Production
@@ -36,8 +37,7 @@ dotnet:
     default: Information
     framework: Information
     application: Information
-  enableOpenTelemetry: false
-  enableHttpRedirect: true
+  httpsRedirectionEnabled: false
 
 security:
   serviceAccount:
@@ -67,3 +67,4 @@ mongodb:
     tag: latest                     # IMPORTANT: latest should never be used in Production
   auth: {}
     # rootPassword: ""
+    # existingSecret:

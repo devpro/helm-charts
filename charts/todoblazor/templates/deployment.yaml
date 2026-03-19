@@ -26,14 +26,6 @@ spec:
         {{- toYaml .additionalPodLabels | nindent 8 }}
         {{- end }}
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                - key: "kubernetes.io/arch"
-                  operator: In
-                  values: ["amd64"]
       {{- if $.Values.security.serviceAccount.create }}
       serviceAccountName: {{ .name }}
       {{- else }}
@@ -79,17 +71,10 @@ spec:
               value: {{ $.Values.dotnet.logLevels.framework }}
             - name: Logging__LogLevel__Devpro
               value: {{ $.Values.dotnet.logLevels.application }}
-            {{- if $.Values.dotnet.enableOpenTelemetry }}
-            - name: Application__IsOpenTelemetryEnabled
-              value: "true"
-            - name: OpenTelemetry__CollectorEndpoint
-              value: "http://$(HOST_IP):4317"
-            {{- end }}
-            {{- if $.Values.dotnet.enableHttpRedirect }}
+            {{- if $.Values.dotnet.httpsRedirectionEnabled }}
             - name: Features__IsHttpsRedirectionEnabled
               value: "true"
             {{- end }}
-            {{- if .db }}
             {{- if .db.connectionStringSecretKeyRef }}
             - name: DatabaseSettings__ConnectionString
               valueFrom:
@@ -102,7 +87,6 @@ spec:
             {{- end }}
             - name: DatabaseSettings__DatabaseName
               value: {{ .db.databaseName }}
-            {{- end }}
       restartPolicy: Always
 {{- end }}
 {{ end }}

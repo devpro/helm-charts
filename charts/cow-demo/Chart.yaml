@@ -1,8 +1,8 @@
-apiVersion: v2
+﻿apiVersion: v2
 name: cow-demo
 description: Helm chart for Cow Demo Application
 type: application
-version: 0.2.2
+version: 0.2.3
 appVersion: "2.0.0"
 maintainers:
   - name: devpro
