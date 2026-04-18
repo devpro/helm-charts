@@ -4,18 +4,19 @@
   ACCESS THE APP
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-{{- if eq .Values.service.type "NodePort" }}
-Get the Node IP:
-  export NODE_IP=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
+{{- if and .Values.ingress.enabled .Values.ingress.domain }}
+  {{- if .Values.ingress.tls.enabled }}
+  URL: https://{{ .Values.ingress.domain }}
+  {{- else }}
+  URL: http://{{ .Values.ingress.domain }}
+  {{- end }}
 
-Open in browser:
-  http://$NODE_IP:{{ .Values.service.nodePort }}
-{{- else if eq .Values.service.type "ClusterIP" }}
-Forward the port:
-  kubectl port-forward svc/{{ include "dvwa.fullname" . }} 8080:80 -n {{ .Release.Namespace }}
-
-Open in browser:
-  http://localhost:8080
+  TLS certificate will be issued automatically by cert-manager.
+  Check status: kubectl get certificate -n {{ .Release.Namespace }}
+{{- else }}
+  Port-forward:
+    kubectl port-forward svc/{{ include "dvwa.fullname" . }} 8080:80 -n {{ .Release.Namespace }}
+  Then open: http://localhost:8080
 {{- end }}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -35,17 +36,21 @@ Open in browser:
 
 Current security level: {{ .Values.dvwa.securityLevel | upper }}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  WORKSHOP EXERCISES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Available vulnerabilities to explore:
-  • SQL Injection
-  • Command Injection
-  • XSS (Reflected & Stored)
-  • File Inclusion / Path Traversal
-  • File Upload (arbitrary)
-  • CSRF
-  • Brute Force
-  • Insecure CAPTCHA
+Change security level mid-workshop:
+  helm upgrade {{ .Release.Name }} ./dvwa -n {{ .Release.Namespace }} \
+    --set ingress.domain={{ .Values.ingress.domain }} \
+    --set dvwa.securityLevel=medium
 
-⚠️  FOR WORKSHOP USE ONLY — never expose to the internet!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  USEFUL COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # Certificate status
+  kubectl get certificate,certificaterequest -n {{ .Release.Namespace }}
+
+  # Pod logs
+  kubectl logs -l app.kubernetes.io/name=dvwa -n {{ .Release.Namespace }} -c dvwa
+
+  # MariaDB logs
+  kubectl logs -l app.kubernetes.io/name=dvwa -n {{ .Release.Namespace }} -c mariadb
+
+⚠️  FOR WORKSHOP USE ONLY — never expose to the internet long-term!

@@ -1,35 +1,36 @@
-{{- if .Values.ingress.enabled -}}
+﻿{{- if .Values.ingress.enabled -}}
+{{- if not .Values.ingress.domain }}
+  {{- fail "ingress.domain is required when ingress.enabled=true. Set it with --set ingress.domain=dvwa.yourdomain.com" }}
+{{- end }}
+{{- $fullName := include "dvwa.fullname" . }}
+{{- $tlsSecret := .Values.ingress.tls.secretName | default (printf "%s-tls" $fullName) }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "dvwa.fullname" . }}
+  name: {{ $fullName }}
   labels:
     {{- include "dvwa.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
+    {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
-  {{- end }}
+    {{- end }}
 spec:
-  {{- if .Values.ingress.className }}
-  ingressClassName: {{ .Values.ingress.className }}
-  {{- end }}
-  {{- if .Values.ingress.tls }}
+  ingressClassName: {{ .Values.ingress.className | quote }}
+  {{- if .Values.ingress.tls.enabled }}
   tls:
-    {{- toYaml .Values.ingress.tls | nindent 4 }}
+    - hosts:
+        - {{ .Values.ingress.domain | quote }}
+      secretName: {{ $tlsSecret | quote }}
   {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
+    - host: {{ .Values.ingress.domain | quote }}
       http:
         paths:
-          {{- range .paths }}
-          - path: {{ .path }}
-            pathType: {{ .pathType }}
+          - path: /
+            pathType: Prefix
             backend:
               service:
-                name: {{ include "dvwa.fullname" $ }}
+                name: {{ $fullName }}
                 port:
-                  number: {{ $.Values.service.port }}
-          {{- end }}
-    {{- end }}
+                  number: {{ .Values.service.port }}
 {{- end }}
