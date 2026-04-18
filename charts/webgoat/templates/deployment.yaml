@@ -1,0 +1,107 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "webgoat.fullname" . }}
+  labels:
+    {{- include "webgoat.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "webgoat.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "webgoat.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      containers:
+        - name: webgoat
+          image: "{{ .Values.webgoat.image.repository }}:{{ .Values.webgoat.image.tag }}"
+          imagePullPolicy: {{ .Values.webgoat.image.pullPolicy }}
+          ports:
+            - name: webgoat
+              containerPort: {{ .Values.webgoat.port }}
+              protocol: TCP
+          env:
+            - name: WEBWOLF_HOST
+              value: "localhost"
+            - name: WEBWOLF_PORT
+              value: {{ .Values.webwolf.port | quote }}
+            - name: WEBGOAT_HOST
+              value: {{ if .Values.ingress.domain }}{{ printf "webgoat.%s" .Values.ingress.domain | quote }}{{ else }}"localhost"{{ end }}
+            - name: SERVER_PORT
+              value: {{ .Values.webgoat.port | quote }}
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /WebGoat/login
+              port: {{ .Values.webgoat.port }}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 12
+          livenessProbe:
+            httpGet:
+              path: /WebGoat/login
+              port: {{ .Values.webgoat.port }}
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          {{- if .Values.persistence.enabled }}
+          volumeMounts:
+            - name: webgoat-data
+              mountPath: /root/.webgoat
+          {{- end }}
+
+        - name: webwolf
+          image: "{{ .Values.webwolf.image.repository }}:{{ .Values.webwolf.image.tag }}"
+          imagePullPolicy: {{ .Values.webwolf.image.pullPolicy }}
+          ports:
+            - name: webwolf
+              containerPort: {{ .Values.webwolf.port }}
+              protocol: TCP
+          env:
+            - name: SERVER_PORT
+              value: {{ .Values.webwolf.port | quote }}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /landing
+              port: {{ .Values.webwolf.port }}
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 10
+
+      {{- if .Values.persistence.enabled }}
+      volumes:
+        - name: webgoat-data
+          persistentVolumeClaim:
+            claimName: {{ include "webgoat.fullname" . }}-data
+      {{- end }}
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

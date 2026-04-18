@@ -1,0 +1,51 @@
+﻿replicaCount: 1
+
+webgoat:
+  image:
+    repository: webgoat/webgoat
+    tag: "2023.8"
+    pullPolicy: IfNotPresent
+  port: 8080
+
+webwolf:
+  image:
+    repository: webgoat/webwolf
+    tag: "2023.8"
+    pullPolicy: IfNotPresent
+  port: 9090
+
+service:
+  type: ClusterIP
+  webgoatPort: 8080
+  webwolfPort: 9090
+
+ingress:
+  enabled: false
+  className: ""
+  # subdomains are prefixed automatically from the base domain (e.g. webgoat.workshop.example.com and webwolf.workshop.example.com)
+  domain: ""
+  tls:
+    enabled: false
+  annotations: {}
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+podSecurityContext: {}
+securityContext: {}
+
+persistence:
+  enabled: false
+  storageClass: ""
+  size: 1Gi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

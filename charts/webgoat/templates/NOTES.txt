@@ -1,0 +1,32 @@
+🎯 WebGoat + WebWolf deployed!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ACCESS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{{- if and .Values.ingress.enabled .Values.ingress.domain }}
+  WebGoat : https://webgoat.{{ .Values.ingress.domain }}/WebGoat
+  WebWolf : https://webwolf.{{ .Values.ingress.domain }}/landing
+
+  TLS certificates issued automatically by cert-manager.
+  Check: kubectl get certificate -n {{ .Release.Namespace }}
+{{- else }}
+  kubectl port-forward svc/{{ include "webgoat.fullname" . }} 8080:8080 9090:9090 -n {{ .Release.Namespace }}
+  WebGoat : http://localhost:8080/WebGoat
+  WebWolf : http://localhost:9090/landing
+{{- end }}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  FIRST-TIME SETUP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  1. Wait ~45s for the JVM to start
+  2. Browse to WebGoat URL above
+  3. Click "Register new user" — create any account
+  4. Same credentials work in WebWolf
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  USEFUL COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  kubectl logs -l app.kubernetes.io/name=webgoat -n {{ .Release.Namespace }} -c webgoat -f
+  kubectl logs -l app.kubernetes.io/name=webgoat -n {{ .Release.Namespace }} -c webwolf -f
+
+⚠️  FOR WORKSHOP USE ONLY

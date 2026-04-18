@@ -1,0 +1,69 @@
+﻿{{- if .Values.ingress.enabled -}}
+{{- if not .Values.ingress.domain }}
+  {{- fail "ingress.domain is required when ingress.enabled=true. Set it with --set ingress.domain=workshop.example.com" }}
+{{- end }}
+{{- $fullName := include "webgoat.fullname" . }}
+{{- $webgoatHost := printf "webgoat.%s" .Values.ingress.domain }}
+{{- $webwolfHost := printf "webwolf.%s" .Values.ingress.domain }}
+{{- $webgoatTLSSecret := printf "%s-webgoat-tls" $fullName }}
+{{- $webwolfTLSSecret := printf "%s-webwolf-tls" $fullName }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-webgoat
+  labels:
+    {{- include "webgoat.labels" . | nindent 4 }}
+  annotations:
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className | quote }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts:
+        - {{ $webgoatHost | quote }}
+      secretName: {{ $webgoatTLSSecret | quote }}
+  {{- end }}
+  rules:
+    - host: {{ $webgoatHost | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ .Values.service.webgoatPort }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-webwolf
+  labels:
+    {{- include "webgoat.labels" . | nindent 4 }}
+  annotations:
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className | quote }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts:
+        - {{ $webwolfHost | quote }}
+      secretName: {{ $webwolfTLSSecret | quote }}
+  {{- end }}
+  rules:
+    - host: {{ $webwolfHost | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ .Values.service.webwolfPort }}
+{{- end }}

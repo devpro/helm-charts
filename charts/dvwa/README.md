@@ -26,15 +26,6 @@ Install the chart:
 helm upgrade --install dvwa devpro/dvwa -f values.yaml --namespace dvwa --create-namespace
 ```
 
-Verify the installation:
-
-```bash
-kubectl rollout status deployment/dvwa-dvwa -n dvwa
-
-export NODE_IP=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
-echo "Open: http://$NODE_IP:30080"
-```
-
 ### First-time Setup
 
 1. Browse to the URL above
@@ -49,8 +40,6 @@ Key                   | Default    | Description
 `dvwa.adminUsername`  | `admin`    | DVWA login
 `dvwa.adminPassword`  | `password` | DVWA password
 `dvwa.securityLevel`  | `low`      | `low` / `medium` / `high` / `impossible`
-`service.type`        | `NodePort` | Service type
-`service.nodePort`    | `30080`    | NodePort value
 `persistence.enabled` | `false`    | Persist MariaDB data across pod restarts
 
 ## Security Level
@@ -73,5 +62,4 @@ kubectl delete namespace dvwa
 Check the [contribution guide](CONTRIBUTING.md).
 
 ---
-
 > ⚠️ **FOR WORKSHOP USE ONLY** — intentionally vulnerable, never expose to the internet.
