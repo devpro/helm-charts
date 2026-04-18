@@ -1,0 +1,55 @@
+﻿replicaCount: 1
+
+image:
+  repository: ghcr.io/digininja/dvwa
+  pullPolicy: Always
+  tag: "latest"
+
+dvwa:
+  adminUsername: admin
+  adminPassword: password
+  # security level: low, medium, high, impossible
+  securityLevel: low
+
+# MariaDB (bundled sidecar)
+mariadb:
+  image: mariadb:12.2
+  rootPassword: dvwa
+  database: dvwa
+  username: dvwa
+  password: dvwa
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  domain: ""        # e.g. dvwa.workshop.example.com
+  className: ""     # e.g. traefik
+  tls:
+    enabled: false
+    secretName: ""  # defaults to "<release>-dvwa-tls if empty"
+  annotations: {}
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd  # forces HTTPS redirect via Traefik middleware
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+podSecurityContext: {}
+securityContext: {}
+
+persistence:
+  enabled: false
+  storageClass: ""
+  size: 1Gi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

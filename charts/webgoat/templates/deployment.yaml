@@ -1,0 +1,93 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "webgoat.fullname" . }}
+  labels:
+    {{- include "webgoat.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      {{- include "webgoat.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "webgoat.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: webgoat
+          image: "{{ .Values.webgoat.image.repository }}:{{ .Values.webgoat.image.tag }}"
+          imagePullPolicy: {{ .Values.webgoat.image.pullPolicy }}
+          ports:
+            - name: webgoat
+              containerPort: 8080
+              protocol: TCP
+            - name: webwolf
+              containerPort: 9090
+              protocol: TCP
+          env:
+            - name: TZ
+              value: "Europe/Amsterdam"
+            - name: WEBGOAT_HOST
+              value: {{ if .Values.ingress.domain }}{{ printf "webgoat.%s" .Values.ingress.domain | quote }}{{ else }}"localhost"{{ end }}
+            - name: WEBWOLF_HOST
+              value: {{ if .Values.ingress.domain }}{{ printf "webwolf.%s" .Values.ingress.domain | quote }}{{ else }}"localhost"{{ end }}
+            - name: WEBGOAT_PORT
+              value: "8080"
+            - name: WEBWOLF_PORT
+              value: "9090"
+            {{- if .Values.ingress.enabled }}
+            - name: WEBGOAT_URL
+              value: {{ printf "%s://webgoat.%s/WebGoat" (ternary "https" "http" .Values.ingress.tls.enabled) .Values.ingress.domain | quote }}
+            - name: WEBWOLF_URL
+              value: {{ printf "%s://webwolf.%s/WebWolf" (ternary "https" "http" .Values.ingress.tls.enabled) .Values.ingress.domain | quote }}
+            {{- end }}
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /WebGoat/login
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            failureThreshold: 12
+          livenessProbe:
+            httpGet:
+              path: /WebGoat/login
+              port: 8080
+            initialDelaySeconds: 90
+            periodSeconds: 20
+          {{- if .Values.persistence.enabled }}
+          volumeMounts:
+            - name: webgoat-data
+              mountPath: /root/.webgoat
+          {{- end }}
+      {{- if .Values.persistence.enabled }}
+      volumes:
+        - name: webgoat-data
+          persistentVolumeClaim:
+            claimName: {{ include "webgoat.fullname" . }}-data
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: Always

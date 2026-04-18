@@ -1,0 +1,56 @@
+🎯 DVWA (Damn Vulnerable Web Application) deployed!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ACCESS THE APP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+{{- if and .Values.ingress.enabled .Values.ingress.domain }}
+  {{- if .Values.ingress.tls.enabled }}
+  URL: https://{{ .Values.ingress.domain }}
+  {{- else }}
+  URL: http://{{ .Values.ingress.domain }}
+  {{- end }}
+
+  TLS certificate will be issued automatically by cert-manager.
+  Check status: kubectl get certificate -n {{ .Release.Namespace }}
+{{- else }}
+  Port-forward:
+    kubectl port-forward svc/{{ include "dvwa.fullname" . }} 8080:80 -n {{ .Release.Namespace }}
+  Then open: http://localhost:8080
+{{- end }}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CREDENTIALS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Username : {{ .Values.dvwa.adminUsername }}
+  Password : {{ .Values.dvwa.adminPassword }}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  FIRST-TIME SETUP (important!)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Wait ~30s for MariaDB to initialise
+2. Browse to the URL above
+3. Log in with the credentials above
+4. Click  "Create / Reset Database"  on the setup page
+5. Log in again — you're ready!
+
+Current security level: {{ .Values.dvwa.securityLevel | upper }}
+
+Change security level mid-workshop:
+  helm upgrade {{ .Release.Name }} ./dvwa -n {{ .Release.Namespace }} \
+    --set ingress.domain={{ .Values.ingress.domain }} \
+    --set dvwa.securityLevel=medium
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  USEFUL COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # Certificate status
+  kubectl get certificate,certificaterequest -n {{ .Release.Namespace }}
+
+  # Pod logs
+  kubectl logs -l app.kubernetes.io/name=dvwa -n {{ .Release.Namespace }} -c dvwa
+
+  # MariaDB logs
+  kubectl logs -l app.kubernetes.io/name=dvwa -n {{ .Release.Namespace }} -c mariadb
+
+⚠️  FOR WORKSHOP USE ONLY — never expose to the internet long-term!

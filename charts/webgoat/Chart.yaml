@@ -1,0 +1,13 @@
+apiVersion: v2
+name: webgoat
+description: OWASP WebGoat — intentionally vulnerable Java/Spring app for security workshops
+type: application
+version: 1.0.0
+appVersion: "2023.8"
+keywords:
+  - security
+  - vulnerable
+  - workshop
+  - owasp
+maintainers:
+  - name: workshop

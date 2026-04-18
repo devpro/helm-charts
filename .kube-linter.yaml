@@ -24,3 +24,5 @@
     - charts/**/charts/**
     # disable for now (too many issues for something to rework from the container image)
     - charts/nfs-ganesha/**
+    # disable as no easy solution for secret management for MariaDB
+    - charts/dvwa/**
