@@ -38,9 +38,9 @@ Install the application:
 helm upgrade --install myapp . -f values.yaml --namespace myns --create-namespace
 ```
 
-<!--
-
 ### Run locally CI checks
+
+<!--
 
 Lint charts with [helm/chart-testing](https://github.com/helm/chart-testing) (with workaround described at [issue #464](https://github.com/helm/chart-testing/issues/464)):
 
@@ -53,16 +53,16 @@ docker run --rm -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart
 > Beware if you're on Windows, as some files may be with the EOL CRLF and could be seen as a difference needing a version bump.
 > You can find them with `find charts/ -type f -exec file {} \; | grep CLRF`, update the EOL (change save from VS Code), and also check on the repo with `git show main:charts/nfs-ganesha/.helmignore | od -c`.
 
+-->
+
 Lint charts with [KubeLinter](https://docs.kubelinter.io/):
 
 ```bash
-docker run --rm \
-  -v $(pwd)/charts:/charts \
-  -v $(pwd)/.kube-linter.yaml:/etc/config.yaml \
-  -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro \
-  stackrox/kube-linter:latest \
-  lint /charts --config /etc/config.yaml
+kube-linter lint charts --config .kube-linter.yaml
 ```
+
+<!--
+docker run --rm -it -v $(pwd):/workspace -w /workspace ubuntu:24.04 bash
 -->
 
 ## Documentation website

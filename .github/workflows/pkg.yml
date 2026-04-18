@@ -1,4 +1,4 @@
-# title: Continuous Delivery (Packaging)
+﻿# title: Continuous Delivery (Packaging)
 # requirements:
 #   - Create manually "gh-pages" branch
 #   - Maintain pages files in "gh-pages" branch: index.tpl, placeholder.png
@@ -53,13 +53,13 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
       - name: Install Helm
-        uses: azure/setup-helm@v4.3.0
+        uses: azure/setup-helm@dda3372f752e03dde6b3237bc9431cdc2f7a02a2
         with:
           version: latest
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       - name: Host charts repository on GitHub Pages
-        uses: helm/chart-releaser-action@v1.7.0
+        uses: helm/chart-releaser-action@cae68fefc6b5f367a0275617c9f83181ba54714f
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       # important: it needs to be done in the same pipeline as another pages workflow won't be triggered by the pust on the gh-pages branch

@@ -38,22 +38,23 @@ jobs:
       - name: Build with VitePress
         run: npm run docs:build
       - name: Install Helm
-        uses: azure/setup-helm@v4.3.0
+        uses: azure/setup-helm@dda3372f752e03dde6b3237bc9431cdc2f7a02a2
         with:
           version: latest
-      - name: Install Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.x'
-          check-latest: true
-      - name: Use KubeLinter
-        id: kube-lint-scan
-        uses: stackrox/kube-linter-action@87802a2f4e01abebb3ee3c67a3002fea71f6eae5
-        with:
-          directory: charts
-          config: .kube-linter.yaml
+      - name: Install kube-linter
+        env:
+          KUBE_LINTER_VERSION: "0.8.3"
+          KUBE_LINTER_SHA256: "1a6d8419b11971372971fdbc22682b684ebfb7cf1c39591662d1b6ca736c41df"
+        run: |
+          curl -sSLo kube-linter.tar.gz "https://github.com/stackrox/kube-linter/releases/download/v${KUBE_LINTER_VERSION}/kube-linter-linux.tar.gz"
+          echo "${KUBE_LINTER_SHA256}  kube-linter.tar.gz" | sha256sum -c -
+          tar -xzf kube-linter.tar.gz kube-linter
+          sudo mv kube-linter /usr/local/bin/
+          rm kube-linter.tar.gz
+      - name: Run kube-linter
+        run: kube-linter lint charts --config .kube-linter.yaml
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.8.0
+        uses: helm/chart-testing-action@6ec842c01de15ebb84c8627d2744a0c2f2755c9f
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       - name: List changed charts
