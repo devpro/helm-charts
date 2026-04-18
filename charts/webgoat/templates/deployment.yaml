@@ -4,10 +4,6 @@ metadata:
   name: {{ include "webgoat.fullname" . }}
   labels:
     {{- include "webgoat.labels" . | nindent 4 }}
-  ignore-check.kube-linter.io/read-secret-from-env-var: >-
-      DVWA is a deliberately vulnerable PHP app that reads DB credentials from env vars by design.
-      SecretKeyRef is used to avoid plaintext in manifests.
-      Sidecar MariaDB pattern is intentional for this security training tool.
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
@@ -24,7 +20,6 @@ spec:
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-
       containers:
         - name: webgoat
           image: "{{ .Values.webgoat.image.repository }}:{{ .Values.webgoat.image.tag }}"
@@ -77,14 +72,12 @@ spec:
             - name: webgoat-data
               mountPath: /root/.webgoat
           {{- end }}
-
       {{- if .Values.persistence.enabled }}
       volumes:
         - name: webgoat-data
           persistentVolumeClaim:
             claimName: {{ include "webgoat.fullname" . }}-data
       {{- end }}
-
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -97,3 +90,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      restartPolicy: Always
