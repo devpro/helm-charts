@@ -1,4 +1,4 @@
-# Contributing
+﻿# Contributing
 
 ## File organization
 
@@ -38,6 +38,8 @@ Install the application:
 helm upgrade --install myapp . -f values.yaml --namespace myns --create-namespace
 ```
 
+<!--
+
 ### Run locally CI checks
 
 Lint charts with [helm/chart-testing](https://github.com/helm/chart-testing) (with workaround described at [issue #464](https://github.com/helm/chart-testing/issues/464)):
@@ -54,9 +56,14 @@ docker run --rm -it --workdir=/data --volume $(pwd):/data quay.io/helmpack/chart
 Lint charts with [KubeLinter](https://docs.kubelinter.io/):
 
 ```bash
-docker run --rm -v $(pwd)/charts:/charts -v $(pwd)/.kube-linter.yaml:/etc/config.yaml stackrox/kube-linter \
+docker run --rm \
+  -v $(pwd)/charts:/charts \
+  -v $(pwd)/.kube-linter.yaml:/etc/config.yaml \
+  -v /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro \
+  stackrox/kube-linter:latest \
   lint /charts --config /etc/config.yaml
 ```
+-->
 
 ## Documentation website
 
