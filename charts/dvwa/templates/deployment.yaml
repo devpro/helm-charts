@@ -6,6 +6,8 @@ metadata:
     {{- include "dvwa.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       {{- include "dvwa.selectorLabels" . | nindent 6 }}
@@ -106,14 +108,21 @@ spec:
                 - mysqladmin ping -u root -p${MARIADB_ROOT_PASSWORD}
             initialDelaySeconds: 10
             periodSeconds: 5
-
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - mysqladmin ping -u root -p${MARIADB_ROOT_PASSWORD}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
       {{- if .Values.persistence.enabled }}
       volumes:
         - name: mariadb-data
           persistentVolumeClaim:
             claimName: {{ include "dvwa.fullname" . }}-mariadb
       {{- end }}
-
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
