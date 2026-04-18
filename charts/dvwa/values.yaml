@@ -1,0 +1,59 @@
+﻿replicaCount: 1
+
+image:
+  repository: ghcr.io/digininja/dvwa
+  pullPolicy: Always
+  tag: "latest"
+
+dvwa:
+  adminUsername: admin
+  adminPassword: password
+  # security level: low, medium, high, impossible
+  securityLevel: low
+
+# MariaDB (bundled sidecar)
+mariadb:
+  image: mariadb:10.11
+  rootPassword: dvwa
+  database: dvwa
+  username: dvwa
+  password: dvwa
+
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30080
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: dvwa.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+# Run as root — intentionally insecure for the workshop
+podSecurityContext: {}
+
+securityContext: {}
+
+# Persist DB between pod restarts (optional)
+persistence:
+  enabled: false
+  storageClass: ""
+  size: 1Gi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

@@ -1,0 +1,51 @@
+🎯 DVWA (Damn Vulnerable Web Application) deployed!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ACCESS THE APP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+{{- if eq .Values.service.type "NodePort" }}
+Get the Node IP:
+  export NODE_IP=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
+
+Open in browser:
+  http://$NODE_IP:{{ .Values.service.nodePort }}
+{{- else if eq .Values.service.type "ClusterIP" }}
+Forward the port:
+  kubectl port-forward svc/{{ include "dvwa.fullname" . }} 8080:80 -n {{ .Release.Namespace }}
+
+Open in browser:
+  http://localhost:8080
+{{- end }}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CREDENTIALS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Username : {{ .Values.dvwa.adminUsername }}
+  Password : {{ .Values.dvwa.adminPassword }}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  FIRST-TIME SETUP (important!)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Wait ~30s for MariaDB to initialise
+2. Browse to the URL above
+3. Log in with the credentials above
+4. Click  "Create / Reset Database"  on the setup page
+5. Log in again — you're ready!
+
+Current security level: {{ .Values.dvwa.securityLevel | upper }}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  WORKSHOP EXERCISES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Available vulnerabilities to explore:
+  • SQL Injection
+  • Command Injection
+  • XSS (Reflected & Stored)
+  • File Inclusion / Path Traversal
+  • File Upload (arbitrary)
+  • CSRF
+  • Brute Force
+  • Insecure CAPTCHA
+
+⚠️  FOR WORKSHOP USE ONLY — never expose to the internet!
