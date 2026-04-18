@@ -366,6 +366,25 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/devpro-salesportal-0.1.0/devpro-salesportal-0.1.0.tgz
     version: 0.1.0
+  dvwa:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-04-18T23:10:03.516305742Z"
+    description: Damn Vulnerable Web Application - for container security workshops
+    digest: d2cec2160c6013c22d1a37edb88a4d6657219511b42ed943536a472ec1df7281
+    keywords:
+    - security
+    - vulnerable
+    - workshop
+    - training
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: dvwa
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/dvwa-1.0.0/dvwa-1.0.0.tgz
+    version: 1.0.0
   ecorp-demo:
   - apiVersion: v2
     appVersion: 1.1.0
@@ -1004,4 +1023,23 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/todoblazor-0.1.0/todoblazor-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-19T22:38:45.117131585Z"
+  webgoat:
+  - apiVersion: v2
+    appVersion: "2023.8"
+    created: "2026-04-18T23:10:03.716607072Z"
+    description: OWASP WebGoat — intentionally vulnerable Java/Spring app for security
+      workshops
+    digest: 80814176a3a121c014c3299217f73cf6a0db949f442de97e3eb0b4ca7c0b3041
+    keywords:
+    - security
+    - vulnerable
+    - workshop
+    - owasp
+    maintainers:
+    - name: workshop
+    name: webgoat
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/webgoat-1.0.0/webgoat-1.0.0.tgz
+    version: 1.0.0
+generated: "2026-04-18T23:10:03.716686538Z"
