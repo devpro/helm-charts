@@ -25,17 +25,22 @@ spec:
           imagePullPolicy: {{ .Values.webgoat.image.pullPolicy }}
           ports:
             - name: webgoat
-              containerPort: {{ .Values.webgoat.port }}
+              containerPort: 8080
+              protocol: TCP
+            - name: webwolf
+              containerPort: 9090
               protocol: TCP
           env:
-            - name: WEBWOLF_HOST
-              value: "localhost"
-            - name: WEBWOLF_PORT
-              value: {{ .Values.webwolf.port | quote }}
+            - name: TZ
+              value: "Europe/Amsterdam"
             - name: WEBGOAT_HOST
               value: {{ if .Values.ingress.domain }}{{ printf "webgoat.%s" .Values.ingress.domain | quote }}{{ else }}"localhost"{{ end }}
-            - name: SERVER_PORT
-              value: {{ .Values.webgoat.port | quote }}
+            - name: WEBWOLF_HOST
+              value: {{ if .Values.ingress.domain }}{{ printf "webwolf.%s" .Values.ingress.domain | quote }}{{ else }}"localhost"{{ end }}
+            - name: WEBGOAT_PORT
+              value: "8080"
+            - name: WEBWOLF_PORT
+              value: "9090"
           {{- with .Values.securityContext }}
           securityContext:
             {{- toYaml . | nindent 12 }}
@@ -45,46 +50,21 @@ spec:
           readinessProbe:
             httpGet:
               path: /WebGoat/login
-              port: {{ .Values.webgoat.port }}
-            initialDelaySeconds: 30
+              port: 8080
+            initialDelaySeconds: 60
             periodSeconds: 10
             failureThreshold: 12
           livenessProbe:
             httpGet:
               path: /WebGoat/login
-              port: {{ .Values.webgoat.port }}
-            initialDelaySeconds: 60
+              port: 8080
+            initialDelaySeconds: 90
             periodSeconds: 20
           {{- if .Values.persistence.enabled }}
           volumeMounts:
             - name: webgoat-data
               mountPath: /root/.webgoat
           {{- end }}
-
-        - name: webwolf
-          image: "{{ .Values.webwolf.image.repository }}:{{ .Values.webwolf.image.tag }}"
-          imagePullPolicy: {{ .Values.webwolf.image.pullPolicy }}
-          ports:
-            - name: webwolf
-              containerPort: {{ .Values.webwolf.port }}
-              protocol: TCP
-          env:
-            - name: SERVER_PORT
-              value: {{ .Values.webwolf.port | quote }}
-          resources:
-            requests:
-              cpu: 100m
-              memory: 256Mi
-            limits:
-              cpu: 500m
-              memory: 512Mi
-          readinessProbe:
-            httpGet:
-              path: /landing
-              port: {{ .Values.webwolf.port }}
-            initialDelaySeconds: 20
-            periodSeconds: 10
-            failureThreshold: 10
 
       {{- if .Values.persistence.enabled }}
       volumes:

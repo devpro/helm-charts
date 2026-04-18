@@ -29,3 +29,8 @@ kubectl get all -n webgoat
 ```
 
 Open the web application in a browser.
+
+<!--
+https://webgoat.console.xxxx.instruqt.io/WebGoat
+https://webwolf.console.xxxx.instruqt.io/WebWolf
+-->

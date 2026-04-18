@@ -3,16 +3,8 @@
 webgoat:
   image:
     repository: webgoat/webgoat
-    tag: "2023.8"
+    tag: "v2025.3"
     pullPolicy: IfNotPresent
-  port: 8080
-
-webwolf:
-  image:
-    repository: webgoat/webwolf
-    tag: "2023.8"
-    pullPolicy: IfNotPresent
-  port: 9090
 
 service:
   type: ClusterIP
