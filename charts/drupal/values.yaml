@@ -1,0 +1,11 @@
+﻿replicaCount: 1
+image: vulhub/drupal
+tag: 8.5.0
+ingress:
+  enabled: false
+  className: ""    # traefik
+  domain: ""
+  annotations: {}
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+  tls:
+    enabled: false
