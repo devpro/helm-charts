@@ -366,7 +366,44 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/devpro-salesportal-0.1.0/devpro-salesportal-0.1.0.tgz
     version: 0.1.0
+  drupal:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-04-19T15:02:35.297839815Z"
+    description: Drupal Web Application - for container security workshops
+    digest: c575375bafe69fbecba955ca91bf2eddeb43c26f3a20ded28832f233d3056081
+    keywords:
+    - security
+    - vulnerable
+    - workshop
+    - training
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: drupal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/drupal-1.0.0/drupal-1.0.0.tgz
+    version: 1.0.0
   dvwa:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-04-19T15:02:35.460640289Z"
+    description: Damn Vulnerable Web Application - for container security workshops
+    digest: 4c9aad77e1f30450d38eb150825587c366a5774e93178db88d66692f77cf4c9a
+    keywords:
+    - security
+    - vulnerable
+    - workshop
+    - training
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: dvwa
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/dvwa-1.0.1/dvwa-1.0.1.tgz
+    version: 1.0.1
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2026-04-18T23:10:03.516305742Z"
@@ -1042,4 +1079,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/webgoat-1.0.0/webgoat-1.0.0.tgz
     version: 1.0.0
-generated: "2026-04-18T23:10:03.716686538Z"
+generated: "2026-04-19T15:02:35.460772225Z"
