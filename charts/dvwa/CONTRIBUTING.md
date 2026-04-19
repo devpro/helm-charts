@@ -7,7 +7,7 @@ Create a `values.mine.yaml` file:
 ```yaml
 ingress:
   enabled: true
-  domain: "tfbckmdb.console.$SANDBOX_ID.instruqt.io"
+  domain: "dvwa.console.$SANDBOX_ID.instruqt.io"
   className: "traefik"
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
