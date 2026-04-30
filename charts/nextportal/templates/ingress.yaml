@@ -13,23 +13,21 @@ spec:
   {{- if .Values.ingress.className }}
   ingressClassName: {{ .Values.ingress.className }}
   {{- end }}
-  {{- if .Values.ingress.tls }}
-  tls:
-    {{- toYaml .Values.ingress.tls | nindent 4 }}
-  {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
+    - host: {{ .Values.ingress.domain | quote }}
       http:
         paths:
-          {{- range .paths }}
-          - path: {{ .path }}
-            pathType: {{ .pathType }}
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: {{ include "nextportal.fullname" $ }}
                 port:
                   name: http
-          {{- end }}
-    {{- end }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - secretName: nextportal-tls
+      hosts:
+        - {{ .Values.ingress.domain | quote }}
+  {{- end }}
 {{- end }}

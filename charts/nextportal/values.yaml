@@ -26,19 +26,14 @@ ingress:
   enabled: false
   # e.g. traefik
   className: ""
+  domain: ""
   annotations: {}
     # cert-manager.io/cluster-issuer: "letsencrypt-prod"
     # traefik.ingress.kubernetes.io/router.entrypoints: websecure
     # traefik.ingress.kubernetes.io/router.tls: "true"
-  hosts:
-    - host: ""
-      paths:
-        - path: /
-          pathType: Prefix
+    # traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
   tls:
-    - secretName: nextportal-tls
-      hosts:
-        - ""
+    enabled: false
 
 livenessProbe:
   httpGet:
