@@ -776,6 +776,26 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/mongodb-community-0.1.0/mongodb-community-0.1.0.tgz
     version: 0.1.0
+  nextportal:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2026-04-30T15:14:11.025551008Z"
+    description: NextPortal web application - intentionally vulnerable by default
+      for security workshops
+    digest: 48cc5b7a7cb14aeb642e06492a941dd269d77c6953757a7e92e840cc6abf09be
+    keywords:
+    - security
+    - vulnerable
+    - workshop
+    - owasp
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: nextportal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/nextportal-0.1.0/nextportal-0.1.0.tgz
+    version: 0.1.0
   nfs-ganesha:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -1079,4 +1099,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/webgoat-1.0.0/webgoat-1.0.0.tgz
     version: 1.0.0
-generated: "2026-04-19T15:02:35.460772225Z"
+generated: "2026-04-30T15:14:11.025630377Z"
