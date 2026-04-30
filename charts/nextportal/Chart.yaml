@@ -1,0 +1,14 @@
+﻿apiVersion: v2
+name: nextportal
+description: NextPortal web application - intentionally vulnerable by default for security workshops
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - security
+  - vulnerable
+  - workshop
+  - owasp
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr

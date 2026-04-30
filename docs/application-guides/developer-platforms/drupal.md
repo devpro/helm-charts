@@ -1,4 +1,4 @@
-# Drupal
+﻿# Drupal
 
 ## Stable repository
 
@@ -34,3 +34,34 @@ minikube service d8cluster-drupal --url
 ## Additional reading
 
 - Article from Jeff Geerling on [Running Drupal in Kubernetes with Docker in production](https://www.jeffgeerling.com/blog/2019/running-drupal-kubernetes-docker-production) _April 12, 2019_
+
+{/*
+
+[bitnami/charts](https://github.com/bitnami/charts/blob/main/bitnami/drupal/README.md)
+
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+cat <<EOF > drupal_values.yaml
+image:
+  registry: docker.io
+  repository: drupal
+  tag: "8.5"
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+EOF
+
+helm install drupal bitnami/drupal -f drupal_values.yaml --namespace drupal --create-namespace \
+  --set ingress.hosts[0].host="drupal.console.${_SANDBOX_ID}.instruqt.io" \
+  --set ingress.tls[0].host[0]="drupal.console.${_SANDBOX_ID}.instruqt.io"
+
+echo "https://drupal.console.${_SANDBOX_ID}.instruqt.io"
+
+kubectl get all -n drupal
+```
+
+*/}
