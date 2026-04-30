@@ -1,0 +1,22 @@
+﻿1. NextPortal web application has been deployed.
+
+{{- if .Values.ingress.enabled }}
+{{- range .Values.ingress.hosts }}
+   URL: https://{{ .host }}
+{{- end }}
+
+   TLS certificate will be issued automatically by cert-manager.
+   Watch progress with:
+     kubectl get certificate -n <namespace>
+     kubectl describe certificaterequest -n <namespace>
+{{- else }}
+   Port-forward to access locally:
+     kubectl port-forward svc/{{ include "nextportal.fullname" . }} 3000:3000
+   then open http://localhost:3000
+{{- end }}
+
+2. Check pod status:
+     kubectl get pods -l app.kubernetes.io/name={{ include "nextportal.name" . }}
+
+3. View logs:
+     kubectl logs -l app.kubernetes.io/name={{ include "nextportal.name" . }} -f
