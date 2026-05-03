@@ -2,10 +2,12 @@
 kind: Deployment
 metadata:
   name: drupal
+  labels:
+    app: drupal
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
-    type: RollingUpdate
+    type: {{ if eq .Values.persistence.dbType "sqlite" }}Recreate{{ else }}RollingUpdate{{ end }}
   selector:
     matchLabels:
       app: drupal
@@ -14,6 +16,27 @@ spec:
       labels:
         app: drupal
     spec:
+      {{- if and .Values.persistence.enabled .Values.persistence.initImage }}
+      initContainers:
+        - name: init-sites
+          image: {{ .Values.persistence.initImage }}
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              # only copy if the PVC is empty (first boot)
+              if [ -z "$(ls -A /mnt/sites)" ]; then
+                echo "PVC is empty — seeding from image..."
+                cp -a /var/www/html/sites/. /mnt/sites/
+                echo "Done."
+              else
+                echo "PVC already has data — skipping copy."
+              fi
+          volumeMounts:
+            - name: sites
+              mountPath: /mnt/sites
+      {{- end }}
       containers:
         - name: drupal
           image: {{ .Values.image }}:{{ .Values.tag }}
@@ -28,3 +51,15 @@ spec:
               port: 80
             initialDelaySeconds: 10
             periodSeconds: 10
+          {{- if .Values.persistence.enabled }}
+          volumeMounts:
+            - name: sites
+              mountPath: /var/www/html/sites
+          {{- end }}
+      {{- if .Values.persistence.enabled }}
+      volumes:
+        - name: sites
+          persistentVolumeClaim:
+            claimName: drupal
+      {{- end }}
+      restartPolicy: Always

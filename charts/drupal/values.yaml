@@ -1,6 +1,7 @@
 ﻿replicaCount: 1
 image: vulhub/drupal
 tag: 8.5.0
+
 ingress:
   enabled: false
   className: ""    # traefik
@@ -9,3 +10,10 @@ ingress:
     # cert-manager.io/cluster-issuer: letsencrypt-prod
   tls:
     enabled: false
+
+persistence:
+  enabled: false
+  storageClass: ""
+  size: 500Mi
+  initImage: ""
+  dbType: ""

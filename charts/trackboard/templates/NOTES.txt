@@ -1,0 +1,20 @@
+﻿1. Trackboard web application has been deployed.
+
+{{- if .Values.ingress.enabled }}
+   URL: https://{{ .Values.ingress.domain }}
+
+   TLS certificate will be issued automatically by cert-manager.
+   Watch progress with:
+     kubectl get certificate -n {{ .Release.Namespace }}
+     kubectl describe certificaterequest -n {{ .Release.Namespace }}
+{{- else }}
+   Port-forward to access locally:
+     kubectl port-forward svc/{{ include "trackboard.fullname" . }} 3000:3000 -n {{ .Release.Namespace }}
+   then open http://localhost:3000
+{{- end }}
+
+2. Check pod status:
+     kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/name={{ include "trackboard.name" . }}
+
+3. View logs:
+     kubectl logs -n {{ .Release.Namespace }} -l app.kubernetes.io/name={{ include "trackboard.name" . }} -f

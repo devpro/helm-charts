@@ -1,0 +1,14 @@
+﻿apiVersion: v2
+name: trackboard
+description: Trackboard web application
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - event
+  - ctf
+  - dashboard
+  - live
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr

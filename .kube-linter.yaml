@@ -20,6 +20,7 @@
     - run-as-non-root
     - sorted-keys
     - privileged-ports
+    - no-rolling-update-strategy
   ignorePaths:
     - charts/**/charts/**
     # disable for now (too many issues for something to rework from the container image)
