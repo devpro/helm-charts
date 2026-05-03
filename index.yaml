@@ -368,6 +368,24 @@ entries:
     version: 0.1.0
   drupal:
   - apiVersion: v2
+    appVersion: 8.5.0
+    created: "2026-05-03T21:48:15.236312017Z"
+    description: Drupal Web Application - for container security workshops
+    digest: daef469694b34e83eb3a7812db4274aba9b20f6f8fd57ee7a223557b7accb8f2
+    keywords:
+    - security
+    - vulnerable
+    - workshop
+    - training
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: drupal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/drupal-1.0.1/drupal-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
     appVersion: 1.0.0
     created: "2026-04-19T15:02:35.297839815Z"
     description: Drupal Web Application - for container security workshops
@@ -1080,6 +1098,25 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/todoblazor-0.1.0/todoblazor-0.1.0.tgz
     version: 0.1.0
+  trackboard:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2026-05-03T21:48:15.359386691Z"
+    description: Trackboard web application
+    digest: 9f1e54da27baa51230f0a05a0eb1a91c0874d385701a486507ef716806fbacdf
+    keywords:
+    - event
+    - ctf
+    - dashboard
+    - live
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: trackboard
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/trackboard-0.1.0/trackboard-0.1.0.tgz
+    version: 0.1.0
   webgoat:
   - apiVersion: v2
     appVersion: "2023.8"
@@ -1099,4 +1136,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/webgoat-1.0.0/webgoat-1.0.0.tgz
     version: 1.0.0
-generated: "2026-04-30T15:14:11.025630377Z"
+generated: "2026-05-03T21:48:15.359494533Z"
