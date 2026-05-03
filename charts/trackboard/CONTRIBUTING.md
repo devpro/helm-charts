@@ -1,4 +1,4 @@
-﻿# Contribution guide
+# Contribution guide
 
 ## Validate on a test cluster
 
@@ -20,6 +20,7 @@ EOF
 <!--
 helm template trackboard . -f values.yaml -f values.mine.yaml \
   --set ingress.domain=trackboard.server.$SANDBOX_ID.instruqt.io \
+  --set admin.password=mysecretpassword \
   --namespace trackboard > temp.yaml
 -->
 
