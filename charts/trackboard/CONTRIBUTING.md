@@ -5,7 +5,7 @@
 Create the chart configuration file:
 
 ```bash
-# example for an Instruqt track, with a Traefik ingress controller, with cert-manager and Let's Encrypt
+# example with Traefik ingress controller, cert-manager and Let's Encrypt
 cat > values.mine.yaml << 'EOF'
 ingress:
   enabled: true
@@ -17,11 +17,18 @@ ingress:
 EOF
 ```
 
+<!--
+helm template trackboard . -f values.yaml -f values.mine.yaml \
+  --set ingress.domain=trackboard.server.$SANDBOX_ID.instruqt.io \
+  --namespace trackboard > temp.yaml
+-->
+
 Install the chart:
 
 ```bash
 helm upgrade --install trackboard . -f values.yaml -f values.mine.yaml \
   --set ingress.domain=trackboard.server.$SANDBOX_ID.instruqt.io \
+  --set admin.password=mysecretpassword \
   --namespace trackboard --create-namespace
 ```
 

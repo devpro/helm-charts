@@ -58,20 +58,20 @@ readinessProbe:
   periodSeconds: 10
   failureThreshold: 3
 
-podSecurityContext:
-  runAsNonRoot: true
-  runAsUser: 1000
-  runAsGroup: 1000
-  fsGroup: 1000
-  seccompProfile:
-    type: RuntimeDefault
+podSecurityContext: {}
+  # runAsNonRoot: true
+  # runAsUser: 1000
+  # runAsGroup: 1000
+  # fsGroup: 1000
+  # seccompProfile:
+  #   type: RuntimeDefault
 
-containerSecurityContext:
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
-  capabilities:
-    drop:
-      - ALL
+containerSecurityContext: {}
+  # allowPrivilegeEscalation: false
+  # readOnlyRootFilesystem: false
+  # capabilities:
+  #   drop:
+  #     - ALL
 
 autoscaling:
   enabled: false
@@ -86,7 +86,15 @@ affinity: {}
 env:
   NODE_ENV: production
   NEXT_TELEMETRY_DISABLED: "1"
+  EVENT_NAME: "DevOpsDay Geneva"
+  EVENT_DATE: "May 2026"
 
 # envFrom:
 #   - secretRef:
 #       name: ""
+
+networkpolicy:
+  enabled: false
+
+admin:
+  password: ""

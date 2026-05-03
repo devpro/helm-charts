@@ -53,12 +53,16 @@ spec:
             - name: {{ $key }}
               value: {{ $val | quote }}
             {{- end }}
+          {{- if or .Values.admin.password .Values.envFrom }}
           envFrom:
+            {{- if .Values.admin.password }}
             - secretRef:
-              name: {{ include "trackboard.fullname" . }}
+                name: {{ include "trackboard.fullname" . }}
+            {{- end }}
             {{- with .Values.envFrom }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+          {{- end }}
           startupProbe:
             {{- toYaml .Values.startupProbe | nindent 12 }}
           livenessProbe:

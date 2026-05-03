@@ -1,4 +1,5 @@
-﻿apiVersion: networking.k8s.io/v1
+﻿{{- if .Values.networkpolicy.enabled -}}
+apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: {{ include "trackboard.fullname" . }}
@@ -12,22 +13,23 @@ spec:
     - Ingress
     - Egress
   ingress:
-    # Allow traffic only from the ingress controller namespace
+    # allow traffic only from the ingress controller namespace
     - from:
         - namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: traefik
+              kubernetes.io/metadata.name: kube-system
       ports:
         - protocol: TCP
-          port: 3000
+          port: {{ .Values.service.port }}
   egress:
-    # Allow DNS resolution
+    # allows DNS resolution
     - ports:
         - protocol: UDP
           port: 53
         - protocol: TCP
           port: 53
-    # Allow outbound HTTPS (for Google Fonts CDN)
+    # allows outbound HTTPS (for Google Fonts CDN)
     - ports:
         - protocol: TCP
           port: 443
+{{- end }}
