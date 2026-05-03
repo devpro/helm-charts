@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "trackboard.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   strategy:
     # Because state is on a PVC with `ReadWriteOnce`, keep `replicas: 1`. The app is stateful — multiple replicas would race on the file.
     type: Recreate

@@ -2,8 +2,8 @@
 name: drupal
 description: Drupal Web Application - for container security workshops
 type: application
-version: 1.0.0
-appVersion: "1.0.0"
+version: 1.0.1
+appVersion: "8.5.0"
 keywords:
   - security
   - vulnerable
