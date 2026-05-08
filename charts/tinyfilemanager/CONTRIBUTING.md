@@ -20,19 +20,19 @@ EOF
 Install the chart:
 
 ```bash
-helm upgrade --install nextportal . -f values.yaml -f values.mine.yaml \
-  --set ingress.domain=nextportal.server.$SANDBOX_ID.instruqt.io \
-  --namespace nextportal --create-namespace
+helm upgrade --install tinyfilemanager . -f values.yaml -f values.mine.yaml \
+  --set ingress.domain=tinyfilemanager.server.$SANDBOX_ID.instruqt.io \
+  --namespace tinyfilemanager --create-namespace
 ```
 
 Wait for all pods to be ready:
 
 ```bash
-kubectl get all -n nextportal
+kubectl get all -n tinyfilemanager
 ```
 
 Open the web application in a browser.
 
 ```bash
-echo "https://nextportal.server.${SANDBOX_ID}.instruqt.io"
+echo "https://tinyfilemanager.server.${SANDBOX_ID}.instruqt.io"
 ```

@@ -1,6 +1,6 @@
 ﻿image:
-  repository: ghcr.io/devpro/nextportal
-  tag: "0.1.0"
+  repository: ghcr.io/devpro/tinyfilemanager
+  tag: "2.4.6"
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -20,7 +20,7 @@ resources: {}
 
 service:
   type: ClusterIP
-  port: 3000
+  port: 8080
 
 ingress:
   enabled: false
@@ -38,14 +38,14 @@ ingress:
 livenessProbe:
   httpGet:
     path: /
-    port: 3000
+    port: 80
   initialDelaySeconds: 15
   periodSeconds: 20
 
 readinessProbe:
   httpGet:
     path: /
-    port: 3000
+    port: 80
   initialDelaySeconds: 5
   periodSeconds: 10
 
@@ -76,8 +76,7 @@ networkpolicy:
   enabled: false
 
 env:
-  NODE_ENV: production
-  NEXT_TELEMETRY_DISABLED: "1"
+  ENVIRONMENT: sandbox
 
 # envFrom:
 #   - secretRef:

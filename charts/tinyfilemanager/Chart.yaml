@@ -1,9 +1,9 @@
 ﻿apiVersion: v2
-name: nextportal
-description: NextPortal web application - intentionally vulnerable by default for security workshops
+name: tinyfilemanager
+description: Tiny File Manager - intentionally vulnerable by default for security workshops
 type: application
 version: 1.0.0
-appVersion: "0.1.0"
+appVersion: "2.4.6"
 keywords:
   - security
   - vulnerable

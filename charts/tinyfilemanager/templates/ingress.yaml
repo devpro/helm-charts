@@ -1,0 +1,33 @@
+﻿{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "tinyfilemanager.fullname" . }}
+  labels:
+    {{- include "tinyfilemanager.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.domain | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "tinyfilemanager.fullname" $ }}
+                port:
+                  name: http
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - secretName: tinyfilemanager-tls
+      hosts:
+        - {{ .Values.ingress.domain | quote }}
+  {{- end }}
+{{- end }}
