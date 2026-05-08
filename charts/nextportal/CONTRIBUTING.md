@@ -21,7 +21,7 @@ Install the chart:
 
 ```bash
 helm upgrade --install nextportal . -f values.yaml -f values.mine.yaml \
-  --set ingress.domain=nextportal.console.$SANDBOX_ID.instruqt.io \
+  --set ingress.domain=nextportal.server.$SANDBOX_ID.instruqt.io \
   --namespace nextportal --create-namespace
 ```
 
@@ -34,5 +34,5 @@ kubectl get all -n nextportal
 Open the web application in a browser.
 
 ```bash
-echo "https://nextportal.console.${SANDBOX_ID}.instruqt.io"
+echo "https://nextportal.server.${SANDBOX_ID}.instruqt.io"
 ```

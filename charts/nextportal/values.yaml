@@ -72,6 +72,9 @@ nodeSelector: {}
 tolerations: []
 affinity: {}
 
+networkpolicy:
+  enabled: false
+
 env:
   NODE_ENV: production
   NEXT_TELEMETRY_DISABLED: "1"
