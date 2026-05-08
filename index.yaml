@@ -797,6 +797,25 @@ entries:
   nextportal:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2026-05-08T22:43:14.03558574Z"
+    description: NextPortal web application - intentionally vulnerable by default
+      for security workshops
+    digest: 20a7b0218ec76cb54d70d8be8e61f786c08e3c4023f45e1857adf9ef7303e52d
+    keywords:
+    - security
+    - vulnerable
+    - workshop
+    - owasp
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: nextportal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/nextportal-1.0.0/nextportal-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2026-04-30T15:14:11.025551008Z"
     description: NextPortal web application - intentionally vulnerable by default
       for security workshops
@@ -1021,6 +1040,26 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/terraform-backend-mongodb-0.1.0/terraform-backend-mongodb-0.1.0.tgz
     version: 0.1.0
+  tinyfilemanager:
+  - apiVersion: v2
+    appVersion: 2.4.6
+    created: "2026-05-08T22:43:14.180039424Z"
+    description: Tiny File Manager - intentionally vulnerable by default for security
+      workshops
+    digest: ef670a58d5a23ebe92c91b2a8b537d5a5bbfae170a422c8631dde16be81bf7e5
+    keywords:
+    - security
+    - vulnerable
+    - workshop
+    - owasp
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: tinyfilemanager
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/tinyfilemanager-1.0.0/tinyfilemanager-1.0.0.tgz
+    version: 1.0.0
   todoblazor:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -1136,4 +1175,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/webgoat-1.0.0/webgoat-1.0.0.tgz
     version: 1.0.0
-generated: "2026-05-03T21:48:15.359494533Z"
+generated: "2026-05-08T22:43:14.180157131Z"
