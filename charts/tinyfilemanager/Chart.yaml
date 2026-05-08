@@ -1,0 +1,14 @@
+﻿apiVersion: v2
+name: tinyfilemanager
+description: Tiny File Manager - intentionally vulnerable by default for security workshops
+type: application
+version: 1.0.0
+appVersion: "2.4.6"
+keywords:
+  - security
+  - vulnerable
+  - workshop
+  - owasp
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr
