@@ -76,7 +76,7 @@ networkpolicy:
   enabled: false
 
 env:
-  DUMMY:
+  ENVIRONMENT: sandbox
 
 # envFrom:
 #   - secretRef:
