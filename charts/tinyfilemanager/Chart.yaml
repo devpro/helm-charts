@@ -2,7 +2,7 @@
 name: tinyfilemanager
 description: Tiny File Manager - intentionally vulnerable by default for security workshops
 type: application
-version: 1.0.0
+version: 1.0.1
 appVersion: "2.4.6"
 keywords:
   - security
