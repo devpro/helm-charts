@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "sidelab.fullname" . }}-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "sidelab.labels" . | nindent 4 }}
+data:
+  # Makes the app refuse to start rather than run with an insecure default
+  # JWT_SECRET — belt and suspenders, since the chart always generates a
+  # real one anyway (see auth.jwtSecret in values.yaml).
+  NODE_ENV: "production"
+  LAUNCHER_PORT: "3000"
+  LAUNCHER_BACKEND: {{ .Values.launcher.backend | quote }}
+  LAB_IMAGE: {{ .Values.launcher.labImage | quote }}
+  K8S_IMAGE_PULL_POLICY: {{ .Values.launcher.labImagePullPolicy | quote }}
+  # In minutes — the app parses these as minutes, not seconds.
+  SESSION_DEFAULT_DURATION: {{ .Values.launcher.sessionDefaultDuration | quote }}
+  SESSION_MAX_DURATION: {{ .Values.launcher.sessionMaxDuration | quote }}
+  DB_BACKEND: {{ .Values.database.backend | quote }}
+  {{- if eq .Values.database.backend "sqlite" }}
+  DB_PATH: {{ .Values.database.sqlite.path | quote }}
+  {{- end }}
+  COURSE_CACHE_DIR: "/app/data/course-cache"
+  K8S_LAB_ACCESS: {{ .Values.launcher.labAccess | quote }}
+  {{- if eq .Values.launcher.labAccess "ingress" }}
+  K8S_LAB_DOMAIN: {{ include "sidelab.labDomain" . | quote }}
+  K8S_INGRESS_TEMPLATE: "/app/config/ingress-template.yaml"
+  {{- end }}
+  K8S_NAMESPACE_PREFIX: {{ .Values.launcher.namespacePrefix | quote }}
+  {{- if .Values.launcher.knownNamespaces }}
+  K8S_KNOWN_NAMESPACES: {{ .Values.launcher.knownNamespaces | quote }}
+  {{- end }}
+---
+{{- if and (eq .Values.launcher.labAccess "ingress") (not .Values.launcher.ingressTemplateConfigMap) }}
+# Default Ingress template for lab session Pods, modeled on
+# samples/manifests/ingress-template-microk8s.yaml in the sidelab repo —
+# includes the /websockify path needed by VNC-enabled labs, and the
+# sidelab.io/session + sidelab.io/tenant labels the launcher relies on to
+# reconcile orphaned lab resources after a restart (deleteByLabel fallback).
+# Reuses the dashboard's own ingress.className / ingress.tls / cert-manager
+# annotation from above, so you don't configure the same ingress controller
+# and issuer twice. Override launcher.ingressTemplateConfigMap for a
+# different shape entirely.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "sidelab.ingressTemplateConfigMap" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "sidelab.labels" . | nindent 4 }}
+data:
+  ingress-template.yaml: |
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: "{{"{{"}}SESSION_ID{{"}}"}}"
+      namespace: "{{"{{"}}NAMESPACE{{"}}"}}"
+      labels:
+        app: sidelab-lab
+        sidelab.io/session: "{{"{{"}}SESSION_ID{{"}}"}}"
+        sidelab.io/tenant: "{{"{{"}}TENANT{{"}}"}}"
+      {{- $issuer := index .Values.ingress.annotations "cert-manager.io/cluster-issuer" }}
+      {{- if $issuer }}
+      annotations:
+        cert-manager.io/cluster-issuer: {{ $issuer | quote }}
+      {{- end }}
+    spec:
+      {{- if .Values.ingress.className }}
+      ingressClassName: {{ .Values.ingress.className | quote }}
+      {{- end }}
+      {{- if .Values.ingress.tls.enabled }}
+      tls:
+        - hosts:
+            - "{{"{{"}}SESSION_ID{{"}}"}}.{{"{{"}}LAB_DOMAIN{{"}}"}}"
+          secretName: "{{"{{"}}SESSION_ID{{"}}"}}-tls"
+      {{- end }}
+      rules:
+        - host: "{{"{{"}}SESSION_ID{{"}}"}}.{{"{{"}}LAB_DOMAIN{{"}}"}}"
+          http:
+            paths:
+              - path: /websockify
+                pathType: Prefix
+                backend:
+                  service:
+                    name: "{{"{{"}}POD_NAME{{"}}"}}"
+                    port:
+                      number: 4000
+              - path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name: "{{"{{"}}POD_NAME{{"}}"}}"
+                    port:
+                      number: 4000
+{{- end }}

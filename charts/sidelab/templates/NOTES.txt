@@ -1,0 +1,73 @@
+🎉 Sidelab has been deployed!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Launcher URL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{{- if .Values.ingress.enabled }}
+  http{{ if .Values.ingress.tls.enabled }}s{{ end }}://{{ include "sidelab.ingressHost" . }}
+{{- if .Values.ingress.tls.enabled }}
+
+  The TLS certificate is issued automatically by cert-manager, if configured
+  via a cert-manager.io/cluster-issuer annotation. Allow 1-2 minutes for it
+  to become ready:
+
+    kubectl get certificate -n {{ .Release.Namespace }} -w
+{{- end }}
+{{- else }}
+  Port-forward to access the launcher locally:
+
+    kubectl port-forward -n {{ .Release.Namespace }} \
+      svc/{{ include "sidelab.fullname" . }} {{ .Values.service.port }}:{{ .Values.service.port }}
+
+  Then open: http://localhost:{{ .Values.service.port }}
+{{- end }}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  First login
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Username: {{ .Values.auth.adminUsername }}
+{{- if .Values.auth.existingSecret }}
+  Password: (value of the "admin-password" key in Secret/{{ .Values.auth.existingSecret }})
+{{- else if .Values.auth.adminPassword }}
+  Password: (value of auth.adminPassword you supplied)
+{{- else }}
+  Password: auto-generated on first install — retrieve it with:
+
+    kubectl get secret -n {{ .Release.Namespace }} {{ include "sidelab.authSecretName" . }} \
+      -o jsonpath='{.data.admin-password}' | base64 -d; echo
+{{- end }}
+
+  These credentials only seed the database on first run — the database
+  itself is the source of truth after that. Change the admin password after
+  first login.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Lab sessions
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Backend    : {{ .Values.launcher.backend }}
+  Lab image  : {{ .Values.launcher.labImage }}
+  Lab access : {{ .Values.launcher.labAccess }}
+{{- if eq .Values.launcher.labAccess "ingress" }}
+  Lab domain : *.{{ include "sidelab.labDomain" . }}
+{{- else }}
+  Lab sessions open directly on the node's IP, on a random NodePort per
+  session — nothing further to configure.
+{{- end }}
+
+  Database   : {{ .Values.database.backend }}
+{{- if and (eq .Values.database.backend "mongo") .Values.mongodb.enabled (not .Values.database.mongo.url) (not .Values.database.mongo.existingSecret) }}
+  Using the bundled MongoDB chart — fine for a demo, not backed up. Point
+  database.mongo.url at a real MongoDB before you rely on this data.
+{{- end }}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Useful commands
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # Watch the launcher Pod
+  kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }} -w
+
+  # Tail launcher logs
+  kubectl logs -n {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }} -f
+
+  # List active lab namespaces
+  kubectl get namespaces -l sidelab.io/tenant
