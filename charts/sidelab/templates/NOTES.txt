@@ -27,14 +27,14 @@
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Username: {{ .Values.auth.adminUsername }}
 {{- if .Values.auth.existingSecret }}
-  Password: (value of the "admin-password" key in Secret/{{ .Values.auth.existingSecret }})
+  Password: (value of the "ADMIN_PASSWORD" key in Secret/{{ .Values.auth.existingSecret }})
 {{- else if .Values.auth.adminPassword }}
   Password: (value of auth.adminPassword you supplied)
 {{- else }}
   Password: auto-generated on first install — retrieve it with:
 
     kubectl get secret -n {{ .Release.Namespace }} {{ include "sidelab.authSecretName" . }} \
-      -o jsonpath='{.data.admin-password}' | base64 -d; echo
+      -o jsonpath='{.data.ADMIN_PASSWORD}' | base64 -d; echo
 {{- end }}
 
   These credentials only seed the database on first run — the database

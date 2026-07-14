@@ -90,7 +90,7 @@ microk8s helm3 upgrade --install sidelab . \
 Retrieve the auto-generated admin password and log in:
 
 ```bash
-kubectl get secret -n sidelab sidelab-auth -o jsonpath='{.data.admin-password}' | base64 -d; echo
+kubectl get secret -n sidelab sidelab-auth -o jsonpath='{.data.ADMIN_PASSWORD}' | base64 -d; echo
 kubectl port-forward -n sidelab svc/sidelab 3000:3000
 ```
 
@@ -149,7 +149,7 @@ Or, to avoid putting a credential in a values file at all, create the Secret out
 
 ```bash
 kubectl create secret generic sidelab-mongo -n sidelab \
-  --from-literal=mongodb-url='mongodb+srv://user:pass@cluster.mongodb.net/sidelab'
+  --from-literal=DB_URL='mongodb+srv://user:pass@cluster.mongodb.net/sidelab'
 ```
 
 ```yaml

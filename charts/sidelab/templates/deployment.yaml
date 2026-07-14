@@ -38,6 +38,7 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "sidelab.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+      restartPolicy: Always
       {{- if .Values.podSecurityContext }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
@@ -57,31 +58,15 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "sidelab.fullname" . }}-config
-          env:
-            # ── Auth secrets ──────────────────────────────────────────────────
-            - name: JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "sidelab.authSecretName" . }}
-                  key: jwt-secret
-            - name: ADMIN_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "sidelab.authSecretName" . }}
-                  key: admin-username
-            - name: ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "sidelab.authSecretName" . }}
-                  key: admin-password
-            # ── Database ──────────────────────────────────────────────────────
+            # Auth secrets — the Secret's keys match these env var names exactly
+            # (envFrom has no per-key rename).
+            - secretRef:
+                name: {{ include "sidelab.authSecretName" . }}
             {{- if eq .Values.database.backend "mongo" }}
-            - name: DB_URL
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "sidelab.mongoSecretName" . }}
-                  key: mongodb-url
+            - secretRef:
+                name: {{ include "sidelab.mongoSecretName" . }}
             {{- end }}
+          env:
             # ── Kubernetes launcher identity ───────────────────────────────────
             # The launcher uses its own namespace + Service name to know which
             # Service lab Pods should call back to on session finish.

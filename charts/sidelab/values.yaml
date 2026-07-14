@@ -41,7 +41,7 @@ auth:
   adminPassword: ""
 
   # -- Use your own pre-created Secret instead of the two fields above.
-  # Keys expected: jwt-secret, admin-username, admin-password.
+  # Keys expected: JWT_SECRET, ADMIN_USERNAME, ADMIN_PASSWORD.
   existingSecret: ""
 
 # ── Database ────────────────────────────────────────────────────────────────────
@@ -64,7 +64,7 @@ database:
     # Not needed if mongodb.enabled=true below — the chart wires that up for you.
     url: ""
     # -- Use your own pre-created Secret instead of database.mongo.url.
-    # Key expected: mongodb-url. Takes priority over database.mongo.url and
+    # Key expected: DB_URL. Takes priority over database.mongo.url and
     # over the bundled mongodb chart below.
     existingSecret: ""
 

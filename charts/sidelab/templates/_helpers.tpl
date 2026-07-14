@@ -61,7 +61,7 @@ ServiceAccount name.
 {{- end }}
 
 {{/*
-Name of the auth Secret (jwt-secret / admin-username / admin-password keys).
+Name of the auth Secret (JWT_SECRET / ADMIN_USERNAME / ADMIN_PASSWORD keys).
 */}}
 {{- define "sidelab.authSecretName" -}}
 {{- if .Values.auth.existingSecret }}
@@ -72,7 +72,7 @@ Name of the auth Secret (jwt-secret / admin-username / admin-password keys).
 {{- end }}
 
 {{/*
-Name of the MongoDB connection Secret (mongodb-url key).
+Name of the MongoDB connection Secret (DB_URL key).
 */}}
 {{- define "sidelab.mongoSecretName" -}}
 {{- if .Values.database.mongo.existingSecret }}
@@ -151,8 +151,8 @@ Only called from secret.yaml when auth.existingSecret is not set.
 {{- .Values.auth.jwtSecret -}}
 {{- else -}}
 {{- $existing := lookup "v1" "Secret" .Release.Namespace (include "sidelab.authSecretName" .) -}}
-{{- if and $existing $existing.data (hasKey $existing.data "jwt-secret") -}}
-{{- index $existing.data "jwt-secret" | b64dec -}}
+{{- if and $existing $existing.data (hasKey $existing.data "JWT_SECRET") -}}
+{{- index $existing.data "JWT_SECRET" | b64dec -}}
 {{- else -}}
 {{- randAlphaNum 48 -}}
 {{- end -}}
@@ -168,8 +168,8 @@ Only called from secret.yaml when auth.existingSecret is not set.
 {{- .Values.auth.adminPassword -}}
 {{- else -}}
 {{- $existing := lookup "v1" "Secret" .Release.Namespace (include "sidelab.authSecretName" .) -}}
-{{- if and $existing $existing.data (hasKey $existing.data "admin-password") -}}
-{{- index $existing.data "admin-password" | b64dec -}}
+{{- if and $existing $existing.data (hasKey $existing.data "ADMIN_PASSWORD") -}}
+{{- index $existing.data "ADMIN_PASSWORD" | b64dec -}}
 {{- else -}}
 {{- randAlphaNum 20 -}}
 {{- end -}}

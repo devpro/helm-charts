@@ -1,4 +1,4 @@
-apiVersion: v1
+﻿apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "sidelab.fullname" . }}-config
@@ -6,9 +6,8 @@ metadata:
   labels:
     {{- include "sidelab.labels" . | nindent 4 }}
 data:
-  # Makes the app refuse to start rather than run with an insecure default
-  # JWT_SECRET — belt and suspenders, since the chart always generates a
-  # real one anyway (see auth.jwtSecret in values.yaml).
+  # Makes the app refuse to start rather than run with an insecure default JWT_SECRET —
+  # belt and suspenders, since the chart always generates a real one anyway (see auth.jwtSecret in values.yaml).
   NODE_ENV: "production"
   LAUNCHER_PORT: "3000"
   LAUNCHER_BACKEND: {{ .Values.launcher.backend | quote }}
