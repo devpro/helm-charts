@@ -712,6 +712,31 @@ entries:
     version: 0.2.0
   keeptrack:
   - apiVersion: v2
+    appVersion: "2.0"
+    created: "2026-07-14T21:39:08.25665354Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.6.16
+    description: Helm chart for Keeptrack
+    digest: d5b13ab1590364261f348aaa9beabc6fe6a6256fc438f63296a5fe15715eb622
+    home: https://github.com/devpro/keeptrack
+    keywords:
+    - keeptrack
+    - media-tracking
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: keeptrack
+    sources:
+    - https://github.com/devpro/keeptrack
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/keeptrack-0.2.0/keeptrack-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: 1.1.18203306613
     created: "2026-03-19T22:38:44.989477063Z"
     dependencies:
@@ -982,6 +1007,35 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/rancher-cluster-templates-0.1.0/rancher-cluster-templates-0.1.0.tgz
     version: 0.1.0
+  sidelab:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2026-07-14T21:39:08.426760049Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.6.16
+    description: 'Self-hosted interactive lab platform. Deploys the Sidelab launcher,
+      which manages lab sessions as ephemeral Kubernetes Pods inside tenant-scoped
+      namespaces. '
+    digest: b4851f5e8e868689375109af81bcdcf73068a7b5efaafbff96ed468b78224f67
+    home: https://github.com/devpro/helm-charts
+    keywords:
+    - sidelab
+    - labs
+    - training
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: sidelab
+    sources:
+    - https://github.com/devpro/helm-charts
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/sidelab-0.1.0/sidelab-0.1.0.tgz
+    version: 0.1.0
   terraform-backend-mongodb:
   - apiVersion: v2
     appVersion: 1.2.0
@@ -1041,6 +1095,25 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/terraform-backend-mongodb-0.1.0/terraform-backend-mongodb-0.1.0.tgz
     version: 0.1.0
   tinyfilemanager:
+  - apiVersion: v2
+    appVersion: 2.4.6
+    created: "2026-07-14T21:39:08.584504258Z"
+    description: Tiny File Manager - intentionally vulnerable by default for security
+      workshops
+    digest: 07c6f74f87aeb8600b9019cb46cadbc8f239f7a252cd7c0d6b43b335c38ead52
+    keywords:
+    - security
+    - vulnerable
+    - workshop
+    - owasp
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: tinyfilemanager
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/tinyfilemanager-1.0.1/tinyfilemanager-1.0.1.tgz
+    version: 1.0.1
   - apiVersion: v2
     appVersion: 2.4.6
     created: "2026-05-08T22:43:14.180039424Z"
@@ -1175,4 +1248,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/webgoat-1.0.0/webgoat-1.0.0.tgz
     version: 1.0.0
-generated: "2026-05-08T22:43:14.180157131Z"
+generated: "2026-07-14T21:39:08.584615546Z"
