@@ -39,6 +39,9 @@ kubectl create secret generic keeptrack-app \
   --from-literal=firebaseprojectid='***' \
   --from-literal=firebaseauthority='***' \
   --from-file=firebaseserviceaccount=./firebase-service-account.json \
+  --from-literal=tmdbapikey='***' \
+  --from-literal=rawgapikey='***' \
+  --from-literal=discogstoken='***' \
   --namespace demo
 ```
 
@@ -72,6 +75,21 @@ firebase:
   serviceAccountSecretKeyRef:
     name: keeptrack-app
     key: firebaseserviceaccount
+
+webapi:
+  referenceData:
+    tmdb:
+      apiKeySecretKeyRef:
+        name: keeptrack-app
+        key: tmdbapikey
+    rawg:
+      apiKeySecretKeyRef:
+        name: keeptrack-app
+        key: rawgapikey
+    discogs:
+      tokenSecretKeyRef:
+        name: keeptrack-app
+        key: discogstoken
 
 ingress:
   enabled: true

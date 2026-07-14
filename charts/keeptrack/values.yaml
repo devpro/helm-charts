@@ -50,6 +50,29 @@ webapi:
     #   key: ""
     # connectionString: "someconnstring"
     databaseName: "keeptrack"
+  # optional: third-party providers used to enrich movies/TV shows/video games/books/albums with
+  # posters, synopsis, cast and episode data. Leaving a key empty just means that provider's
+  # enrichment silently fails (401/403 from the provider) - the rest of the app is unaffected.
+  referenceData:
+    # overrides the app's own default ("OpenLibrary") - see WebApi's AppConfiguration.BookReferenceProvider
+    bookProvider: ""
+    # periodic background re-sync of stale reference data (every 24h); matches the app's own default
+    isSyncEnabled: true
+    tmdb:
+      # apiKeySecretKeyRef:
+      #   name: ""
+      #   key: ""
+      apiKey: ""
+    rawg:
+      # apiKeySecretKeyRef:
+      #   name: ""
+      #   key: ""
+      apiKey: ""
+    discogs:
+      # tokenSecretKeyRef:
+      #   name: ""
+      #   key: ""
+      token: ""
 
 dotnet:
   environment: Production
@@ -60,9 +83,20 @@ dotnet:
   scalarEnabled: false
   httpsRedirectionEnabled: false
 
+# optional: image registry credentials, e.g. for a private mirror of the images above
+imagePullSecrets: []
+  # - name: my-registry-secret
+
 security:
   serviceAccount:
     create: false
+  # Hardened container settings for platforms that mandate the Kubernetes Pod Security Standards
+  # "restricted" profile (or an equivalent CIS benchmark policy): seccompProfile, dropping all
+  # Linux capabilities, and a read-only root filesystem. Disabled by default - readOnlyRootFilesystem
+  # needs to be validated against each environment before being turned on broadly (it redirects HOME
+  # to an emptyDir-backed /tmp so .NET's own writes, e.g. Data Protection keys, keep working).
+  hardened:
+    enabled: false
 
 # mandatory
 firebase:
