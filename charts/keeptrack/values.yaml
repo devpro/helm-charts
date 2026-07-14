@@ -21,7 +21,6 @@
     # - name: xxx
     #   value: "yyyy"
   additionalPodLabels: {}
-  # mandatory
   host: ""
 
 webapi:
