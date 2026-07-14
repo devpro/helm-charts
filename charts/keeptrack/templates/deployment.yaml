@@ -9,6 +9,7 @@ metadata:
   labels:
     app: {{ .name }}
     app.kubernetes.io/name: {{ .name }}
+    {{- include "keeptrack.commonLabels" (dict "app" . "root" $) | nindent 4 }}
 spec:
   replicas: {{ .replicaCount }}
   strategy:
@@ -22,6 +23,7 @@ spec:
       labels:
         app: {{ .name }}
         app.kubernetes.io/name: {{ .name }}
+        {{- include "keeptrack.commonLabels" (dict "app" . "root" $) | nindent 8 }}
         {{- if .additionalPodLabels }}
         {{- toYaml .additionalPodLabels | nindent 8 }}
         {{- end }}
@@ -30,6 +32,16 @@ spec:
       serviceAccountName: {{ .name }}
       {{- else }}
       serviceAccountName: default
+      {{- end }}
+      automountServiceAccountToken: false
+      {{- with $.Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if $.Values.security.hardened.enabled }}
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       {{- end }}
       containers:
         - name: {{ .name }}
@@ -54,7 +66,21 @@ spec:
             runAsUser: 1654   # "app" user
             runAsGroup: 1654  # "app" group
             allowPrivilegeEscalation: false
+            {{- if $.Values.security.hardened.enabled }}
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+            {{- end }}
+          {{- if $.Values.security.hardened.enabled }}
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          {{- end }}
           env:
+          {{- if $.Values.security.hardened.enabled }}
+            - name: HOME
+              value: /tmp
+          {{- end }}
           {{- if .extraEnv }}
             {{- toYaml .extraEnv | nindent 12 }}
           {{- end }}
@@ -66,19 +92,15 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               value: "{{ $.Values.dotnet.environment }}"
             - name: Logging__LogLevel__Default
-              value: {{ $.Values.dotnet.logLevels.default }}
+              value: {{ $.Values.dotnet.logLevels.default | quote }}
             - name: Logging__LogLevel__Microsoft.AspNetCore
-              value: {{ $.Values.dotnet.logLevels.framework }}
+              value: {{ $.Values.dotnet.logLevels.framework | quote }}
             - name: Logging__LogLevel__Devpro
-              value: {{ $.Values.dotnet.logLevels.application }}
-            {{- if $.Values.dotnet.httpsRedirectionEnabled }}
+              value: {{ $.Values.dotnet.logLevels.application | quote }}
             - name: Features__IsHttpsRedirectionEnabled
-              value: "true"
-            {{- end }}
-            {{- if $.Values.dotnet.scalarEnabled }}
+              value: {{ $.Values.dotnet.httpsRedirectionEnabled | quote }}
             - name: Features__IsScalarEnabled
-              value: "true"
-            {{- end }}
+              value: {{ $.Values.dotnet.scalarEnabled | quote }}
             {{- if eq .role "frontend" }}
             - name: WebApi__BaseUrl
               value: "http://{{ $.Values.webapi.name }}"
@@ -165,11 +187,52 @@ spec:
                   key: {{ .db.connectionStringSecretKeyRef.key }}
             {{- else }}
             - name: Infrastructure__MongoDB__ConnectionString
-              value: {{ .db.connectionString }}
+              value: {{ .db.connectionString | quote }}
             {{- end }}
             - name: Infrastructure__MongoDB__DatabaseName
-              value: {{ .db.databaseName }}
+              value: {{ .db.databaseName | quote }}
+            - name: Features__IsReferenceSyncEnabled
+              value: {{ .referenceData.isSyncEnabled | quote }}
+            {{- if .referenceData.bookProvider }}
+            - name: ReferenceData__BookProvider
+              value: {{ .referenceData.bookProvider | quote }}
+            {{- end }}
+            {{- if .referenceData.tmdb.apiKeySecretKeyRef }}
+            - name: Tmdb__ApiKey
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .referenceData.tmdb.apiKeySecretKeyRef.name }}
+                  key: {{ .referenceData.tmdb.apiKeySecretKeyRef.key }}
+            {{- else }}
+            - name: Tmdb__ApiKey
+              value: {{ .referenceData.tmdb.apiKey | quote }}
+            {{- end }}
+            {{- if .referenceData.rawg.apiKeySecretKeyRef }}
+            - name: Rawg__ApiKey
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .referenceData.rawg.apiKeySecretKeyRef.name }}
+                  key: {{ .referenceData.rawg.apiKeySecretKeyRef.key }}
+            {{- else }}
+            - name: Rawg__ApiKey
+              value: {{ .referenceData.rawg.apiKey | quote }}
+            {{- end }}
+            {{- if .referenceData.discogs.tokenSecretKeyRef }}
+            - name: Discogs__Token
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .referenceData.discogs.tokenSecretKeyRef.name }}
+                  key: {{ .referenceData.discogs.tokenSecretKeyRef.key }}
+            {{- else }}
+            - name: Discogs__Token
+              value: {{ .referenceData.discogs.token | quote }}
+            {{- end }}
             {{- end }}
       restartPolicy: Always
+      {{- if $.Values.security.hardened.enabled }}
+      volumes:
+        - name: tmp
+          emptyDir: {}
+      {{- end }}
 {{- end }}
 {{ end }}

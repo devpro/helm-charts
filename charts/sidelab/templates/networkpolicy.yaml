@@ -1,0 +1,70 @@
+{{- if .Values.networkPolicy.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "sidelab.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "sidelab.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "sidelab.selectorLabels" . | nindent 6 }}
+  policyTypes:
+    - Ingress
+    - Egress
+
+  ingress:
+    # Allow from the ingress controller (see networkPolicy.ingressController* values)
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Values.networkPolicy.ingressControllerNamespace }}
+          podSelector:
+            matchLabels:
+              {{- toYaml .Values.networkPolicy.ingressControllerPodSelector | nindent 14 }}
+      ports:
+        - port: {{ .Values.service.port }}
+          protocol: TCP
+    # Allow from the same namespace (e.g. curl from another Pod for healthchecks)
+    - from:
+        - podSelector: {}
+      ports:
+        - port: {{ .Values.service.port }}
+          protocol: TCP
+    {{- range .Values.networkPolicy.additionalIngressNamespaces }}
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ . }}
+      ports:
+        - port: {{ $.Values.service.port }}
+          protocol: TCP
+    {{- end }}
+
+  egress:
+    # DNS resolution
+    - ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+    # Kubernetes API server (manages lab Pods/Services/Secrets/Ingresses/namespaces),
+    # and HTTPS git remotes (the launcher itself clones git-sourced courses for caching)
+    - ports:
+        - port: 443
+          protocol: TCP
+        - port: 6443
+          protocol: TCP
+    {{- if or (eq .Values.database.backend "mongo") .Values.mongodb.enabled }}
+    # MongoDB (bundled chart or external — Atlas also uses 27017 on its data nodes)
+    - ports:
+        - port: 27017
+          protocol: TCP
+    {{- end }}
+    {{- range .Values.networkPolicy.additionalEgressCIDRs }}
+    - to:
+        - ipBlock:
+            cidr: {{ . }}
+    {{- end }}
+{{- end }}

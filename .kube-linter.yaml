@@ -21,6 +21,8 @@
     - sorted-keys
     - privileged-ports
     - no-rolling-update-strategy
+     # sidelab needs this ability
+    - access-to-create-pods
   ignorePaths:
     - charts/**/charts/**
     # disable for now (too many issues for something to rework from the container image)

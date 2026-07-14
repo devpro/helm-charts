@@ -2,6 +2,7 @@
   repository: ghcr.io/devpro/tinyfilemanager
   tag: "2.4.6"
   pullPolicy: IfNotPresent
+  containerPort: 80
 
 imagePullSecrets: []
   # - name: ""
@@ -34,20 +35,6 @@ ingress:
     # traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
   tls:
     enabled: false
-
-livenessProbe:
-  httpGet:
-    path: /
-    port: 80
-  initialDelaySeconds: 15
-  periodSeconds: 20
-
-readinessProbe:
-  httpGet:
-    path: /
-    port: 80
-  initialDelaySeconds: 5
-  periodSeconds: 10
 
 podSecurityContext: {}
   # runAsNonRoot: true

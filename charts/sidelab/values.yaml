@@ -1,0 +1,302 @@
+﻿# ── Domain ────────────────────────────────────────────────────────────────────
+# Single source of truth for hostnames, so you don't repeat your domain in
+# multiple places. Leave the two derived values below empty to use it:
+#   ingress.host        defaults to "sidelab.<domain>"        (the dashboard)
+#   launcher.labDomain   defaults to "labs.<domain>"           (lab sessions, wildcard)
+# Only used when left empty — set ingress.host / launcher.labDomain directly to override.
+domain: ""
+
+image:
+  repository:
+  pullPolicy: IfNotPresent
+  # -- Defaults to .Chart.AppVersion when empty.
+  tag: ""
+
+imagePullSecrets: []
+  # - name: ""
+
+nameOverride: ""
+fullnameOverride: ""
+
+# Session state (active sessions, port allocations, expiry timers) is kept
+# in-memory by the launcher process — it is NOT shared across replicas and
+# does NOT survive a restart. Keep this at 1 regardless of database backend;
+# this is a known upstream limitation, not a SQLite-specific one.
+replicaCount: 1
+
+# ── Auth ──────────────────────────────────────────────────────────────────────
+auth:
+  # -- JWT secret used to sign lab tokens and session cookies.
+  # Leave empty to auto-generate a strong random value on first install — it is
+  # then kept stable across upgrades (read back from the existing Secret).
+  # The app itself refuses to start in production with an unset/default secret,
+  # so this is not optional in practice — just easy to leave to the chart.
+  jwtSecret: ""
+
+  # Initial admin credentials — only used to seed the database when it's empty.
+  adminUsername: "admin"
+  # -- Leave empty to auto-generate a strong random password on first install
+  # (kept stable across upgrades). Retrieve it with the command printed by
+  # `helm install`/`helm upgrade` (see NOTES.txt).
+  adminPassword: ""
+
+  # -- Use your own pre-created Secret instead of the two fields above.
+  # Keys expected: JWT_SECRET, ADMIN_USERNAME, ADMIN_PASSWORD.
+  existingSecret: ""
+
+# ── Database ────────────────────────────────────────────────────────────────────
+database:
+  # -- Options: sqlite, mongo.
+  # sqlite is the zero-dependency default — good for a quick look or a demo.
+  # mongo is the recommended backend for anything you intend to keep around;
+  # point it at your own MongoDB (Atlas or self-hosted) via database.mongo.url,
+  # or flip on the bundled chart below for a disposable demo instance.
+  # There are no schema migrations on either backend (see the app's CLAUDE.md) —
+  # an in-place upgrade across a schema change needs a fresh database.
+  backend: "sqlite"
+
+  sqlite:
+    # -- Path inside the container where the SQLite file lives.
+    path: "/app/data/sidelab.db"
+
+  mongo:
+    # -- Full MongoDB connection string, e.g. mongodb+srv://user:pass@cluster.mongodb.net/sidelab
+    # Not needed if mongodb.enabled=true below — the chart wires that up for you.
+    url: ""
+    # -- Use your own pre-created Secret instead of database.mongo.url.
+    # Key expected: DB_URL. Takes priority over database.mongo.url and
+    # over the bundled mongodb chart below.
+    existingSecret: ""
+
+# ── Bundled MongoDB (optional, for a quick disposable demo) ───────────────────────
+# Deploys https://github.com/bitnami/charts/blob/main/bitnami/mongodb/values.yaml
+# as a subchart alongside the launcher. Off by default — prefer a real, backed-up
+# MongoDB (Atlas or self-hosted) for anything you care about; this is uncomfortable
+# to lose, since it's just another Pod with a PVC, not a managed database.
+#
+# When enabled, the chart auto-builds database.mongo's connection string from
+# mongodb.auth.rootPassword — set that one field and DB_BACKEND=mongo wiring is
+# automatic. database.mongo.url / database.mongo.existingSecret, if set, always
+# take priority over this (so you can point at an external Mongo even with an
+# unrelated mongodb.enabled=true left over from testing).
+mongodb:
+  enabled: false
+  architecture: standalone
+  auth:
+    enabled: true
+    # -- Required when mongodb.enabled=true, unless database.mongo.url or
+    # database.mongo.existingSecret is set instead.
+    # This is intentionally not auto-generated: the same value has to reach
+    # both this subchart's own root user AND the launcher's connection string,
+    # and Helm cannot pass a chart-generated value into a subchart's values.
+    rootPassword: ""
+  image:
+    registry: docker.io
+    repository: bitnami/mongodb   # other options: chainguard/mongodb
+    tag: latest                   # IMPORTANT: latest should never be used in production
+  persistence:
+    enabled: true
+    size: 4Gi
+  global:
+    security:
+      allowInsecureImages: true
+  # -- Uncomment to point the subchart at a specific cluster storage class.
+  # global:
+  #   defaultStorageClass: ""
+
+persistence:
+  # -- Enable a PersistentVolumeClaim for /app/data.
+  # Required for the sqlite backend. Recommended for the git course cache even
+  # with the mongo backend, so cloned course repos survive a Pod restart.
+  enabled: true
+  # -- Leave empty to use the cluster default.
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 2Gi
+  # -- Use an existing PVC instead of creating one.
+  existingClaim: ""
+
+launcher:
+  # -- Only "kubernetes" is meaningful in-cluster — it's what makes the launcher
+  # create lab sessions as Pods via the Kubernetes API instead of Docker/Podman.
+  backend: "kubernetes"
+
+  labImage: "ghcr.io/devpro/sidelab-app:latest"
+  labImagePullPolicy: "IfNotPresent"
+
+  # -- Default lab session duration, in minutes.
+  sessionDefaultDuration: 30
+  # -- Maximum lab session duration a user can request, in minutes.
+  sessionMaxDuration: 60
+
+  # -- How lab Pods are exposed to end users. Options: nodeport, ingress.
+  # nodeport needs nothing else and is the default; ingress needs an ingress
+  # controller and, for TLS, cert-manager — see the ingress section below.
+  labAccess: "nodeport"
+
+  # -- Wildcard domain used to build lab session URLs when labAccess=ingress,
+  # e.g. "labs.example.com" makes lab URLs "https://<session-id>.labs.example.com".
+  # Defaults to "labs.<domain>" (see the top-level domain value) when left empty.
+  labDomain: ""
+
+  # -- Name of a ConfigMap holding a custom Ingress template for lab sessions
+  # (key: ingress-template.yaml). Leave empty to use the chart's own template,
+  # which is generated from the ingress section below and good enough for most
+  # ingress-nginx/Traefik setups.
+  ingressTemplateConfigMap: ""
+
+  # -- Kubernetes namespace prefix for tenant lab namespaces, e.g. tenant "admin"
+  # gets namespace "sidelab-admin" with the default prefix.
+  namespacePrefix: "sidelab"
+
+  # -- Comma-separated list of namespaces to scan for orphan cleanup on startup.
+  # Leave empty — the launcher discovers them from the namespace prefix above.
+  knownNamespaces: ""
+
+  # Note: the git-clone init container used for git-sourced courses always runs
+  # "alpine/git:latest" — this is fixed in the app itself, not chart-configurable.
+  # Make sure that image is reachable (or pre-imported) wherever you deploy.
+
+# ── Service (the launcher dashboard) ───────────────────────────────────────────
+# This is independent from launcher.labAccess above, which is only about lab
+# session Pods. The dashboard itself is always reached via this Service —
+# through the Ingress below, a NodePort, or `kubectl port-forward`.
+service:
+  # -- ClusterIP, NodePort, or LoadBalancer.
+  type: ClusterIP
+  port: 3000
+  # -- Only used when service.type=NodePort. Leave empty to let Kubernetes pick one.
+  nodePort: ""
+
+# ── Ingress (dashboard only — lab sessions use launcher.labAccess) ───────────────
+ingress:
+  # -- Off by default so a first install doesn't need an ingress controller.
+  enabled: false
+  # -- e.g. "public" or "nginx" for MicroK8s' bundled ingress-nginx, "traefik" for Traefik.
+  className: ""
+  # -- Hostname for the launcher dashboard. Defaults to "sidelab.<domain>"
+  # (see the top-level domain value) when left empty.
+  host: ""
+  annotations: {}
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    # traefik.ingress.kubernetes.io/router.tls: "true"
+    # traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
+  tls:
+    # -- Requests a certificate automatically when a cert-manager ClusterIssuer
+    # annotation is present above (see letsencrypt example in CONTRIBUTING.md).
+    enabled: false
+    secretName: "sidelab-tls"
+
+# ── Security ────────────────────────────────────────────────────────────────────
+# All hardening below is opt-in and off by default, so the chart runs
+# unmodified on a plain cluster. Uncomment what your cluster/policy needs.
+# The launcher image has no baked-in non-root user, but any non-zero UID works
+# fine — /app/data is a PVC (fsGroup handles it) and /tmp is a separate emptyDir.
+podSecurityContext: {}
+  # runAsNonRoot: true
+  # runAsUser: 1000
+  # runAsGroup: 1000
+  # fsGroup: 1000
+  # seccompProfile:
+  #   type: RuntimeDefault
+
+containerSecurityContext: {}
+  # allowPrivilegeEscalation: false
+  # readOnlyRootFilesystem: true
+  # capabilities:
+  #   drop:
+  #     - ALL
+
+# ── Resources ───────────────────────────────────────────────────────────────────
+resources: {}
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # limits:
+  #   cpu: 500m
+  #   memory: 512Mi
+
+# ── Probes ───────────────────────────────────────────────────────────────────────
+# The launcher has no dedicated /healthz route — "/" serves the dashboard's
+# static index.html unauthenticated, which works fine as a liveness signal.
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  failureThreshold: 3
+
+# ── Autoscaling ──────────────────────────────────────────────────────────────────
+# Not supported: session state is in-memory per Pod (see replicaCount above).
+# Left here, off, only so a future multi-replica launcher doesn't need a chart
+# rewrite — do not enable this today.
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+
+# ── Pod Disruption Budget ────────────────────────────────────────────────────────
+# Off by default: with replicaCount 1, a PDB with minAvailable=1 blocks voluntary
+# node drains from ever evicting the Pod. Only turn this on if that's what you want.
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
+
+# ── Network Policies ─────────────────────────────────────────────────────────────
+networkPolicy:
+  enabled: false
+  # -- Namespace the ingress controller runs in, allowed to reach the dashboard Service.
+  ingressControllerNamespace: "kube-system"
+  # -- Pod label selector for the ingress controller within that namespace.
+  # Defaults work for Traefik; for MicroK8s' ingress-nginx use "app.kubernetes.io/name: ingress-nginx".
+  ingressControllerPodSelector:
+    app.kubernetes.io/name: traefik
+  # -- Extra namespace selectors allowed to reach the dashboard Service.
+  additionalIngressNamespaces: []
+  # -- Extra CIDRs allowed on egress (e.g. a self-hosted MongoDB not on the default 27017 rule).
+  additionalEgressCIDRs: []
+
+# ── RBAC ──────────────────────────────────────────────────────────────────────────
+# Required, not just hardening: without it the launcher's Kubernetes backend
+# cannot create the namespaces/Pods/Services/Ingresses/Secrets that lab
+# sessions are made of. Disable only if you manage equivalent RBAC externally.
+rbac:
+  create: true
+
+serviceAccount:
+  create: true
+  annotations: {}
+  # -- Defaults to the chart's fullname.
+  name: ""
+  # -- Required: the launcher authenticates to the Kubernetes API using this
+  # Pod's own mounted token. Unlike most charts, this can't default to false.
+  automountServiceAccountToken: true
+
+# ── Scheduling ───────────────────────────────────────────────────────────────────
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+podAnnotations: {}
+podLabels: {}
+
+# ── Extra environment variables passed to the launcher container ─────────────────
+# Example:
+#   extraEnv:
+#     - name: SESSION_HOST
+#       value: "labs.example.com"
+extraEnv: []
+
+extraVolumes: []
+extraVolumeMounts: []

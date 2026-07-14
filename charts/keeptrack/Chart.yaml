@@ -2,8 +2,13 @@
 name: keeptrack
 description: Helm chart for Keeptrack
 type: application
-version: 0.1.0
-appVersion: "1.1.18203306613"
+version: 0.2.1
+appVersion: "2.0"
+home: https://github.com/devpro/keeptrack
+sources:
+  - https://github.com/devpro/keeptrack
+keywords:
+  - keeptrack
 dependencies:
   - name: mongodb
     version: 18.6.16   # MongoDB 8.2.6

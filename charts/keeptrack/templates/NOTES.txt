@@ -1,0 +1,33 @@
+Keeptrack has been deployed.
+
+{{- if .Values.ingress.enabled }}
+{{- if .Values.blazorapp.enabled }}
+Web application:
+  https://{{ .Values.blazorapp.host }}
+{{- end }}
+{{- if .Values.webapi.enabled }}
+Web API:
+  https://{{ .Values.webapi.host }}
+{{- end }}
+{{- else }}
+Ingress is disabled - reach the app via `kubectl port-forward` or your own ingress/gateway pointed
+at the {{ .Values.blazorapp.name }} / {{ .Values.webapi.name }} Services.
+{{- end }}
+
+{{- if not .Values.mongodb.enabled }}
+
+MongoDB is not managed by this chart (mongodb.enabled=false) - make sure webapi.db.connectionString
+(or webapi.db.connectionStringSecretKeyRef) points at a reachable, already-provisioned instance.
+{{- end }}
+
+Check the rollout:
+  kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}
+
+Grant the first admin (there is no in-app way to do this - see CONTRIBUTING.md):
+  a one-off Firebase Admin SDK setCustomUserClaims({ role: "admin" }) call against the target user.
+
+{{- if not .Values.security.hardened.enabled }}
+
+Note: security.hardened.enabled is false. Turn it on once validated in this environment to run with
+a read-only root filesystem, all Linux capabilities dropped, and the default seccomp profile.
+{{- end }}
