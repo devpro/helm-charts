@@ -1,4 +1,4 @@
-{{/*
+﻿{{/*
 Expand the name of the chart.
 */}}
 {{- define "sidelab.name" -}}
@@ -101,8 +101,8 @@ Image tag — falls back to .Chart.AppVersion.
 {{- end }}
 
 {{/*
-Dashboard hostname. ingress.host wins; otherwise derived from the shared
-top-level `domain` value as "sidelab.<domain>". Empty if neither is set.
+Dashboard hostname. ingress.host wins; otherwise derived from the shared top-level `domain` value as "sidelab.<domain>".
+Empty if neither is set.
 */}}
 {{- define "sidelab.ingressHost" -}}
 {{- if .Values.ingress.host -}}
@@ -113,8 +113,8 @@ top-level `domain` value as "sidelab.<domain>". Empty if neither is set.
 {{- end }}
 
 {{/*
-Lab session wildcard domain. launcher.labDomain wins; otherwise derived from
-the shared top-level `domain` value as "labs.<domain>". Empty if neither is set.
+Lab session wildcard domain. launcher.labDomain wins; otherwise derived from the shared top-level `domain` value as "labs.<domain>".
+Empty if neither is set.
 */}}
 {{- define "sidelab.labDomain" -}}
 {{- if .Values.launcher.labDomain -}}
@@ -125,11 +125,11 @@ the shared top-level `domain` value as "labs.<domain>". Empty if neither is set.
 {{- end }}
 
 {{/*
-MongoDB connection string. database.mongo.url wins; otherwise, if the bundled
-mongodb subchart is enabled, derived from its default standalone Service name
-("<release-name>-mongodb", per the alias in Chart.yaml and the Bitnami chart's
-own naming convention) and mongodb.auth.rootPassword. Only called from
-secret.yaml when database.mongo.existingSecret is not set.
+MongoDB connection string.
+database.mongo.url wins;
+otherwise, if the bundled mongodb subchart is enabled, derived from its default standalone Service name
+("<release-name>-mongodb", per the alias in Chart.yaml and the Bitnami chart's own naming convention) and mongodb.auth.rootPassword.
+Only called from secret.yaml when database.mongo.existingSecret is not set.
 */}}
 {{- define "sidelab.mongoUrl" -}}
 {{- if .Values.database.mongo.url -}}
@@ -140,10 +140,9 @@ secret.yaml when database.mongo.existingSecret is not set.
 {{- end }}
 
 {{/*
-JWT secret — auth.jwtSecret wins; otherwise reused from the existing Secret on
-upgrade (via lookup), or freshly generated on first install. `lookup` returns
-nothing outside a real cluster (e.g. `helm template`), so offline rendering
-always generates a fresh value — expected, and harmless for a dry render.
+JWT secret — auth.jwtSecret wins; otherwise reused from the existing Secret on upgrade (via lookup), or freshly generated on first install.
+`lookup` returns nothing outside a real cluster (e.g. `helm template`), so offline rendering always generates a fresh value —
+expected, and harmless for a dry render.
 Only called from secret.yaml when auth.existingSecret is not set.
 */}}
 {{- define "sidelab.jwtSecret" -}}
@@ -180,6 +179,9 @@ Only called from secret.yaml when auth.existingSecret is not set.
 Validate required values and emit a clear error message.
 */}}
 {{- define "sidelab.validateValues" -}}
+{{- if not .Values.image.repository }}
+{{- fail "image.repository is required." }}
+{{- end }}
 {{- if and (eq .Values.database.backend "mongo") (not .Values.database.mongo.url) (not .Values.database.mongo.existingSecret) (not .Values.mongodb.enabled) }}
 {{- fail "database.backend=mongo needs one of: database.mongo.url, database.mongo.existingSecret, or mongodb.enabled=true." }}
 {{- end }}
