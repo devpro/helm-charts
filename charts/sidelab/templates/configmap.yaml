@@ -27,9 +27,10 @@ data:
   K8S_INGRESS_TEMPLATE: "/app/config/ingress-template.yaml"
   {{- end }}
   K8S_NAMESPACE_PREFIX: {{ .Values.launcher.namespacePrefix | quote }}
-  {{- if .Values.launcher.knownNamespaces }}
-  K8S_KNOWN_NAMESPACES: {{ .Values.launcher.knownNamespaces | quote }}
-  {{- end }}
+  # Orphan cleanup and the restart delete-by-label fallback only scan the
+  # namespaces listed here — the app has no discovery of its own, so always set
+  # at least the seeded admin tenant's namespace.
+  K8S_KNOWN_NAMESPACES: {{ .Values.launcher.knownNamespaces | default (printf "%s-admin" .Values.launcher.namespacePrefix) | quote }}
 ---
 {{- if and (eq .Values.launcher.labAccess "ingress") (not .Values.launcher.ingressTemplateConfigMap) }}
 # Default Ingress template for lab session Pods, modeled on
@@ -59,11 +60,16 @@ data:
         app: sidelab-lab
         sidelab.io/session: "{{"{{"}}SESSION_ID{{"}}"}}"
         sidelab.io/tenant: "{{"{{"}}TENANT{{"}}"}}"
-      {{- $issuer := index .Values.ingress.annotations "cert-manager.io/cluster-issuer" }}
-      {{- if $issuer }}
       annotations:
+        # Long-lived WebSockets (terminal, VNC) — ingress-nginx otherwise drops
+        # them after its 60s default proxy-read-timeout. Traefik ignores these.
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+        nginx.ingress.kubernetes.io/proxy-http-version: "1.1"
+        {{- $issuer := index .Values.ingress.annotations "cert-manager.io/cluster-issuer" }}
+        {{- if $issuer }}
         cert-manager.io/cluster-issuer: {{ $issuer | quote }}
-      {{- end }}
+        {{- end }}
     spec:
       {{- if .Values.ingress.className }}
       ingressClassName: {{ .Values.ingress.className | quote }}

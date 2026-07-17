@@ -1,8 +1,10 @@
-# Patterns to ignore when building packages.
-.DS_Store
+﻿.DS_Store
 .git/
 .gitignore
 .helmignore
 *.orig
 *.swp
 *.bak
+values.mine.yaml
+temp*.yaml
+kubeconfig
