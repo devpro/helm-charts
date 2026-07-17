@@ -1,0 +1,29 @@
+Terraform Backend MongoDB has been deployed.
+
+{{- if .Values.ingress.enabled }}
+{{- if .Values.webapi.enabled }}
+Web API:
+  https://{{ .Values.webapi.host }}
+{{- end }}
+{{- else }}
+Ingress is disabled - reach the app via `kubectl port-forward` or your own ingress/gateway pointed
+at the {{ .Values.webapi.name }} Service.
+{{- end }}
+
+{{- if not .Values.mongodb.enabled }}
+
+MongoDB is not managed by this chart (mongodb.enabled=false) - make sure webapi.db.connectionString
+(or webapi.db.connectionStringSecretKeyRef) points at a reachable, already-provisioned instance.
+{{- end }}
+
+Check the rollout:
+  kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}
+
+Create a user (there is no in-app way to do this - see CONTRIBUTING.md):
+  MONGODB_URI=<connection-string> ./tfbeadm create-user <username> <password> <tenant>
+
+{{- if not .Values.security.hardened.enabled }}
+
+Note: security.hardened.enabled is false. Turn it on once validated in this environment to run with
+a read-only root filesystem, all Linux capabilities dropped, and the default seccomp profile.
+{{- end }}

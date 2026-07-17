@@ -8,6 +8,7 @@ metadata:
   labels:
     app: {{ .name }}
     app.kubernetes.io/name: {{ .name }}
+    {{- include "terraform-backend-mongodb.commonLabels" (dict "app" . "root" $) | nindent 4 }}
   name: {{ .name }}
 spec:
   type: ClusterIP

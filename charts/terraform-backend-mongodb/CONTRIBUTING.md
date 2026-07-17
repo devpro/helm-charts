@@ -30,8 +30,9 @@ Create a `values.mine.yaml` file:
 ```yaml
 dotnet:
   environment: Development
-  enableSwagger: true
-  enableOpenTelemetry: false
+  enableScalar: true
+  openTelemetry:
+    enabled: false
 ingress:
   enabled: true
   className: traefik
@@ -56,10 +57,10 @@ helm upgrade --install tfbackend . \
   --namespace tfbackend --create-namespace
 ```
 
-Open application Swagger in a browser.
+Open the Scalar API reference in a browser.
 
 ```bash
-echo https://tfbckmdb.console.$SANDBOX_ID.instruqt.io/swagger
+echo https://tfbckmdb.console.$SANDBOX_ID.instruqt.io/scalar
 ```
 
 Create admin:

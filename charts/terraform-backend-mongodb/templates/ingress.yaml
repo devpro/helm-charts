@@ -1,12 +1,16 @@
 {{- $applications := list .Values.webapi -}}
 {{ range $applications }}
 {{- $name := .name -}}
-{{- if and $.Values.ingress.enabled .enabled -}}
+{{- if and $.Values.ingress.enabled .enabled .host -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $name }}
+  labels:
+    app: {{ $name }}
+    app.kubernetes.io/name: {{ $name }}
+    {{- include "terraform-backend-mongodb.commonLabels" (dict "app" . "root" $) | nindent 4 }}
   {{- with $.Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
