@@ -1,4 +1,4 @@
-﻿# ── Domain ────────────────────────────────────────────────────────────────────
+# ── Domain ────────────────────────────────────────────────────────────────────
 # Single source of truth for hostnames, so you don't repeat your domain in multiple places.
 # Leave the two derived values below empty to use it:
 #   ingress.host         defaults to "sidelab.<domain>"        (the dashboard)
