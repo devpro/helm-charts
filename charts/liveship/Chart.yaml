@@ -1,0 +1,25 @@
+apiVersion: v2
+name: liveship
+description: >
+  One platform for an organization's infrastructure, security posture, and code.
+  Deploys the Liveship application, which reads the same MongoDB database terraform-backend-mongodb writes to.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - liveship
+  - infrastructure
+  - kubernetes
+  - terraform
+home: https://github.com/devpro/helm-charts
+sources:
+  - https://github.com/devpro/liveship
+dependencies:
+  - name: mongodb
+    version: 18.6.16   # MongoDB 8.2.6
+    repository: https://charts.bitnami.com/bitnami
+    alias: mongodb
+    condition: mongodb.enabled
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr

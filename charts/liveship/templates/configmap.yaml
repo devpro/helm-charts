@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "liveship.fullname" . }}-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "liveship.labels" . | nindent 4 }}
+data:
+  MONGODB_DB: {{ .Values.database.name | quote }}
+  # What the browser uses to reach the app — NextAuth builds login/callback
+  # redirects from this, so a wrong value breaks sign-in, not just links.
+  NEXTAUTH_URL: {{ include "liveship.nextauthUrl" . | quote }}
+  {{- if .Values.otel.endpoint }}
+  OTEL_EXPORTER_OTLP_ENDPOINT: {{ .Values.otel.endpoint | quote }}
+  OTEL_SERVICE_NAME: {{ .Values.otel.serviceName | quote }}
+  {{- end }}
