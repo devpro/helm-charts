@@ -1,12 +1,14 @@
 ﻿# ── Domain ────────────────────────────────────────────────────────────────────
-# Single source of truth for hostnames, so you don't repeat your domain in
-# multiple places. Leave the two derived values below empty to use it:
-#   ingress.host        defaults to "sidelab.<domain>"        (the dashboard)
+# Single source of truth for hostnames, so you don't repeat your domain in multiple places.
+# Leave the two derived values below empty to use it:
+#   ingress.host         defaults to "sidelab.<domain>"        (the dashboard)
 #   launcher.labDomain   defaults to "labs.<domain>"           (lab sessions, wildcard)
 # Only used when left empty — set ingress.host / launcher.labDomain directly to override.
 domain: ""
 
 image:
+  # -- Required: the chart is public but the sidelab images are not published to a public registry.
+  # The chart fails fast at render time when unset.
   repository:
   pullPolicy: IfNotPresent
   # -- Defaults to .Chart.AppVersion when empty.
@@ -18,30 +20,30 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-# Session state (active sessions, port allocations, expiry timers) is kept
-# in-memory by the launcher process — it is NOT shared across replicas and
-# does NOT survive a restart. Keep this at 1 regardless of database backend;
+# Session state (active sessions, port allocations, expiry timers) is kept in-memory by the launcher process —
+# it is NOT shared across replicas and does NOT survive a restart.
+# Keep this at 1 regardless of database backend;
 # this is a known upstream limitation, not a SQLite-specific one.
 replicaCount: 1
 
 # ── Auth ──────────────────────────────────────────────────────────────────────
 auth:
   # -- JWT secret used to sign lab tokens and session cookies.
-  # Leave empty to auto-generate a strong random value on first install — it is
-  # then kept stable across upgrades (read back from the existing Secret).
-  # The app itself refuses to start in production with an unset/default secret,
-  # so this is not optional in practice — just easy to leave to the chart.
+  # Leave empty to auto-generate a strong random value on first install — it is then kept stable across upgrades (read back from the existing Secret).
+  # The app itself refuses to start in production with an unset/default secret, so this is not optional in practice — just easy to leave to the chart.
   jwtSecret: ""
 
   # Initial admin credentials — only used to seed the database when it's empty.
   adminUsername: "admin"
-  # -- Leave empty to auto-generate a strong random password on first install
-  # (kept stable across upgrades). Retrieve it with the command printed by
-  # `helm install`/`helm upgrade` (see NOTES.txt).
+  # -- Leave empty to auto-generate a strong random password on first install (kept stable across upgrades).
+  # Retrieve it with the command printed by `helm install`/`helm upgrade` (see NOTES.txt).
   adminPassword: ""
 
   # -- Use your own pre-created Secret instead of the two fields above.
   # Keys expected: JWT_SECRET, ADMIN_USERNAME, ADMIN_PASSWORD.
+  # GitOps note (ArgoCD/Flux): those tools render templates offline, where the auto-generate-then-reuse trick above can't look up the existing Secret —
+  # so every sync would rotate JWT_SECRET, logging everyone out and making stored repo tokens undecryptable.
+  # Under GitOps, always set this (or auth.jwtSecret).
   existingSecret: ""
 
 # ── Database ────────────────────────────────────────────────────────────────────
@@ -49,10 +51,8 @@ database:
   # -- Options: sqlite, mongo.
   # sqlite is the zero-dependency default — good for a quick look or a demo.
   # mongo is the recommended backend for anything you intend to keep around;
-  # point it at your own MongoDB (Atlas or self-hosted) via database.mongo.url,
-  # or flip on the bundled chart below for a disposable demo instance.
-  # There are no schema migrations on either backend (see the app's CLAUDE.md) —
-  # an in-place upgrade across a schema change needs a fresh database.
+  # point it at your own MongoDB (Atlas or self-hosted) via database.mongo.url, or flip on the bundled chart below for a disposable demo instance.
+  # There are no schema migrations on either backend (see the app's CLAUDE.md) — an in-place upgrade across a schema change needs a fresh database.
   backend: "sqlite"
 
   sqlite:
@@ -149,8 +149,12 @@ launcher:
   # gets namespace "sidelab-admin" with the default prefix.
   namespacePrefix: "sidelab"
 
-  # -- Comma-separated list of namespaces to scan for orphan cleanup on startup.
-  # Leave empty — the launcher discovers them from the namespace prefix above.
+  # -- Comma-separated list of tenant namespaces the launcher scans for orphan
+  # cleanup on startup and for terminating sessions it lost track of across a
+  # restart (delete-by-label fallback). The app does NOT discover these itself —
+  # left empty, the chart defaults to "<namespacePrefix>-admin" (the seeded
+  # admin tenant). List every tenant namespace here once you add tenants,
+  # e.g. "sidelab-admin,sidelab-acme".
   knownNamespaces: ""
 
   # Note: the git-clone init container used for git-sourced courses always runs
@@ -254,6 +258,10 @@ podDisruptionBudget:
   minAvailable: 1
 
 # ── Network Policies ─────────────────────────────────────────────────────────────
+# Lab pods calling back into the launcher (token validation, session finish) are
+# always allowed: the policy admits any namespace labeled
+# app.kubernetes.io/managed-by=sidelab, which the launcher sets on every tenant
+# namespace it creates.
 networkPolicy:
   enabled: false
   # -- Namespace the ingress controller runs in, allowed to reach the dashboard Service.

@@ -95,7 +95,7 @@ spec:
               value: {{ $.Values.dotnet.logLevels.default | quote }}
             - name: Logging__LogLevel__Microsoft.AspNetCore
               value: {{ $.Values.dotnet.logLevels.framework | quote }}
-            - name: Logging__LogLevel__Devpro
+            - name: Logging__LogLevel__Keeptrack
               value: {{ $.Values.dotnet.logLevels.application | quote }}
             - name: Features__IsHttpsRedirectionEnabled
               value: {{ $.Values.dotnet.httpsRedirectionEnabled | quote }}
@@ -104,6 +104,22 @@ spec:
             {{- if eq .role "frontend" }}
             - name: WebApi__BaseUrl
               value: "http://{{ $.Values.webapi.name }}"
+            - name: Features__IsWebSocketsOnlyEnabled
+              value: {{ .webSocketsOnly | quote }}
+            {{- if .dataProtection.enabled }}
+            {{- if .dataProtection.connectionStringSecretKeyRef }}
+            - name: DataProtection__MongoDb__ConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .dataProtection.connectionStringSecretKeyRef.name }}
+                  key: {{ .dataProtection.connectionStringSecretKeyRef.key }}
+            {{- else }}
+            - name: DataProtection__MongoDb__ConnectionString
+              value: {{ .dataProtection.connectionString | quote }}
+            {{- end }}
+            - name: DataProtection__MongoDb__DatabaseName
+              value: {{ .dataProtection.databaseName | quote }}
+            {{- end }}
             {{- if $.Values.firebase.webApp.apiKeySecretKeyRef }}
             - name: Firebase__WebAppConfiguration__ApiKey
               valueFrom:
@@ -193,6 +209,8 @@ spec:
               value: {{ .db.databaseName | quote }}
             - name: Features__IsReferenceSyncEnabled
               value: {{ .referenceData.isSyncEnabled | quote }}
+            - name: Features__FreeTierItemLimit
+              value: {{ .freeTierItemLimit | quote }}
             {{- if .referenceData.bookProvider }}
             - name: ReferenceData__BookProvider
               value: {{ .referenceData.bookProvider | quote }}

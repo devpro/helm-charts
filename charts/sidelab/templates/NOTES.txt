@@ -25,12 +25,14 @@
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   First login
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Username: {{ .Values.auth.adminUsername }}
 {{- if .Values.auth.existingSecret }}
+  Username: (value of the "ADMIN_USERNAME" key in Secret/{{ .Values.auth.existingSecret }})
   Password: (value of the "ADMIN_PASSWORD" key in Secret/{{ .Values.auth.existingSecret }})
 {{- else if .Values.auth.adminPassword }}
+  Username: {{ .Values.auth.adminUsername }}
   Password: (value of auth.adminPassword you supplied)
 {{- else }}
+  Username: {{ .Values.auth.adminUsername }}
   Password: auto-generated on first install — retrieve it with:
 
     kubectl get secret -n {{ .Release.Namespace }} {{ include "sidelab.authSecretName" . }} \

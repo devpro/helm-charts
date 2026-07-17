@@ -1,7 +1,6 @@
-{{- if .Values.rbac.create }}
-# The launcher needs cluster-scoped permissions because it creates lab Pods in
-# dynamically-named tenant namespaces (sidelab-<tenant>). A namespaced Role
-# would require pre-creating one per tenant namespace, which defeats the purpose.
+﻿{{- if .Values.rbac.create }}
+# The launcher needs cluster-scoped permissions because it creates lab Pods in dynamically-named tenant namespaces (sidelab-<tenant>).
+# A namespaced Role would require pre-creating one per tenant namespace, which defeats the purpose.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -12,7 +11,7 @@ rules:
   # Namespace management — creates sidelab-<tenant> on first lab start
   - apiGroups: [""]
     resources: ["namespaces"]
-    verbs: ["get", "list", "create"]
+    verbs: ["get", "create"]
 
   # Lab Pod lifecycle
   - apiGroups: [""]
@@ -24,10 +23,11 @@ rules:
     resources: ["services"]
     verbs: ["get", "list", "create", "delete"]
 
-  # Per-session Secrets holding private git PATs — created and deleted per session
+  # Per-session Secrets holding private git PATs — created and deleted per session, never read back.
+  # No get/list here: on a ClusterRole that would mean read access to every Secret in the cluster.
   - apiGroups: [""]
     resources: ["secrets"]
-    verbs: ["get", "list", "create", "delete"]
+    verbs: ["create", "delete"]
 
   # Lab Ingress resources (when K8S_LAB_ACCESS=ingress)
   - apiGroups: ["networking.k8s.io"]

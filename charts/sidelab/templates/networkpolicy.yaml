@@ -32,6 +32,16 @@ spec:
       ports:
         - port: {{ .Values.service.port }}
           protocol: TCP
+    # Allow lab pods in tenant namespaces (sidelab-<tenant>) — they call the
+    # launcher back for token validation on lab login and on session finish.
+    # The launcher labels every namespace it creates with this.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/managed-by: sidelab
+      ports:
+        - port: {{ .Values.service.port }}
+          protocol: TCP
     {{- range .Values.networkPolicy.additionalIngressNamespaces }}
     - from:
         - namespaceSelector:

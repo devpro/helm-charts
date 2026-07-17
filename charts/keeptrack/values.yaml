@@ -8,7 +8,7 @@
   healthEndpoint: /health
   tls:
     secretName: keeptrack-blazorapp-tls
-  tag: 2.0.29367732118      # ref. https://hub.docker.com/r/devprofr/keeptrack-blazorapp/tags
+  tag: 2.1.29541631973      # ref. https://hub.docker.com/r/devprofr/keeptrack-blazorapp/tags
   replicaCount: 1
   resources: {}
     # limits:
@@ -22,6 +22,25 @@
     #   value: "yyyy"
   additionalPodLabels: {}
   host: ""
+  # Blazor Server scale-out support - see README "Scaling & high availability".
+  # Persists the app's Data Protection key ring (which encrypts the auth cookie and antiforgery tokens)
+  # in MongoDB, so every replica can decrypt what any other replica issued. REQUIRED before setting replicaCount > 1;
+  # recommended even at 1 replica (sessions then survive pod restarts).
+  dataProtection:
+    enabled: false
+    # important when enabled: connectionString or connectionStringSecretKeyRef must be provided
+    # (typically the same secret as webapi.db)
+    # connectionStringSecretKeyRef:
+    #   name: ""
+    #   key: ""
+    # connectionString: ""
+    databaseName: "keeptrack"
+  # Forces the Blazor Server circuit onto a single WebSocket with no negotiate round-trip, so a circuit
+  # naturally sticks to the replica that owns its state -
+  # no load-balancer cookie affinity needed, which makes replicaCount > 1 work behind anything that passes WebSockets through (cloudflared, Traefik, plain Services).
+  # Only set to false if a proxy in front can't pass WebSockets;
+  # such a deployment must then stay at replicaCount 1.
+  webSocketsOnly: true
 
 webapi:
   enabled: true
@@ -35,10 +54,14 @@ webapi:
     secretName: keeptrack-webapi-tls
   host: ""
   replicaCount: 1
-  tag: 2.0.29367732118    # ref. https://hub.docker.com/r/devprofr/keeptrack-webapi/tags
+  tag: 2.1.29541631973    # ref. https://hub.docker.com/r/devprofr/keeptrack-webapi/tags
   resources: {}
   extraEnv: []
   additionalPodLabels: {}
+  # how many items a signed-in account WITHOUT the Firebase "member"/"admin" role may create per free-tier collection (movies, TV shows);
+  # such accounts have no access to the other collections at all -
+  # grant `role: member` via the Firebase Admin SDK to unlock everything (see the app's CONTRIBUTING.md)
+  freeTierItemLimit: 20
   db:
     # important: connectionString or connectionStringSecretKeyRef must be provided
     # connectionStringSecretKeyRef:
@@ -46,9 +69,8 @@ webapi:
     #   key: ""
     # connectionString: "someconnstring"
     databaseName: "keeptrack"
-  # optional: third-party providers used to enrich movies/TV shows/video games/books/albums with
-  # posters, synopsis, cast and episode data. Leaving a key empty just means that provider's
-  # enrichment silently fails (401/403 from the provider) - the rest of the app is unaffected.
+  # optional: third-party providers used to enrich movies/TV shows/video games/books/albums with posters, synopsis, cast and episode data.
+  # Leaving a key empty just means that provider's enrichment silently fails (401/403 from the provider) - the rest of the app is unaffected.
   referenceData:
     # overrides the app's own default ("OpenLibrary") - see WebApi's AppConfiguration.BookReferenceProvider
     bookProvider: ""
