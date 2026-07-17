@@ -10,12 +10,17 @@ webapi:
   containerPort: 8080
   healthEndpoint: /health
   db:
-    # important: connectionString or connectionStringSecretKeyRef must be provided
+    # -- Full MongoDB connection string, e.g. mongodb://user:pass@host:27017/?authSource=admin
+    # Not needed if mongodb.enabled=true below - the chart wires that up for you from
+    # mongodb.auth.rootPassword. The chart always stores this in a Secret (never rendered as a
+    # plain env var in the Deployment) unless connectionStringSecretKeyRef below is set instead.
+    connectionString: ""
+    # -- Use your own pre-created Secret instead of connectionString above.
+    # Takes priority over connectionString and over the bundled mongodb chart below.
     # connectionStringSecretKeyRef:
     #   name: ""
     #   key: ""
-    connectionString: "someconnstring"
-    databaseName: "somedb"
+    databaseName: "tfbackend"
   extraEnv: []
     # - name: xxx
     #   value: "yyyy"
@@ -29,6 +34,18 @@ webapi:
     # requests:
     #   cpu: 100m
     #   memory: 64Mi
+  # -- Pod affinity/anti-affinity/node-affinity rules, passed through as-is.
+  # Defaults to requiring amd64 nodes: the image's baked-in OpenTelemetry auto-instrumentation
+  # native library (see Dockerfile) is amd64-only, so an arm64 node would fail to load the
+  # profiler. Clear this (affinity: {}) once/if an arm64-compatible image is published.
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+            - key: "kubernetes.io/arch"
+              operator: In
+              values: ["amd64"]
 
 dotnet:
   environment: Production
@@ -86,5 +103,10 @@ mongodb:
     repository: bitnami/mongodb     # other options: chainguard/mongodb
     tag: latest                     # IMPORTANT: latest should never be used in Production
   auth: {}
+    # -- Required when mongodb.enabled=true, unless webapi.db.connectionString or
+    # webapi.db.connectionStringSecretKeyRef is set instead. This is intentionally not
+    # auto-generated: the same value has to reach both this subchart's own root user AND
+    # the webapi connection string, and Helm cannot pass a chart-generated value into a
+    # subchart's values.
     # rootPassword: ""
     # existingSecret: ""

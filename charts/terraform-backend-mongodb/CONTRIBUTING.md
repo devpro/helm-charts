@@ -44,7 +44,7 @@ mongodb:
     rootPassword: admin
 webapi:
   db:
-    connectionString: mongodb://root:admin@tfbackend-mongodb:27017/tfbackend_beta?authSource=admin
+    # connectionString is auto-wired from mongodb.auth.rootPassword above
     databaseName: tfbackend_beta
 ```
 

@@ -1,15 +1,14 @@
 {{- $applications := list .Values.webapi -}}
 {{ range $applications }}
-{{- $name := .name -}}
 {{- if .enabled -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .name }}
+  name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
   labels:
-    app: {{ .name }}
-    app.kubernetes.io/name: {{ .name }}
+    app: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+    app.kubernetes.io/name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
     {{- include "terraform-backend-mongodb.commonLabels" (dict "app" . "root" $) | nindent 4 }}
 spec:
   replicas: {{ .replicaCount }}
@@ -17,28 +16,24 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: {{ .name }}
-      app.kubernetes.io/name: {{ .name }}
+      app: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+      app.kubernetes.io/name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
   template:
     metadata:
       labels:
-        app: {{ $name }}
-        app.kubernetes.io/name: {{ $name }}
+        app: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+        app.kubernetes.io/name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
         {{- include "terraform-backend-mongodb.commonLabels" (dict "app" . "root" $) | nindent 8 }}
         {{- if .additionalPodLabels }}
         {{- toYaml .additionalPodLabels | nindent 8 }}
         {{- end }}
     spec:
+      {{- with .affinity }}
       affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                - key: "kubernetes.io/arch"
-                  operator: In
-                  values: ["amd64"]
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- if $.Values.security.serviceAccount.create }}
-      serviceAccountName: {{ .name }}
+      serviceAccountName: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
       {{- else }}
       serviceAccountName: default
       {{- end }}
@@ -112,7 +107,7 @@ spec:
               value: {{ $.Values.dotnet.enableScalar | quote }}
             {{- if $.Values.dotnet.openTelemetry.enabled }}
             - name: OTEL_SERVICE_NAME
-              value: {{ $.Values.dotnet.openTelemetry.serviceName | default .name | quote }}
+              value: {{ $.Values.dotnet.openTelemetry.serviceName | default (include "terraform-backend-mongodb.fullname" (dict "app" . "root" $)) | quote }}
             - name: OTEL_TRACES_EXPORTER
               value: "otlp"
             - name: OTEL_METRICS_EXPORTER
@@ -139,7 +134,10 @@ spec:
                   key: {{ .db.connectionStringSecretKeyRef.key }}
             {{- else }}
             - name: DatabaseSettings__ConnectionString
-              value: {{ .db.connectionString | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}-db
+                  key: connectionString
             {{- end }}
             - name: DatabaseSettings__DatabaseName
               value: {{ .db.databaseName | quote }}

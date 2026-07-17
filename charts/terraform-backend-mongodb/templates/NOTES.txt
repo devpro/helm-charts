@@ -14,6 +14,10 @@ at the {{ .Values.webapi.name }} Service.
 
 MongoDB is not managed by this chart (mongodb.enabled=false) - make sure webapi.db.connectionString
 (or webapi.db.connectionStringSecretKeyRef) points at a reachable, already-provisioned instance.
+{{- else }}
+
+MongoDB is managed by this chart (mongodb.enabled=true) - the webapi connection string was
+auto-derived from mongodb.auth.rootPassword and stored in the {{ include "terraform-backend-mongodb.fullname" (dict "app" .Values.webapi "root" $) }}-db Secret.
 {{- end }}
 
 Check the rollout:
