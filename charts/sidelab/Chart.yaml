@@ -4,7 +4,7 @@ description: >
   Self-hosted interactive lab platform.
   Deploys the Sidelab launcher, which manages lab sessions as ephemeral Kubernetes Pods inside tenant-scoped namespaces.
 type: application
-version: 0.1.2
+version: 0.1.3
 appVersion: "0.1.0"
 keywords:
   - sidelab

@@ -12,10 +12,10 @@ webapi:
   db:
     # -- Full MongoDB connection string, e.g. mongodb://user:pass@host:27017/?authSource=admin
     # Not needed if mongodb.enabled=true below - the chart wires that up for you from
-    # mongodb.auth.rootPassword. The chart always stores this in a Secret (never rendered as a
-    # plain env var in the Deployment) unless connectionStringSecretKeyRef below is set instead.
+    # mongodb.auth.rootPassword. Rendered as a plain env var unless connectionStringSecretKeyRef
+    # below is set instead.
     connectionString: ""
-    # -- Use your own pre-created Secret instead of connectionString above.
+    # -- Use your own pre-created Secret instead of connectionString above (rendered via secretKeyRef).
     # Takes priority over connectionString and over the bundled mongodb chart below.
     # connectionStringSecretKeyRef:
     #   name: ""

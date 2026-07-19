@@ -134,10 +134,7 @@ spec:
                   key: {{ .db.connectionStringSecretKeyRef.key }}
             {{- else }}
             - name: DatabaseSettings__ConnectionString
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}-db
-                  key: connectionString
+              value: {{ include "terraform-backend-mongodb.mongoConnectionString" $ | quote }}
             {{- end }}
             - name: DatabaseSettings__DatabaseName
               value: {{ .db.databaseName | quote }}

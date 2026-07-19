@@ -36,7 +36,7 @@ MongoDB connection string.
 webapi.db.connectionString wins; otherwise, if the bundled mongodb subchart is enabled, derived from
 its default standalone Service name ("<release-name>-mongodb", per the alias in Chart.yaml and the
 Bitnami chart's own naming convention) and mongodb.auth.rootPassword.
-Only called from secret.yaml when webapi.db.connectionStringSecretKeyRef is not set.
+Only called from deployment.yaml when webapi.db.connectionStringSecretKeyRef is not set.
 */}}
 {{- define "terraform-backend-mongodb.mongoConnectionString" -}}
 {{- if .Values.webapi.db.connectionString -}}

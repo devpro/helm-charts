@@ -25,9 +25,9 @@ helm upgrade --install tfbackend devpro/terraform-backend-mongodb -f values.yaml
 
 ## Database connection
 
-The chart never renders the MongoDB connection string as a plain environment variable in the
-Deployment - `DatabaseSettings__ConnectionString` is always sourced from a Secret via `secretKeyRef`.
-Pick one of the three ways below to provide it; they're evaluated in this priority order:
+`DatabaseSettings__ConnectionString` is sourced from a Secret via `secretKeyRef` only when you point
+the chart at one yourself; otherwise it's rendered as a plain environment variable. Pick one of the
+three ways below to provide it; they're evaluated in this priority order:
 `webapi.db.connectionStringSecretKeyRef` > `webapi.db.connectionString` > the bundled `mongodb`
 subchart.
 
@@ -55,10 +55,9 @@ webapi:
 
 ### Option 2 - your own MongoDB, connection string as a chart value
 
-Point `webapi.db.connectionString` at a reachable, already-provisioned instance. The chart still puts
-it in a Secret it manages (never directly in the Deployment's env) - but the plaintext value is still
-visible in your values file and in `helm get values`/Helm's release history, so prefer Option 1 for
-Production credentials:
+Point `webapi.db.connectionString` at a reachable, already-provisioned instance. The chart renders it
+directly as a plain env var - the plaintext value is visible in your values file, in `helm get
+values`/Helm's release history, and in the Pod spec, so prefer Option 1 for Production credentials:
 
 ```yaml
 webapi:
@@ -70,7 +69,7 @@ webapi:
 ### Option 3 - bundled MongoDB (auto-wired, good for demos/testing)
 
 Enable the bundled `mongodb` subchart and set its root password; the chart derives the connection
-string for you and stores it in the same chart-managed Secret as Option 2. Leave
+string for you and renders it the same way as Option 2 (plain env var). Leave
 `webapi.db.connectionString`/`connectionStringSecretKeyRef` empty:
 
 ```yaml
@@ -81,7 +80,7 @@ mongodb:
 ```
 
 Not recommended for anything you care about keeping - it's just another Pod with a PVC, not a
-managed/backed-up database. The exact Secret name is printed in `NOTES.txt` after install.
+managed/backed-up database.
 
 If none of the three is configured, or `mongodb.enabled=true` is set without `mongodb.auth.rootPassword`,
 the chart fails at render/install time with a clear error instead of deploying a Pod that can't reach

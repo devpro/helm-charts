@@ -17,7 +17,7 @@ MongoDB is not managed by this chart (mongodb.enabled=false) - make sure webapi.
 {{- else }}
 
 MongoDB is managed by this chart (mongodb.enabled=true) - the webapi connection string was
-auto-derived from mongodb.auth.rootPassword and stored in the {{ include "terraform-backend-mongodb.fullname" (dict "app" .Values.webapi "root" $) }}-db Secret.
+auto-derived from mongodb.auth.rootPassword.
 {{- end }}
 
 Check the rollout:

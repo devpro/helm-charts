@@ -1,8 +1,8 @@
-apiVersion: v2
+﻿apiVersion: v2
 name: terraform-backend-mongodb
 description: Helm chart for Terraform Backend MongoDB
 type: application
-version: 0.3.0
+version: 0.2.0
 appVersion: "1.2.3"
 home: https://github.com/devpro/terraform-backend-mongodb
 sources:
