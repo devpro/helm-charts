@@ -1,17 +1,26 @@
 webapi:
   enabled: true
-  host: tfbackend.random
+  host: ""
   name: tfbackend
   image: docker.io/devprofr/terraform-backend-mongodb
   # images are hosted on DockerHub: https://hub.docker.com/r/devprofr/terraform-backend-mongodb/tags
-  tag: latest             # IMPORTANT: latest should never be used in Production
+  tag: "1.2.3"             # pins to Chart.yaml appVersion - avoid floating tags (e.g. latest) in Production
   replicaCount: 1
   port: 80
   containerPort: 8080
   healthEndpoint: /health
   db:
-    connectionString: "someconnstring"
-    databaseName: "somedb"
+    # -- Full MongoDB connection string, e.g. mongodb://user:pass@host:27017/?authSource=admin
+    # Not needed if mongodb.enabled=true below - the chart wires that up for you from
+    # mongodb.auth.rootPassword. Rendered as a plain env var unless connectionStringSecretKeyRef
+    # below is set instead.
+    connectionString: ""
+    # -- Use your own pre-created Secret instead of connectionString above (rendered via secretKeyRef).
+    # Takes priority over connectionString and over the bundled mongodb chart below.
+    # connectionStringSecretKeyRef:
+    #   name: ""
+    #   key: ""
+    databaseName: "tfbackend"
   extraEnv: []
     # - name: xxx
     #   value: "yyyy"
@@ -25,6 +34,18 @@ webapi:
     # requests:
     #   cpu: 100m
     #   memory: 64Mi
+  # -- Pod affinity/anti-affinity/node-affinity rules, passed through as-is.
+  # Defaults to requiring amd64 nodes: the image's baked-in OpenTelemetry auto-instrumentation
+  # native library (see Dockerfile) is amd64-only, so an arm64 node would fail to load the
+  # profiler. Clear this (affinity: {}) once/if an arm64-compatible image is published.
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+            - key: "kubernetes.io/arch"
+              operator: In
+              values: ["amd64"]
 
 dotnet:
   environment: Production
@@ -32,8 +53,34 @@ dotnet:
     default: Information
     framework: Information
     application: Information
-  enableSwagger: false
-  enableOpenTelemetry: false
+  enableScalar: false
+  # false by default: the app redirects to HTTPS internally, which fights a TLS-terminating ingress
+  # that forwards plain HTTP to the pod.
+  httpsRedirectionEnabled: false
+  # The app image always ships with .NET auto-instrumentation baked in (see Dockerfile); these settings
+  # only control the standard OTEL_* exporter env vars the agent reads - they don't turn the agent itself
+  # on or off. When disabled, exporters are set to "none" so the agent doesn't try to reach a collector.
+  openTelemetry:
+    enabled: false
+    # defaults to webapi.name when empty
+    serviceName: ""
+    # OTLP collector endpoint, e.g. http://otel-collector:4318
+    endpoint: ""
+    protocol: "http/protobuf"
+
+# optional: image registry credentials, e.g. for a private mirror of the image above
+imagePullSecrets: []
+  # - name: my-registry-secret
+
+security:
+  serviceAccount:
+    create: false
+  # Hardened container settings for platforms that mandate the Kubernetes Pod Security Standards "restricted" profile (or an equivalent CIS benchmark policy):
+  # seccompProfile, dropping all Linux capabilities, and a read-only root filesystem. Disabled by default -
+  # readOnlyRootFilesystem needs to be validated against each environment before being turned on broadly
+  # (it redirects HOME to an emptyDir-backed /tmp so .NET's own writes keep working).
+  hardened:
+    enabled: false
 
 ingress:
   enabled: false
@@ -56,4 +103,10 @@ mongodb:
     repository: bitnami/mongodb     # other options: chainguard/mongodb
     tag: latest                     # IMPORTANT: latest should never be used in Production
   auth: {}
+    # -- Required when mongodb.enabled=true, unless webapi.db.connectionString or
+    # webapi.db.connectionStringSecretKeyRef is set instead. This is intentionally not
+    # auto-generated: the same value has to reach both this subchart's own root user AND
+    # the webapi connection string, and Helm cannot pass a chart-generated value into a
+    # subchart's values.
     # rootPassword: ""
+    # existingSecret: ""

@@ -6,9 +6,10 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: {{ .name }}
-    app.kubernetes.io/name: {{ .name }}
-  name: {{ .name }}
+    app: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+    app.kubernetes.io/name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+    {{- include "terraform-backend-mongodb.commonLabels" (dict "app" . "root" $) | nindent 4 }}
+  name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
 spec:
   type: ClusterIP
   ports:
@@ -17,7 +18,7 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: {{ .name }}
-    app.kubernetes.io/name: {{ .name }}
+    app: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+    app.kubernetes.io/name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
 {{- end }}
 {{ end }}

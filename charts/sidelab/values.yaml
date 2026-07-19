@@ -1,4 +1,4 @@
-﻿# ── Domain ────────────────────────────────────────────────────────────────────
+# ── Domain ────────────────────────────────────────────────────────────────────
 # Single source of truth for hostnames, so you don't repeat your domain in multiple places.
 # Leave the two derived values below empty to use it:
 #   ingress.host         defaults to "sidelab.<domain>"        (the dashboard)
@@ -20,10 +20,12 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-# Session state (active sessions, port allocations, expiry timers) is kept in-memory by the launcher process —
-# it is NOT shared across replicas and does NOT survive a restart.
-# Keep this at 1 regardless of database backend;
-# this is a known upstream limitation, not a SQLite-specific one.
+# Session state lives in the database (shared across replicas, survives restarts
+# and rollouts — lab pods keep running while the launcher restarts).
+# More than 1 replica requires database.backend=mongo: sqlite is a single local
+# file on a ReadWriteOnce PVC, which pins the launcher to one Pod regardless.
+# When scaling out, also prefer launcher.labAccess=ingress — nodeport lab URLs
+# are built from one node's IP.
 replicaCount: 1
 
 # ── Auth ──────────────────────────────────────────────────────────────────────
@@ -106,8 +108,10 @@ mongodb:
 
 persistence:
   # -- Enable a PersistentVolumeClaim for /app/data.
-  # Required for the sqlite backend. Recommended for the git course cache even
-  # with the mongo backend, so cloned course repos survive a Pod restart.
+  # Required for the sqlite backend. With the mongo backend the launcher keeps no
+  # local state at all (lab Pods clone courses themselves in an init container),
+  # so this can be disabled — which also unlocks RollingUpdate deployments and
+  # multiple replicas (see replicaCount above).
   enabled: true
   # -- Leave empty to use the cluster default.
   storageClass: ""
@@ -149,12 +153,11 @@ launcher:
   # gets namespace "sidelab-admin" with the default prefix.
   namespacePrefix: "sidelab"
 
-  # -- Comma-separated list of tenant namespaces the launcher scans for orphan
-  # cleanup on startup and for terminating sessions it lost track of across a
-  # restart (delete-by-label fallback). The app does NOT discover these itself —
-  # left empty, the chart defaults to "<namespacePrefix>-admin" (the seeded
-  # admin tenant). List every tenant namespace here once you add tenants,
-  # e.g. "sidelab-admin,sidelab-acme".
+  # -- Extra tenant namespaces for orphan cleanup and the delete-by-label
+  # fallback, comma-separated. Normally leave empty: the launcher discovers
+  # tenant namespaces itself via the app.kubernetes.io/managed-by=sidelab label
+  # it puts on every namespace it creates. Only needed for namespaces created
+  # by hand without that label, e.g. "sidelab-legacy".
   knownNamespaces: ""
 
   # Note: the git-clone init container used for git-sourced courses always runs
@@ -241,9 +244,8 @@ readinessProbe:
   failureThreshold: 3
 
 # ── Autoscaling ──────────────────────────────────────────────────────────────────
-# Not supported: session state is in-memory per Pod (see replicaCount above).
-# Left here, off, only so a future multi-replica launcher doesn't need a chart
-# rewrite — do not enable this today.
+# Only valid with database.backend=mongo and persistence.enabled=false — the same
+# conditions as replicaCount > 1 (see above). Never enable it on sqlite.
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -252,7 +254,8 @@ autoscaling:
 
 # ── Pod Disruption Budget ────────────────────────────────────────────────────────
 # Off by default: with replicaCount 1, a PDB with minAvailable=1 blocks voluntary
-# node drains from ever evicting the Pod. Only turn this on if that's what you want.
+# node drains from ever evicting the Pod. Makes sense once you run 2+ replicas
+# on the mongo backend (see replicaCount above).
 podDisruptionBudget:
   enabled: false
   minAvailable: 1

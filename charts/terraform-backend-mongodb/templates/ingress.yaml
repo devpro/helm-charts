@@ -1,12 +1,17 @@
 {{- $applications := list .Values.webapi -}}
 {{ range $applications }}
-{{- $name := .name -}}
+{{- $app := . -}}
 {{- if and $.Values.ingress.enabled .enabled -}}
+{{- include "terraform-backend-mongodb.validateValues" $ }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $name }}
+  name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+  labels:
+    app: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+    app.kubernetes.io/name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+    {{- include "terraform-backend-mongodb.commonLabels" (dict "app" . "root" $) | nindent 4 }}
   {{- with $.Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -23,7 +28,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ $name }}
+                name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
                 port:
                   number: {{ .port }}
     {{- range .ingressExtraHosts }}
@@ -35,7 +40,7 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ $name }}
+                name: {{ include "terraform-backend-mongodb.fullname" (dict "app" $app "root" $) }}
                 port:
                   number: {{ .port }}
           {{- end }}

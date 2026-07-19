@@ -1,40 +1,52 @@
 {{- $applications := list .Values.webapi -}}
 {{ range $applications }}
-{{- $name := .name -}}
 {{- if .enabled -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .name }}
+  name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
   labels:
-    app: {{ .name }}
-    app.kubernetes.io/name: {{ .name }}
+    app: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+    app.kubernetes.io/name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+    {{- include "terraform-backend-mongodb.commonLabels" (dict "app" . "root" $) | nindent 4 }}
 spec:
   replicas: {{ .replicaCount }}
   strategy:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: {{ .name }}
-      app.kubernetes.io/name: {{ .name }}
+      app: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+      app.kubernetes.io/name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
   template:
     metadata:
       labels:
-        app: {{ $name }}
-        app.kubernetes.io/name: {{ $name }}
+        app: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+        app.kubernetes.io/name: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+        {{- include "terraform-backend-mongodb.commonLabels" (dict "app" . "root" $) | nindent 8 }}
         {{- if .additionalPodLabels }}
         {{- toYaml .additionalPodLabels | nindent 8 }}
         {{- end }}
     spec:
+      {{- with .affinity }}
       affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                - key: "kubernetes.io/arch"
-                  operator: In
-                  values: ["amd64"]
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if $.Values.security.serviceAccount.create }}
+      serviceAccountName: {{ include "terraform-backend-mongodb.fullname" (dict "app" . "root" $) }}
+      {{- else }}
+      serviceAccountName: default
+      {{- end }}
+      automountServiceAccountToken: false
+      {{- with $.Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if $.Values.security.hardened.enabled }}
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      {{- end }}
       containers:
         - name: {{ .name }}
           image: {{ .image }}:{{ .tag }}
@@ -58,7 +70,21 @@ spec:
             runAsUser: 1654   # "app" user
             runAsGroup: 1654  # "app" group
             allowPrivilegeEscalation: false
+            {{- if $.Values.security.hardened.enabled }}
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+            {{- end }}
+          {{- if $.Values.security.hardened.enabled }}
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          {{- end }}
           env:
+          {{- if $.Values.security.hardened.enabled }}
+            - name: HOME
+              value: /tmp
+          {{- end }}
           {{- if .extraEnv }}
             {{- toYaml .extraEnv | nindent 12 }}
           {{- end }}
@@ -67,33 +93,56 @@ spec:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: status.hostIP
-            # TODO: only add this variables when needed and manage http calls
             - name: ASPNETCORE_ENVIRONMENT
               value: "{{ $.Values.dotnet.environment }}"
             - name: Logging__LogLevel__Default
-              value: {{ $.Values.dotnet.logLevels.default }}
+              value: {{ $.Values.dotnet.logLevels.default | quote }}
             - name: Logging__LogLevel__Microsoft.AspNetCore
-              value: {{ $.Values.dotnet.logLevels.framework }}
-            - name: Logging__LogLevel__Farseer
-              value: {{ $.Values.dotnet.logLevels.application }}
-            {{- if $.Values.dotnet.enableSwagger }}
-            - name: Application__IsSwaggerEnabled
-              value: "true"
+              value: {{ $.Values.dotnet.logLevels.framework | quote }}
+            - name: Logging__LogLevel__Devpro
+              value: {{ $.Values.dotnet.logLevels.application | quote }}
+            - name: Features__IsHttpsRedirectionEnabled
+              value: {{ $.Values.dotnet.httpsRedirectionEnabled | quote }}
+            - name: Features__IsScalarEnabled
+              value: {{ $.Values.dotnet.enableScalar | quote }}
+            {{- if $.Values.dotnet.openTelemetry.enabled }}
+            - name: OTEL_SERVICE_NAME
+              value: {{ $.Values.dotnet.openTelemetry.serviceName | default (include "terraform-backend-mongodb.fullname" (dict "app" . "root" $)) | quote }}
+            - name: OTEL_TRACES_EXPORTER
+              value: "otlp"
+            - name: OTEL_METRICS_EXPORTER
+              value: "otlp"
+            - name: OTEL_LOGS_EXPORTER
+              value: "otlp"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: {{ $.Values.dotnet.openTelemetry.endpoint | quote }}
+            - name: OTEL_EXPORTER_OTLP_PROTOCOL
+              value: {{ $.Values.dotnet.openTelemetry.protocol | quote }}
+            {{- else }}
+            - name: OTEL_TRACES_EXPORTER
+              value: "none"
+            - name: OTEL_METRICS_EXPORTER
+              value: "none"
+            - name: OTEL_LOGS_EXPORTER
+              value: "none"
             {{- end }}
-            {{- if $.Values.dotnet.enableOpenTelemetry }}
-            - name: Application__IsOpenTelemetryEnabled
-              value: "true"
-            - name: OpenTelemetry__CollectorEndpoint
-              value: "http://$(HOST_IP):4317"
+            {{- if .db.connectionStringSecretKeyRef }}
+            - name: DatabaseSettings__ConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .db.connectionStringSecretKeyRef.name }}
+                  key: {{ .db.connectionStringSecretKeyRef.key }}
+            {{- else }}
+            - name: DatabaseSettings__ConnectionString
+              value: {{ include "terraform-backend-mongodb.mongoConnectionString" $ | quote }}
             {{- end }}
-            {{- if .db }}
-            - name: ConnectionStrings__MongoDb
-              value: {{ .db.connectionString }}
-            - name: MongoDb__ConnectionStringName
-              value: "MongoDb"
-            - name: MongoDb__DatabaseName
-              value: {{ .db.databaseName }}
-            {{- end }}
+            - name: DatabaseSettings__DatabaseName
+              value: {{ .db.databaseName | quote }}
       restartPolicy: Always
+      {{- if $.Values.security.hardened.enabled }}
+      volumes:
+        - name: tmp
+          emptyDir: {}
+      {{- end }}
 {{- end }}
 {{ end }}

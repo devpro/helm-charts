@@ -245,6 +245,16 @@ spec:
             - name: Discogs__Token
               value: {{ .referenceData.discogs.token | quote }}
             {{- end }}
+            {{- if .referenceData.googlebooks.apiKeySecretKeyRef }}
+            - name: GoogleBooks__ApiKey
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .referenceData.googlebooks.apiKeySecretKeyRef.name }}
+                  key: {{ .referenceData.googlebooks.apiKeySecretKeyRef.key }}
+            {{- else }}
+            - name: GoogleBooks__ApiKey
+              value: {{ .referenceData.googlebooks.apiKey | quote }}
+            {{- end }}
             {{- end }}
       restartPolicy: Always
       {{- if $.Values.security.hardened.enabled }}

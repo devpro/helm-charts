@@ -1,0 +1,86 @@
+🎉 Liveship has been deployed!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Application URL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{{- if .Values.ingress.enabled }}
+  {{ include "liveship.nextauthUrl" . }}
+{{- if .Values.ingress.tls.enabled }}
+
+  The TLS certificate is issued automatically by cert-manager, if configured
+  via a cert-manager.io/cluster-issuer annotation. Allow 1-2 minutes for it
+  to become ready:
+
+    kubectl get certificate -n {{ .Release.Namespace }} -w
+{{- end }}
+{{- else }}
+  Port-forward to access the app locally:
+
+    kubectl port-forward -n {{ .Release.Namespace }} \
+      svc/{{ include "liveship.fullname" . }} 3000:{{ .Values.service.port }}
+
+  Then open: http://localhost:3000
+  (NEXTAUTH_URL defaults to exactly that, so login works out of the box —
+  see auth.url in values.yaml before putting this behind a real hostname.)
+{{- end }}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  First login
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  The app has no built-in signup — the first global_admin user is seeded
+  directly into MongoDB with the seed script from the liveship repo:
+
+{{- if and .Values.mongodb.enabled (not .Values.database.uri) (not .Values.database.existingSecret) }}
+
+    kubectl port-forward -n {{ .Release.Namespace }} svc/{{ .Release.Name }}-mongodb 27017:27017
+
+  then, from a checkout of https://github.com/devpro/liveship:
+
+    MONGODB_URI='mongodb://root:<mongodb.auth.rootPassword>@localhost:27017/?authSource=admin' \
+    MONGODB_DB='{{ .Values.database.name }}' \
+      node scripts/seed-admin.mjs --username admin --password <choose-one>
+{{- else }}
+
+  From a checkout of https://github.com/devpro/liveship, pointed at the
+  same MongoDB this release uses:
+
+    MONGODB_URI='<your database.uri>' MONGODB_DB='{{ .Values.database.name }}' \
+      node scripts/seed-admin.mjs --username admin --password <choose-one>
+
+  Not needed if terraform-backend-mongodb (or a previous install) already
+  seeded users into this database — they log straight in.
+{{- end }}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Back up the encryption key
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{{- if .Values.auth.existingSecret }}
+  Managed by you, in Secret/{{ .Values.auth.existingSecret }} (key ENCRYPTION_KEY).
+{{- else }}
+  ENCRYPTION_KEY encrypts every stored connection credential (cloud keys,
+  cluster tokens, registry passwords). If the Secret is lost, that data is
+  permanently undecryptable. Save a copy somewhere safe:
+
+    kubectl get secret -n {{ .Release.Namespace }} {{ include "liveship.authSecretName" . }} \
+      -o jsonpath='{.data.ENCRYPTION_KEY}' | base64 -d; echo
+{{- end }}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Database
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Database: {{ .Values.database.name }}
+{{- if and .Values.mongodb.enabled (not .Values.database.uri) (not .Values.database.existingSecret) }}
+  Using the bundled MongoDB chart — fine for a demo, not backed up. Point
+  database.uri at a real MongoDB before you rely on this data.
+{{- end }}
+  Terraform state views expect terraform-backend-mongodb writing to this
+  same database — point both charts at the same instance.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Useful commands
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # Watch the app Pods
+  kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }} -w
+
+  # Tail app logs
+  kubectl logs -n {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }} -f

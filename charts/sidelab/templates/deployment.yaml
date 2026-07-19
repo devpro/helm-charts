@@ -8,10 +8,16 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
-    # State is on a PVC with ReadWriteOnce (SQLite file, git course cache) and
-    # session tracking is in-memory — keep this Recreate, not RollingUpdate,
-    # so two Pods never run at once.
+    {{- if .Values.persistence.enabled }}
+    # The data PVC is ReadWriteOnce (SQLite file, git course cache), so two Pods
+    # must never run at once — Recreate, at the cost of brief dashboard downtime
+    # on upgrades. Lab sessions are unaffected either way: their Pods keep
+    # running and the launcher reconciles from the database on the way back up.
     type: Recreate
+    {{- else }}
+    # No PVC (mongo backend, no local state) — roll without downtime.
+    type: RollingUpdate
+    {{- end }}
   selector:
     matchLabels:
       {{- include "sidelab.selectorLabels" . | nindent 6 }}

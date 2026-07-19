@@ -42,6 +42,7 @@ kubectl create secret generic keeptrack-app \
   --from-literal=tmdbapikey='***' \
   --from-literal=rawgapikey='***' \
   --from-literal=discogstoken='***' \
+  --from-literal=googlebooksApiKey='***' \
   --namespace demo
 ```
 
@@ -90,6 +91,10 @@ webapi:
       tokenSecretKeyRef:
         name: keeptrack-app
         key: discogstoken
+    googlebooks:
+      apiKeySecretKeyRef:
+        name: keeptrack-app
+        key: googlebooksApiKey
 
 ingress:
   enabled: true

@@ -1,18 +1,19 @@
-﻿apiVersion: v2
-name: sidelab
+apiVersion: v2
+name: liveship
 description: >
-  Self-hosted interactive lab platform.
-  Deploys the Sidelab launcher, which manages lab sessions as ephemeral Kubernetes Pods inside tenant-scoped namespaces.
+  One platform for an organization's infrastructure, security posture, and code.
+  Deploys the Liveship application, which reads the same MongoDB database terraform-backend-mongodb writes to.
 type: application
-version: 0.1.3
+version: 0.1.0
 appVersion: "0.1.0"
 keywords:
-  - sidelab
-  - labs
-  - training
+  - liveship
+  - infrastructure
+  - kubernetes
+  - terraform
 home: https://github.com/devpro/helm-charts
 sources:
-  - https://github.com/devpro/helm-charts
+  - https://github.com/devpro/liveship
 dependencies:
   - name: mongodb
     version: 18.6.16   # MongoDB 8.2.6

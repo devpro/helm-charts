@@ -1,0 +1,235 @@
+# ── Image ─────────────────────────────────────────────────────────────────────
+image:
+  # The liveship image is published to GitHub Container Registry as a private
+  # package for now — set imagePullSecrets below with GHCR credentials
+  # (a PAT with read:packages) or the pull will fail with ImagePullBackOff.
+  repository: ghcr.io/devpro/liveship
+  pullPolicy: IfNotPresent
+  # -- Defaults to .Chart.AppVersion when empty.
+  tag: ""
+
+# -- Required while the GHCR image is private, e.g.:
+#   kubectl create secret docker-registry ghcr-pull \
+#     --docker-server=ghcr.io --docker-username=<user> --docker-password=<PAT>
+imagePullSecrets: []
+  # - name: ghcr-pull
+
+nameOverride: ""
+fullnameOverride: ""
+
+# The app is stateless by design: sessions are JWT cookies (NextAuth), every
+# cache (Kubernetes resource-type discovery, git repository cache) lives in
+# MongoDB, and nothing is written to the local filesystem. Scaling out needs
+# nothing beyond raising this — all replicas just have to share the same
+# NEXTAUTH_SECRET and ENCRYPTION_KEY, which the chart's single Secret already
+# guarantees. See also autoscaling and podDisruptionBudget below.
+replicaCount: 1
+
+# ── Auth & encryption ─────────────────────────────────────────────────────────
+auth:
+  # -- NextAuth JWT signing secret (NEXTAUTH_SECRET).
+  # Leave empty to auto-generate a strong random value on first install — it is then kept stable across upgrades (read back from the existing Secret).
+  # Rotating it logs every user out (their session cookies stop validating) but loses no data.
+  nextauthSecret: ""
+
+  # -- AES-256-GCM key encrypting stored connection credentials at rest (ENCRYPTION_KEY) — cloud provider keys, cluster tokens, registry passwords.
+  # Must be exactly 64 hex characters (openssl rand -hex 32); the chart fails at render time otherwise.
+  # Leave empty to auto-generate on first install (kept stable across upgrades).
+  # WARNING: unlike nextauthSecret, losing or rotating this key makes every stored credential permanently undecryptable —
+  # every connection would have to be re-entered by hand. Back up the Secret (see NOTES.txt after install).
+  encryptionKey: ""
+
+  # -- External URL of the app (NEXTAUTH_URL) — what users type in their browser.
+  # Leave empty to derive it from the ingress section below ("https://<ingress.host>"),
+  # falling back to "http://localhost:3000" (fine for kubectl port-forward) when the ingress is disabled.
+  url: ""
+
+  # -- Use your own pre-created Secret instead of the two secret fields above.
+  # Keys expected: NEXTAUTH_SECRET, ENCRYPTION_KEY.
+  # GitOps note (ArgoCD/Flux): those tools render templates offline, where the auto-generate-then-reuse trick above can't look up the existing Secret —
+  # so every sync would rotate both values, and a rotated ENCRYPTION_KEY makes stored credentials undecryptable (see the warning above).
+  # Under GitOps, always set this (or both fields explicitly).
+  existingSecret: ""
+
+# ── Database ──────────────────────────────────────────────────────────────────
+# Liveship reads the same MongoDB database terraform-backend-mongodb writes to
+# (tf_state, tf_state_lock, user, tenant collections) — point both charts at
+# the same instance and database name to get the Terraform state views.
+database:
+  # -- Full MongoDB connection string, e.g. mongodb+srv://user:pass@cluster.mongodb.net
+  # (database selection is via database.name below, not the URI path).
+  # Not needed if mongodb.enabled=true below — the chart wires that up for you.
+  uri: ""
+
+  # -- Database name (MONGODB_DB). The app's own default; matches what
+  # terraform-backend-mongodb uses so the two share data out of the box.
+  name: "terraform_backend"
+
+  # -- Use your own pre-created Secret instead of database.uri.
+  # Key expected: MONGODB_URI. Takes priority over database.uri and over the
+  # bundled mongodb chart below.
+  existingSecret: ""
+
+# ── Bundled MongoDB (optional, for a quick disposable demo) ───────────────────
+# Deploys https://github.com/bitnami/charts/blob/main/bitnami/mongodb/values.yaml
+# as a subchart alongside the app. Off by default — prefer a real, backed-up
+# MongoDB (Atlas or self-hosted) for anything you care about; this is
+# uncomfortable to lose, since it's just another Pod with a PVC, not a managed
+# database.
+#
+# When enabled, the chart auto-builds database.uri's connection string from
+# mongodb.auth.rootPassword — set that one field and the wiring is automatic.
+# database.uri / database.existingSecret, if set, always take priority over
+# this (so you can point at an external Mongo even with an unrelated
+# mongodb.enabled=true left over from testing).
+mongodb:
+  enabled: false
+  architecture: standalone
+  auth:
+    enabled: true
+    # -- Required when mongodb.enabled=true, unless database.uri or
+    # database.existingSecret is set instead.
+    # This is intentionally not auto-generated: the same value has to reach
+    # both this subchart's own root user AND the app's connection string,
+    # and Helm cannot pass a chart-generated value into a subchart's values.
+    rootPassword: ""
+  image:
+    registry: docker.io
+    repository: bitnami/mongodb   # other options: chainguard/mongodb
+    tag: latest                   # IMPORTANT: latest should never be used in production
+  persistence:
+    enabled: true
+    size: 4Gi
+  global:
+    security:
+      allowInsecureImages: true
+  # -- Uncomment to point the subchart at a specific cluster storage class.
+  # global:
+  #   defaultStorageClass: ""
+
+# ── OpenTelemetry (optional) ──────────────────────────────────────────────────
+otel:
+  # -- OTLP collector endpoint, e.g. "http://otel-collector:4318".
+  # Leave empty to disable tracing/log export entirely (the app checks this
+  # exact variable). All standard OTEL_* env vars are honoured — use extraEnv
+  # below for the less common ones (OTEL_EXPORTER_OTLP_HEADERS, etc.).
+  endpoint: ""
+  serviceName: "liveship"
+
+# ── Service ───────────────────────────────────────────────────────────────────
+service:
+  # -- ClusterIP, NodePort, or LoadBalancer.
+  type: ClusterIP
+  port: 3000
+  # -- Only used when service.type=NodePort. Leave empty to let Kubernetes pick one.
+  nodePort: ""
+
+# ── Ingress ───────────────────────────────────────────────────────────────────
+ingress:
+  # -- Off by default so a first install doesn't need an ingress controller.
+  enabled: false
+  # -- e.g. "public" or "nginx" for MicroK8s' bundled ingress-nginx, "traefik" for Traefik.
+  className: ""
+  # -- Hostname for the app, e.g. "liveship.example.com". Required when enabled.
+  host: ""
+  annotations: {}
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    # traefik.ingress.kubernetes.io/router.tls: "true"
+  tls:
+    # -- Requests a certificate automatically when a cert-manager ClusterIssuer
+    # annotation is present above.
+    enabled: false
+    secretName: "liveship-tls"
+
+# ── Security ──────────────────────────────────────────────────────────────────
+# The image already runs as a dedicated non-root user (uid 1001, "nextjs") —
+# the contexts below are extra hardening for clusters that mandate it
+# explicitly, off by default so the chart runs unmodified on a plain cluster.
+podSecurityContext: {}
+  # runAsNonRoot: true
+  # runAsUser: 1001
+  # runAsGroup: 1001
+  # seccompProfile:
+  #   type: RuntimeDefault
+
+containerSecurityContext: {}
+  # allowPrivilegeEscalation: false
+  # readOnlyRootFilesystem: true
+  # capabilities:
+  #   drop:
+  #     - ALL
+
+# ── Resources ─────────────────────────────────────────────────────────────────
+resources: {}
+  # requests:
+  #   cpu: 100m
+  #   memory: 256Mi
+  # limits:
+  #   cpu: 500m
+  #   memory: 512Mi
+
+# ── Probes ────────────────────────────────────────────────────────────────────
+# The app has no dedicated /healthz route — /login is served unauthenticated
+# (everything else redirects there, which probes also accept) and proves the
+# server is up and rendering.
+livenessProbe:
+  httpGet:
+    path: /login
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /login
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  failureThreshold: 3
+
+# ── Autoscaling ───────────────────────────────────────────────────────────────
+# Safe to enable as-is — see the replicaCount note above for why multiple
+# replicas need no extra configuration.
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+
+# ── Pod Disruption Budget ─────────────────────────────────────────────────────
+# Off by default: with replicaCount 1, a PDB with minAvailable=1 blocks
+# voluntary node drains from ever evicting the Pod. Makes sense once you run
+# 2+ replicas.
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
+
+# ── ServiceAccount ────────────────────────────────────────────────────────────
+serviceAccount:
+  create: true
+  annotations: {}
+  # -- Defaults to the chart's fullname.
+  name: ""
+  # -- The app never talks to its own cluster's API — Kubernetes clusters are
+  # browsed through credentials stored in the app, so the Pod needs no token.
+  automountServiceAccountToken: false
+
+# ── Scheduling ────────────────────────────────────────────────────────────────
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+podAnnotations: {}
+podLabels: {}
+
+# ── Extra environment variables passed to the app container ───────────────────
+# Example:
+#   extraEnv:
+#     - name: OTEL_EXPORTER_OTLP_HEADERS
+#       value: "authorization=Bearer xyz"
+extraEnv: []
+
+extraVolumes: []
+extraVolumeMounts: []
