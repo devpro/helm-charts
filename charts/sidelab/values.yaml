@@ -164,6 +164,19 @@ launcher:
   # "alpine/git:latest" — this is fixed in the app itself, not chart-configurable.
   # Make sure that image is reachable (or pre-imported) wherever you deploy.
 
+  # -- Name of an existing dockerconfigjson Secret in THIS chart's own namespace
+  # (release namespace), used to pull a private launcher.labImage.
+  # Create it yourself first, e.g.:
+  #   kubectl create secret docker-registry ghcr-pull \
+  #     --docker-server=ghcr.io --docker-username=<user> --docker-password=<PAT> \
+  #     -n <release-namespace>
+  # The chart then copies it into every tenant namespace automatically (on every
+  # session start, self-healing) and attaches it to that namespace's default
+  # ServiceAccount — lab Pods run under that ServiceAccount and never set
+  # imagePullSecrets themselves, so this is what makes a private launcher.labImage
+  # pullable without any per-tenant manual step. Leave empty for public images.
+  labImagePullSecret: ""
+
 # ── Service (the launcher dashboard) ───────────────────────────────────────────
 # This is independent from launcher.labAccess above, which is only about lab
 # session Pods. The dashboard itself is always reached via this Service —

@@ -1,4 +1,4 @@
-# Contribution guide
+﻿# Contribution guide
 
 ## Update chart dependencies
 
@@ -29,7 +29,10 @@ helm dependency update .
 helm template sidelab . -f values.yaml -f values.mine.yaml --namespace sidelab --debug > temp.yaml
 ```
 
-Useful sanity checks on the output: the same value should never appear twice from two different sources (that's what the top-level `domain` value and reusing `ingress.className`/`ingress.tls`/the cert-manager annotation for lab sessions are for), and `--set database.backend=mongo` with nothing else set, or `--set ingress.enabled=true` with no `domain`/`ingress.host`, should fail fast with a clear `fail` message rather than render something broken.
+Useful sanity checks on the output:
+
+- the same value should never appear twice from two different sources (that's what the top-level `domain` value and reusing `ingress.className`/`ingress.tls`/the cert-manager annotation  for lab sessions are for),
+- and `--set database.backend=mongo` with nothing else set, or `--set ingress.enabled=true` with no `domain`/`ingress.host`, should fail fast with a clear `fail` message rather than render something broken.
 
 ## Validate on MicroK8s
 
@@ -64,17 +67,23 @@ docker save sidelab-launcher:latest | microk8s images import -
 docker save sidelab-app:v1 | microk8s images import -
 ```
 
-`microk8s images import` reports success/failure via its exit code, not via `microk8s ctr images list` — that command needs `sudo` and silently prints nothing without it. The reliable way to confirm an image actually landed is to deploy and check the Pod's events:
+`microk8s images import` reports success/failure via its exit code, not via `microk8s ctr images list`.
+That command needs `sudo` and silently prints nothing without it.
+
+The reliable way to confirm an image actually landed is to deploy and check the Pod's events:
 
 ```bash
 kubectl describe pod -n sidelab -l app.kubernetes.io/name=sidelab | grep -A2 Events
 ```
 
-`Pulled ... already present on machine` means it's there; `ErrImageNeverPull`/`ImagePullBackOff` means the import didn't take (or the tag doesn't match) — re-run the `docker save | microk8s images import -` step. This state is not persistent across every MicroK8s restart — a `microk8s stop`/`start` cycle (or one triggered by a snap refresh) can clear the image cache, so re-check before assuming a stale import is still good.
+`Pulled ... already present on machine` means it's there; `ErrImageNeverPull`/`ImagePullBackOff` means the import didn't take (or the tag doesn't match), re-run the `docker save | microk8s images import -` step.
+
+This state is not persistent across every MicroK8s restart.
+A `microk8s stop`/`start` cycle (or one triggered by a snap refresh) can clear the image cache, so re-check before assuming a stale import is still good.
 
 ### 2. Known-good `values.mine.yaml` combinations
 
-Point `image.repository`/`launcher.labImage` at the locally-imported tags in every scenario below (MicroK8s doesn't need the registry path prefix — plain `sidelab-launcher`/`sidelab-app` resolve to what you imported).
+Point `image.repository`/`launcher.labImage` at the locally-imported tags in every scenario below (MicroK8s doesn't need the registry path prefix, plain `sidelab-launcher`/`sidelab-app` resolve to what you imported).
 
 #### a. Zero-config default — SQLite + NodePort
 
@@ -96,7 +105,9 @@ kubectl port-forward -n sidelab svc/sidelab 3000:3000
 
 #### b. SQLite + Ingress, on MicroK8s' bundled ingress-nginx
 
-MicroK8s registers ingress classes `public` and `nginx` once `microk8s enable ingress` has run (see `docs/microk8s-ingress.md` in the sidelab repo for the full mirrored-networking setup). No cert-manager here — plain HTTP, `nip.io` wildcard DNS:
+MicroK8s registers ingress classes `public` and `nginx` once `microk8s enable ingress` has run (see `docs/microk8s-ingress.md` in the sidelab repo for the full mirrored-networking setup).
+
+No cert-manager here — plain HTTP, `nip.io` wildcard DNS:
 
 ```yaml
 domain: "127.0.0.1.nip.io"
@@ -161,7 +172,8 @@ database:
 
 #### e. Ingress + Traefik + cert-manager + Let's Encrypt (production shape)
 
-Needs a real cluster with Traefik and cert-manager installed — not exercisable on a bare MicroK8s node the way (b) is, but this is the intended production configuration, and worth keeping here as the known-valid reference:
+Needs a real cluster with Traefik and cert-manager installed.
+Not exercisable on a bare MicroK8s node the way (b) is, but this is the intended production configuration, and worth keeping here as the known-valid reference:
 
 ```yaml
 domain: "labs.example.com"
@@ -182,7 +194,8 @@ database:
     url: "mongodb+srv://user:pass@cluster.mongodb.net/sidelab"
 ```
 
-Dashboard: `https://sidelab.labs.example.com` (from the shared `domain`). Lab sessions: `https://<session-id>.labs.labs.example.com` — if that double `labs.` reads wrong for your naming, set `launcher.labDomain` explicitly instead of relying on the `domain` derivation (e.g. `launcher.labDomain: "labs.example.com"` directly, so sessions land on `<session-id>.labs.example.com`).
+Dashboard: `https://sidelab.labs.example.com` (from the shared `domain`). Lab sessions: `https://<session-id>.labs.labs.example.com`.
+If that double `labs.` reads wrong for the naming, set `launcher.labDomain` explicitly instead of relying on the `domain` derivation (e.g. `launcher.labDomain: "labs.example.com"` directly, so sessions land on `<session-id>.labs.example.com`).
 
 ### 3. Check everything came up
 

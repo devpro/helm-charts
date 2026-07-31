@@ -33,6 +33,14 @@ rules:
   - apiGroups: ["networking.k8s.io"]
     resources: ["ingresses"]
     verbs: ["get", "list", "create", "delete"]
+
+  # Attaches launcher.labImagePullSecret to each tenant namespace's default
+  # ServiceAccount so lab Pods can pull a private launcher.labImage. resourceNames
+  # restricts this to the "default" ServiceAccount only, in any namespace.
+  - apiGroups: [""]
+    resources: ["serviceaccounts"]
+    resourceNames: ["default"]
+    verbs: ["get", "update"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -48,4 +56,38 @@ subjects:
   - kind: ServiceAccount
     name: {{ include "sidelab.serviceAccountName" . }}
     namespace: {{ .Release.Namespace }}
+{{- if .Values.launcher.labImagePullSecret }}
+---
+# Scoped read access to the *source* pull secret only — deliberately a namespaced
+# Role in this chart's own namespace, not added to the ClusterRole above, which
+# would mean read access to every Secret in the cluster.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "sidelab.fullname" . }}-pull-secret-reader
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "sidelab.labels" . | nindent 4 }}
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    resourceNames: [{{ .Values.launcher.labImagePullSecret | quote }}]
+    verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "sidelab.fullname" . }}-pull-secret-reader
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "sidelab.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "sidelab.fullname" . }}-pull-secret-reader
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "sidelab.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end }}
 {{- end }}

@@ -8,7 +8,7 @@
   healthEndpoint: /health
   tls:
     secretName: keeptrack-blazorapp-tls
-  tag: 2.3.29668982088      # ref. https://hub.docker.com/r/devprofr/keeptrack-blazorapp/tags
+  tag: 2.4.30649145497      # ref. https://hub.docker.com/r/devprofr/keeptrack-blazorapp/tags
   replicaCount: 1
   resources: {}
     # limits:
@@ -54,7 +54,7 @@ webapi:
     secretName: keeptrack-webapi-tls
   host: ""
   replicaCount: 1
-  tag: 2.3.29668982088    # ref. https://hub.docker.com/r/devprofr/keeptrack-webapi/tags
+  tag: 2.4.30649145497    # ref. https://hub.docker.com/r/devprofr/keeptrack-webapi/tags
   resources: {}
   extraEnv: []
   additionalPodLabels: {}
@@ -92,6 +92,11 @@ webapi:
       #   key: ""
       token: ""
     googlebooks:
+      # apiKeySecretKeyRef:
+      #   name: ""
+      #   key: ""
+      apiKey: ""
+    omdb:
       # apiKeySecretKeyRef:
       #   name: ""
       #   key: ""
