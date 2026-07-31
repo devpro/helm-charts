@@ -255,6 +255,16 @@ spec:
             - name: GoogleBooks__ApiKey
               value: {{ .referenceData.googlebooks.apiKey | quote }}
             {{- end }}
+            {{- if .referenceData.omdb.apiKeySecretKeyRef }}
+            - name: Omdb__ApiKey
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .referenceData.omdb.apiKeySecretKeyRef.name }}
+                  key: {{ .referenceData.omdb.apiKeySecretKeyRef.key }}
+            {{- else }}
+            - name: Omdb__ApiKey
+              value: {{ .referenceData.omdb.apiKey | quote }}
+            {{- end }}
             {{- end }}
       restartPolicy: Always
       {{- if $.Values.security.hardened.enabled }}

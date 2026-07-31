@@ -27,6 +27,9 @@ data:
   K8S_INGRESS_TEMPLATE: "/app/config/ingress-template.yaml"
   {{- end }}
   K8S_NAMESPACE_PREFIX: {{ .Values.launcher.namespacePrefix | quote }}
+  {{- if .Values.launcher.labImagePullSecret }}
+  K8S_LAB_IMAGE_PULL_SECRET: {{ .Values.launcher.labImagePullSecret | quote }}
+  {{- end }}
   # Orphan cleanup and the restart delete-by-label fallback only scan the
   # namespaces listed here — the app has no discovery of its own, so always set
   # at least the seeded admin tenant's namespace.
