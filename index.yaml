@@ -713,6 +713,30 @@ entries:
   keeptrack:
   - apiVersion: v2
     appVersion: 2.4.1
+    created: "2026-08-04T21:17:52.609857372Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.6.16
+    description: Helm chart for Keeptrack
+    digest: 858ca3775f6d57abcecebedeba52620f6c6dd53d4a1967632a8ea68946f4832b
+    home: https://github.com/devpro/keeptrack
+    keywords:
+    - keeptrack
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: keeptrack
+    sources:
+    - https://github.com/devpro/keeptrack
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/keeptrack-0.2.5/keeptrack-0.2.5.tgz
+    version: 0.2.5
+  - apiVersion: v2
+    appVersion: 2.4.1
     created: "2026-07-31T20:31:15.239935468Z"
     dependencies:
     - alias: mongodb
@@ -1530,4 +1554,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/webgoat-1.0.0/webgoat-1.0.0.tgz
     version: 1.0.0
-generated: "2026-07-31T20:31:15.392986769Z"
+generated: "2026-08-04T21:17:52.609953822Z"
