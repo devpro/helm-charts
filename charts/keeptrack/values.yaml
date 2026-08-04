@@ -5,10 +5,10 @@
   image: docker.io/devprofr/keeptrack-blazorapp
   port: 80
   containerPort: 8080
-  healthEndpoint: /health
+  healthEndpoint: /healthz
   tls:
     secretName: keeptrack-blazorapp-tls
-  tag: 2.4.30649145497      # ref. https://hub.docker.com/r/devprofr/keeptrack-blazorapp/tags
+  tag: 2.4.30663981662      # ref. https://hub.docker.com/r/devprofr/keeptrack-blazorapp/tags
   replicaCount: 1
   resources: {}
     # limits:
@@ -49,12 +49,12 @@ webapi:
   image: docker.io/devprofr/keeptrack-webapi
   port: 80
   containerPort: 8080
-  healthEndpoint: /health
+  healthEndpoint: /healthz
   tls:
     secretName: keeptrack-webapi-tls
   host: ""
   replicaCount: 1
-  tag: 2.4.30649145497    # ref. https://hub.docker.com/r/devprofr/keeptrack-webapi/tags
+  tag: 2.4.30663981662    # ref. https://hub.docker.com/r/devprofr/keeptrack-webapi/tags
   resources: {}
   extraEnv: []
   additionalPodLabels: {}
@@ -101,6 +101,15 @@ webapi:
       #   name: ""
       #   key: ""
       apiKey: ""
+    igdb:
+      # clientIdSecretKeyRef:
+      #   name: ""
+      #   key: ""
+      clientId: ""
+      # clientSecretSecretKeyRef:
+      #   name: ""
+      #   key: ""
+      clientSecret: ""
 
 dotnet:
   environment: Production

@@ -38,10 +38,8 @@ Notable ones:
 
 - `webapi.db`: MongoDB connection (mandatory).
 - `firebase`: authentication configuration (mandatory).
-- `webapi.referenceData`: TMDB/RAWG/Discogs API keys and the Open Library book provider override,
-  used to enrich movies/TV shows/video games/books/albums with posters, synopsis, cast and episode data (optional).
-- `security.hardened.enabled`: runs containers with a read-only root filesystem, all Linux capabilities dropped, and the default seccomp profile,
-  for platforms that mandate the Kubernetes Pod Security Standards "restricted" profile.
+- `webapi.referenceData`: TMDB/RAWG/Discogs API keys and the Open Library book provider override, used to enrich movies/TV shows/video games/books/albums with posters, synopsis, cast and episode data (optional).
+- `security.hardened.enabled`: runs containers with a read-only root filesystem, all Linux capabilities dropped, and the default seccomp profile, for platforms that mandate the Kubernetes Pod Security Standards "restricted" profile.
   Disabled by default; validate in a non-production environment first.
 
 ## Scaling & high availability
@@ -65,11 +63,9 @@ Just raise `webapi.replicaCount`.
    Whatever sits in front only has to pass WebSockets through (Cloudflare tunnels and every mainstream ingress do).
 
 Known limitation (inherent to Blazor Server, not fixable by this chart): a circuit lives in the memory of exactly one pod.
-When that pod dies or is replaced during a rollout, browsers connected to it reconnect and reload the page they were on
-(no user data is lost - the app saves edits as they are made).
+When that pod dies or is replaced during a rollout, browsers connected to it reconnect and reload the page they were on (no user data is lost - the app saves edits as they are made).
 Extra replicas therefore add capacity and availability for new connections; they don't make an individual session survive the loss of its pod.
-After a transient network blip (pod still alive), the client's reconnect attempts re-roll across replicas until one lands on the right pod,
-which at small replica counts succeeds within the default retry budget.
+After a transient network blip (pod still alive), the client's reconnect attempts re-roll across replicas until one lands on the right pod, which at small replica counts succeeds within the default retry budget.
 
 ## Development
 

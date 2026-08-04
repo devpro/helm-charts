@@ -265,6 +265,26 @@ spec:
             - name: Omdb__ApiKey
               value: {{ .referenceData.omdb.apiKey | quote }}
             {{- end }}
+            {{- if .referenceData.igdb.clientIdSecretKeyRef }}
+            - name: Igdb__ClientId
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .referenceData.igdb.clientIdSecretKeyRef.name }}
+                  key: {{ .referenceData.igdb.clientIdSecretKeyRef.key }}
+            {{- else }}
+            - name: Igdb__ClientId
+              value: {{ .referenceData.igdb.clientId | quote }}
+            {{- end }}
+            {{- if .referenceData.igdb.clientSecretSecretKeyRef }}
+            - name: Igdb__ClientSecret
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .referenceData.igdb.clientSecretSecretKeyRef.name }}
+                  key: {{ .referenceData.igdb.clientSecretSecretKeyRef.key }}
+            {{- else }}
+            - name: Igdb__ClientSecret
+              value: {{ .referenceData.igdb.clientSecret | quote }}
+            {{- end }}
             {{- end }}
       restartPolicy: Always
       {{- if $.Values.security.hardened.enabled }}

@@ -2,7 +2,7 @@
 name: keeptrack
 description: Helm chart for Keeptrack
 type: application
-version: 0.2.4
+version: 0.2.5
 appVersion: "2.4.1"
 home: https://github.com/devpro/keeptrack
 sources:
