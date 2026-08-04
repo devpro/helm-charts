@@ -44,6 +44,8 @@ kubectl create secret generic keeptrack-app \
   --from-literal=discogstoken='***' \
   --from-literal=googlebooksApiKey='***' \
   --from-literal=omdbApiKey='***' \
+  --from-literal=igdbClientId='***' \
+  --from-literal=igdbClientSecret='***' \
   --namespace demo
 ```
 
@@ -100,6 +102,13 @@ webapi:
       apiKeySecretKeyRef:
         name: keeptrack-app
         key: omdbApiKey
+    igdb:
+      clientIdSecretKeyRef:
+        name: keeptrack-app
+        key: igdbClientId
+      clientSecretSecretKeyRef:
+        name: keeptrack-app
+        key: igdbClientSecret
 
 ingress:
   enabled: true

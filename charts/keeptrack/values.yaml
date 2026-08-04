@@ -101,6 +101,15 @@ webapi:
       #   name: ""
       #   key: ""
       apiKey: ""
+    igdb:
+      # clientIdSecretKeyRef:
+      #   name: ""
+      #   key: ""
+      clientId: ""
+      # clientSecretSecretKeyRef:
+      #   name: ""
+      #   key: ""
+      clientSecret: ""
 
 dotnet:
   environment: Production
