@@ -29,6 +29,32 @@ The chart is public but the sidelab images are not published to a public registr
 Everything else has working defaults: SQLite + NodePort + auto-generated secrets, no external dependencies.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for ready-to-use `values.mine.yaml` snippets covering the other use cases (MongoDB, Ingress + cert-manager, the bundled MongoDB demo chart).
 
+## Running several launcher replicas
+
+The launcher is stateless — sessions, lab-token replay protection and expiry claims are coordinated through the database, and running lab Pods are reconciled from it on startup — so it scales horizontally once nothing is stored on the Pod itself:
+
+```yaml
+replicaCount: 3
+
+database:
+  backend: mongo
+  mongo:
+    url: mongodb://user:pass@mongo:27017/sidelab
+
+persistence:
+  enabled: false      # nothing left to persist locally; a ReadWriteOnce PVC would pin the launcher to one Pod
+
+launcher:
+  labAccess: ingress  # nodeport lab URLs are built from the answering node's IP
+
+extraEnv:
+  - name: TRUST_PROXY
+    value: "1"        # the login throttle is per-replica; without this, per-IP throttling sees only the proxy
+```
+
+That combination also switches the Deployment from `Recreate` to `RollingUpdate`, so upgrades no longer drop the dashboard, and makes `autoscaling.enabled` usable.
+Asking for more than one replica while `database.backend=sqlite` or a non-`ReadWriteMany` PVC is enabled fails at render time with the fix in the message, rather than silently corrupting a database.
+
 ## Uninstall
 
 ```bash

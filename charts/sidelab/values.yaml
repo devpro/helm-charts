@@ -1,4 +1,4 @@
-# ── Domain ────────────────────────────────────────────────────────────────────
+﻿# ── Domain ────────────────────────────────────────────────────────────────────
 # Single source of truth for hostnames, so you don't repeat your domain in multiple places.
 # Leave the two derived values below empty to use it:
 #   ingress.host         defaults to "sidelab.<domain>"        (the dashboard)
@@ -20,22 +20,28 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-# Session state lives in the database (shared across replicas, survives restarts
-# and rollouts — lab pods keep running while the launcher restarts).
-# More than 1 replica requires database.backend=mongo: sqlite is a single local
-# file on a ReadWriteOnce PVC, which pins the launcher to one Pod regardless.
-# When scaling out, also prefer launcher.labAccess=ingress — nodeport lab URLs
-# are built from one node's IP.
+# The launcher itself is stateless: sessions, lab-token replay protection and expiry claims are all coordinated through the database,
+# so replicas share them, they survive restarts and rollouts, and lab Pods keep running throughout (the launcher reconciles them from the database on the way back up).
+#
+# Running more than one replica needs exactly two things, and the chart fails at render time with the fix in the message if either is missing:
+#   database.backend: mongo      sqlite is a single local file, unshareable between Pods
+#   persistence.enabled: false   a ReadWriteOnce PVC can only be mounted by one Pod (on mongo there is nothing left to persist)
+# Those two also flip the update strategy from Recreate to RollingUpdate, so upgrades stop dropping the dashboard.
+#
+# Two things worth setting when you scale out, neither enforced:
+#   - launcher.labAccess=ingress — nodeport lab URLs are built from the IP of whichever node answered, which is unstable across replicas
+#   - extraEnv TRUST_PROXY (see the bottom of this file) — the per-IP login throttle is in-process, so N replicas already give an attacker N times the budget;
+#     without TRUST_PROXY it degrades further, every request looking like it came from the ingress controller
 replicaCount: 1
 
 # ── Auth ──────────────────────────────────────────────────────────────────────
 auth:
   # -- JWT secret used to sign lab tokens and session cookies.
-  # Leave empty to auto-generate a strong random value on first install — it is then kept stable across upgrades (read back from the existing Secret).
-  # The app itself refuses to start in production with an unset/default secret, so this is not optional in practice — just easy to leave to the chart.
+  # Leave empty to auto-generate a strong random value on first install, it is then kept stable across upgrades (read back from the existing Secret).
+  # The app itself refuses to start in production with an unset/default secret, so this is not optional in practice, just easy to leave to the chart.
   jwtSecret: ""
 
-  # Initial admin credentials — only used to seed the database when it's empty.
+  # Initial admin credentials (only used to seed the database when it's empty)
   adminUsername: "admin"
   # -- Leave empty to auto-generate a strong random password on first install (kept stable across upgrades).
   # Retrieve it with the command printed by `helm install`/`helm upgrade` (see NOTES.txt).
@@ -43,18 +49,20 @@ auth:
 
   # -- Use your own pre-created Secret instead of the two fields above.
   # Keys expected: JWT_SECRET, ADMIN_USERNAME, ADMIN_PASSWORD.
-  # GitOps note (ArgoCD/Flux): those tools render templates offline, where the auto-generate-then-reuse trick above can't look up the existing Secret —
+  # GitOps note (ArgoCD/Flux): those tools render templates offline, where the auto-generate-then-reuse trick above can't look up the existing Secret,
   # so every sync would rotate JWT_SECRET, logging everyone out and making stored repo tokens undecryptable.
   # Under GitOps, always set this (or auth.jwtSecret).
+  # Operational note: the Deployment's checksum/secret annotation only covers the Secret this chart renders, so editing an *existing* Secret's contents won't roll the Pod on its own,
+  # follow it with `kubectl rollout restart deploy/<release>`.
   existingSecret: ""
 
 # ── Database ────────────────────────────────────────────────────────────────────
 database:
   # -- Options: sqlite, mongo.
-  # sqlite is the zero-dependency default — good for a quick look or a demo.
+  # sqlite is the zero-dependency default: good for a quick look or a demo.
   # mongo is the recommended backend for anything you intend to keep around;
   # point it at your own MongoDB (Atlas or self-hosted) via database.mongo.url, or flip on the bundled chart below for a disposable demo instance.
-  # There are no schema migrations on either backend (see the app's CLAUDE.md) — an in-place upgrade across a schema change needs a fresh database.
+  # There are no schema migrations on either backend (see the app's CLAUDE.md), an in-place upgrade across a schema change needs a fresh database.
   backend: "sqlite"
 
   sqlite:
@@ -63,24 +71,22 @@ database:
 
   mongo:
     # -- Full MongoDB connection string, e.g. mongodb+srv://user:pass@cluster.mongodb.net/sidelab
-    # Not needed if mongodb.enabled=true below — the chart wires that up for you.
+    # Not needed if mongodb.enabled=true below, the chart wires that up for you.
     url: ""
     # -- Use your own pre-created Secret instead of database.mongo.url.
-    # Key expected: DB_URL. Takes priority over database.mongo.url and
-    # over the bundled mongodb chart below.
+    # Key expected: DB_URL.
+    # Takes priority over database.mongo.url and over the bundled mongodb chart below.
     existingSecret: ""
 
 # ── Bundled MongoDB (optional, for a quick disposable demo) ───────────────────────
-# Deploys https://github.com/bitnami/charts/blob/main/bitnami/mongodb/values.yaml
-# as a subchart alongside the launcher. Off by default — prefer a real, backed-up
-# MongoDB (Atlas or self-hosted) for anything you care about; this is uncomfortable
-# to lose, since it's just another Pod with a PVC, not a managed database.
+# Deploys https://github.com/bitnami/charts/blob/main/bitnami/mongodb/values.yaml as a subchart alongside the launcher.
+# Off by default: prefer a real, backed-up MongoDB (Atlas or self-hosted) for anything you care about;
+# this is uncomfortable to lose, since it's just another Pod with a PVC, not a managed database.
 #
-# When enabled, the chart auto-builds database.mongo's connection string from
-# mongodb.auth.rootPassword — set that one field and DB_BACKEND=mongo wiring is
-# automatic. database.mongo.url / database.mongo.existingSecret, if set, always
-# take priority over this (so you can point at an external Mongo even with an
-# unrelated mongodb.enabled=true left over from testing).
+# When enabled, the chart auto-builds database.mongo's connection string from mongodb.auth.rootPassword;
+# set that one field and DB_BACKEND=mongo wiring is automatic.
+# database.mongo.url / database.mongo.existingSecret, if set, always take priority over this
+# (so you can point at an external Mongo even with an unrelated mongodb.enabled=true left over from testing).
 mongodb:
   enabled: false
   architecture: standalone
@@ -88,8 +94,7 @@ mongodb:
     enabled: true
     # -- Required when mongodb.enabled=true, unless database.mongo.url or
     # database.mongo.existingSecret is set instead.
-    # This is intentionally not auto-generated: the same value has to reach
-    # both this subchart's own root user AND the launcher's connection string,
+    # This is intentionally not auto-generated: the same value has to reach both this subchart's own root user AND the launcher's connection string,
     # and Helm cannot pass a chart-generated value into a subchart's values.
     rootPassword: ""
   image:
@@ -108,21 +113,24 @@ mongodb:
 
 persistence:
   # -- Enable a PersistentVolumeClaim for /app/data.
-  # Required for the sqlite backend. With the mongo backend the launcher keeps no
-  # local state at all (lab Pods clone courses themselves in an init container),
-  # so this can be disabled — which also unlocks RollingUpdate deployments and
-  # multiple replicas (see replicaCount above).
+  # Required for the sqlite backend.
+  # With the mongo backend the launcher keeps no local state at all (lab Pods clone courses themselves in an init container), so set this to false;
+  # that is what unlocks RollingUpdate deployments and multiple replicas (see replicaCount above).
   enabled: true
   # -- Leave empty to use the cluster default.
   storageClass: ""
+  # -- ReadWriteOnce is right for the sqlite backend and pins the launcher to a single Pod.
+  # ReadWriteMany only helps if you mount extra shared state of your own — it does *not* make sqlite shareable
+  # (the chart still refuses replicaCount > 1 on sqlite: it is a single-writer file whatever the volume underneath).
+  # With persistence.existingClaim set, no PVC is created and this value is read only to decide whether the launcher is pinned to one Pod,
+  # so it must still describe what that claim actually supports.
   accessMode: ReadWriteOnce
   size: 2Gi
   # -- Use an existing PVC instead of creating one.
   existingClaim: ""
 
 launcher:
-  # -- Only "kubernetes" is meaningful in-cluster — it's what makes the launcher
-  # create lab sessions as Pods via the Kubernetes API instead of Docker/Podman.
+  # -- Only "kubernetes" is meaningful in-cluster, it's what makes the launcher create lab sessions as Pods via the Kubernetes API instead of Docker/Podman.
   backend: "kubernetes"
 
   labImage: "ghcr.io/devpro/sidelab-app:latest"
@@ -133,9 +141,9 @@ launcher:
   # -- Maximum lab session duration a user can request, in minutes.
   sessionMaxDuration: 60
 
-  # -- How lab Pods are exposed to end users. Options: nodeport, ingress.
-  # nodeport needs nothing else and is the default; ingress needs an ingress
-  # controller and, for TLS, cert-manager — see the ingress section below.
+  # -- How lab Pods are exposed to end users.
+  # Options: nodeport, ingress.
+  # nodeport needs nothing else and is the default; ingress needs an ingress controller and, for TLS, cert-manager (see the ingress section below).
   labAccess: "nodeport"
 
   # -- Wildcard domain used to build lab session URLs when labAccess=ingress,
@@ -143,49 +151,41 @@ launcher:
   # Defaults to "labs.<domain>" (see the top-level domain value) when left empty.
   labDomain: ""
 
-  # -- Name of a ConfigMap holding a custom Ingress template for lab sessions
-  # (key: ingress-template.yaml). Leave empty to use the chart's own template,
-  # which is generated from the ingress section below and good enough for most
-  # ingress-nginx/Traefik setups.
+  # -- Name of a ConfigMap holding a custom Ingress template for lab sessions (key: ingress-template.yaml).
+  # Leave empty to use the chart's own template, which is generated from the ingress section below and good enough for most ingress-nginx/Traefik setups.
   ingressTemplateConfigMap: ""
 
-  # -- Kubernetes namespace prefix for tenant lab namespaces, e.g. tenant "admin"
-  # gets namespace "sidelab-admin" with the default prefix.
+  # -- Kubernetes namespace prefix for tenant lab namespaces, e.g. tenant "admin" gets namespace "sidelab-admin" with the default prefix.
   namespacePrefix: "sidelab"
 
-  # -- Extra tenant namespaces for orphan cleanup and the delete-by-label
-  # fallback, comma-separated. Normally leave empty: the launcher discovers
-  # tenant namespaces itself via the app.kubernetes.io/managed-by=sidelab label
-  # it puts on every namespace it creates. Only needed for namespaces created
-  # by hand without that label, e.g. "sidelab-legacy".
+  # -- Extra tenant namespaces for orphan cleanup and the delete-by-label fallback, comma-separated.
+  # Normally leave empty: the launcher discovers tenant namespaces itself via the app.kubernetes.io/managed-by=sidelab label it puts on every namespace it creates.
+  # Only needed for namespaces created by hand without that label, e.g. "sidelab-legacy".
   knownNamespaces: ""
 
-  # Note: the git-clone init container used for git-sourced courses always runs
-  # "alpine/git:latest" — this is fixed in the app itself, not chart-configurable.
-  # Make sure that image is reachable (or pre-imported) wherever you deploy.
+  # Note: the git-clone init container used for git-sourced courses always runs "alpine/git:latest".
+  # this is fixed in the app itself, not chart-configurable.
+  # Make sure that image is reachable (or pre-imported) wherever it is deployed.
 
-  # -- Name of an existing dockerconfigjson Secret in THIS chart's own namespace
-  # (release namespace), used to pull a private launcher.labImage.
+  # -- Name of an existing dockerconfigjson Secret in THIS chart's own namespace (release namespace), used to pull a private launcher.labImage.
   # Create it yourself first, e.g.:
   #   kubectl create secret docker-registry ghcr-pull \
   #     --docker-server=ghcr.io --docker-username=<user> --docker-password=<PAT> \
   #     -n <release-namespace>
-  # The chart then copies it into every tenant namespace automatically (on every
-  # session start, self-healing) and attaches it to that namespace's default
-  # ServiceAccount — lab Pods run under that ServiceAccount and never set
-  # imagePullSecrets themselves, so this is what makes a private launcher.labImage
-  # pullable without any per-tenant manual step. Leave empty for public images.
+  # The chart then copies it into every tenant namespace automatically (on every session start, self-healing) and attaches it to that namespace's default ServiceAccount.
+  # lab Pods run under that ServiceAccount and never set imagePullSecrets themselves, so this is what makes a private launcher.labImage pullable without any per-tenant manual step.
+  # Leave empty for public images.
   labImagePullSecret: ""
 
 # ── Service (the launcher dashboard) ───────────────────────────────────────────
-# This is independent from launcher.labAccess above, which is only about lab
-# session Pods. The dashboard itself is always reached via this Service —
-# through the Ingress below, a NodePort, or `kubectl port-forward`.
+# This is independent from launcher.labAccess above, which is only about lab session Pods.
+# The dashboard itself is always reached via this Service; through the Ingress below, a NodePort, or `kubectl port-forward`.
 service:
   # -- ClusterIP, NodePort, or LoadBalancer.
   type: ClusterIP
   port: 3000
-  # -- Only used when service.type=NodePort. Leave empty to let Kubernetes pick one.
+  # -- Only used when service.type=NodePort.
+  # Leave empty to let Kubernetes pick one.
   nodePort: ""
 
 # ── Ingress (dashboard only — lab sessions use launcher.labAccess) ───────────────
@@ -203,16 +203,24 @@ ingress:
     # traefik.ingress.kubernetes.io/router.tls: "true"
     # traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
   tls:
-    # -- Requests a certificate automatically when a cert-manager ClusterIssuer
-    # annotation is present above (see letsencrypt example in CONTRIBUTING.md).
+    # -- Requests a certificate automatically when a cert-manager ClusterIssuer annotation is present above (see letsencrypt example in CONTRIBUTING.md).
+    #
+    # This flag reaches further than the dashboard: it also decides whether the generated *lab session* Ingress template carries a `tls:` block,
+    # and the launcher reads that back to pick the scheme of the URL it hands learners (`manifest.spec.tls ? 'https' : 'http'`).
+    # Leaving it false with launcher.labAccess=ingress means sessions open at `http://<id>.<labDomain>`,
+    # so the single-use labToken travels in a plaintext query string and the lab session cookie is not marked Secure.
+    #
+    # Set it true even when TLS is terminated *upstream* of the cluster (a Cloudflare tunnel, an external load balancer) and no cert-manager issuer is configured:
+    # the referenced per-session secret simply never materializes and the ingress controller falls back to its default certificate,
+    # which is never presented anyway because the upstream hop reaches it over plain http.
+    # The flag's real job in that topology is getting the scheme right.
     enabled: false
     secretName: "sidelab-tls"
 
 # ── Security ────────────────────────────────────────────────────────────────────
-# All hardening below is opt-in and off by default, so the chart runs
-# unmodified on a plain cluster. Uncomment what your cluster/policy needs.
-# The launcher image has no baked-in non-root user, but any non-zero UID works
-# fine — /app/data is a PVC (fsGroup handles it) and /tmp is a separate emptyDir.
+# All hardening below is opt-in and off by default, so the chart runs unmodified on a plain cluster.
+# Uncomment what your cluster/policy needs.
+# The launcher image has no baked-in non-root user, but any non-zero UID works fine; /app/data is a PVC (fsGroup handles it) and /tmp is a separate emptyDir.
 podSecurityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
@@ -238,8 +246,7 @@ resources: {}
   #   memory: 512Mi
 
 # ── Probes ───────────────────────────────────────────────────────────────────────
-# The launcher has no dedicated /healthz route — "/" serves the dashboard's
-# static index.html unauthenticated, which works fine as a liveness signal.
+# The launcher has no dedicated /healthz route, "/" serves the dashboard's static index.html unauthenticated, which works fine as a liveness signal.
 livenessProbe:
   httpGet:
     path: /
@@ -257,8 +264,9 @@ readinessProbe:
   failureThreshold: 3
 
 # ── Autoscaling ──────────────────────────────────────────────────────────────────
-# Only valid with database.backend=mongo and persistence.enabled=false — the same
-# conditions as replicaCount > 1 (see above). Never enable it on sqlite.
+# Same two conditions as replicaCount > 1 (see above): database.backend=mongo and persistence.enabled=false.
+# maxReplicas is validated against them, so enabling this on sqlite fails the render rather than corrupting a database.
+# The Deployment drops its own `replicas` field when this is on, so Helm and the HPA don't fight over the count.
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -266,18 +274,15 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 
 # ── Pod Disruption Budget ────────────────────────────────────────────────────────
-# Off by default: with replicaCount 1, a PDB with minAvailable=1 blocks voluntary
-# node drains from ever evicting the Pod. Makes sense once you run 2+ replicas
-# on the mongo backend (see replicaCount above).
+# Off by default: with replicaCount 1, a PDB with minAvailable=1 blocks voluntary node drains from ever evicting the Pod.
+# Makes sense once you run 2+ replicas on the mongo backend (see replicaCount above).
 podDisruptionBudget:
   enabled: false
   minAvailable: 1
 
 # ── Network Policies ─────────────────────────────────────────────────────────────
-# Lab pods calling back into the launcher (token validation, session finish) are
-# always allowed: the policy admits any namespace labeled
-# app.kubernetes.io/managed-by=sidelab, which the launcher sets on every tenant
-# namespace it creates.
+# Lab pods calling back into the launcher (token validation, session finish) are always allowed:
+# the policy admits any namespace labeled app.kubernetes.io/managed-by=sidelab, which the launcher sets on every tenant namespace it creates.
 networkPolicy:
   enabled: false
   # -- Namespace the ingress controller runs in, allowed to reach the dashboard Service.
@@ -292,9 +297,8 @@ networkPolicy:
   additionalEgressCIDRs: []
 
 # ── RBAC ──────────────────────────────────────────────────────────────────────────
-# Required, not just hardening: without it the launcher's Kubernetes backend
-# cannot create the namespaces/Pods/Services/Ingresses/Secrets that lab
-# sessions are made of. Disable only if you manage equivalent RBAC externally.
+# Required, not just hardening: without it the launcher's Kubernetes backend cannot create the namespaces/Pods/Services/Ingresses/Secrets that lab sessions are made of.
+# Disable only if you manage equivalent RBAC externally.
 rbac:
   create: true
 
@@ -303,8 +307,7 @@ serviceAccount:
   annotations: {}
   # -- Defaults to the chart's fullname.
   name: ""
-  # -- Required: the launcher authenticates to the Kubernetes API using this
-  # Pod's own mounted token. Unlike most charts, this can't default to false.
+  # -- Required: the launcher authenticates to the Kubernetes API using this Pod's own mounted token. Unlike most charts, this can't default to false.
   automountServiceAccountToken: true
 
 # ── Scheduling ───────────────────────────────────────────────────────────────────
@@ -316,10 +319,17 @@ podAnnotations: {}
 podLabels: {}
 
 # ── Extra environment variables passed to the launcher container ─────────────────
-# Example:
+# TRUST_PROXY is the one most deployments actually need: the launcher throttles POST /api/auth/login per username (10 failures / 15 min) and per client IP (30),
+# and the per-IP half is meaningless behind an ingress or a tunnel unless Express is told how many proxy hops to trust.
+# Every request otherwise shares the proxy's address.
+# Set it to the hop count ("1" behind a single ingress controller, "2" behind e.g. cloudflared -> Traefik), or "true" to trust the leftmost X-Forwarded-For.
+# Per-username throttling works either way.
+#
 #   extraEnv:
-#     - name: SESSION_HOST
-#       value: "labs.example.com"
+#     - name: TRUST_PROXY
+#       value: "1"
+#
+# Note SESSION_HOST is *not* useful here, it is only read by the local and container backends, never by the kubernetes one this chart deploys.
 extraEnv: []
 
 extraVolumes: []

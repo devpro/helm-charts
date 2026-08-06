@@ -176,6 +176,42 @@ Only called from secret.yaml when auth.existingSecret is not set.
 {{- end }}
 
 {{/*
+Whether this configuration owns local state that two launcher Pods must never
+share. Returns "true" or "" (empty is false in an `if`).
+
+Two independent reasons, and only these two:
+  - the sqlite backend is a single-writer file — unsafe between processes even on
+    a shared volume, and worse without one (each Pod would silently get its own
+    empty database on its own emptyDir);
+  - a PVC that isn't ReadWriteMany simply cannot be mounted by two Pods.
+
+Nothing else in the launcher is per-Pod state: sessions, lab-token replay
+protection and expiry claims all live in the database, and lab Pods are
+reconciled from it on startup. So with database.backend=mongo and
+persistence.enabled=false this is empty, and the chart rolls and scales normally.
+
+Drives both the Deployment update strategy and the replica validation below.
+*/}}
+{{- define "sidelab.singleWriter" -}}
+{{- if eq .Values.database.backend "sqlite" -}}
+true
+{{- else if and .Values.persistence.enabled (ne .Values.persistence.accessMode "ReadWriteMany") -}}
+true
+{{- end -}}
+{{- end }}
+
+{{/*
+Highest number of Pods this release can end up running, autoscaling included.
+*/}}
+{{- define "sidelab.maxReplicas" -}}
+{{- if .Values.autoscaling.enabled -}}
+{{- max (.Values.replicaCount | int) (.Values.autoscaling.maxReplicas | int) -}}
+{{- else -}}
+{{- .Values.replicaCount | int -}}
+{{- end -}}
+{{- end }}
+
+{{/*
 Validate required values and emit a clear error message.
 */}}
 {{- define "sidelab.validateValues" -}}
@@ -193,5 +229,13 @@ Validate required values and emit a clear error message.
 {{- end }}
 {{- if and (eq .Values.launcher.labAccess "ingress") (not (include "sidelab.labDomain" .)) }}
 {{- fail "launcher.labDomain or domain is required when launcher.labAccess=ingress." }}
+{{- end }}
+{{- if gt (int (include "sidelab.maxReplicas" .)) 1 }}
+{{- if eq .Values.database.backend "sqlite" }}
+{{- fail "database.backend=sqlite is a single local file and cannot be shared between launcher Pods. To run more than one replica, set database.backend=mongo (pointing at your own MongoDB via database.mongo.url) and persistence.enabled=false." }}
+{{- end }}
+{{- if and .Values.persistence.enabled (ne .Values.persistence.accessMode "ReadWriteMany") }}
+{{- fail "persistence.accessMode=ReadWriteOnce pins the launcher to a single Pod. On the mongo backend the launcher keeps no local state (lab Pods clone courses themselves), so set persistence.enabled=false to run more than one replica." }}
+{{- end }}
 {{- end }}
 {{- end }}

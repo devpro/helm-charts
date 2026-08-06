@@ -8,10 +8,13 @@ metadata:
   labels:
     {{- include "sidelab.labels" . | nindent 4 }}
 rules:
-  # Namespace management — creates sidelab-<tenant> on first lab start
+  # Namespace management — creates sidelab-<tenant> on first lab start.
+  # "list" is what discoverNamespaces() uses to find tenant namespaces by the app.kubernetes.io/managed-by=sidelab label,
+  # for orphan cleanup on restart and the delete-by-label terminate fallback.
+  # Without it the launcher degrades to launcher.knownNamespaces only; silently, since the failure is caught.
   - apiGroups: [""]
     resources: ["namespaces"]
-    verbs: ["get", "create"]
+    verbs: ["get", "list", "create"]
 
   # Lab Pod lifecycle
   - apiGroups: [""]
@@ -23,7 +26,7 @@ rules:
     resources: ["services"]
     verbs: ["get", "list", "create", "delete"]
 
-  # Per-session Secrets holding private git PATs — created and deleted per session, never read back.
+  # Per-session Secrets holding private git PATs: created and deleted per session, never read back.
   # No get/list here: on a ClusterRole that would mean read access to every Secret in the cluster.
   - apiGroups: [""]
     resources: ["secrets"]
@@ -34,9 +37,8 @@ rules:
     resources: ["ingresses"]
     verbs: ["get", "list", "create", "delete"]
 
-  # Attaches launcher.labImagePullSecret to each tenant namespace's default
-  # ServiceAccount so lab Pods can pull a private launcher.labImage. resourceNames
-  # restricts this to the "default" ServiceAccount only, in any namespace.
+  # Attaches launcher.labImagePullSecret to each tenant namespace's default ServiceAccount so lab Pods can pull a private launcher.labImage.
+  # resourceNames restricts this to the "default" ServiceAccount only, in any namespace.
   - apiGroups: [""]
     resources: ["serviceaccounts"]
     resourceNames: ["default"]
@@ -58,9 +60,8 @@ subjects:
     namespace: {{ .Release.Namespace }}
 {{- if .Values.launcher.labImagePullSecret }}
 ---
-# Scoped read access to the *source* pull secret only — deliberately a namespaced
-# Role in this chart's own namespace, not added to the ClusterRole above, which
-# would mean read access to every Secret in the cluster.
+# Scoped read access to the *source* pull secret only, deliberately a namespaced Role in this chart's own namespace, not added to the ClusterRole above,
+# which would mean read access to every Secret in the cluster.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:

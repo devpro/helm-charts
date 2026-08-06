@@ -1,20 +1,21 @@
-﻿# title: Continuous Integration
-# uses:
-#   - https://github.com/helm/chart-testing-action
-#   - https://github.com/stackrox/kube-linter-action
-
-name: CI
+﻿name: CI
+# title: CI (Continuous Integration) pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
+    branches:
+      - main
+  workflow_dispatch: {}
 
 concurrency:
-  group: "ci"
+  group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  contents: read
 
 env:
   CHARTS_DIRECTORIES_ARG: "--chart-dirs charts"
@@ -23,7 +24,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout git repository
+      - name: Checkout repository
         uses: actions/checkout@v7
         with:
           # note: important to have chart-testing work (see https://github.com/helm/chart-testing/issues/186)

@@ -4,7 +4,7 @@ description: >
   Self-hosted interactive lab platform.
   Deploys the Sidelab launcher, which manages lab sessions as ephemeral Kubernetes Pods inside tenant-scoped namespaces.
 type: application
-version: 0.1.4
+version: 0.1.5
 appVersion: "0.1.0"
 keywords:
   - sidelab
@@ -15,7 +15,7 @@ sources:
   - https://github.com/devpro/helm-charts
 dependencies:
   - name: mongodb
-    version: 18.6.16   # MongoDB 8.2.6
+    version: 19.1.24   # MongoDB 8.3.7
     repository: https://charts.bitnami.com/bitnami
     alias: mongodb
     condition: mongodb.enabled
