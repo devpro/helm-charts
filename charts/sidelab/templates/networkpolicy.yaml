@@ -1,4 +1,4 @@
-{{- if .Values.networkPolicy.enabled }}
+﻿{{- if .Values.networkPolicy.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -32,8 +32,7 @@ spec:
       ports:
         - port: {{ .Values.service.port }}
           protocol: TCP
-    # Allow lab pods in tenant namespaces (sidelab-<tenant>) — they call the
-    # launcher back for token validation on lab login and on session finish.
+    # Allow lab pods in tenant namespaces (sidelab-<tenant>), as they call the launcher back for token validation on lab login and on session finish.
     # The launcher labels every namespace it creates with this.
     - from:
         - namespaceSelector:
@@ -59,15 +58,14 @@ spec:
           protocol: UDP
         - port: 53
           protocol: TCP
-    # Kubernetes API server (manages lab Pods/Services/Secrets/Ingresses/namespaces),
-    # and HTTPS git remotes (the launcher itself clones git-sourced courses for caching)
+    # Kubernetes API server (manages lab Pods/Services/Secrets/Ingresses/namespaces), and HTTPS git remotes (the launcher itself clones git-sourced courses for caching)
     - ports:
         - port: 443
           protocol: TCP
         - port: 6443
           protocol: TCP
     {{- if or (eq .Values.database.backend "mongo") .Values.mongodb.enabled }}
-    # MongoDB (bundled chart or external — Atlas also uses 27017 on its data nodes)
+    # MongoDB (bundled chart or external, Atlas also uses 27017 on its data nodes)
     - ports:
         - port: 27017
           protocol: TCP

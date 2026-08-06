@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "sidelab.fullname" . }}
@@ -9,13 +9,12 @@ spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
     {{- if .Values.persistence.enabled }}
-    # The data PVC is ReadWriteOnce (SQLite file, git course cache), so two Pods
-    # must never run at once — Recreate, at the cost of brief dashboard downtime
-    # on upgrades. Lab sessions are unaffected either way: their Pods keep
-    # running and the launcher reconciles from the database on the way back up.
+    # The data PVC is ReadWriteOnce (SQLite file, git course cache), so two Pods must never run at once;
+    # Recreate, at the cost of brief dashboard downtime on upgrades.
+    # Lab sessions are unaffected either way: their Pods keep running and the launcher reconciles from the database on the way back up.
     type: Recreate
     {{- else }}
-    # No PVC (mongo backend, no local state) — roll without downtime.
+    # No PVC (mongo backend, no local state): roll without downtime.
     type: RollingUpdate
     {{- end }}
   selector:
@@ -29,9 +28,8 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       annotations:
-        # forces a rollout when the rendered ConfigMap/Secret content changes,
-        # even if the image tag doesn't — env vars are only read at container
-        # start, so Kubernetes won't otherwise notice a ConfigMap/Secret edit.
+        # forces a rollout when the rendered ConfigMap/Secret content changes, even if the image tag doesn't;
+        # env vars are only read at container start, so Kubernetes won't otherwise notice a ConfigMap/Secret edit.
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
@@ -64,8 +62,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "sidelab.fullname" . }}-config
-            # Auth secrets — the Secret's keys match these env var names exactly
-            # (envFrom has no per-key rename).
+            # Auth secrets: the Secret's keys match these env var names exactly (envFrom has no per-key rename).
             - secretRef:
                 name: {{ include "sidelab.authSecretName" . }}
             {{- if eq .Values.database.backend "mongo" }}
@@ -74,8 +71,7 @@ spec:
             {{- end }}
           env:
             # ── Kubernetes launcher identity ───────────────────────────────────
-            # The launcher uses its own namespace + Service name to know which
-            # Service lab Pods should call back to on session finish.
+            # The launcher uses its own namespace + Service name to know which Service lab Pods should call back to on session finish.
             - name: K8S_LAUNCHER_NAMESPACE
               valueFrom:
                 fieldRef:
@@ -107,7 +103,7 @@ spec:
               mountPath: /app/config
               readOnly: true
             {{- end }}
-            # Writable /tmp — needed if you enable containerSecurityContext.readOnlyRootFilesystem
+            # Writable /tmp, needed if you enable containerSecurityContext.readOnlyRootFilesystem
             - name: tmp
               mountPath: /tmp
             {{- with .Values.extraVolumeMounts }}

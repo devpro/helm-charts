@@ -36,7 +36,7 @@ Useful sanity checks on the output:
 
 ## Validate on MicroK8s
 
-This is the fastest local loop — no cloud cluster, no DNS, no cert-manager required for the base cases below.
+This is the fastest local loop: no cloud cluster, no DNS, no cert-manager required for the base cases below.
 
 ### 0. Point Helm/kubectl at MicroK8s
 
@@ -47,22 +47,23 @@ microk8s helm3 <command>
 microk8s kubectl <command>
 ```
 
-or export MicroK8s' kubeconfig for the rest of this session:
+Or export MicroK8s' kubeconfig for the rest of this session:
 
 ```bash
 microk8s config > /tmp/microk8s-kubeconfig.yaml
 export KUBECONFIG=/tmp/microk8s-kubeconfig.yaml
 ```
 
-Both were used interchangeably while validating this chart — pick whichever you already have muscle memory for.
+Both were used interchangeably while validating this chart.
 
 ### 1. Build and import the images
 
-MicroK8s can't `docker pull` images that only exist in your local Docker daemon — import them explicitly. From the `sidelab` repo:
+MicroK8s can't `docker pull` images that only exist in the local Docker daemon, it needs to be imported them explicitly.
+From the `sidelab` repo:
 
 ```bash
 docker compose --profile build-only build
-docker tag sidelab-app:latest sidelab-app:v1   # avoid :latest — see docs/wsl-microk8s.md
+docker tag sidelab-app:latest sidelab-app:v1   # avoid :latest (see docs/wsl-microk8s.md)
 docker save sidelab-launcher:latest | microk8s images import -
 docker save sidelab-app:v1 | microk8s images import -
 ```
@@ -83,9 +84,9 @@ A `microk8s stop`/`start` cycle (or one triggered by a snap refresh) can clear t
 
 ### 2. Known-good `values.mine.yaml` combinations
 
-Point `image.repository`/`launcher.labImage` at the locally-imported tags in every scenario below (MicroK8s doesn't need the registry path prefix, plain `sidelab-launcher`/`sidelab-app` resolve to what you imported).
+Point `image.repository`/`launcher.labImage` at the locally-imported tags in every scenario below (MicroK8s doesn't need the registry path prefix, plain `sidelab-launcher`/`sidelab-app` resolve to what was imported).
 
-#### a. Zero-config default — SQLite + NodePort
+#### a. Zero-config default: SQLite + NodePort
 
 No `values.mine.yaml` needed at all:
 
@@ -107,7 +108,7 @@ kubectl port-forward -n sidelab svc/sidelab 3000:3000
 
 MicroK8s registers ingress classes `public` and `nginx` once `microk8s enable ingress` has run (see `docs/microk8s-ingress.md` in the sidelab repo for the full mirrored-networking setup).
 
-No cert-manager here — plain HTTP, `nip.io` wildcard DNS:
+No cert-manager here, plain HTTP, `nip.io` wildcard DNS:
 
 ```yaml
 domain: "127.0.0.1.nip.io"
@@ -127,7 +128,7 @@ microk8s helm3 upgrade --install sidelab . -f values.mine.yaml \
 
 Dashboard ends up at `http://sidelab.127.0.0.1.nip.io`, lab sessions at `http://<session-id>.labs.127.0.0.1.nip.io`.
 
-#### c. MongoDB — bundled chart, disposable demo
+#### c. MongoDB as bundled chart, disposable demo
 
 ```yaml
 database:
@@ -135,7 +136,7 @@ database:
 mongodb:
   enabled: true
   auth:
-    rootPassword: "demo12345"   # required — see the comment in values.yaml for why this can't auto-generate
+    rootPassword: "demo12345"   # required (see the comment in values.yaml for why this can't auto-generate)
 ```
 
 ```bash
@@ -145,9 +146,10 @@ microk8s helm3 upgrade --install sidelab . -f values.mine.yaml \
   --set launcher.labImage=sidelab-app:v1
 ```
 
-Confirms in the launcher logs as `📦 Database : MongoDB (sidelab)`. Both Pods (`sidelab` and `sidelab-mongodb`) should reach `1/1 Running`.
+Confirms in the launcher logs as `📦 Database : MongoDB (sidelab)`.
+Both Pods (`sidelab` and `sidelab-mongodb`) should reach `1/1 Running`.
 
-#### d. MongoDB — external (Atlas or self-hosted)
+#### d. MongoDB external (Atlas or self-hosted)
 
 ```yaml
 database:
@@ -194,8 +196,48 @@ database:
     url: "mongodb+srv://user:pass@cluster.mongodb.net/sidelab"
 ```
 
-Dashboard: `https://sidelab.labs.example.com` (from the shared `domain`). Lab sessions: `https://<session-id>.labs.labs.example.com`.
+Dashboard: `https://sidelab.labs.example.com` (from the shared `domain`).
+Lab sessions: `https://<session-id>.labs.labs.example.com`.
 If that double `labs.` reads wrong for the naming, set `launcher.labDomain` explicitly instead of relying on the `domain` derivation (e.g. `launcher.labDomain: "labs.example.com"` directly, so sessions land on `<session-id>.labs.example.com`).
+
+#### f. TLS terminated upstream of the cluster (Cloudflare Tunnel, external LB)
+
+The other production shape: nothing in the cluster holds a certificate, because an upstream hop terminates TLS and reaches the cluster over plain HTTP.
+The dashboard doesn't need an `Ingress` at all (the tunnel routes straight to its `Service`) but lab sessions still do, because their host-based routing is what an ingress controller exists to do.
+
+```yaml
+domain: "example.com"
+ingress:
+  enabled: false        # dashboard: tunnel -> Service directly, no Ingress object
+  className: "traefik"  # still stamped onto the per-session lab Ingress objects
+  tls:
+    enabled: true       # see below (this is not about holding a certificate)
+launcher:
+  labAccess: "ingress"
+database:
+  backend: "mongo"
+  mongo:
+    existingSecret: "sidelab-mongo"
+persistence:
+  enabled: false        # mongo backend keeps no local launcher state
+extraEnv:
+  - name: TRUST_PROXY
+    value: "2"          # tunnel -> ingress controller = two hops
+```
+
+Two settings in there are easy to get wrong, and both fail quietly:
+
+- **`ingress.tls.enabled: true` despite no cert-manager and no certificate.**
+  The launcher picks the scheme of the URL it hands learners by reading back whether the lab `Ingress` it just created has a `tls:` block.
+  Leave this false and every session opens at `http://<id>.labs.example.com`: the single-use `labToken` crosses the public internet in a plaintext query string, and the lab session cookie isn't marked `Secure`.
+  The per-session secret it names never materializes, and that's harmless here: the controller falls back to its default certificate, which nothing ever sees, because the upstream hop reaches it over HTTP.
+- **`ingress.enabled: false` does not disable `ingress.className`/`ingress.tls`.** Both are deliberately reused for lab sessions, so you configure the ingress controller once rather than twice.
+
+One thing to confirm on the certificate side, since `launcher.labDomain` decides it:
+a wildcard covers a single label, so `<session-id>.labs.example.com` needs a certificate issued for `*.labs.example.com` specifically, one for `*.example.com` won't match it.
+
+Cloudflare's Universal SSL is the common case where that bites, covering the apex and `*.example.com` only; a deeper wildcard there needs Total TLS / Advanced Certificate Manager.
+Whoever terminates TLS in the topology is who this question is for, it doesn't arise at all when sessions are reached over a private network rather than a public hostname.
 
 ### 3. Check everything came up
 
