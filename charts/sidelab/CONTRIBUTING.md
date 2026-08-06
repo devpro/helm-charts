@@ -239,6 +239,45 @@ a wildcard covers a single label, so `<session-id>.labs.example.com` needs a cer
 Cloudflare's Universal SSL is the common case where that bites, covering the apex and `*.example.com` only; a deeper wildcard there needs Total TLS / Advanced Certificate Manager.
 Whoever terminates TLS in the topology is who this question is for, it doesn't arise at all when sessions are reached over a private network rather than a public hostname.
 
+#### g. Multiple launcher replicas
+
+Builds on (e) or (f), it's the same production shape with the Pod count raised.
+
+The launcher holds nothing in process: sessions, lab-token replay protection and expiry claims all go through the database, expiry is a 30s sweep where replicas race for an atomic claim,
+and running lab Pods are reconciled from the database on startup rather than tracked in memory.
+
+```yaml
+replicaCount: 3
+database:
+  backend: "mongo"
+  mongo:
+    existingSecret: "sidelab-mongo"
+persistence:
+  enabled: false        # nothing left to persist locally
+launcher:
+  labAccess: "ingress"
+podDisruptionBudget:
+  enabled: true         # now meaningful: minAvailable 1 no longer means "never evict"
+extraEnv:
+  - name: TRUST_PROXY
+    value: "1"
+```
+
+The two required lines are `database.backend: mongo` and `persistence.enabled: false`.
+Both are enforced: asking for `replicaCount > 1` (or `autoscaling.enabled` with a `maxReplicas > 1`) on SQLite, or with a PVC that isn't `ReadWriteMany`, fails the render with the fix in the message.
+SQLite is a single-writer local file, and a `ReadWriteOnce` PVC can't be mounted by two Pods to begin with — a chart that let either through would hand you a silently split or corrupted database.
+Meeting both conditions is also what flips the `Deployment` strategy from `Recreate` to `RollingUpdate`, so upgrades stop dropping the dashboard.
+Verify with:
+
+```bash
+helm template sidelab . -f values.mine.yaml | grep -A2 'strategy:'
+```
+
+Two more, not enforced because neither is wrong enough to block on:
+
+- **`launcher.labAccess: ingress`.** NodePort lab URLs are built from `K8S_NODE_IP`, the IP of the node running the replica that served the request, so learners get URLs pointing at different nodes depending on which replica answered.
+- **`TRUST_PROXY`.** The failed-login throttle is in-process, so `replicaCount: 3` already gives an attacker three times the budget (per-username throttling still applies on each replica). Without `TRUST_PROXY` the per-IP half stops working entirely, every request appearing to come from the ingress controller.
+
 ### 3. Check everything came up
 
 ```bash

@@ -20,10 +20,18 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-# Session state lives in the database (shared across replicas, survives restarts
-# and rollouts — lab pods keep running while the launcher restarts).
-# More than 1 replica requires database.backend=mongo: sqlite is a single local file on a ReadWriteOnce PVC, which pins the launcher to one Pod regardless.
-# When scaling out, also prefer launcher.labAccess=ingress, nodeport lab URLs are built from one node's IP.
+# The launcher itself is stateless: sessions, lab-token replay protection and expiry claims are all coordinated through the database,
+# so replicas share them, they survive restarts and rollouts, and lab Pods keep running throughout (the launcher reconciles them from the database on the way back up).
+#
+# Running more than one replica needs exactly two things, and the chart fails at render time with the fix in the message if either is missing:
+#   database.backend: mongo      sqlite is a single local file, unshareable between Pods
+#   persistence.enabled: false   a ReadWriteOnce PVC can only be mounted by one Pod (on mongo there is nothing left to persist)
+# Those two also flip the update strategy from Recreate to RollingUpdate, so upgrades stop dropping the dashboard.
+#
+# Two things worth setting when you scale out, neither enforced:
+#   - launcher.labAccess=ingress — nodeport lab URLs are built from the IP of whichever node answered, which is unstable across replicas
+#   - extraEnv TRUST_PROXY (see the bottom of this file) — the per-IP login throttle is in-process, so N replicas already give an attacker N times the budget;
+#     without TRUST_PROXY it degrades further, every request looking like it came from the ingress controller
 replicaCount: 1
 
 # ── Auth ──────────────────────────────────────────────────────────────────────
@@ -106,11 +114,16 @@ mongodb:
 persistence:
   # -- Enable a PersistentVolumeClaim for /app/data.
   # Required for the sqlite backend.
-  # With the mongo backend the launcher keeps no local state at all (lab Pods clone courses themselves in an init container), so this can be disabled;
-  # which also unlocks RollingUpdate deployments and multiple replicas (see replicaCount above).
+  # With the mongo backend the launcher keeps no local state at all (lab Pods clone courses themselves in an init container), so set this to false;
+  # that is what unlocks RollingUpdate deployments and multiple replicas (see replicaCount above).
   enabled: true
   # -- Leave empty to use the cluster default.
   storageClass: ""
+  # -- ReadWriteOnce is right for the sqlite backend and pins the launcher to a single Pod.
+  # ReadWriteMany only helps if you mount extra shared state of your own — it does *not* make sqlite shareable
+  # (the chart still refuses replicaCount > 1 on sqlite: it is a single-writer file whatever the volume underneath).
+  # With persistence.existingClaim set, no PVC is created and this value is read only to decide whether the launcher is pinned to one Pod,
+  # so it must still describe what that claim actually supports.
   accessMode: ReadWriteOnce
   size: 2Gi
   # -- Use an existing PVC instead of creating one.
@@ -251,8 +264,9 @@ readinessProbe:
   failureThreshold: 3
 
 # ── Autoscaling ──────────────────────────────────────────────────────────────────
-# Only valid with database.backend=mongo and persistence.enabled=false, the same conditions as replicaCount > 1 (see above).
-# Never enable it on sqlite.
+# Same two conditions as replicaCount > 1 (see above): database.backend=mongo and persistence.enabled=false.
+# maxReplicas is validated against them, so enabling this on sqlite fails the render rather than corrupting a database.
+# The Deployment drops its own `replicas` field when this is on, so Helm and the HPA don't fight over the count.
 autoscaling:
   enabled: false
   minReplicas: 1

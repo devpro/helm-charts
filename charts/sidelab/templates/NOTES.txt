@@ -1,4 +1,4 @@
-🎉 Sidelab has been deployed!
+﻿🎉 Sidelab has been deployed!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Launcher URL
@@ -7,9 +7,8 @@
   http{{ if .Values.ingress.tls.enabled }}s{{ end }}://{{ include "sidelab.ingressHost" . }}
 {{- if .Values.ingress.tls.enabled }}
 
-  The TLS certificate is issued automatically by cert-manager, if configured
-  via a cert-manager.io/cluster-issuer annotation. Allow 1-2 minutes for it
-  to become ready:
+  The TLS certificate is issued automatically by cert-manager, if configured via a cert-manager.io/cluster-issuer annotation.
+  Allow 1-2 minutes for it to become ready:
 
     kubectl get certificate -n {{ .Release.Namespace }} -w
 {{- end }}
@@ -39,9 +38,8 @@
       -o jsonpath='{.data.ADMIN_PASSWORD}' | base64 -d; echo
 {{- end }}
 
-  These credentials only seed the database on first run — the database
-  itself is the source of truth after that. Change the admin password after
-  first login.
+  These credentials only seed the database on first run.
+  The database itself is the source of truth after that. Change the admin password after first login.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Lab sessions
@@ -57,9 +55,15 @@
 {{- end }}
 
   Database   : {{ .Values.database.backend }}
+  Replicas   : {{ if .Values.autoscaling.enabled }}{{ .Values.autoscaling.minReplicas }}-{{ .Values.autoscaling.maxReplicas }} (autoscaled){{ else }}{{ .Values.replicaCount }}{{ end }}
+{{- if include "sidelab.singleWriter" . }}
+  Single-Pod configuration: {{ if eq .Values.database.backend "sqlite" }}the sqlite database is a local file{{ else }}the data PVC is {{ .Values.persistence.accessMode }}{{ end }},
+  so upgrades use the Recreate strategy and the dashboard is briefly down.
+  Running lab sessions are unaffected. See replicaCount in values.yaml to scale out.
+{{- end }}
 {{- if and (eq .Values.database.backend "mongo") .Values.mongodb.enabled (not .Values.database.mongo.url) (not .Values.database.mongo.existingSecret) }}
-  Using the bundled MongoDB chart — fine for a demo, not backed up. Point
-  database.mongo.url at a real MongoDB before you rely on this data.
+  Using the bundled MongoDB chart, fine for a demo, not backed up.
+  Point database.mongo.url at a real MongoDB before you rely on this data.
 {{- end }}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

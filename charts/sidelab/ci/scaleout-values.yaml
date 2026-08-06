@@ -1,0 +1,27 @@
+# Scale-out configuration: mongo backend, no PVC, several replicas behind an ingress.
+# Guards the RollingUpdate branch of the Deployment strategy and the replica validation in _helpers.tpl.
+image:
+  repository: ci-dummy-registry/app
+
+replicaCount: 3
+
+database:
+  backend: mongo
+  mongo:
+    url: mongodb://ci-dummy-host:27017/sidelab
+
+persistence:
+  enabled: false
+
+podDisruptionBudget:
+  enabled: true
+
+domain: ci.example.com
+ingress:
+  enabled: true
+launcher:
+  labAccess: ingress
+
+extraEnv:
+  - name: TRUST_PROXY
+    value: "1"

@@ -6,15 +6,18 @@ metadata:
   labels:
     {{- include "sidelab.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
+  {{- end }}
   strategy:
-    {{- if .Values.persistence.enabled }}
-    # The data PVC is ReadWriteOnce (SQLite file, git course cache), so two Pods must never run at once;
-    # Recreate, at the cost of brief dashboard downtime on upgrades.
+    {{- if include "sidelab.singleWriter" . }}
+    # This configuration keeps state only one Pod may own, the SQLite file, or a non-ReadWriteMany PVC (see the sidelab.singleWriter helper).
+    # The old Pod must therefore be gone before the new one starts: Recreate, at the cost of brief dashboard downtime on upgrades.
     # Lab sessions are unaffected either way: their Pods keep running and the launcher reconciles from the database on the way back up.
     type: Recreate
     {{- else }}
-    # No PVC (mongo backend, no local state): roll without downtime.
+    # No Pod-local state (mongo backend, no ReadWriteOnce PVC): roll without downtime, and scale to replicaCount Pods.
+    # The launcher is stateless here!: sessions, lab-token replay protection and expiry claims are all coordinated through the database.
     type: RollingUpdate
     {{- end }}
   selector:
