@@ -31,7 +31,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for ready-to-use `values.mine.yaml` snipp
 
 ## Running several launcher replicas
 
-The launcher is stateless — sessions, lab-token replay protection and expiry claims are coordinated through the database, and running lab Pods are reconciled from it on startup — so it scales horizontally once nothing is stored on the Pod itself:
+The launcher is stateless: sessions, lab-token replay protection and expiry claims are coordinated through the database, and running lab Pods are reconciled from it on startup.
+So it scales horizontally once nothing is stored on the Pod itself:
 
 ```yaml
 replicaCount: 3
