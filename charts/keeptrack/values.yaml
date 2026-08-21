@@ -74,6 +74,8 @@ webapi:
   referenceData:
     # overrides the app's own default ("OpenLibrary") - see WebApi's AppConfiguration.BookReferenceProvider
     bookProvider: ""
+    # overrides the app's own default ("IGDB") - see WebApi's AppConfiguration.VideoGameProvider
+    videoGameProvider: ""
     # periodic background re-sync of stale reference data (every 24h); matches the app's own default
     isSyncEnabled: true
     tmdb:

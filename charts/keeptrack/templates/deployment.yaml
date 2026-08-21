@@ -215,6 +215,10 @@ spec:
             - name: ReferenceData__BookProvider
               value: {{ .referenceData.bookProvider | quote }}
             {{- end }}
+            {{- if .referenceData.videoGameProvider }}
+            - name: ReferenceData__VideoGameProvider
+              value: {{ .referenceData.videoGameProvider | quote }}
+            {{- end }}
             {{- if .referenceData.tmdb.apiKeySecretKeyRef }}
             - name: Tmdb__ApiKey
               valueFrom:
