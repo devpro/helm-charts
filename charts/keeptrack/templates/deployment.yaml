@@ -104,8 +104,6 @@ spec:
             {{- if eq .role "frontend" }}
             - name: WebApi__BaseUrl
               value: "http://{{ $.Values.webapi.name }}"
-            - name: Features__IsWebSocketsOnlyEnabled
-              value: {{ .webSocketsOnly | quote }}
             {{- if .dataProtection.enabled }}
             {{- if .dataProtection.connectionStringSecretKeyRef }}
             - name: DataProtection__MongoDb__ConnectionString
