@@ -94,14 +94,16 @@ Ingress template ConfigMap name (for lab session Ingress resources).
 {{- end }}
 
 {{/*
-Image tag — falls back to .Chart.AppVersion.
+Image tag.
+Falls back to .Chart.AppVersion.
 */}}
 {{- define "sidelab.imageTag" -}}
 {{- .Values.image.tag | default .Chart.AppVersion }}
 {{- end }}
 
 {{/*
-Dashboard hostname. ingress.host wins; otherwise derived from the shared top-level `domain` value as "sidelab.<domain>".
+Dashboard hostname.
+ingress.host wins; otherwise derived from the shared top-level `domain` value as "sidelab.<domain>".
 Empty if neither is set.
 */}}
 {{- define "sidelab.ingressHost" -}}
@@ -113,7 +115,8 @@ Empty if neither is set.
 {{- end }}
 
 {{/*
-Lab session wildcard domain. launcher.labDomain wins; otherwise derived from the shared top-level `domain` value as "labs.<domain>".
+Lab session wildcard domain.
+launcher.labDomain wins; otherwise derived from the shared top-level `domain` value as "labs.<domain>".
 Empty if neither is set.
 */}}
 {{- define "sidelab.labDomain" -}}
@@ -126,9 +129,8 @@ Empty if neither is set.
 
 {{/*
 MongoDB connection string.
-database.mongo.url wins;
-otherwise, if the bundled mongodb subchart is enabled, derived from its default standalone Service name
-("<release-name>-mongodb", per the alias in Chart.yaml and the Bitnami chart's own naming convention) and mongodb.auth.rootPassword.
+database.mongo.url wins; otherwise, if the bundled mongodb subchart is enabled,
+derived from its default standalone Service name ("<release-name>-mongodb", per the alias in Chart.yaml and the Bitnami chart's own naming convention) and mongodb.auth.rootPassword.
 Only called from secret.yaml when database.mongo.existingSecret is not set.
 */}}
 {{- define "sidelab.mongoUrl" -}}
@@ -140,9 +142,9 @@ Only called from secret.yaml when database.mongo.existingSecret is not set.
 {{- end }}
 
 {{/*
-JWT secret — auth.jwtSecret wins; otherwise reused from the existing Secret on upgrade (via lookup), or freshly generated on first install.
-`lookup` returns nothing outside a real cluster (e.g. `helm template`), so offline rendering always generates a fresh value —
-expected, and harmless for a dry render.
+JWT secret.
+auth.jwtSecret wins; otherwise reused from the existing Secret on upgrade (via lookup), or freshly generated on first install.
+`lookup` returns nothing outside a real cluster (e.g. `helm template`), so offline rendering always generates a fresh value (expected, and harmless for a dry render).
 Only called from secret.yaml when auth.existingSecret is not set.
 */}}
 {{- define "sidelab.jwtSecret" -}}
@@ -159,7 +161,8 @@ Only called from secret.yaml when auth.existingSecret is not set.
 {{- end }}
 
 {{/*
-Admin password — same reuse-then-generate pattern as sidelab.jwtSecret above.
+Admin password.
+Same reuse-then-generate pattern as sidelab.jwtSecret above.
 Only called from secret.yaml when auth.existingSecret is not set.
 */}}
 {{- define "sidelab.adminPassword" -}}
@@ -176,19 +179,16 @@ Only called from secret.yaml when auth.existingSecret is not set.
 {{- end }}
 
 {{/*
-Whether this configuration owns local state that two launcher Pods must never
-share. Returns "true" or "" (empty is false in an `if`).
+Whether this configuration owns local state that two launcher Pods must never share.
+Returns "true" or "" (empty is false in an `if`).
 
 Two independent reasons, and only these two:
-  - the sqlite backend is a single-writer file — unsafe between processes even on
-    a shared volume, and worse without one (each Pod would silently get its own
-    empty database on its own emptyDir);
-  - a PVC that isn't ReadWriteMany simply cannot be mounted by two Pods.
+  - The sqlite backend is a single-writer file.
+    unsafe between processes even on a shared volume, and worse without one (each Pod would silently get its own empty database on its own emptyDir);
+  - A PVC that isn't ReadWriteMany simply cannot be mounted by two Pods.
 
-Nothing else in the launcher is per-Pod state: sessions, lab-token replay
-protection and expiry claims all live in the database, and lab Pods are
-reconciled from it on startup. So with database.backend=mongo and
-persistence.enabled=false this is empty, and the chart rolls and scales normally.
+Nothing else in the launcher is per-Pod state: sessions, lab-token replay protection and expiry claims all live in the database,
+and lab Pods are reconciled from it on startup. So with database.backend=mongo and persistence.enabled=false this is empty, and the chart rolls and scales normally.
 
 Drives both the Deployment update strategy and the replica validation below.
 */}}
