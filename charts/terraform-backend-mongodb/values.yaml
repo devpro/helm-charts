@@ -75,8 +75,10 @@ authentication:
   # Set to 0 to disable the cache.
   credentialCacheSeconds: 60
   # -- Consecutive failures before that username is refused from that source address.
+  # The application refuses to start below 1.
   maxFailedAttempts: 10
-  # -- How long the refusal lasts.
+  # -- How long the refusal lasts, in seconds.
+  # The application refuses to start at 0 or below.
   lockoutSeconds: 300
 
 # Which reverse proxies the application believes when it reads the caller's address.

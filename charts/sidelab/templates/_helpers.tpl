@@ -129,8 +129,7 @@ Empty if neither is set.
 
 {{/*
 MongoDB connection string.
-database.mongo.url wins; otherwise, if the bundled mongodb subchart is enabled,
-derived from its default standalone Service name ("<release-name>-mongodb", per the alias in Chart.yaml and the Bitnami chart's own naming convention) and mongodb.auth.rootPassword.
+database.mongo.url wins; otherwise, with the bundled mongodb subchart, built from its standalone Service name "<release-name>-mongodb" and mongodb.auth.rootPassword.
 Only called from secret.yaml when database.mongo.existingSecret is not set.
 */}}
 {{- define "sidelab.mongoUrl" -}}
@@ -179,17 +178,8 @@ Only called from secret.yaml when auth.existingSecret is not set.
 {{- end }}
 
 {{/*
-Whether this configuration owns local state that two launcher Pods must never share.
+Whether the configuration holds state only one launcher Pod may own: a sqlite database, or a volume that is not ReadWriteMany.
 Returns "true" or "" (empty is false in an `if`).
-
-Two independent reasons, and only these two:
-  - The sqlite backend is a single-writer file.
-    unsafe between processes even on a shared volume, and worse without one (each Pod would silently get its own empty database on its own emptyDir);
-  - A PVC that isn't ReadWriteMany simply cannot be mounted by two Pods.
-
-Nothing else in the launcher is per-Pod state: sessions, lab-token replay protection and expiry claims all live in the database,
-and lab Pods are reconciled from it on startup. So with database.backend=mongo and persistence.enabled=false this is empty, and the chart rolls and scales normally.
-
 Drives both the Deployment update strategy and the replica validation below.
 */}}
 {{- define "sidelab.singleWriter" -}}
@@ -232,10 +222,10 @@ Validate required values and emit a clear error message.
 {{- end }}
 {{- if gt (int (include "sidelab.maxReplicas" .)) 1 }}
 {{- if eq .Values.database.backend "sqlite" }}
-{{- fail "database.backend=sqlite is a single local file and cannot be shared between launcher Pods. To run more than one replica, set database.backend=mongo (pointing at your own MongoDB via database.mongo.url) and persistence.enabled=false." }}
+{{- fail "database.backend=sqlite is a single local file and cannot be shared between launcher Pods. More than one replica requires database.backend=mongo and persistence.enabled=false." }}
 {{- end }}
 {{- if and .Values.persistence.enabled (ne .Values.persistence.accessMode "ReadWriteMany") }}
-{{- fail "persistence.accessMode=ReadWriteOnce pins the launcher to a single Pod. On the mongo backend the launcher keeps no local state (lab Pods clone courses themselves), so set persistence.enabled=false to run more than one replica." }}
+{{- fail "persistence.accessMode=ReadWriteOnce pins the launcher to a single Pod. More than one replica requires persistence.enabled=false." }}
 {{- end }}
 {{- end }}
 {{- end }}

@@ -53,12 +53,12 @@ and the daily reference-data sync elects a single runner through a MongoDB lease
 
 Just raise `webapi.replicaCount`.
 
-**`blazorapp`** (Blazor Server): two settings make multiple replicas work, both on by the time you scale:
+**`blazorapp`** (Blazor Server): two things make multiple replicas work:
 
 1. `blazorapp.dataProtection.enabled: true` (plus its MongoDB connection, typically the same secret as `webapi.db`) - shares the cookie-encryption key ring across replicas.
    Without it, a login cookie issued by one pod is unreadable by the others and users bounce between logged-in and logged-out.
    Worth enabling even at 1 replica: sessions then survive pod restarts.
-2. `blazorapp.webSocketsOnly: true` (the default) -
+2. The application's WebSockets-only transport, on by default:
    each Blazor circuit runs on one long-lived WebSocket and therefore naturally sticks to the pod that owns its in-memory state, with no load-balancer affinity needed.
    Whatever sits in front only has to pass WebSockets through (Cloudflare tunnels and every mainstream ingress do).
 
