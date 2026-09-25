@@ -1,6 +1,6 @@
 ﻿# Contribution guide
 
-## Update chart dependencies
+## Updating chart dependencies
 
 Add the Bitnami Helm repository:
 
@@ -23,7 +23,7 @@ Update `Chart.lock` and fetch the archive into `charts/` (gitignored, rebuilt fr
 helm dependency update .
 ```
 
-## Review the generated manifest
+## Reviewing the generated manifest
 
 ```bash
 helm template sidelab . -f values.yaml -f values.mine.yaml --namespace sidelab --debug > temp.yaml
@@ -31,10 +31,40 @@ helm template sidelab . -f values.yaml -f values.mine.yaml --namespace sidelab -
 
 Useful sanity checks on the output:
 
-- the same value should never appear twice from two different sources (that's what the top-level `domain` value and reusing `ingress.className`/`ingress.tls`/the cert-manager annotation  for lab sessions are for),
-- and `--set database.backend=mongo` with nothing else set, or `--set ingress.enabled=true` with no `domain`/`ingress.host`, should fail fast with a clear `fail` message rather than render something broken.
+- the same value should never appear twice from two different sources
+  (that's what the top-level `domain` value and reusing `ingress.className`/`ingress.tls`/the cert-manager annotation for lab sessions are for)
+- having `--set database.backend=mongo` with nothing else set, or `--set ingress.enabled=true` with no `domain`/`ingress.host`,
+  should fail fast with a clear `fail` message rather than render something broken
 
-## Validate on MicroK8s
+## Running several launcher replicas
+
+The launcher is stateless: sessions, lab-token replay protection and expiry claims are coordinated through the database, and running lab Pods are reconciled from it on startup.
+So it scales horizontally once nothing is stored on the Pod itself:
+
+```yaml
+replicaCount: 3
+
+database:
+  backend: mongo
+  mongo:
+    url: mongodb://<user>:<pass>@mongo:27017/sidelab
+
+persistence:
+  enabled: false      # nothing left to persist locally; a ReadWriteOnce PVC would pin the launcher to one Pod
+
+launcher:
+  labAccess: ingress  # nodeport lab URLs are built from the answering node's IP
+
+extraEnv:
+  - name: TRUST_PROXY
+    value: "1"        # the login throttle is per-replica; without this, per-IP throttling sees only the proxy
+```
+
+That combination also switches the Deployment from `Recreate` to `RollingUpdate`, so upgrades no longer drop the dashboard, and makes `autoscaling.enabled` usable.
+Asking for more than one replica while `database.backend=sqlite` or a non-`ReadWriteMany` PVC is enabled fails at render time with the fix in the message,
+rather than silently corrupting a database.
+
+## Validating on MicroK8s
 
 This is the fastest local loop: no cloud cluster, no DNS, no cert-manager required for the base cases below.
 
@@ -63,7 +93,7 @@ From the `sidelab` repo:
 
 ```bash
 docker compose --profile build-only build
-docker tag sidelab-app:latest sidelab-app:v1   # avoid :latest (see docs/wsl-microk8s.md)
+docker tag sidelab-app:latest sidelab-app:v1
 docker save sidelab-launcher:latest | microk8s images import -
 docker save sidelab-app:v1 | microk8s images import -
 ```
@@ -84,7 +114,8 @@ A `microk8s stop`/`start` cycle (or one triggered by a snap refresh) can clear t
 
 ### 2. Known-good `values.mine.yaml` combinations
 
-Point `image.repository`/`launcher.labImage` at the locally-imported tags in every scenario below (MicroK8s doesn't need the registry path prefix, plain `sidelab-launcher`/`sidelab-app` resolve to what was imported).
+Point `image.repository`/`launcher.labImage` at the locally-imported tags in every scenario below
+(MicroK8s doesn't need the registry path prefix, plain `sidelab-launcher`/`sidelab-app` resolve to what was imported).
 
 #### a. Zero-config default: SQLite + NodePort
 
@@ -229,8 +260,10 @@ Two settings in there are easy to get wrong, and both fail quietly:
 
 - **`ingress.tls.enabled: true` despite no cert-manager and no certificate.**
   The launcher picks the scheme of the URL it hands learners by reading back whether the lab `Ingress` it just created has a `tls:` block.
-  Leave this false and every session opens at `http://<id>.labs.example.com`: the single-use `labToken` crosses the public internet in a plaintext query string, and the lab session cookie isn't marked `Secure`.
-  The per-session secret it names never materializes, and that's harmless here: the controller falls back to its default certificate, which nothing ever sees, because the upstream hop reaches it over HTTP.
+  Leave this false and every session opens at `http://<id>.labs.example.com`:
+  the single-use `labToken` crosses the public internet in a plaintext query string, and the lab session cookie isn't marked `Secure`.
+  The per-session secret it names never materializes, and that's harmless here: the controller falls back to its default certificate, which nothing ever sees,
+  because the upstream hop reaches it over HTTP.
 - **`ingress.enabled: false` does not disable `ingress.className`/`ingress.tls`.** Both are deliberately reused for lab sessions, so you configure the ingress controller once rather than twice.
 
 One thing to confirm on the certificate side, since `launcher.labDomain` decides it:
@@ -264,8 +297,10 @@ extraEnv:
 ```
 
 The two required lines are `database.backend: mongo` and `persistence.enabled: false`.
-Both are enforced: asking for `replicaCount > 1` (or `autoscaling.enabled` with a `maxReplicas > 1`) on SQLite, or with a PVC that isn't `ReadWriteMany`, fails the render with the fix in the message.
-SQLite is a single-writer local file, and a `ReadWriteOnce` PVC can't be mounted by two Pods to begin with — a chart that let either through would hand you a silently split or corrupted database.
+Both are enforced: asking for `replicaCount > 1` (or `autoscaling.enabled` with a `maxReplicas > 1`) on SQLite, or with a PVC that isn't `ReadWriteMany`,
+fails the render with the fix in the message.
+SQLite is a single-writer local file, and a `ReadWriteOnce` PVC can't be mounted by two Pods to begin with.
+A chart that let either through would hand you a silently split or corrupted database.
 Meeting both conditions is also what flips the `Deployment` strategy from `Recreate` to `RollingUpdate`, so upgrades stop dropping the dashboard.
 Verify with:
 
@@ -275,8 +310,10 @@ helm template sidelab . -f values.mine.yaml | grep -A2 'strategy:'
 
 Two more, not enforced because neither is wrong enough to block on:
 
-- **`launcher.labAccess: ingress`.** NodePort lab URLs are built from `K8S_NODE_IP`, the IP of the node running the replica that served the request, so learners get URLs pointing at different nodes depending on which replica answered.
-- **`TRUST_PROXY`.** The failed-login throttle is in-process, so `replicaCount: 3` already gives an attacker three times the budget (per-username throttling still applies on each replica). Without `TRUST_PROXY` the per-IP half stops working entirely, every request appearing to come from the ingress controller.
+- **`launcher.labAccess: ingress`.** NodePort lab URLs are built from `K8S_NODE_IP`, the IP of the node running the replica that served the request,
+  so learners get URLs pointing at different nodes depending on which replica answered.
+- **`TRUST_PROXY`.** The failed-login throttle is in-process, so `replicaCount: 3` already gives an attacker three times the budget (per-username throttling still applies on each replica).
+  Without `TRUST_PROXY` the per-IP half stops working entirely, every request appearing to come from the ingress controller.
 
 ### 3. Check everything came up
 

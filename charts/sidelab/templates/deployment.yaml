@@ -11,13 +11,10 @@ spec:
   {{- end }}
   strategy:
     {{- if include "sidelab.singleWriter" . }}
-    # This configuration keeps state only one Pod may own, the SQLite file, or a non-ReadWriteMany PVC (see the sidelab.singleWriter helper).
-    # The old Pod must therefore be gone before the new one starts: Recreate, at the cost of brief dashboard downtime on upgrades.
-    # Lab sessions are unaffected either way: their Pods keep running and the launcher reconciles from the database on the way back up.
+    # State only one Pod may own (see sidelab.singleWriter): the old Pod must be gone before the new one starts.
     type: Recreate
     {{- else }}
-    # No Pod-local state (mongo backend, no ReadWriteOnce PVC): roll without downtime, and scale to replicaCount Pods.
-    # The launcher is stateless here!: sessions, lab-token replay protection and expiry claims are all coordinated through the database.
+    # No Pod-local state: roll without downtime.
     type: RollingUpdate
     {{- end }}
   selector:
@@ -73,15 +70,14 @@ spec:
                 name: {{ include "sidelab.mongoSecretName" . }}
             {{- end }}
           env:
-            # ── Kubernetes launcher identity ───────────────────────────────────
-            # The launcher uses its own namespace + Service name to know which Service lab Pods should call back to on session finish.
+            # The Service lab Pods call back.
             - name: K8S_LAUNCHER_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: K8S_LAUNCHER_SERVICE
               value: {{ include "sidelab.fullname" . }}
-            # ── Node IP, used to build lab URLs when launcher.labAccess=nodeport ──
+            # Used to build lab URLs when launcher.labAccess=nodeport.
             - name: K8S_NODE_IP
               valueFrom:
                 fieldRef:
@@ -98,7 +94,7 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- end }}
           volumeMounts:
-            # Writable data volume (SQLite DB + git course cache)
+            # Writable data volume
             - name: data
               mountPath: /app/data
             {{- if eq .Values.launcher.labAccess "ingress" }}

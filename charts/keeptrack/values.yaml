@@ -35,12 +35,6 @@
     #   key: ""
     # connectionString: ""
     databaseName: "keeptrack"
-  # Forces the Blazor Server circuit onto a single WebSocket with no negotiate round-trip, so a circuit
-  # naturally sticks to the replica that owns its state -
-  # no load-balancer cookie affinity needed, which makes replicaCount > 1 work behind anything that passes WebSockets through (cloudflared, Traefik, plain Services).
-  # Only set to false if a proxy in front can't pass WebSockets;
-  # such a deployment must then stay at replicaCount 1.
-  webSocketsOnly: true
 
 webapi:
   enabled: true
@@ -72,8 +66,10 @@ webapi:
   # optional: third-party providers used to enrich movies/TV shows/video games/books/albums with posters, synopsis, cast and episode data.
   # Leaving a key empty just means that provider's enrichment silently fails (401/403 from the provider) - the rest of the app is unaffected.
   referenceData:
-    # overrides the app's own default ("OpenLibrary") - see WebApi's AppConfiguration.BookReferenceProvider
+    # overrides the app's own default ("googlebooks", from its appsettings.json), see WebApi's AppConfiguration.BookReferenceProvider
     bookProvider: ""
+    # overrides the app's own default ("igdb"), see WebApi's AppConfiguration.VideoGameReferenceProvider
+    videoGameProvider: ""
     # periodic background re-sync of stale reference data (every 24h); matches the app's own default
     isSyncEnabled: true
     tmdb:

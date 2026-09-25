@@ -105,6 +105,22 @@ spec:
               value: {{ $.Values.dotnet.httpsRedirectionEnabled | quote }}
             - name: Features__IsScalarEnabled
               value: {{ $.Values.dotnet.enableScalar | quote }}
+            - name: Authentication__CredentialCacheSeconds
+              value: {{ $.Values.authentication.credentialCacheSeconds | quote }}
+            - name: Authentication__MaxFailedAttempts
+              value: {{ $.Values.authentication.maxFailedAttempts | quote }}
+            - name: Authentication__LockoutSeconds
+              value: {{ $.Values.authentication.lockoutSeconds | quote }}
+            - name: Network__TrustAllProxies
+              value: {{ $.Values.network.trustAllProxies | quote }}
+            {{- range $index, $proxy := $.Values.network.knownProxies }}
+            - name: Network__KnownProxies__{{ $index }}
+              value: {{ $proxy | quote }}
+            {{- end }}
+            {{- range $index, $cidr := $.Values.network.knownNetworks }}
+            - name: Network__KnownNetworks__{{ $index }}
+              value: {{ $cidr | quote }}
+            {{- end }}
             {{- if $.Values.dotnet.openTelemetry.enabled }}
             - name: OTEL_SERVICE_NAME
               value: {{ $.Values.dotnet.openTelemetry.serviceName | default (include "terraform-backend-mongodb.fullname" (dict "app" . "root" $)) | quote }}

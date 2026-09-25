@@ -32,8 +32,7 @@ spec:
       ports:
         - port: {{ .Values.service.port }}
           protocol: TCP
-    # Allow lab pods in tenant namespaces (sidelab-<tenant>), as they call the launcher back for token validation on lab login and on session finish.
-    # The launcher labels every namespace it creates with this.
+    # Lab Pods in tenant namespaces call the launcher back.
     - from:
         - namespaceSelector:
             matchLabels:
@@ -58,7 +57,7 @@ spec:
           protocol: UDP
         - port: 53
           protocol: TCP
-    # Kubernetes API server (manages lab Pods/Services/Secrets/Ingresses/namespaces), and HTTPS git remotes (the launcher itself clones git-sourced courses for caching)
+    # Kubernetes API server and HTTPS remotes
     - ports:
         - port: 443
           protocol: TCP

@@ -1,8 +1,6 @@
-{{/*
-Recommended Kubernetes labels (https://helm.sh/docs/chart_best_practices/labels/), added on top of
-the app-specific `app` / `app.kubernetes.io/name` labels every template already sets directly.
-These are informational only - never add them to a Deployment's spec.selector.matchLabels, which
-is immutable and would break `helm upgrade` for existing releases.
+﻿{{/*
+Recommended Kubernetes labels (https://helm.sh/docs/chart_best_practices/labels/), added on top of the app-specific `app` / `app.kubernetes.io/name` labels every template already sets directly.
+These are informational only: never add them to a Deployment's spec.selector.matchLabels, which is immutable and would break `helm upgrade` for existing releases.
 Call with a dict: (dict "app" . "root" $) where "." is the current blazorapp/webapi values entry.
 */}}
 {{- define "keeptrack.commonLabels" -}}
