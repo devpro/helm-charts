@@ -6,8 +6,7 @@ metadata:
   labels:
     {{- include "sidelab.labels" . | nindent 4 }}
 data:
-  # Makes the app refuse to start rather than run with an insecure default JWT_SECRET;
-  # belt and suspenders, since the chart always generates a real one anyway (see auth.jwtSecret in values.yaml).
+  # Refuses to start without a real JWT_SECRET.
   NODE_ENV: "production"
   LAUNCHER_PORT: "3000"
   LAUNCHER_BACKEND: {{ .Values.launcher.backend | quote }}
@@ -30,18 +29,12 @@ data:
   {{- if .Values.launcher.labImagePullSecret }}
   K8S_LAB_IMAGE_PULL_SECRET: {{ .Values.launcher.labImagePullSecret | quote }}
   {{- end }}
-  # Merged into the namespaces that orphan cleanup and the restart delete-by-label fallback scan.
-  # The launcher discovers tenant namespaces itself, by the app.kubernetes.io/managed-by=sidelab label it stamps on every one it creates,
-  # so this is only needed for namespaces created outside the launcher.
-  # The seeded admin tenant's namespace is kept as a default anyway: it is also the fallback if the namespace-list RBAC rule is ever missing.
+  # The admin tenant's namespace is the default, as a fallback when namespaces cannot be listed.
   K8S_KNOWN_NAMESPACES: {{ .Values.launcher.knownNamespaces | default (printf "%s-admin" .Values.launcher.namespacePrefix) | quote }}
 ---
 {{- if and (eq .Values.launcher.labAccess "ingress") (not .Values.launcher.ingressTemplateConfigMap) }}
-# Default Ingress template for lab session Pods, modeled on samples/manifests/ingress-template-microk8s.yaml in the sidelab repo.
-# It includes the /websockify path needed by VNC-enabled labs, and the sidelab.io/session + sidelab.io/tenant labels the launcher relies on
-# to reconcile orphaned lab resources after a restart (deleteByLabel fallback).
-# Reuses the dashboard's own ingress.className / ingress.tls / cert-manager annotation from above, so you don't configure the same ingress controller and issuer twice.
-# Override launcher.ingressTemplateConfigMap for a different shape entirely.
+# Default Ingress template for lab sessions, reusing the dashboard's ingress.className, ingress.tls and cert-manager annotation.
+# launcher.ingressTemplateConfigMap replaces it.
 apiVersion: v1
 kind: ConfigMap
 metadata:

@@ -86,6 +86,43 @@ If none of the three is configured, or `mongodb.enabled=true` is set without `mo
 the chart fails at render/install time with a clear error instead of deploying a Pod that can't reach
 a database.
 
+## Authentication hardening
+
+Application version 1.3.0 adds a failed-attempt lockout, a short-lived credential cache and an authentication failure log that carries the caller's address.
+The defaults under `authentication` in [values.yaml](values.yaml) suit most deployments and need no change.
+
+The setting that does need a decision is `network.trustAllProxies`, because the other two depend on it.
+
+Terraform's `http` backend sends a Basic credential on every single request, so the server verifies the same password over and over and every failed guess costs it a BCrypt verify.
+The lockout puts a ceiling on that, and it is scoped to the username and the caller's source address together rather than to the username alone: a lockout on the username alone would let anybody on the internet lock the real operator out of the backend.
+
+Behind an ingress, an application that does not trust the proxy sees the proxy's address on every request.
+Every caller then shares one lockout bucket, which turns the protection into the denial of service it was designed to avoid.
+`network.trustAllProxies` therefore defaults to `true`, which is safe where the pod is reachable through the ingress alone.
+
+Where other workloads can reach the service directly and are not trusted, name the ingress instead:
+
+```yaml
+network:
+  trustAllProxies: false
+  knownNetworks:
+    - 10.42.0.0/16
+```
+
+Rate limiting by source address belongs at the ingress rather than in the application, since the edge rejects a request before any CPU is spent on it and holds one counter across every replica.
+The annotation depends on the ingress controller, for example with ingress-nginx:
+
+```yaml
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/limit-rps: "10"
+```
+
+TLS termination is not optional for this application.
+The password is replayed on every request, so a single plaintext hop exposes the state of every workspace in the tenant.
+Note that `skip_cert_verification` in a Terraform backend block defeats the protection it appears to configure.
+
 ## Going further
 
 Check the [contribution guide](CONTRIBUTING.md).

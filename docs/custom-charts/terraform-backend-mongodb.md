@@ -1,4 +1,4 @@
-# Terraform Backend MongoDB
+﻿# Terraform Backend MongoDB
 
 Let's see how to deploy [Terraform Backend MongoDB](https://github.com/devpro/terraform-backend-mongodb) on a Kubernetes cluster.
 
@@ -20,8 +20,9 @@ Create the `values.yaml` file to override [default parameters](https://github.co
 ```yaml [Application]
 dotnet:
   environment: Development
-  enableSwagger: true
-  enableOpenTelemetry: false
+  enableScalar: true
+  openTelemetry:
+    enabled: false
 ```
 
 ```yaml [Ingress]
@@ -57,7 +58,7 @@ helm upgrade --install tfbackend devpro/terraform-backend-mongodb -f values.yaml
 
 ## Optional checks
 
-If enabled, open the Swagger page from the browser (`<url>/swagger`).
+If enabled, open the Scalar page from the browser (`<url>/scalar`).
 
 Forward MongoDB port for local access:
 

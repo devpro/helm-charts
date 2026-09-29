@@ -104,8 +104,6 @@ spec:
             {{- if eq .role "frontend" }}
             - name: WebApi__BaseUrl
               value: "http://{{ $.Values.webapi.name }}"
-            - name: Features__IsWebSocketsOnlyEnabled
-              value: {{ .webSocketsOnly | quote }}
             {{- if .dataProtection.enabled }}
             {{- if .dataProtection.connectionStringSecretKeyRef }}
             - name: DataProtection__MongoDb__ConnectionString
@@ -214,6 +212,10 @@ spec:
             {{- if .referenceData.bookProvider }}
             - name: ReferenceData__BookProvider
               value: {{ .referenceData.bookProvider | quote }}
+            {{- end }}
+            {{- if .referenceData.videoGameProvider }}
+            - name: ReferenceData__VideoGameProvider
+              value: {{ .referenceData.videoGameProvider | quote }}
             {{- end }}
             {{- if .referenceData.tmdb.apiKeySecretKeyRef }}
             - name: Tmdb__ApiKey

@@ -1,15 +1,16 @@
-﻿# Kube Workload Toolkit
+﻿# Devpro Helm Charts
 
-[![GitLab Pipeline Status](https://gitlab.com/devpro-labs/automation/helm-charts/badges/main/pipeline.svg)](https://gitlab.com/devpro-labs/automation/helm-charts/-/pipelines)
 [![CI](https://github.com/devpro/helm-charts/actions/workflows/ci.yml/badge.svg)](https://github.com/devpro/helm-charts/actions/workflows/ci.yml)
 [![PKG](https://github.com/devpro/helm-charts/actions/workflows/pkg.yml/badge.svg)](https://github.com/devpro/helm-charts/actions/workflows/pkg.yml)
+[![GitLab Pipeline Status](https://gitlab.com/devpro-labs/automation/helm-charts/badges/main/pipeline.svg)](https://gitlab.com/devpro-labs/automation/helm-charts/-/pipelines)
 
 Welcome! This project provides:
 
 - **Curated guides**: Step-by-step instructions for installing popular applications using their official Helm charts in a Kubernetes cluster.
 - **Custom Helm charts**: A collection of charts that were created for deploying unique workloads on Kubernetes.
 
-Whether you're deploying custom solutions or setting up well-known applications like NGINX or Prometheus, this repository aims to simplify your Kubernetes journey with tested configurations and clear documentation.
+Whether you're deploying custom solutions or setting up well-known applications like NGINX or Prometheus,
+this repository aims to simplify your Kubernetes journey with tested configurations and clear documentation.
 
 🚀 Get started with the [Kube Workload Toolkit](https://kwt.devpro.fr/)
 
@@ -80,5 +81,7 @@ helm:
 
 ## Samples
 
-- [DevOpsDays Geneva 2023](samples/devopsdays-geneva-2023/README.md)
-- [SUSE Exchange Paris 2023](samples/suse-exchange-paris-2023/README.md)
+GitOps:
+
+- [DevOpsDays Geneva 2023](samples/gitops/devopsdays-geneva-2023/README.md)
+- [SUSE Exchange Paris 2023](samples/gitops/suse-exchange-paris-2023/README.md)
