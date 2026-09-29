@@ -1,11 +1,11 @@
-# AGENTS.md
-
-Guidance for coding agents working in this repository.
+﻿# helm-charts: agent context
 
 ## What this is
 
 A collection of Helm charts published as a chart repository at `https://devpro.github.io/helm-charts`, alongside a VitePress documentation site.
 Charts cover both custom applications maintained by devpro and third-party applications packaged for convenience.
+
+Target platform is Linux with Docker, including WSL2, and `bash`.
 
 ## Repository layout
 
@@ -41,43 +41,23 @@ Where a chart pins an image tag in `values.yaml`, that tag and `appVersion` must
 - Do not run markdownlint: linting is run manually by the maintainer and in CI.
 - Files carrying real values for a local deployment are named `values.mine.yaml` and are gitignored, so they are never edited or committed.
 
+## Working rules
+
+- **Every command runs in the foreground, and the agent waits for it.**
+  No background commands, no subagents, no forks, no parallel tasks, even for a long commands.
+- Headers stay: short documentation still has sections.
+- Commit only when asked, and never push.
+  Shell scripts are `snake_case` and committed with the executable bit (`git update-index --chmod=+x`).
+- Documentation is as short as possible.
+
 ## Writing style
 
-These rules apply to Markdown, YAML comments, chart templates, code comments, commit messages, and any prose in scripts.
+Applies to Markdown, code comments, commit messages and prose in scripts.
 
-**One sentence per line.**
-A line break only ever happens at the end of a sentence, and a sentence is never wrapped across two lines.
-There is no maximum line length: screens are wide, and the 80 character convention is not used here.
-This applies to comments as much as to prose, so a long comment sentence stays on a single line rather than continuing onto a second comment line.
-Wrapping is handled by the editor, not by hard newlines.
-
-**Never use the em dash (`—`) or the en dash (`–`).**
-Use a colon when introducing an explanation, a comma when joining clauses, or a full stop and a new sentence.
-This applies to prose, code comments, table cells, and error message strings.
-
-**Never use the second person.**
-No "you", no "your", not even in placeholders such as `<your-token>`, which should read `<token>`.
-The documentation describes the repository, it does not address a reader.
-Write "the working tree", not "your working tree".
-
-**Other conventions.**
-Use `ini` as the fence language for `.properties` blocks, never `properties`.
-Prefer `>` over `→` when describing UI navigation, for example **Project Settings > Quality Gate**.
-
-Existing files predate these rules and break them in places.
-That is not a reason to add more, and not a reason to reformat prose that a change does not otherwise touch.
-
-### Scripts
-
-Shell scripts are named in `snake_case`, which is the standard for bash: `add_helm_repo.sh`, not `add-helm-repo.sh`.
-
-Scripts must be committed with the executable bit set.
-A script committed as `100644` fails on a fresh clone even though it works locally:
-
-```bash
-git update-index --chmod=+x path/to/script.sh
-```
-
-### Target platform
-
-Target platform is Linux with Docker, including WSL2, and `bash`.
+- **A comment says why, not what, and the why is timeless.**
+- **One thought per line.**
+  Every sentence starts on its own line, and there is no maximum line length.
+- **No em dash, no en dash.**
+  A colon, a comma, or a full stop.
+- **No second person.**
+  "The working tree", not "your working tree"; `<token>`, not `<your-token>`.
