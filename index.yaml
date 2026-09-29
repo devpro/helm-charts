@@ -713,6 +713,30 @@ entries:
   keeptrack:
   - apiVersion: v2
     appVersion: 2.4.1
+    created: "2026-09-29T10:12:19.968260666Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.6.16
+    description: Helm chart for Keeptrack
+    digest: c7210a2638ded5f562541191bbc2cea5bda86f06bee4ca894b9a83740c8cd1ee
+    home: https://github.com/devpro/keeptrack
+    keywords:
+    - keeptrack
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: keeptrack
+    sources:
+    - https://github.com/devpro/keeptrack
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/keeptrack-0.2.6/keeptrack-0.2.6.tgz
+    version: 0.2.6
+  - apiVersion: v2
+    appVersion: 2.4.1
     created: "2026-08-04T21:17:52.609857372Z"
     dependencies:
     - alias: mongodb
@@ -1160,6 +1184,34 @@ entries:
   sidelab:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2026-09-29T10:12:20.186109837Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.1.24
+    description: 'Self-hosted interactive lab platform. Deploys the Sidelab launcher,
+      which manages lab sessions as ephemeral Kubernetes Pods inside tenant-scoped
+      namespaces. '
+    digest: 110b7bd252d01e0bfc3ea1315d4913f5af711e116fdda4b0a5b596d55d91a756
+    home: https://github.com/devpro/helm-charts
+    keywords:
+    - sidelab
+    - labs
+    - training
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: sidelab
+    sources:
+    - https://github.com/devpro/helm-charts
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/sidelab-0.1.6/sidelab-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2026-07-31T20:31:15.392874831Z"
     dependencies:
     - alias: mongodb
@@ -1299,6 +1351,31 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/sidelab-0.1.0/sidelab-0.1.0.tgz
     version: 0.1.0
   terraform-backend-mongodb:
+  - apiVersion: v2
+    appVersion: 1.3.0
+    created: "2026-09-29T10:12:20.386149152Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.1.10
+    description: Helm chart for Terraform Backend MongoDB
+    digest: 1fadb6283c4cb9418ae0dffe730add5b7de83ffe3e8f12ac8b1dfc39f9e33c55
+    home: https://github.com/devpro/terraform-backend-mongodb
+    keywords:
+    - terraform
+    - mongodb
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: terraform-backend-mongodb
+    sources:
+    - https://github.com/devpro/terraform-backend-mongodb
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/terraform-backend-mongodb-0.3.0/terraform-backend-mongodb-0.3.0.tgz
+    version: 0.3.0
   - apiVersion: v2
     appVersion: 1.2.3
     created: "2026-07-19T10:45:56.369563138Z"
@@ -1554,4 +1631,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/webgoat-1.0.0/webgoat-1.0.0.tgz
     version: 1.0.0
-generated: "2026-08-04T21:17:52.609953822Z"
+generated: "2026-09-29T10:12:20.386301738Z"
