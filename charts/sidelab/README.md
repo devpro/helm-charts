@@ -22,3 +22,8 @@ kubectl delete namespace sidelab
 ```
 
 > **Note:**  Deleting the namespace deletes the generated `<release>-auth` Secret and the data volume.
+
+## Fallstar
+
+`fallstar.yaml` describes the choices of a deployment (database, secrets, lab access, TLS) and the values each one implies, for [Fallstar](https://github.com/devpro/fallstar).
+This Helm repository added as a Fallstar recipe source shows the chart in its store with these choices.
