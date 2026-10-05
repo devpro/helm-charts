@@ -2,7 +2,7 @@
 name: dvwa
 description: Damn Vulnerable Web Application - for container security workshops
 type: application
-version: 1.0.1
+version: 1.0.2
 appVersion: "1.0.0"
 keywords:
   - security
