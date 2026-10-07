@@ -11,6 +11,9 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+# -- More than one replica requires database.backend=mongo and persistence.enabled=false.
+replicaCount: 1
+
 auth:
   # -- Master secret of at least 32 characters, generated on first install when empty and kept across upgrades.
   # Changing it signs everyone out and makes the stored repository tokens unreadable.
@@ -32,7 +35,7 @@ database:
     existingSecret: ""
 
 persistence:
-  # -- Volume for /data: the SQLite file and the mirrors of the repositories.
+  # -- Volume for /data: the SQLite file and the mirrors of the repositories, which MongoDB re-creates when missing.
   enabled: true
   # -- Empty for the cluster default.
   storageClass: ""

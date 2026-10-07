@@ -50,6 +50,16 @@ A generated value is read back from the existing Secret on upgrade, so the maste
 {{- end -}}
 {{- end }}
 
+{{/*
+Whether the configuration holds state only one Pod may own: a SQLite file, or a ReadWriteOnce volume.
+Returns "true" or "" (empty is false in an `if`).
+*/}}
+{{- define "fallstar.singleWriter" -}}
+{{- if or (eq .Values.database.backend "sqlite") .Values.persistence.enabled -}}
+true
+{{- end -}}
+{{- end }}
+
 {{- define "fallstar.validateValues" -}}
 {{- if not .Values.image.repository }}
 {{- fail "image.repository is required." }}
@@ -59,6 +69,9 @@ A generated value is read back from the existing Secret on upgrade, so the maste
 {{- end }}
 {{- if and .Values.auth.secret (lt (len .Values.auth.secret) 32) }}
 {{- fail "auth.secret needs at least 32 characters." }}
+{{- end }}
+{{- if and (gt (int .Values.replicaCount) 1) (include "fallstar.singleWriter" .) }}
+{{- fail "More than one replica requires database.backend=mongo and persistence.enabled=false: SQLite is a local file, and a ReadWriteOnce volume cannot be mounted by two Pods." }}
 {{- end }}
 {{- if and .Values.ingress.enabled (not .Values.ingress.host) }}
 {{- fail "ingress.host is required when ingress.enabled=true." }}

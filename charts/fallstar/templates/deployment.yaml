@@ -6,10 +6,15 @@ metadata:
   labels:
     {{- include "fallstar.labels" . | nindent 4 }}
 spec:
-  # One Pod only: the SQLite file and the repository mirrors are local to it, so the old Pod must be gone before the new one starts.
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   strategy:
+    {{- if include "fallstar.singleWriter" . }}
+    # The SQLite file or the volume belongs to one Pod, so the old Pod must be gone before the new one starts.
     type: Recreate
+    {{- else }}
+    # Nothing is local to a Pod: roll without downtime.
+    type: RollingUpdate
+    {{- end }}
   selector:
     matchLabels:
       {{- include "fallstar.selectorLabels" . | nindent 6 }}
