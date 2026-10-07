@@ -6,7 +6,9 @@ metadata:
   labels:
     {{- include "fallstar.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
+  {{- end }}
   strategy:
     {{- if include "fallstar.singleWriter" . }}
     # The SQLite file or the volume belongs to one Pod, so the old Pod must be gone before the new one starts.

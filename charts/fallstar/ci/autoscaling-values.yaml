@@ -1,0 +1,18 @@
+# Autoscaling on MongoDB: no fixed replicas on the Deployment, an HPA instead.
+image:
+  repository: ci-dummy-registry/fallstar
+
+database:
+  backend: mongo
+  mongo:
+    url: mongodb://ci-dummy-host:27017/fallstar
+
+persistence:
+  enabled: false
+
+resources:
+  requests:
+    cpu: 100m
+
+autoscaling:
+  enabled: true

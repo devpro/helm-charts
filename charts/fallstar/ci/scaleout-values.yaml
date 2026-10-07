@@ -12,3 +12,6 @@ database:
 
 persistence:
   enabled: false
+
+podDisruptionBudget:
+  enabled: true

@@ -60,6 +60,17 @@ true
 {{- end -}}
 {{- end }}
 
+{{/*
+Highest number of Pods this release can run, autoscaling included.
+*/}}
+{{- define "fallstar.maxReplicas" -}}
+{{- if .Values.autoscaling.enabled -}}
+{{- max (.Values.replicaCount | int) (.Values.autoscaling.maxReplicas | int) -}}
+{{- else -}}
+{{- .Values.replicaCount | int -}}
+{{- end -}}
+{{- end }}
+
 {{- define "fallstar.validateValues" -}}
 {{- if not .Values.image.repository }}
 {{- fail "image.repository is required." }}
@@ -70,8 +81,11 @@ true
 {{- if and .Values.auth.secret (lt (len .Values.auth.secret) 32) }}
 {{- fail "auth.secret needs at least 32 characters." }}
 {{- end }}
-{{- if and (gt (int .Values.replicaCount) 1) (include "fallstar.singleWriter" .) }}
+{{- if and (gt (int (include "fallstar.maxReplicas" .)) 1) (include "fallstar.singleWriter" .) }}
 {{- fail "More than one replica requires database.backend=mongo and persistence.enabled=false: SQLite is a local file, and a ReadWriteOnce volume cannot be mounted by two Pods." }}
+{{- end }}
+{{- if and .Values.autoscaling.enabled (not .Values.resources.requests) }}
+{{- fail "autoscaling.enabled needs resources.requests.cpu, the target being a share of it." }}
 {{- end }}
 {{- if and .Values.ingress.enabled (not .Values.ingress.host) }}
 {{- fail "ingress.host is required when ingress.enabled=true." }}

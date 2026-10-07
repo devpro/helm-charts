@@ -19,7 +19,7 @@ The generated password is read with:
   kubectl get secret -n {{ .Release.Namespace }} {{ include "fallstar.authSecretName" . }} -o jsonpath='{.data.ADMIN_PASSWORD}' | base64 -d; echo
 {{- end }}
 
-Database: {{ .Values.database.backend }}, replicas: {{ .Values.replicaCount }}.
+Database: {{ .Values.database.backend }}, replicas: {{ if .Values.autoscaling.enabled }}{{ .Values.autoscaling.minReplicas }}-{{ .Values.autoscaling.maxReplicas }} (autoscaled){{ else }}{{ .Values.replicaCount }}{{ end }}.
 {{- if include "fallstar.singleWriter" . }}
 A single Pod owns the data, so an upgrade restarts it. More replicas need database.backend=mongo and persistence.enabled=false.
 {{- end }}
