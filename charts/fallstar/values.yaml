@@ -1,0 +1,85 @@
+image:
+  # -- Server image repository, required.
+  repository:
+  pullPolicy: IfNotPresent
+  # -- Defaults to the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+  # - name: ""
+
+nameOverride: ""
+fullnameOverride: ""
+
+auth:
+  # -- Master secret of at least 32 characters, generated on first install when empty and kept across upgrades.
+  # Changing it signs everyone out and makes the stored repository tokens unreadable.
+  secret: ""
+  # -- Initial admin account, only used while the database is empty.
+  adminUsername: "admin"
+  # -- Generated on first install when empty, the install notes show how to read it.
+  adminPassword: ""
+  # -- Existing Secret with the keys FALLSTAR_SECRET, ADMIN_USERNAME and ADMIN_PASSWORD, replacing the three values above.
+  existingSecret: ""
+
+database:
+  # -- sqlite or mongo.
+  backend: "sqlite"
+  mongo:
+    # -- Connection string, e.g. mongodb+srv://<user>:<password>@<host>/fallstar
+    url: ""
+    # -- Existing Secret with the key DB_URL, taking priority over url.
+    existingSecret: ""
+
+persistence:
+  # -- Volume for /data: the SQLite file and the mirrors of the repositories.
+  enabled: true
+  # -- Empty for the cluster default.
+  storageClass: ""
+  size: 2Gi
+  # -- Existing PersistentVolumeClaim, instead of creating one.
+  existingClaim: ""
+
+service:
+  type: ClusterIP
+  port: 4500
+
+ingress:
+  enabled: false
+  # -- e.g. "traefik" or "nginx".
+  className: ""
+  # -- Required when enabled.
+  host: ""
+  annotations: {}
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  tls:
+    enabled: false
+    secretName: "fallstar-tls"
+
+# -- Pod user of the image, which owns /data.
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+resources: {}
+  # requests:
+  #   cpu: 100m
+  #   memory: 256Mi
+
+extraEnv: []
+  # - name: ""
+  #   value: ""
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

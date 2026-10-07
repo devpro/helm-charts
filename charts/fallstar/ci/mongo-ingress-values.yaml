@@ -1,0 +1,14 @@
+image:
+  repository: ci-dummy-registry/fallstar
+
+database:
+  backend: mongo
+  mongo:
+    url: mongodb://ci-dummy-host:27017/fallstar
+
+ingress:
+  enabled: true
+  className: traefik
+  host: fallstar.example.com
+  tls:
+    enabled: true
