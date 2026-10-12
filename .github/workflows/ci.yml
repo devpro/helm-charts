@@ -39,9 +39,7 @@ jobs:
       - name: Build with VitePress
         run: npm run docs:build
       - name: Install Helm
-        uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310
-        with:
-          version: latest
+        uses: devpro/github-workflow-parts/actions/helm/setup@b0874542b7775a5dff2edb6bd3f7aa4861acda23
       - name: Install kube-linter
         env:
           KUBE_LINTER_VERSION: "0.8.3"
@@ -50,12 +48,15 @@ jobs:
           curl -sSLo kube-linter.tar.gz "https://github.com/stackrox/kube-linter/releases/download/v${KUBE_LINTER_VERSION}/kube-linter-linux.tar.gz"
           echo "${KUBE_LINTER_SHA256}  kube-linter.tar.gz" | sha256sum -c -
           tar -xzf kube-linter.tar.gz kube-linter
-          sudo mv kube-linter /usr/local/bin/
+          # Installed where the job owns the directory, so neither root nor sudo is needed, on a hosted runner or in a container.
+          mkdir -p "${RUNNER_TEMP}/bin"
+          mv kube-linter "${RUNNER_TEMP}/bin/kube-linter"
+          echo "${RUNNER_TEMP}/bin" >> "$GITHUB_PATH"
           rm kube-linter.tar.gz
       - name: Run kube-linter
         run: kube-linter lint charts --config .kube-linter.yaml
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@6ec842c01de15ebb84c8627d2744a0c2f2755c9f
+        uses: devpro/github-workflow-parts/actions/chart-testing/setup@b0874542b7775a5dff2edb6bd3f7aa4861acda23
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       - name: List changed charts
