@@ -22,6 +22,8 @@ helm lint charts/<chart>                                                  # lint
 helm template myapp charts/<chart> -f values.yaml --namespace myns        # render the manifests
 helm upgrade --install myapp charts/<chart> -f values.yaml --namespace myns --create-namespace
 kube-linter lint charts --config .kube-linter.yaml                        # the check CI runs
+scripts/validate_charts.sh [charts/<chart>]                               # validate the rendered manifests with kubeconform
+untt charts/<chart>                                                       # run the chart unit tests (helm-unittest binary)
 npm run docs:dev                                                          # serve the documentation site
 ```
 
@@ -36,6 +38,8 @@ Where a chart pins an image tag in `values.yaml`, that tag and `appVersion` must
 - Chart values are documented with `# --` comments above the key, which is the helm-docs annotation form.
 - A chart that packages a devpro application keeps its values structure close to the application's configuration keys, so that a setting can be traced from `values.yaml` to the environment variable it becomes.
 - CI runs `kube-linter` over `charts/` with `.kube-linter.yaml`, and `ct lint` over the charts changed against `main`.
+- CI renders every chart with each of its `ci/*-values.yaml` files and validates the manifests with kubeconform, so a chart that needs values to render has a `ci/` directory.
+- Unit tests of a chart live in its `tests/` directory as helm-unittest suites, listed in its `.helmignore` so they are not packaged.
   Exclusions belong in `.kube-linter.yaml` with a comment saying why.
 - Markdown and YAML are linted in CI through `.markdownlint-cli2.yaml` and `.yamllint.yaml`.
 - Do not run markdownlint: linting is run manually by the maintainer and in CI.

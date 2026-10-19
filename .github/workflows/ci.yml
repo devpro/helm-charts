@@ -1,4 +1,4 @@
-﻿name: CI
+name: CI
 # title: CI (Continuous Integration) pipeline
 
 on:
@@ -71,6 +71,37 @@ jobs:
       - name: Lint charts
         if: steps.list-changed.outputs.changed == 'true'
         run: ct lint $CHARTS_DIRECTORIES_ARG --target-branch ${{ github.event.repository.default_branch }}
+      - name: Install kubeconform
+        env:
+          KUBECONFORM_VERSION: "0.8.0"
+          KUBECONFORM_SHA256: "9bc2bffbf71f261128533edaf912153948b7ff238f9a531ae6d34466ec287883"
+        run: |
+          curl -sSLo kubeconform.tar.gz "https://github.com/yannh/kubeconform/releases/download/v${KUBECONFORM_VERSION}/kubeconform-linux-amd64.tar.gz"
+          echo "${KUBECONFORM_SHA256}  kubeconform.tar.gz" | sha256sum -c -
+          tar -xzf kubeconform.tar.gz kubeconform
+          mkdir -p "${RUNNER_TEMP}/bin"
+          mv kubeconform "${RUNNER_TEMP}/bin/kubeconform"
+          echo "${RUNNER_TEMP}/bin" >> "$GITHUB_PATH"
+          rm kubeconform.tar.gz
+      - name: Validate manifests against the Kubernetes schemas
+        run: ./scripts/validate_charts.sh
+      # The standalone binary of the helm-unittest plugin, so no plugin is installed into Helm.
+      - name: Install helm-unittest
+        env:
+          HELM_UNITTEST_VERSION: "1.2.1"
+          HELM_UNITTEST_SHA256: "48e86ecc1467b009630e5954375e5d8494139f73b466df5fe8c04fa45b634939"
+        run: |
+          curl -sSLo helm-unittest.tgz "https://github.com/helm-unittest/helm-unittest/releases/download/v${HELM_UNITTEST_VERSION}/helm-unittest-linux-amd64-${HELM_UNITTEST_VERSION}.tgz"
+          echo "${HELM_UNITTEST_SHA256}  helm-unittest.tgz" | sha256sum -c -
+          tar -xzf helm-unittest.tgz untt-linux-amd64
+          mkdir -p "${RUNNER_TEMP}/bin"
+          mv untt-linux-amd64 "${RUNNER_TEMP}/bin/untt"
+          echo "${RUNNER_TEMP}/bin" >> "$GITHUB_PATH"
+          rm helm-unittest.tgz
+      - name: Run chart unit tests
+        run: |
+          charts=$(dirname charts/*/tests | sort -u)
+          untt $charts
       # TODO: Enable when https://github.com/stackrox/kube-linter/issues/575 is fixed
       # - name: Scan yamls
       #   id: kube-lint-scan
@@ -78,10 +109,46 @@ jobs:
       #   with:
       #     directory: charts
       #     config: .kube-linter.yaml
-      # TODO: debug & fix
-      # - name: Create kind cluster
-      #   uses: helm/kind-action@v1.4.0
-      #   if: steps.list-changed.outputs.changed == 'true'
-      # - name: Run chart-testing (install)
-      #   run: ct install $CHARTS_DIRECTORIES_ARG --target-branch ${{ github.event.repository.default_branch }}
-      #   if: steps.list-changed.outputs.changed == 'true'
+      # kind and kubectl are installed by hand, as helm/kind-action is a JavaScript action, and a container image has neither preinstalled.
+      - name: Install kind and kubectl
+        if: steps.list-changed.outputs.changed == 'true'
+        env:
+          KIND_VERSION: "0.33.0"
+          KIND_SHA256: "aee6151561422756b764a4ae28e7f44cda5af5a9eead3cc9985112b1de8d8e0d"
+          KUBECTL_VERSION: "1.36.4"
+          KUBECTL_SHA256: "8b8f088da2dab964f853b38464033b1be15ede2839eca751482357c45abdd05a"
+        run: |
+          mkdir -p "${RUNNER_TEMP}/bin"
+          curl -sSLo "${RUNNER_TEMP}/bin/kind" "https://github.com/kubernetes-sigs/kind/releases/download/v${KIND_VERSION}/kind-linux-amd64"
+          echo "${KIND_SHA256}  ${RUNNER_TEMP}/bin/kind" | sha256sum -c -
+          curl -sSLo "${RUNNER_TEMP}/bin/kubectl" "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
+          echo "${KUBECTL_SHA256}  ${RUNNER_TEMP}/bin/kubectl" | sha256sum -c -
+          chmod +x "${RUNNER_TEMP}/bin/kind" "${RUNNER_TEMP}/bin/kubectl"
+          echo "${RUNNER_TEMP}/bin" >> "$GITHUB_PATH"
+      # The cluster name carries the run, so two runs on one Docker daemon never share a cluster.
+      - name: Create kind cluster
+        if: steps.list-changed.outputs.changed == 'true'
+        run: kind create cluster --name ct-${{ github.run_id }} --image kindest/node:v1.36.4@sha256:099e049362a1526b2db71494e1947aae99bd16290d7c895f2b7ea312e3cbfaed --wait 120s
+      - name: Install charts
+        if: steps.list-changed.outputs.changed == 'true'
+        env:
+          # Charts that cannot reach a ready state on a bare cluster, given here rather than in ct.yaml so that ct lint still covers them.
+          # Custom resources only, whose CRDs a bare cluster lacks: capi-templates, gitops-bootstrap, letsencrypt, rancher-cluster-templates.
+          # Cloud providers and storage drivers: azure-storage, outscale.
+          # Private images, which the cluster cannot pull: fallstar, liveship, sidelab, trackboard.
+          # Applications failing their probes without the services they are configured for: keeptrack, todoblazor.
+          # Default images no longer published: terraform-backend-mongodb, wordpress.
+          # Not tried on kind yet: grafana-stack, nfs-ganesha.
+          EXCLUDED_CHARTS: >-
+            capi-templates,gitops-bootstrap,letsencrypt,rancher-cluster-templates,
+            azure-storage,outscale,
+            fallstar,liveship,sidelab,trackboard,
+            keeptrack,todoblazor,
+            terraform-backend-mongodb,wordpress,
+            grafana-stack,nfs-ganesha
+        run: |
+          ct install ${CHARTS_DIRECTORIES_ARG} --target-branch ${{ github.event.repository.default_branch }} \
+            --excluded-charts "${EXCLUDED_CHARTS// /}" --helm-extra-args "--timeout 300s"
+      - name: Delete kind cluster
+        if: always() && steps.list-changed.outputs.changed == 'true'
+        run: kind delete cluster --name ct-${{ github.run_id }}

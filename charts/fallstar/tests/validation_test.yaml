@@ -1,0 +1,77 @@
+# The rules of fallstar.validateValues, which run from secret.yaml.
+suite: values validation
+templates:
+  - secret.yaml
+set:
+  image.repository: registry.example.com/fallstar
+  image.tag: "1.0.1"
+tests:
+  - it: renders with the defaults and an image
+    asserts:
+      - notFailedTemplate: {}
+  - it: requires the image repository
+    set:
+      image.repository: ""
+    asserts:
+      - failedTemplate:
+          errorMessage: image.repository is required.
+  - it: requires the image tag
+    set:
+      image.tag: ""
+    asserts:
+      - failedTemplate:
+          errorMessage: image.tag is required.
+  - it: requires a connection string on MongoDB
+    set:
+      database.backend: mongo
+    asserts:
+      - failedTemplate:
+          errorMessage: database.backend=mongo needs database.mongo.url or database.mongo.existingSecret.
+  - it: accepts an existing Secret instead of a connection string
+    set:
+      database.backend: mongo
+      database.mongo.existingSecret: fallstar-db
+    asserts:
+      - notFailedTemplate: {}
+  - it: rejects a short master secret
+    set:
+      auth.secret: too-short
+    asserts:
+      - failedTemplate:
+          errorMessage: auth.secret needs at least 32 characters.
+  - it: rejects several replicas on SQLite
+    set:
+      replicaCount: 2
+    asserts:
+      - failedTemplate:
+          errorPattern: ^More than one replica requires
+  - it: rejects several replicas on a volume, even on MongoDB
+    set:
+      replicaCount: 2
+      database.backend: mongo
+      database.mongo.url: mongodb://db:27017/fallstar
+    asserts:
+      - failedTemplate:
+          errorPattern: ^More than one replica requires
+  - it: rejects autoscaling on SQLite, its maximum being above one
+    set:
+      autoscaling.enabled: true
+      resources.requests.cpu: 100m
+    asserts:
+      - failedTemplate:
+          errorPattern: ^More than one replica requires
+  - it: requires a CPU request for autoscaling
+    set:
+      autoscaling.enabled: true
+      database.backend: mongo
+      database.mongo.url: mongodb://db:27017/fallstar
+      persistence.enabled: false
+    asserts:
+      - failedTemplate:
+          errorMessage: autoscaling.enabled needs resources.requests.cpu, the target being a share of it.
+  - it: requires a host for the ingress
+    set:
+      ingress.enabled: true
+    asserts:
+      - failedTemplate:
+          errorMessage: ingress.host is required when ingress.enabled=true.

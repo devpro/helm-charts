@@ -1,4 +1,4 @@
-﻿# title: Continuous Delivery (Packaging)
+# title: Continuous Delivery (Packaging)
 # requirements:
 #   - Create manually "gh-pages" branch
 #   - Maintain pages files in "gh-pages" branch: index.tpl, placeholder.png

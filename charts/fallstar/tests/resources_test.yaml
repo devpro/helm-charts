@@ -1,0 +1,103 @@
+# The optional resources, each rendered only when its values ask for it.
+suite: optional resources
+set:
+  image.repository: registry.example.com/fallstar
+  image.tag: "1.0.1"
+release:
+  name: fallstar
+tests:
+  - it: creates a claim by default
+    template: pvc.yaml
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: spec.resources.requests.storage
+          value: 2Gi
+  - it: creates no claim for an existing one
+    template: pvc.yaml
+    set:
+      persistence.existingClaim: my-data
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: creates the auth and MongoDB Secrets
+    template: secret.yaml
+    set:
+      auth.secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      auth.adminPassword: s3cret
+      database.backend: mongo
+      database.mongo.url: mongodb://db:27017/fallstar
+    asserts:
+      - hasDocuments:
+          count: 2
+      - equal:
+          path: stringData
+          value:
+            FALLSTAR_SECRET: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            ADMIN_USERNAME: admin
+            ADMIN_PASSWORD: s3cret
+        documentIndex: 0
+      - equal:
+          path: stringData.DB_URL
+          value: mongodb://db:27017/fallstar
+        documentIndex: 1
+  - it: generates the master secret and the admin password when empty
+    template: secret.yaml
+    asserts:
+      - matchRegex:
+          path: stringData.FALLSTAR_SECRET
+          pattern: ^[A-Za-z0-9]{48}$
+      - matchRegex:
+          path: stringData.ADMIN_PASSWORD
+          pattern: ^[A-Za-z0-9]{20}$
+  - it: creates no Secret when existing ones are named
+    template: secret.yaml
+    set:
+      auth.existingSecret: my-auth
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: scales on CPU when autoscaling
+    template: hpa.yaml
+    set:
+      autoscaling.enabled: true
+      database.backend: mongo
+      database.mongo.url: mongodb://db:27017/fallstar
+      persistence.enabled: false
+      resources.requests.cpu: 100m
+    asserts:
+      - equal:
+          path: spec.maxReplicas
+          value: 4
+      - equal:
+          path: spec.metrics[0].resource.target.averageUtilization
+          value: 80
+  - it: creates the disruption budget when enabled
+    template: pdb.yaml
+    set:
+      podDisruptionBudget.enabled: true
+    asserts:
+      - equal:
+          path: spec.minAvailable
+          value: 1
+  - it: serves the host over TLS
+    template: ingress.yaml
+    set:
+      ingress.enabled: true
+      ingress.className: traefik
+      ingress.host: fallstar.example.com
+      ingress.tls.enabled: true
+    asserts:
+      - equal:
+          path: spec.ingressClassName
+          value: traefik
+      - equal:
+          path: spec.tls[0]
+          value:
+            hosts:
+              - fallstar.example.com
+            secretName: fallstar-tls
+      - equal:
+          path: spec.rules[0].host
+          value: fallstar.example.com
