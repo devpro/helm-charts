@@ -1,0 +1,9 @@
+# The bundled MongoDB under a fixed name, so that the connection string does not depend on the release name.
+webapp:
+  db:
+    connectionString: mongodb://root:ci-only-password@ci-mongodb:27017/?authSource=admin
+mongodb:
+  enabled: true
+  fullnameOverride: ci-mongodb
+  auth:
+    rootPassword: ci-only-password
