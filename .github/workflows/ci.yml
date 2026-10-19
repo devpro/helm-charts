@@ -39,7 +39,7 @@ jobs:
       - name: Build with VitePress
         run: npm run docs:build
       - name: Install Helm
-        uses: devpro/github-workflow-parts/actions/helm/setup@defde40cfcaa2dc67c1cc47a27d20605f76d74b0
+        uses: devpro/github-workflow-parts/actions/helm/setup@c6d06a61a377a41dc192ce58f08a0b5100d9a2bc
       - name: Install kube-linter
         env:
           KUBE_LINTER_VERSION: "0.8.3"
@@ -56,7 +56,7 @@ jobs:
       - name: Run kube-linter
         run: kube-linter lint charts --config .kube-linter.yaml
       - name: Set up chart-testing
-        uses: devpro/github-workflow-parts/actions/chart-testing/setup@defde40cfcaa2dc67c1cc47a27d20605f76d74b0
+        uses: devpro/github-workflow-parts/actions/chart-testing/setup@c6d06a61a377a41dc192ce58f08a0b5100d9a2bc
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       - name: List changed charts
