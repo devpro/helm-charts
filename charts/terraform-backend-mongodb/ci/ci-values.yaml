@@ -1,0 +1,5 @@
+# The bundled MongoDB, so that the server reaches a database and its probes pass.
+mongodb:
+  enabled: true
+  auth:
+    rootPassword: ci-only-password

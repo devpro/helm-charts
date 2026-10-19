@@ -137,14 +137,14 @@ jobs:
           # Cloud providers and storage drivers: azure-storage, outscale.
           # Private images, which the cluster cannot pull: fallstar, liveship, sidelab, trackboard.
           # Applications failing their probes without the services they are configured for: keeptrack, todoblazor.
-          # Default images no longer published: terraform-backend-mongodb, wordpress.
+          # Default images no longer published: wordpress.
           # Not tried on kind yet: grafana-stack, nfs-ganesha.
           EXCLUDED_CHARTS: >-
             capi-templates,gitops-bootstrap,letsencrypt,rancher-cluster-templates,
             azure-storage,outscale,
             fallstar,liveship,sidelab,trackboard,
             keeptrack,todoblazor,
-            terraform-backend-mongodb,wordpress,
+            wordpress,
             grafana-stack,nfs-ganesha
         run: |
           ct install ${CHARTS_DIRECTORIES_ARG} --target-branch ${{ github.event.repository.default_branch }} \
