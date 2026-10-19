@@ -1,2 +1,3 @@
 image:
   repository: ci-dummy-registry/fallstar
+  tag: ci

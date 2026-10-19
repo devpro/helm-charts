@@ -2,6 +2,7 @@
 # Guards the RollingUpdate branch of the Deployment strategy and the replica validation in _helpers.tpl.
 image:
   repository: ci-dummy-registry/fallstar
+  tag: ci
 
 replicaCount: 3
 

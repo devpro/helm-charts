@@ -75,6 +75,9 @@ Highest number of Pods this release can run, autoscaling included.
 {{- if not .Values.image.repository }}
 {{- fail "image.repository is required." }}
 {{- end }}
+{{- if not .Values.image.tag }}
+{{- fail "image.tag is required." }}
+{{- end }}
 {{- if and (eq .Values.database.backend "mongo") (not .Values.database.mongo.url) (not .Values.database.mongo.existingSecret) }}
 {{- fail "database.backend=mongo needs database.mongo.url or database.mongo.existingSecret." }}
 {{- end }}

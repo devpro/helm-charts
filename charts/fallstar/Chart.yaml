@@ -5,7 +5,6 @@ description: >
   Deploys the Fallstar server, a catalog of recipes rendered into Flux, Argo CD or Fleet manifests on git branches.
 type: application
 version: 0.1.0
-appVersion: "0.1.0"
 keywords:
   - fallstar
   - gitops

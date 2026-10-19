@@ -1,6 +1,7 @@
 # Autoscaling on MongoDB: no fixed replicas on the Deployment, an HPA instead.
 image:
   repository: ci-dummy-registry/fallstar
+  tag: ci
 
 database:
   backend: mongo

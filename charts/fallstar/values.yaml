@@ -2,7 +2,7 @@ image:
   # -- Server image repository, required.
   repository:
   pullPolicy: IfNotPresent
-  # -- Defaults to the chart appVersion.
+  # -- Server image tag, required: a pkg.yml run of the Fallstar repository, 1.0.<run_id>.
   tag: ""
 
 imagePullSecrets: []
