@@ -34,7 +34,10 @@ jobs:
   charts:
     name: Charts
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 30
+    outputs:
+      changed: ${{ steps.list-changed.outputs.changed }}
+      changed-charts: ${{ steps.list-changed.outputs.changed_charts }}
     env:
       # Read from the environment rather than pasted into the scripts by GitHub.
       DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
@@ -77,17 +80,33 @@ jobs:
         run: |
           charts=$(dirname charts/*/tests | sort -u)
           untt $charts
+
+  # A job of its own, which IstarCI leaves out of a local run: the kind node runs as a privileged container on the Docker it is given.
+  charts-install:
+    name: Charts install
+    needs: charts
+    if: needs.charts.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Install Helm
+        uses: devpro/github-workflow-parts/actions/helm/setup@3f5c3623b3ed2e1c59924764f492b7bc2346bd61
+      - name: Set up chart-testing
+        uses: devpro/github-workflow-parts/actions/chart-testing/setup@3f5c3623b3ed2e1c59924764f492b7bc2346bd61
+      - name: Add dependency chart repositories
+        run: ./scripts/add_helm_repo.sh
       # kind and kubectl are installed by an action of the workflow parts, as helm/kind-action is a JavaScript action, and a container image has neither preinstalled.
       - name: Install kind and kubectl
-        if: steps.list-changed.outputs.changed == 'true'
         uses: devpro/github-workflow-parts/actions/kind/setup@3f5c3623b3ed2e1c59924764f492b7bc2346bd61
       # The cluster name carries the run, so two runs on one Docker daemon never share a cluster.
       - name: Create kind cluster
         id: create-cluster
-        if: steps.list-changed.outputs.changed == 'true'
         run: kind create cluster --name "ct-${GITHUB_RUN_ID}" --image kindest/node:v1.36.4@sha256:099e049362a1526b2db71494e1947aae99bd16290d7c895f2b7ea312e3cbfaed --wait 120s
       - name: Install charts
-        if: steps.list-changed.outputs.changed == 'true'
         env:
           # Charts that cannot reach a ready state on a bare cluster, given here rather than in ct.yaml so that ct lint still covers them.
           # Custom resources only, whose CRDs a bare cluster lacks: capi-templates, gitops-bootstrap, letsencrypt, rancher-cluster-templates.
@@ -101,7 +120,7 @@ jobs:
             wordpress
           # Installs side by side on the one cluster, each chart in a release and a namespace of its own.
           PARALLEL_INSTALLS: "3"
-          CHANGED_CHARTS: ${{ steps.list-changed.outputs.changed_charts }}
+          CHANGED_CHARTS: ${{ needs.charts.outputs.changed-charts }}
         run: |
           excluded=",${EXCLUDED_CHARTS// /},"
           charts=()

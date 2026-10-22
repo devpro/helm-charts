@@ -1,3 +1,3 @@
-runner:
-  # ct install starts a kind cluster through the host Docker daemon, as on a hosted runner.
-  docker: ["charts"]
+workflow:
+  # ct install runs a kind node, a privileged container, on the Docker of the machine, so it runs on GitHub only, on a runner thrown away after the job.
+  skipJobs: [charts-install]
