@@ -99,9 +99,38 @@ jobs:
             azure-storage,outscale,
             fallstar,liveship,sidelab,trackboard,
             wordpress
+          # Installs side by side on the one cluster, each chart in a release and a namespace of its own.
+          PARALLEL_INSTALLS: "3"
+          CHANGED_CHARTS: ${{ steps.list-changed.outputs.changed_charts }}
         run: |
-          ct install ${CHARTS_DIRECTORIES_ARG} --target-branch "$DEFAULT_BRANCH" \
-            --excluded-charts "${EXCLUDED_CHARTS// /}" --helm-extra-args "--timeout 300s"
+          excluded=",${EXCLUDED_CHARTS// /},"
+          charts=()
+          for path in $CHANGED_CHARTS; do
+            [[ "$excluded" == *",$(basename "$path"),"* ]] || charts+=("$path")
+          done
+          if [ "${#charts[@]}" -eq 0 ]; then
+            echo "No changed chart to install"
+            exit 0
+          fi
+          # Each install writes a log of its own, shown chart by chart once all are done, rather than interleaved.
+          logs="$(mktemp -d)"
+          printf '%s\n' "${charts[@]}" | xargs -P "$PARALLEL_INSTALLS" -I{} bash -c '
+            name="$(basename "$1")"
+            if ct install --charts "$1" --helm-extra-args "--timeout 300s" > "$2/$name.log" 2>&1; then
+              echo "$name: installed"
+            else
+              echo "$name: failed"
+              echo "$name" >> "$2/failed"
+            fi' _ {} "$logs"
+          for path in "${charts[@]}"; do
+            echo "::group::$(basename "$path")"
+            cat "$logs/$(basename "$path").log"
+            echo "::endgroup::"
+          done
+          if [ -s "$logs/failed" ]; then
+            echo "::error::Charts that did not install: $(tr '\n' ' ' < "$logs/failed")"
+            exit 1
+          fi
       # Only a cluster this run created, since a failure before it leaves neither kind nor a cluster.
       - name: Delete kind cluster
         if: always() && steps.create-cluster.outcome != 'skipped' && steps.create-cluster.outcome != ''
