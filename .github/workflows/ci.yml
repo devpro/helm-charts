@@ -83,6 +83,7 @@ jobs:
         uses: devpro/github-workflow-parts/actions/kind/setup@3f5c3623b3ed2e1c59924764f492b7bc2346bd61
       # The cluster name carries the run, so two runs on one Docker daemon never share a cluster.
       - name: Create kind cluster
+        id: create-cluster
         if: steps.list-changed.outputs.changed == 'true'
         run: kind create cluster --name "ct-${GITHUB_RUN_ID}" --image kindest/node:v1.36.4@sha256:099e049362a1526b2db71494e1947aae99bd16290d7c895f2b7ea312e3cbfaed --wait 120s
       - name: Install charts
@@ -101,6 +102,7 @@ jobs:
         run: |
           ct install ${CHARTS_DIRECTORIES_ARG} --target-branch "$DEFAULT_BRANCH" \
             --excluded-charts "${EXCLUDED_CHARTS// /}" --helm-extra-args "--timeout 300s"
+      # Only a cluster this run created, since a failure before it leaves neither kind nor a cluster.
       - name: Delete kind cluster
-        if: always() && steps.list-changed.outputs.changed == 'true'
+        if: always() && steps.create-cluster.outcome != 'skipped' && steps.create-cluster.outcome != ''
         run: kind delete cluster --name "ct-${GITHUB_RUN_ID}"
