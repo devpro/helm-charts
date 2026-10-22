@@ -1,4 +1,4 @@
-﻿1. NextPortal web application has been deployed.
+1. NextPortal web application has been deployed.
 
 {{- if .Values.ingress.enabled }}
    URL: https://{{ .Values.ingress.domain }}

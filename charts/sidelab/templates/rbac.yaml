@@ -1,4 +1,4 @@
-﻿{{- if .Values.rbac.create }}
+{{- if .Values.rbac.create }}
 # Cluster-scoped because tenant namespaces are created on demand.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole

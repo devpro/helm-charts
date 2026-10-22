@@ -1,4 +1,4 @@
-﻿# DVWA Helm Chart
+# DVWA Helm Chart
 
 Helm chart for [Damn Vulnerable Web Application](https://github.com/digininja/DVWA) — designed for container security workshops.
 

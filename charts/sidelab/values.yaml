@@ -1,4 +1,4 @@
-﻿# -- Base domain: the dashboard defaults to sidelab.<domain> and lab sessions to *.labs.<domain>.
+# -- Base domain: the dashboard defaults to sidelab.<domain> and lab sessions to *.labs.<domain>.
 domain: ""
 
 image:

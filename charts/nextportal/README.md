@@ -1,4 +1,4 @@
-﻿# NextPortal Helm Chart
+# NextPortal Helm Chart
 
 Helm chart for [NextPortal Web Application](https://github.com/devpro/container-images/tree/main/src/nextportal) — designed for container security workshops.
 

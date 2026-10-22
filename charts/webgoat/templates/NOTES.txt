@@ -1,4 +1,4 @@
-﻿🎯 WebGoat + WebWolf deployed!
+🎯 WebGoat + WebWolf deployed!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ACCESS

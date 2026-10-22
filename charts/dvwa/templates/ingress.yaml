@@ -1,4 +1,4 @@
-﻿{{- if .Values.ingress.enabled -}}
+{{- if .Values.ingress.enabled -}}
 {{- if not .Values.ingress.domain }}
   {{- fail "ingress.domain is required when ingress.enabled=true. Set it with --set ingress.domain=dvwa.yourdomain.com" }}
 {{- end }}

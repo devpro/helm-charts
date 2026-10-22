@@ -1,4 +1,4 @@
-﻿image:
+image:
   repository: ghcr.io/devpro/nextportal
   tag: "0.1.0"
   pullPolicy: IfNotPresent

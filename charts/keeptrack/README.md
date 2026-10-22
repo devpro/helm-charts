@@ -1,4 +1,4 @@
-﻿# Helm chart for Devpro Keeptrack
+# Helm chart for Devpro Keeptrack
 
 This is the official Helm chart to install [Keeptrack](https://github.com/devpro/keeptrack) on a Kubernetes cluster.
 

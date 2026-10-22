@@ -1,4 +1,4 @@
-﻿{{ range .Values.argocd.applications }}
+{{ range .Values.argocd.applications }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

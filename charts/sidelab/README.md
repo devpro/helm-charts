@@ -1,4 +1,4 @@
-﻿# Sidelab Helm Chart
+# Sidelab Helm Chart
 
 Helm chart for Sidelab, a self-hosted interactive lab platform.
 

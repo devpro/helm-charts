@@ -1,4 +1,4 @@
-﻿blazorapp:
+blazorapp:
   enabled: true
   role: frontend
   name: keeptrack-blazorapp

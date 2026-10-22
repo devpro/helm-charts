@@ -1,4 +1,4 @@
-﻿# Drupal Helm Chart
+# Drupal Helm Chart
 
 Helm chart for Drupal — designed for container security workshops.
 

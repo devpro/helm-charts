@@ -1,4 +1,4 @@
-﻿{{- if and .Values.security.rbac.giveClusterAdmin .Values.security.serviceAccount.create }}
+{{- if and .Values.security.rbac.giveClusterAdmin .Values.security.serviceAccount.create }}
 {{- $namespace := .Release.Namespace }}
 {{- $applications := list .Values.webapp -}}
 {{ range $applications }}

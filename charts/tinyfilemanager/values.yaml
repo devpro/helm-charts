@@ -1,4 +1,4 @@
-﻿image:
+image:
   repository: ghcr.io/devpro/tinyfilemanager
   tag: "2.4.6"
   pullPolicy: IfNotPresent

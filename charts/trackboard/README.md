@@ -1,4 +1,4 @@
-﻿# Trackboard Helm Chart
+# Trackboard Helm Chart
 
 Helm chart for [Trackboard Web Application](https://github.com/devpro/container-images/tree/main/src/trackboard) — designed for container security workshops.
 
