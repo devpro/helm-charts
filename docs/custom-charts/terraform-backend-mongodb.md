@@ -1,4 +1,4 @@
-﻿# Terraform Backend MongoDB
+# Terraform Backend MongoDB
 
 Let's see how to deploy [Terraform Backend MongoDB](https://github.com/devpro/terraform-backend-mongodb) on a Kubernetes cluster.
 

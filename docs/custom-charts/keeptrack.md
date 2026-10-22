@@ -1,4 +1,4 @@
-﻿# Keeptrack
+# Keeptrack
 
 Let's see how to deploy [Keeptrack](https://github.com/devpro/keeptrack) on a Kubernetes cluster.
 

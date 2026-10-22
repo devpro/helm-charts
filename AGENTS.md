@@ -1,4 +1,4 @@
-﻿# helm-charts: agent context
+# helm-charts: agent context
 
 ## What this is
 
