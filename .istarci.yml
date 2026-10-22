@@ -1,3 +1,3 @@
 runner:
   # ct install starts a kind cluster through the host Docker daemon, as on a hosted runner.
-  docker: ["build"]
+  docker: ["charts"]

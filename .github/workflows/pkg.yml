@@ -29,14 +29,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout git repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: npm
       # ref. https://vitepress.dev/guide/deploy#github-pages
       # - name: Install Node.js dependencies
       #   run: npm install
@@ -53,7 +48,7 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
       - name: Install Helm
-        uses: devpro/github-workflow-parts/actions/helm/setup@c6d06a61a377a41dc192ce58f08a0b5100d9a2bc
+        uses: devpro/github-workflow-parts/actions/helm/setup@3f5c3623b3ed2e1c59924764f492b7bc2346bd61
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       - name: Host charts repository on GitHub Pages
@@ -63,23 +58,27 @@ jobs:
       # important: it needs to be done in the same pipeline as another pages workflow won't be triggered by the pust on the gh-pages branch
       # (tried with a PAT and several options but didn't work)
       - name: Checkout gh-pages branch
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: gh-pages
       # - uses: actions/download-artifact@v4
       #   with:
       #     name: docs
       #     path: docs
+      # A Go of its own rather than the one of the runner image, which changes with it.
       - name: Setup Go environment
-        uses: actions/setup-go@v7
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: "1.27.3"
+          cache: false
       - name: Generate index.html
         run: |
           go install github.com/halkeye/helm-repo-html@v0.2.1
-          /home/runner/go/bin/helm-repo-html
+          "$(go env GOPATH)/bin/helm-repo-html"
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
       - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
+        uses: actions/jekyll-build-pages@44a6e6beabd48582f863aeeb6cb2151cc1716697 # v1.0.13
         with:
           source: ./
           destination: ./_site
@@ -90,7 +89,7 @@ jobs:
       #     sudo mkdir -p ./_site/docs
       #     sudo cp -r docs/* ./_site/docs/
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -100,4 +99,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

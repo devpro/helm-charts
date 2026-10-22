@@ -21,114 +21,70 @@ env:
   CHARTS_DIRECTORIES_ARG: "--chart-dirs charts"
 
 jobs:
-  build:
+  docs:
+    name: Docs
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-pages-deployment.yml@3f5c3623b3ed2e1c59924764f492b7bc2346bd61
+    with:
+      # VitePress writes the site the GitLab pipeline publishes, which this job only builds.
+      deploy: false
+      job-name: Docs
+      site-path: public
+      workflow-parts-version: 3f5c3623b3ed2e1c59924764f492b7bc2346bd61
+
+  charts:
+    name: Charts
     runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      # Read from the environment rather than pasted into the scripts by GitHub.
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           # note: important to have chart-testing work (see https://github.com/helm/chart-testing/issues/186)
           fetch-depth: 0
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: npm
-      - name: Install Node.js dependencies
-        run: npm install
-      - name: Build with VitePress
-        run: npm run docs:build
       - name: Install Helm
-        uses: devpro/github-workflow-parts/actions/helm/setup@c6d06a61a377a41dc192ce58f08a0b5100d9a2bc
+        uses: devpro/github-workflow-parts/actions/helm/setup@3f5c3623b3ed2e1c59924764f492b7bc2346bd61
       - name: Install kube-linter
-        env:
-          KUBE_LINTER_VERSION: "0.8.3"
-          KUBE_LINTER_SHA256: "1a6d8419b11971372971fdbc22682b684ebfb7cf1c39591662d1b6ca736c41df"
-        run: |
-          curl -sSLo kube-linter.tar.gz "https://github.com/stackrox/kube-linter/releases/download/v${KUBE_LINTER_VERSION}/kube-linter-linux.tar.gz"
-          echo "${KUBE_LINTER_SHA256}  kube-linter.tar.gz" | sha256sum -c -
-          tar -xzf kube-linter.tar.gz kube-linter
-          # Installed where the job owns the directory, so neither root nor sudo is needed, on a hosted runner or in a container.
-          mkdir -p "${RUNNER_TEMP}/bin"
-          mv kube-linter "${RUNNER_TEMP}/bin/kube-linter"
-          echo "${RUNNER_TEMP}/bin" >> "$GITHUB_PATH"
-          rm kube-linter.tar.gz
+        uses: devpro/github-workflow-parts/actions/kube-linter/setup@3f5c3623b3ed2e1c59924764f492b7bc2346bd61
       - name: Run kube-linter
         run: kube-linter lint charts --config .kube-linter.yaml
       - name: Set up chart-testing
-        uses: devpro/github-workflow-parts/actions/chart-testing/setup@c6d06a61a377a41dc192ce58f08a0b5100d9a2bc
+        uses: devpro/github-workflow-parts/actions/chart-testing/setup@3f5c3623b3ed2e1c59924764f492b7bc2346bd61
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       - name: List changed charts
         id: list-changed
         run: |
-          changed=$(ct list-changed ${CHARTS_DIRECTORIES_ARG} --target-branch ${{ github.event.repository.default_branch }})
+          changed=$(ct list-changed ${CHARTS_DIRECTORIES_ARG} --target-branch "$DEFAULT_BRANCH")
           charts=$(echo "$changed" | tr '\n' ' ' | xargs)
           if [[ -n "$changed" ]]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-            echo "changed_charts=$charts" >> $GITHUB_OUTPUT
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "changed_charts=$charts" >> "$GITHUB_OUTPUT"
           fi
       - name: Lint charts
         if: steps.list-changed.outputs.changed == 'true'
-        run: ct lint $CHARTS_DIRECTORIES_ARG --target-branch ${{ github.event.repository.default_branch }}
+        run: ct lint $CHARTS_DIRECTORIES_ARG --target-branch "$DEFAULT_BRANCH"
       - name: Install kubeconform
-        env:
-          KUBECONFORM_VERSION: "0.8.0"
-          KUBECONFORM_SHA256: "9bc2bffbf71f261128533edaf912153948b7ff238f9a531ae6d34466ec287883"
-        run: |
-          curl -sSLo kubeconform.tar.gz "https://github.com/yannh/kubeconform/releases/download/v${KUBECONFORM_VERSION}/kubeconform-linux-amd64.tar.gz"
-          echo "${KUBECONFORM_SHA256}  kubeconform.tar.gz" | sha256sum -c -
-          tar -xzf kubeconform.tar.gz kubeconform
-          mkdir -p "${RUNNER_TEMP}/bin"
-          mv kubeconform "${RUNNER_TEMP}/bin/kubeconform"
-          echo "${RUNNER_TEMP}/bin" >> "$GITHUB_PATH"
-          rm kubeconform.tar.gz
+        uses: devpro/github-workflow-parts/actions/kubeconform/setup@3f5c3623b3ed2e1c59924764f492b7bc2346bd61
       - name: Validate manifests against the Kubernetes schemas
         run: ./scripts/validate_charts.sh
       # The standalone binary of the helm-unittest plugin, so no plugin is installed into Helm.
       - name: Install helm-unittest
-        env:
-          HELM_UNITTEST_VERSION: "1.2.1"
-          HELM_UNITTEST_SHA256: "48e86ecc1467b009630e5954375e5d8494139f73b466df5fe8c04fa45b634939"
-        run: |
-          curl -sSLo helm-unittest.tgz "https://github.com/helm-unittest/helm-unittest/releases/download/v${HELM_UNITTEST_VERSION}/helm-unittest-linux-amd64-${HELM_UNITTEST_VERSION}.tgz"
-          echo "${HELM_UNITTEST_SHA256}  helm-unittest.tgz" | sha256sum -c -
-          tar -xzf helm-unittest.tgz untt-linux-amd64
-          mkdir -p "${RUNNER_TEMP}/bin"
-          mv untt-linux-amd64 "${RUNNER_TEMP}/bin/untt"
-          echo "${RUNNER_TEMP}/bin" >> "$GITHUB_PATH"
-          rm helm-unittest.tgz
+        uses: devpro/github-workflow-parts/actions/helm-unittest/setup@3f5c3623b3ed2e1c59924764f492b7bc2346bd61
       - name: Run chart unit tests
         run: |
           charts=$(dirname charts/*/tests | sort -u)
           untt $charts
-      # TODO: Enable when https://github.com/stackrox/kube-linter/issues/575 is fixed
-      # - name: Scan yamls
-      #   id: kube-lint-scan
-      #   uses: stackrox/kube-linter-action@v1
-      #   with:
-      #     directory: charts
-      #     config: .kube-linter.yaml
-      # kind and kubectl are installed by hand, as helm/kind-action is a JavaScript action, and a container image has neither preinstalled.
+      # kind and kubectl are installed by an action of the workflow parts, as helm/kind-action is a JavaScript action, and a container image has neither preinstalled.
       - name: Install kind and kubectl
         if: steps.list-changed.outputs.changed == 'true'
-        env:
-          KIND_VERSION: "0.33.0"
-          KIND_SHA256: "aee6151561422756b764a4ae28e7f44cda5af5a9eead3cc9985112b1de8d8e0d"
-          KUBECTL_VERSION: "1.36.4"
-          KUBECTL_SHA256: "8b8f088da2dab964f853b38464033b1be15ede2839eca751482357c45abdd05a"
-        run: |
-          mkdir -p "${RUNNER_TEMP}/bin"
-          curl -sSLo "${RUNNER_TEMP}/bin/kind" "https://github.com/kubernetes-sigs/kind/releases/download/v${KIND_VERSION}/kind-linux-amd64"
-          echo "${KIND_SHA256}  ${RUNNER_TEMP}/bin/kind" | sha256sum -c -
-          curl -sSLo "${RUNNER_TEMP}/bin/kubectl" "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
-          echo "${KUBECTL_SHA256}  ${RUNNER_TEMP}/bin/kubectl" | sha256sum -c -
-          chmod +x "${RUNNER_TEMP}/bin/kind" "${RUNNER_TEMP}/bin/kubectl"
-          echo "${RUNNER_TEMP}/bin" >> "$GITHUB_PATH"
+        uses: devpro/github-workflow-parts/actions/kind/setup@3f5c3623b3ed2e1c59924764f492b7bc2346bd61
       # The cluster name carries the run, so two runs on one Docker daemon never share a cluster.
       - name: Create kind cluster
         if: steps.list-changed.outputs.changed == 'true'
-        run: kind create cluster --name ct-${{ github.run_id }} --image kindest/node:v1.36.4@sha256:099e049362a1526b2db71494e1947aae99bd16290d7c895f2b7ea312e3cbfaed --wait 120s
+        run: kind create cluster --name "ct-${GITHUB_RUN_ID}" --image kindest/node:v1.36.4@sha256:099e049362a1526b2db71494e1947aae99bd16290d7c895f2b7ea312e3cbfaed --wait 120s
       - name: Install charts
         if: steps.list-changed.outputs.changed == 'true'
         env:
@@ -143,8 +99,8 @@ jobs:
             fallstar,liveship,sidelab,trackboard,
             wordpress
         run: |
-          ct install ${CHARTS_DIRECTORIES_ARG} --target-branch ${{ github.event.repository.default_branch }} \
+          ct install ${CHARTS_DIRECTORIES_ARG} --target-branch "$DEFAULT_BRANCH" \
             --excluded-charts "${EXCLUDED_CHARTS// /}" --helm-extra-args "--timeout 300s"
       - name: Delete kind cluster
         if: always() && steps.list-changed.outputs.changed == 'true'
-        run: kind delete cluster --name ct-${{ github.run_id }}
+        run: kind delete cluster --name "ct-${GITHUB_RUN_ID}"
