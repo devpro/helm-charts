@@ -48,7 +48,7 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
       - name: Install Helm
-        uses: devpro/github-workflow-parts/actions/helm/setup@3f5c3623b3ed2e1c59924764f492b7bc2346bd61
+        uses: devpro/github-workflow-parts/actions/helm/setup@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       - name: Host charts repository on GitHub Pages
