@@ -21,6 +21,10 @@ env:
   CHARTS_DIRECTORIES_ARG: "--chart-dirs charts"
 
 jobs:
+  markup-lint:
+    name: Markup
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-markup-lint.yml@591b0c7bfba6fbc7b0cab7d896447e0732b819de
+
   docs:
     name: Docs
     uses: devpro/github-workflow-parts/.github/workflows/reusable-pages-deployment.yml@591b0c7bfba6fbc7b0cab7d896447e0732b819de
