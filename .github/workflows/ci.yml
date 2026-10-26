@@ -23,13 +23,13 @@ env:
 jobs:
   docs:
     name: Docs
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-pages-deployment.yml@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-pages-deployment.yml@591b0c7bfba6fbc7b0cab7d896447e0732b819de
     with:
       # VitePress writes the site the GitLab pipeline publishes, which this job only builds.
       deploy: false
       job-name: Docs
       site-path: public
-      workflow-parts-version: 13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+      workflow-parts-version: 591b0c7bfba6fbc7b0cab7d896447e0732b819de
 
   charts:
     name: Charts
@@ -48,13 +48,13 @@ jobs:
           # note: important to have chart-testing work (see https://github.com/helm/chart-testing/issues/186)
           fetch-depth: 0
       - name: Install Helm
-        uses: devpro/github-workflow-parts/actions/helm/setup@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+        uses: devpro/github-workflow-parts/actions/helm/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
       - name: Install kube-linter
-        uses: devpro/github-workflow-parts/actions/kube-linter/setup@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+        uses: devpro/github-workflow-parts/actions/kube-linter/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
       - name: Run kube-linter
         run: kube-linter lint charts --config .kube-linter.yaml
       - name: Set up chart-testing
-        uses: devpro/github-workflow-parts/actions/chart-testing/setup@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+        uses: devpro/github-workflow-parts/actions/chart-testing/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       - name: List changed charts
@@ -70,12 +70,12 @@ jobs:
         if: steps.list-changed.outputs.changed == 'true'
         run: ct lint $CHARTS_DIRECTORIES_ARG --target-branch "$DEFAULT_BRANCH"
       - name: Install kubeconform
-        uses: devpro/github-workflow-parts/actions/kubeconform/setup@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+        uses: devpro/github-workflow-parts/actions/kubeconform/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
       - name: Validate manifests against the Kubernetes schemas
         run: ./scripts/validate_charts.sh
       # The standalone binary of the helm-unittest plugin, so no plugin is installed into Helm.
       - name: Install helm-unittest
-        uses: devpro/github-workflow-parts/actions/helm-unittest/setup@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+        uses: devpro/github-workflow-parts/actions/helm-unittest/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
       - name: Run chart unit tests
         run: |
           charts=$(dirname charts/*/tests | sort -u)
@@ -94,14 +94,14 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install Helm
-        uses: devpro/github-workflow-parts/actions/helm/setup@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+        uses: devpro/github-workflow-parts/actions/helm/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
       - name: Set up chart-testing
-        uses: devpro/github-workflow-parts/actions/chart-testing/setup@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+        uses: devpro/github-workflow-parts/actions/chart-testing/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       # kind and kubectl are installed by an action of the workflow parts, as helm/kind-action is a JavaScript action, and a container image has neither preinstalled.
       - name: Install kind and kubectl
-        uses: devpro/github-workflow-parts/actions/kind/setup@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+        uses: devpro/github-workflow-parts/actions/kind/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
       # The cluster name carries the run, so two runs on one Docker daemon never share a cluster.
       - name: Create kind cluster
         id: create-cluster
