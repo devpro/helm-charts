@@ -10,3 +10,6 @@ rules:
     level: warning
     max: 180
   truthy: disable
+  # The Fallstar recipes and Fleet patches write their flow mappings with a space inside the braces.
+  braces:
+    max-spaces-inside: 1

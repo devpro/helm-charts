@@ -43,9 +43,9 @@ webapi:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
           - matchExpressions:
-            - key: "kubernetes.io/arch"
-              operator: In
-              values: ["amd64"]
+              - key: "kubernetes.io/arch"
+                operator: In
+                values: ["amd64"]
 
 dotnet:
   environment: Production
