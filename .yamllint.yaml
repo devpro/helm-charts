@@ -1,5 +1,10 @@
 extends: default
 
+# Helm templates are Go templates that render to YAML, not YAML themselves.
+ignore:
+  - "charts/*/templates/**"
+  - "samples/charts/*/templates/**"
+
 rules:
   line-length:
     level: warning
