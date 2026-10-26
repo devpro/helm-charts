@@ -94,7 +94,8 @@ The defaults under `authentication` in [values.yaml](values.yaml) suit most depl
 The setting that does need a decision is `network.trustAllProxies`, because the other two depend on it.
 
 Terraform's `http` backend sends a Basic credential on every single request, so the server verifies the same password over and over and every failed guess costs it a BCrypt verify.
-The lockout puts a ceiling on that, and it is scoped to the username and the caller's source address together rather than to the username alone: a lockout on the username alone would let anybody on the internet lock the real operator out of the backend.
+The lockout puts a ceiling on that, and it is scoped to the username and the caller's source address together rather than to the username alone.
+A lockout on the username alone would let anybody on the internet lock the real operator out of the backend.
 
 Behind an ingress, an application that does not trust the proxy sees the proxy's address on every request.
 Every caller then shares one lockout bucket, which turns the protection into the denial of service it was designed to avoid.

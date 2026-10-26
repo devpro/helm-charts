@@ -2,6 +2,8 @@
 outline: deep
 ---
 
+<!-- markdownlint-disable-file MD033 -->
+
 # Runtime API Examples
 
 This page demonstrates usage of some of the runtime APIs provided by VitePress.

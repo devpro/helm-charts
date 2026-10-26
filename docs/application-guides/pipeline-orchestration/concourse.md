@@ -91,7 +91,12 @@ spec:
 kubectl apply -f ingress.yaml
 
 # activate ingress
-helm install my-name stable/concourse --set concourse.web.externalUrl=https://my-domain.com/ --set web.ingress.enabled=true --set web.ingress.hosts[0]=my-domain.com --set web.ingress.tls[0].secretName=domain-web-tls --set web.ingress.tls[0].hosts[0]=my-domain.com --set secrets.localUsers="test:mysecretpassword" --set web.resources.requests.cpu="200m" --set web.resources.requests.memory="256Mi"
+helm install my-name stable/concourse \
+  --set concourse.web.externalUrl=https://my-domain.com/ \
+  --set web.ingress.enabled=true --set web.ingress.hosts[0]=my-domain.com \
+  --set web.ingress.tls[0].secretName=domain-web-tls --set web.ingress.tls[0].hosts[0]=my-domain.com \
+  --set secrets.localUsers="test:mysecretpassword" \
+  --set web.resources.requests.cpu="200m" --set web.resources.requests.memory="256Mi"
 ```
 
 ## Known issues

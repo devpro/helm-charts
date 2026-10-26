@@ -40,7 +40,8 @@ kubectl delete ns mysql
 
   3. Connect using the mysql cli, then provide your password: `$ mysql -h mysql-xxxxxxx -p`
 
-  To connect to your database directly from outside the K8s cluster: MYSQL_HOST=127.0.0.1, MYSQL_PORT=3306. Execute the following command to route the connection: `kubectl port-forward svc/mysql-xxxxxxx 3306` and `mysql -h ${MYSQL_HOST} -P${MYSQL_PORT} -u root -p${MYSQL_ROOT_PASSWORD}`.
+  To connect to your database directly from outside the K8s cluster: MYSQL_HOST=127.0.0.1, MYSQL_PORT=3306.
+  Execute the following command to route the connection: `kubectl port-forward svc/mysql-xxxxxxx 3306` and `mysql -h ${MYSQL_HOST} -P${MYSQL_PORT} -u root -p${MYSQL_ROOT_PASSWORD}`.
 
 As usual, look at the progress with `kubectl get pods` ("STATUS" column).
 

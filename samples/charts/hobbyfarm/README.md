@@ -22,8 +22,8 @@ kubectl delete ns hobbyfarm
 
 ## How to start once the application is running
 
-- Open HobbyFarm Admin UI, for example "https://admin.hobbyfarm.${NGINX_PUBLIC_IP}.sslip.io/"
-- Open HobbyFarm UI, for example "https://learn.hobbyfarm.${NGINX_PUBLIC_IP}.sslip.io/"
+- Open HobbyFarm Admin UI, for example `https://admin.hobbyfarm.${NGINX_PUBLIC_IP}.sslip.io/`
+- Open HobbyFarm UI, for example `https://learn.hobbyfarm.${NGINX_PUBLIC_IP}.sslip.io/`
 
 ## How to create or update the chart
 
