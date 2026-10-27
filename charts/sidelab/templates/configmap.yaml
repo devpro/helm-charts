@@ -29,6 +29,9 @@ data:
   {{- if .Values.launcher.labImagePullSecret }}
   K8S_LAB_IMAGE_PULL_SECRET: {{ .Values.launcher.labImagePullSecret | quote }}
   {{- end }}
+  {{- with .Values.launcher.labEgressCidrs }}
+  K8S_LAB_EGRESS_CIDRS: {{ join "," . | quote }}
+  {{- end }}
   # The admin tenant's namespace is the default, as a fallback when namespaces cannot be listed.
   K8S_KNOWN_NAMESPACES: {{ .Values.launcher.knownNamespaces | default (printf "%s-admin" .Values.launcher.namespacePrefix) | quote }}
 ---

@@ -32,6 +32,11 @@ rules:
     resources: ["ingresses"]
     verbs: ["get", "list", "create", "delete"]
 
+  # Per-session isolation; a session does not start without its NetworkPolicies.
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["networkpolicies"]
+    verbs: ["get", "list", "create", "delete"]
+
   # Attaches launcher.labImagePullSecret to the default ServiceAccount of tenant namespaces.
   - apiGroups: [""]
     resources: ["serviceaccounts"]

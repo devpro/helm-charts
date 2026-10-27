@@ -98,6 +98,9 @@ launcher:
   # -- dockerconfigjson Secret in the release namespace used to pull labImage, copied into every tenant namespace.
   labImagePullSecret: ""
 
+  # -- CIDRs a lab may reach beyond the internet, for a course that needs a private network; every private, shared and link-local range is closed otherwise.
+  labEgressCidrs: []
+
 service:
   # -- ClusterIP, NodePort or LoadBalancer.
   type: ClusterIP
