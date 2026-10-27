@@ -34,7 +34,9 @@ auth:
   adminUsername: "admin"
   # -- Generated on first install when empty, the install notes show how to read it.
   adminPassword: ""
-  # -- Existing Secret with the keys FALLSTAR_SECRET, ADMIN_USERNAME and ADMIN_PASSWORD, replacing the three values above.
+  # -- Email of the initial admin, the author of the commits it makes, none when empty.
+  adminEmail: ""
+  # -- Existing Secret with the keys FALLSTAR_SECRET, ADMIN_USERNAME, ADMIN_PASSWORD and optionally ADMIN_EMAIL, replacing the four values above.
   existingSecret: ""
 
 database:

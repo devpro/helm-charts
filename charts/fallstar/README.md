@@ -18,6 +18,14 @@ The image is built from the `Dockerfile` of the Fallstar repository.
 
 > **Tip:** Every option is documented in [values.yaml](values.yaml).
 
+## Lost password
+
+The reset command of the image writes a new generated password to the database and prints it.
+
+```bash
+kubectl -n fallstar exec deploy/fallstar -- node --import tsx packages/server/src/reset-password.ts <username>
+```
+
 ## Uninstall
 
 ```bash

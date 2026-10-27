@@ -21,6 +21,16 @@ tests:
         equal:
           path: spec.template.spec.enableServiceLinks
           value: false
+  - it: probes the health endpoint, which reads the database
+    asserts:
+      - template: deployment.yaml
+        equal:
+          path: spec.template.spec.containers[0].livenessProbe.httpGet.path
+          value: /healthz
+      - template: deployment.yaml
+        equal:
+          path: spec.template.spec.containers[0].readinessProbe.httpGet.path
+          value: /healthz
   - it: recreates the Pod on SQLite
     asserts:
       - template: deployment.yaml

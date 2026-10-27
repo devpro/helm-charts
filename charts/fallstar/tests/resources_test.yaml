@@ -42,6 +42,14 @@ tests:
           path: stringData.DB_URL
           value: mongodb://db:27017/fallstar
         documentIndex: 1
+  - it: names the admin email only when set
+    template: secret.yaml
+    set:
+      auth.adminEmail: admin@example.com
+    asserts:
+      - equal:
+          path: stringData.ADMIN_EMAIL
+          value: admin@example.com
   - it: generates the master secret and the admin password when empty
     template: secret.yaml
     asserts:
