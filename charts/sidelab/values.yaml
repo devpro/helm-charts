@@ -101,6 +101,17 @@ launcher:
   # -- CIDRs a lab may reach beyond the internet, for a course that needs a private network; every private, shared and link-local range is closed otherwise.
   labEgressCidrs: []
 
+  # A course host declared runtime: vm runs as a pod booting a Firecracker guest, on nodes whose device plugin offers /dev/kvm (docs/kubernetes-vm.md in sidelab).
+  vm:
+    # -- Image of the VM pods, built from sidelab's packages/vm.
+    image: "sidelab-vm:latest"
+    # -- Extended resource that brings /dev/kvm; devices.kubevirt.io/kvm on a cluster running KubeVirt.
+    kvmResource: "devic.es/kvm"
+    # -- Extended resource that brings /dev/net/tun; devices.kubevirt.io/tun on a cluster running KubeVirt.
+    tunResource: "devic.es/tun"
+    # -- RuntimeClass of the VM pods, which the cluster exempts from a baseline Pod Security level, since their prepare step adds NET_ADMIN.
+    runtimeClass: ""
+
 service:
   # -- ClusterIP, NodePort or LoadBalancer.
   type: ClusterIP

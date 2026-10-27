@@ -32,6 +32,12 @@ data:
   {{- with .Values.launcher.labEgressCidrs }}
   K8S_LAB_EGRESS_CIDRS: {{ join "," . | quote }}
   {{- end }}
+  K8S_VM_IMAGE: {{ .Values.launcher.vm.image | quote }}
+  K8S_VM_KVM_RESOURCE: {{ .Values.launcher.vm.kvmResource | quote }}
+  K8S_VM_TUN_RESOURCE: {{ .Values.launcher.vm.tunResource | quote }}
+  {{- with .Values.launcher.vm.runtimeClass }}
+  K8S_VM_RUNTIME_CLASS: {{ . | quote }}
+  {{- end }}
   # The admin tenant's namespace is the default, as a fallback when namespaces cannot be listed.
   K8S_KNOWN_NAMESPACES: {{ .Values.launcher.knownNamespaces | default (printf "%s-admin" .Values.launcher.namespacePrefix) | quote }}
 ---
