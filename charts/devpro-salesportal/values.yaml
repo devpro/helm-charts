@@ -51,7 +51,12 @@ data:
   port: 8080
   healthEndpoint: /health
   db:
+    # -- MongoDB connection string, ignored when connectionStringSecretKeyRef is set
     connectionString: "someconnstring"
+    # -- Secret key holding the connection string, which keeps its password out of the values
+    connectionStringSecretKeyRef: {}
+    #   name: salesportal-db
+    #   key: connectionString
     databaseName: "somedb"
   extraEnv: []
   additionalPodLabels: {}

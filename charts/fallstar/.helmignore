@@ -1,0 +1,11 @@
+.DS_Store
+.git/
+.gitignore
+.helmignore
+*.orig
+*.swp
+*.bak
+values.mine.yaml
+temp*.yaml
+kubeconfig
+tests/

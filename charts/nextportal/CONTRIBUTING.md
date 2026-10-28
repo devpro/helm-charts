@@ -1,4 +1,4 @@
-﻿# Contribution guide
+# Contribution guide
 
 ## Validate on a test cluster
 

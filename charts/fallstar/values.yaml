@@ -1,0 +1,102 @@
+image:
+  # -- Server image repository, required.
+  repository:
+  pullPolicy: IfNotPresent
+  # -- Server image tag, required: a pkg.yml run of the Fallstar repository, 1.0.<run_id>.
+  tag: ""
+
+imagePullSecrets: []
+  # - name: ""
+
+nameOverride: ""
+fullnameOverride: ""
+
+# -- More than one replica requires database.backend=mongo and persistence.enabled=false.
+replicaCount: 1
+
+# Same requirements as replicaCount, and resources.requests.cpu must be set for the CPU target.
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80
+
+# Only useful with two or more replicas: with one, it blocks node drains.
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
+
+auth:
+  # -- Master secret of at least 32 characters, generated on first install when empty and kept across upgrades.
+  # Changing it signs everyone out and makes the stored repository tokens unreadable.
+  secret: ""
+  # -- Initial admin account, only used while the database is empty.
+  adminUsername: "admin"
+  # -- Generated on first install when empty, the install notes show how to read it.
+  adminPassword: ""
+  # -- Email of the initial admin, the author of the commits it makes, none when empty.
+  adminEmail: ""
+  # -- Existing Secret with the keys FALLSTAR_SECRET, ADMIN_USERNAME, ADMIN_PASSWORD and optionally ADMIN_EMAIL, replacing the four values above.
+  existingSecret: ""
+
+database:
+  # -- sqlite or mongo.
+  backend: "sqlite"
+  mongo:
+    # -- Connection string, e.g. mongodb+srv://<user>:<password>@<host>/fallstar
+    url: ""
+    # -- Existing Secret with the key DB_URL, taking priority over url.
+    existingSecret: ""
+
+persistence:
+  # -- Volume for /data: the SQLite file and the mirrors of the repositories, which MongoDB re-creates when missing.
+  enabled: true
+  # -- Empty for the cluster default.
+  storageClass: ""
+  size: 2Gi
+  # -- Existing PersistentVolumeClaim, instead of creating one.
+  existingClaim: ""
+
+service:
+  type: ClusterIP
+  port: 4500
+
+ingress:
+  enabled: false
+  # -- e.g. "traefik" or "nginx".
+  className: ""
+  # -- Required when enabled.
+  host: ""
+  annotations: {}
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  tls:
+    enabled: false
+    secretName: "fallstar-tls"
+
+# -- Pod user of the image, which owns /data.
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+resources: {}
+  # requests:
+  #   cpu: 100m
+  #   memory: 256Mi
+
+extraEnv: []
+  # - name: ""
+  #   value: ""
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

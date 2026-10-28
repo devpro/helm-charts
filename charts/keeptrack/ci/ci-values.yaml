@@ -1,0 +1,12 @@
+# The bundled MongoDB under a fixed name, so that the connection string does not depend on the release name.
+webapi:
+  db:
+    connectionString: mongodb://root:ci-only-password@ci-mongodb:27017/?authSource=admin
+mongodb:
+  enabled: true
+  fullnameOverride: ci-mongodb
+  auth:
+    rootPassword: ci-only-password
+# The web app parses a Firebase service account private key at startup, and no key belongs in the repository.
+blazorapp:
+  enabled: false

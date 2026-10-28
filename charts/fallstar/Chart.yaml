@@ -1,0 +1,17 @@
+apiVersion: v2
+name: fallstar
+description: >
+  GitOps made easy.
+  Deploys the Fallstar server, a catalog of recipes rendered into Flux, Argo CD or Fleet manifests on git branches.
+type: application
+version: 0.1.0
+keywords:
+  - fallstar
+  - gitops
+  - flux
+home: https://github.com/devpro/helm-charts
+sources:
+  - https://github.com/devpro/helm-charts
+maintainers:
+  - name: devpro
+    email: bertrand@devpro.fr

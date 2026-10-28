@@ -1,4 +1,4 @@
-﻿apiVersion: apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "dvwa.fullname" . }}
@@ -103,7 +103,7 @@ spec:
               command:
                 - sh
                 - -c
-                - mysqladmin ping -u root -p${MARIADB_ROOT_PASSWORD}
+                - mariadb-admin ping -u root -p"${MARIADB_ROOT_PASSWORD}"
             initialDelaySeconds: 10
             periodSeconds: 5
           livenessProbe:
@@ -111,7 +111,7 @@ spec:
               command:
                 - sh
                 - -c
-                - mysqladmin ping -u root -p${MARIADB_ROOT_PASSWORD}
+                - mariadb-admin ping -u root -p"${MARIADB_ROOT_PASSWORD}"
             initialDelaySeconds: 30
             periodSeconds: 10
             failureThreshold: 3

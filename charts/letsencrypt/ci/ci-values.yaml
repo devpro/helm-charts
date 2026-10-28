@@ -1,0 +1,6 @@
+registration:
+  emailAddress: admin@example.com
+ingress:
+  className: nginx
+selfsigned:
+  enabled: true

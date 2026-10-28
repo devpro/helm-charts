@@ -1,7 +1,15 @@
 extends: default
 
+# Helm templates are Go templates that render to YAML, not YAML themselves.
+ignore:
+  - "charts/*/templates/**"
+  - "samples/charts/*/templates/**"
+
 rules:
   line-length:
     level: warning
     max: 180
   truthy: disable
+  # The Fallstar recipes and Fleet patches write their flow mappings with a space inside the braces.
+  braces:
+    max-spaces-inside: 1

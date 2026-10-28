@@ -1,0 +1,26 @@
+# Loki as a single binary on the filesystem, since its scalable mode spreads three replicas of each target over distinct nodes and needs object storage.
+loki:
+  loki:
+    auth_enabled: false
+    commonConfig:
+      replication_factor: 1
+    storage:
+      type: filesystem
+  singleBinary:
+    replicas: 1
+  write:
+    replicas: 0
+  read:
+    replicas: 0
+  backend:
+    replicas: 0
+  # The self-monitoring and its test rely on the Grafana Agent operator, which a bare cluster lacks.
+  monitoring:
+    selfMonitoring:
+      enabled: false
+      grafanaAgent:
+        installOperator: false
+    lokiCanary:
+      enabled: false
+  test:
+    enabled: false

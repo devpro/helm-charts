@@ -55,9 +55,9 @@ spec:
             - name: http
               containerPort: {{ .containerPort }}
               protocol: TCP
+          # The health endpoint pings MongoDB, so a database outage would restart the server rather than take it out of the Service.
           livenessProbe:
-            httpGet:
-              path: {{ .healthEndpoint }}
+            tcpSocket:
               port: http
           readinessProbe:
             httpGet:

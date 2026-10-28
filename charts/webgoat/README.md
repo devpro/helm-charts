@@ -1,4 +1,4 @@
-﻿# OWASP WebGoat Helm Chart
+# OWASP WebGoat Helm Chart
 
 Helm chart for [WebGoat Web Application](https://owasp.org/www-project-webgoat/) — designed for container security workshops.
 

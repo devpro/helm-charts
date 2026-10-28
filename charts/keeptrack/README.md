@@ -1,4 +1,4 @@
-﻿# Helm chart for Devpro Keeptrack
+# Helm chart for Devpro Keeptrack
 
 This is the official Helm chart to install [Keeptrack](https://github.com/devpro/keeptrack) on a Kubernetes cluster.
 
@@ -39,6 +39,7 @@ Notable ones:
 - `webapi.db`: MongoDB connection (mandatory).
 - `firebase`: authentication configuration (mandatory).
 - `webapi.referenceData`: TMDB/RAWG/Discogs API keys and the Open Library book provider override, used to enrich movies/TV shows/video games/books/albums with posters, synopsis, cast and episode data (optional).
+- `opentelemetry.endpoint`: an OTLP endpoint, such as an OpenTelemetry Collector, receiving the traces, metrics and logs of both applications (optional).
 - `security.hardened.enabled`: runs containers with a read-only root filesystem, all Linux capabilities dropped, and the default seccomp profile, for platforms that mandate the Kubernetes Pod Security Standards "restricted" profile.
   Disabled by default; validate in a non-production environment first.
 

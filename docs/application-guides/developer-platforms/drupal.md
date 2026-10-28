@@ -1,4 +1,4 @@
-﻿# Drupal
+# Drupal
 
 ## Stable repository
 

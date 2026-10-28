@@ -1,4 +1,4 @@
-﻿apiVersion: apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "sidelab.fullname" . }}
@@ -68,6 +68,10 @@ spec:
             {{- if eq .Values.database.backend "mongo" }}
             - secretRef:
                 name: {{ include "sidelab.mongoSecretName" . }}
+            {{- end }}
+            {{- with .Values.launcher.terraform.credentialsSecret }}
+            - secretRef:
+                name: {{ . }}
             {{- end }}
           env:
             # The Service lab Pods call back.

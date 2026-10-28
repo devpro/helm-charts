@@ -1,0 +1,349 @@
+# Recipe of this chart for Fallstar: the choices a Sidelab deployment makes, and the values each one implies.
+# Format: https://github.com/devpro/fallstar/blob/main/docs/sources.md
+title: Sidelab
+description: Interactive lab platform, one pod per lab session, each published on its own hostname.
+category: application
+namespace: sidelab
+layer: apps
+# The namespace is a resource of the infra layer, so the ExternalSecrets of the apps layer find it before the release exists.
+createNamespace: false
+
+options:
+  - key: domain
+    title: Domain
+    description: The dashboard is sidelab.<domain>, lab sessions lab-<id>.labs.<domain>.
+    type: string
+    default: ${{ cluster.domain }}
+    value: domain
+  - key: tag
+    title: Image tag
+    description: The same pkg.yml run for the launcher and the lab image, <major.minor>.<run_id>.
+    type: string
+    value: image.tag
+  - key: privateImages
+    title: Images pulled with a ghcr.io token
+    group: Images
+    type: boolean
+    default: true
+
+  - key: database
+    title: Database
+    description: SQLite is one file on one volume, MongoDB allows several replicas, the bundled one is for a disposable demo.
+    group: Database
+    type: enum
+    values: [sqlite, mongo, mongo-bundled]
+    default: sqlite
+  - key: storageSize
+    title: SQLite volume size
+    group: Database
+    type: string
+    default: 2Gi
+    value: persistence.size
+    when: { equals: { database: sqlite } }
+  - key: storageClass
+    title: Storage class
+    description: Empty for the cluster default.
+    group: Database
+    type: string
+    value: persistence.storageClass
+    when: { equals: { database: sqlite } }
+  - key: replicas
+    title: Replicas
+    description: More than one needs MongoDB.
+    group: Database
+    type: number
+    default: 1
+    bind: { chart: sidelab, path: [values, replicaCount] }
+    when: { equals: { database: [mongo, mongo-bundled] } }
+
+  - key: labAccess
+    title: Lab access
+    description: Ingress gives each session its own hostname, NodePort its own port.
+    group: Access
+    type: enum
+    values: [ingress, nodeport]
+    default: ingress
+    value: launcher.labAccess
+  - key: ingressClass
+    title: Ingress class
+    group: Access
+    type: string
+    default: traefik
+    bind: { chart: sidelab, path: [values, ingress, className] }
+    when: { equals: { labAccess: ingress } }
+  - key: tls
+    title: TLS
+    description: A wildcard certificate served by the ingress controller, a certificate per hostname from cert-manager, or none.
+    group: Access
+    type: enum
+    values: [wildcard, cert-manager, none]
+    default: wildcard
+    when: { equals: { labAccess: ingress } }
+  - key: clusterIssuer
+    title: cert-manager ClusterIssuer
+    group: Access
+    type: string
+    default: letsencrypt-dns
+    when: { equals: { labAccess: ingress, tls: cert-manager } }
+  - key: trustProxy
+    title: Trust the ingress controller as a proxy
+    description: Keeps the client IP, which the login throttle counts.
+    group: Access
+    type: boolean
+    default: true
+    when: { equals: { labAccess: ingress } }
+
+  - key: sessionDefaultDuration
+    title: Default session duration, in minutes
+    group: Sessions
+    type: number
+    default: 30
+    value: launcher.sessionDefaultDuration
+  - key: sessionMaxDuration
+    title: Maximum session duration, in minutes
+    group: Sessions
+    type: number
+    default: 60
+    value: launcher.sessionMaxDuration
+
+values:
+  image:
+    repository: ghcr.io/devpro/sidelab-launcher
+  launcher:
+    labImage: ghcr.io/devpro/sidelab-app:${{ options.tag }}
+
+patches:
+  - when: { secretsManaged: true }
+    chart: sidelab
+    patch:
+      values:
+        auth:
+          existingSecret: sidelab-auth
+  - when: { equals: { database: sqlite } }
+    chart: sidelab
+    patch:
+      values:
+        database:
+          backend: sqlite
+        persistence:
+          enabled: true
+  - when: { equals: { database: [mongo, mongo-bundled] } }
+    chart: sidelab
+    patch:
+      values:
+        replicaCount: ${{ options.replicas }}
+        database:
+          backend: mongo
+          mongo:
+            existingSecret: sidelab-db
+        persistence:
+          enabled: false
+  - when: { equals: { database: mongo-bundled } }
+    chart: sidelab
+    notes:
+      - path: [values, mongodb, auth, existingSecret]
+        text: The root password comes from the same Secret as DB_URL, so it is never written in the values.
+    patch:
+      values:
+        mongodb:
+          enabled: true
+          auth:
+            existingSecret: sidelab-db
+  - when: { option: privateImages }
+    chart: sidelab
+    patch:
+      values:
+        imagePullSecrets:
+          - name: ghcr-pull
+        launcher:
+          labImagePullSecret: ghcr-pull
+  - when: { equals: { labAccess: ingress } }
+    chart: sidelab
+    patch:
+      values:
+        ingress:
+          enabled: true
+          className: ${{ options.ingressClass }}
+  - when: { equals: { labAccess: ingress, tls: wildcard } }
+    chart: sidelab
+    notes:
+      - path: [values, ingress, tls]
+        text: No cert-manager annotation, the ingress controller serves its wildcard certificate to every lab hostname.
+    patch:
+      values:
+        ingress:
+          tls:
+            enabled: true
+  - when: { equals: { labAccess: ingress, tls: cert-manager } }
+    chart: sidelab
+    notes:
+      - path: [values, ingress, annotations]
+        text: Copied onto every lab session Ingress, so each session orders its own certificate.
+    patch:
+      values:
+        ingress:
+          annotations:
+            cert-manager.io/cluster-issuer: ${{ options.clusterIssuer }}
+          tls:
+            enabled: true
+  - when: { equals: { labAccess: ingress }, option: trustProxy }
+    chart: sidelab
+    patch:
+      values:
+        extraEnv:
+          - name: TRUST_PROXY
+            value: "1"
+  - when: { equals: { labAccess: nodeport } }
+    chart: sidelab
+    patch:
+      values:
+        service:
+          type: NodePort
+
+resources:
+  - file: infra/namespaces/sidelab.yaml
+    shared: true
+    object:
+      apiVersion: v1
+      kind: Namespace
+      metadata: { name: sidelab }
+  - file: apps/externalsecrets/sidelab.yaml
+    when: { secretStore: true }
+    notes:
+      - path: []
+        text: Held in the secret store rather than generated by the chart, so a rebuilt cluster keeps the same signing secret and admin password.
+    object:
+      apiVersion: external-secrets.io/v1
+      kind: ExternalSecret
+      metadata: { name: sidelab-auth, namespace: sidelab }
+      spec:
+        refreshInterval: 1h
+        secretStoreRef:
+          name: ${{ cluster.secretStore }}
+          kind: ClusterSecretStore
+        target:
+          name: sidelab-auth
+          creationPolicy: Owner
+          template:
+            data:
+              JWT_SECRET: "{{ .jwtSecret }}"
+              ADMIN_USERNAME: admin
+              ADMIN_PASSWORD: "{{ .adminPassword }}"
+        data:
+          - secretKey: jwtSecret
+            remoteRef:
+              key: sidelab-jwt-secret
+          - secretKey: adminPassword
+            remoteRef:
+              key: sidelab-admin-password
+  - file: apps/externalsecrets/sidelab.yaml
+    when: { secretStore: true, equals: { database: mongo } }
+    object:
+      apiVersion: external-secrets.io/v1
+      kind: ExternalSecret
+      metadata: { name: sidelab-db, namespace: sidelab }
+      spec:
+        refreshInterval: 1h
+        secretStoreRef:
+          name: ${{ cluster.secretStore }}
+          kind: ClusterSecretStore
+        target:
+          name: sidelab-db
+          creationPolicy: Owner
+        data:
+          - secretKey: DB_URL
+            remoteRef:
+              key: sidelab-mongodb-url
+  - file: apps/externalsecrets/sidelab.yaml
+    when: { secretStore: true, equals: { database: mongo-bundled } }
+    notes:
+      - path: []
+        text: One password for the bundled MongoDB and for the connection string the launcher uses, the Service being <release>-mongodb.
+    object:
+      apiVersion: external-secrets.io/v1
+      kind: ExternalSecret
+      metadata: { name: sidelab-db, namespace: sidelab }
+      spec:
+        refreshInterval: 1h
+        secretStoreRef:
+          name: ${{ cluster.secretStore }}
+          kind: ClusterSecretStore
+        target:
+          name: sidelab-db
+          creationPolicy: Owner
+          template:
+            data:
+              DB_URL: "mongodb://root:{{ .password }}@sidelab-mongodb:27017/sidelab?authSource=admin"
+              mongodb-root-password: "{{ .password }}"
+        data:
+          - secretKey: password
+            remoteRef:
+              key: sidelab-mongodb-root-password
+  - file: apps/externalsecrets/sidelab.yaml
+    when: { secretStore: true, option: privateImages }
+    notes:
+      - path: []
+        text: The launcher copies it into every tenant namespace, for the lab image.
+    object:
+      apiVersion: external-secrets.io/v1
+      kind: ExternalSecret
+      metadata: { name: ghcr-pull, namespace: sidelab }
+      spec:
+        refreshInterval: 1h
+        secretStoreRef:
+          name: ${{ cluster.secretStore }}
+          kind: ClusterSecretStore
+        target:
+          name: ghcr-pull
+          creationPolicy: Owner
+          template:
+            type: kubernetes.io/dockerconfigjson
+            data:
+              .dockerconfigjson: '{"auths":{"ghcr.io":{"username":"{{ .username }}","password":"{{ .password }}","auth":"{{ printf "%s:%s" .username .password | b64enc }}"}}}'
+        data:
+          - secretKey: username
+            remoteRef:
+              key: ghcr-username
+          - secretKey: password
+            remoteRef:
+              key: ghcr-token
+
+secrets:
+  - { name: sidelab-jwt-secret, description: Signing key of the launcher tokens., generate: hex32, when: { secretsManaged: true }, target: { secret: sidelab-auth, key: JWT_SECRET, namespace: sidelab } }
+  - { name: sidelab-admin-username, description: Name of the admin account., value: admin, when: { secretsManaged: true, secretStore: false }, target: { secret: sidelab-auth, key: ADMIN_USERNAME, namespace: sidelab } }
+  - { name: sidelab-admin-password, description: Password of the admin account., when: { secretsManaged: true }, target: { secret: sidelab-auth, key: ADMIN_PASSWORD, namespace: sidelab } }
+  - { name: sidelab-mongodb-url, description: "MongoDB connection string, mongodb+srv://<user>:<password>@<host>/sidelab.", when: { secretsManaged: true, equals: { database: mongo } }, target: { secret: sidelab-db, key: DB_URL, namespace: sidelab } }
+  - { name: sidelab-mongodb-root-password, description: Root password of the bundled MongoDB., when: { secretsManaged: true, equals: { database: mongo-bundled } }, target: { secret: sidelab-db, key: mongodb-root-password, namespace: sidelab } }
+  - { name: sidelab-mongodb-url, description: "mongodb://root:<root-password>@sidelab-mongodb:27017/sidelab?authSource=admin, with the root password above.", when: { secretsManaged: true, secretStore: false, equals: { database: mongo-bundled } }, target: { secret: sidelab-db, key: DB_URL, namespace: sidelab } }
+  - { name: ghcr-username, description: GitHub user pulling the private images., when: { secretStore: true, option: privateImages } }
+  - { name: ghcr-token, description: "GitHub token with read:packages on ghcr.io/devpro.", when: { secretStore: true, option: privateImages } }
+
+warnings:
+  - when: { secretsManaged: false, equals: { database: [mongo, mongo-bundled] } }
+    text: reads its database from Secret sidelab-db in namespace sidelab, which neither a secret store nor SOPS creates on this cluster
+
+guide:
+  prerequisites:
+    - "With ingress: two DNS records to the ingress load balancer IP, DNS only, sidelab.<domain> and *.labs.<domain>."
+    - "With a wildcard certificate: the ingress controller serves one for *.labs.<domain> by default."
+    - "With private images and SOPS: a ghcr-pull Secret of type kubernetes.io/dockerconfigjson in namespace sidelab."
+  verify:
+    - kubectl get pods -n sidelab
+    - kubectl logs -n sidelab deploy/sidelab --tail=30
+    - kubectl get ns -l app.kubernetes.io/managed-by=sidelab
+  gotchas:
+    - title: Every lab orders its own certificate, rate limit hit
+      cause: TLS from cert-manager, whose annotation the chart copies onto every session Ingress.
+      fix: TLS from a wildcard certificate served by the ingress controller.
+    - title: Lab pod ImagePullBackOff
+      cause: ghcr-pull missing, or a token without read:packages.
+      fix: kubectl get secret -n sidelab ghcr-pull; the launcher copies it into sidelab-<tenant> at every session start.
+    - title: Second replica fails to start
+      cause: SQLite is one file on a ReadWriteOnce volume.
+      fix: Choose MongoDB before raising the replicas.
+    - title: Lab stuck on starting, pod Pending, Insufficient cpu
+      cause: Nodes already full, and a lab requests 250m CPU and 512Mi.
+      fix: Wait for the autoscaler, or raise the node pool minimum before a demo.
+    - title: Tenant namespaces left after a teardown
+      cause: The launcher creates them, not Flux.
+      fix: Delete the namespaces labelled app.kubernetes.io/managed-by=sidelab by hand.

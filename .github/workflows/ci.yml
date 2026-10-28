@@ -1,4 +1,4 @@
-﻿name: CI
+name: CI
 # title: CI (Continuous Integration) pipeline
 
 on:
@@ -21,66 +21,140 @@ env:
   CHARTS_DIRECTORIES_ARG: "--chart-dirs charts"
 
 jobs:
-  build:
+  markup-lint:
+    name: Markup
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-markup-lint.yml@591b0c7bfba6fbc7b0cab7d896447e0732b819de
+
+  docs:
+    name: Docs
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-pages-deployment.yml@591b0c7bfba6fbc7b0cab7d896447e0732b819de
+    with:
+      # VitePress writes the site the GitLab pipeline publishes, which this job only builds.
+      deploy: false
+      job-name: Docs
+      site-path: public
+      workflow-parts-version: 591b0c7bfba6fbc7b0cab7d896447e0732b819de
+
+  charts:
+    name: Charts
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      changed: ${{ steps.list-changed.outputs.changed }}
+      changed-charts: ${{ steps.list-changed.outputs.changed_charts }}
+    env:
+      # Read from the environment rather than pasted into the scripts by GitHub.
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           # note: important to have chart-testing work (see https://github.com/helm/chart-testing/issues/186)
           fetch-depth: 0
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: npm
-      - name: Install Node.js dependencies
-        run: npm install
-      - name: Build with VitePress
-        run: npm run docs:build
       - name: Install Helm
-        uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310
-        with:
-          version: latest
+        uses: devpro/github-workflow-parts/actions/helm/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
       - name: Install kube-linter
-        env:
-          KUBE_LINTER_VERSION: "0.8.3"
-          KUBE_LINTER_SHA256: "1a6d8419b11971372971fdbc22682b684ebfb7cf1c39591662d1b6ca736c41df"
-        run: |
-          curl -sSLo kube-linter.tar.gz "https://github.com/stackrox/kube-linter/releases/download/v${KUBE_LINTER_VERSION}/kube-linter-linux.tar.gz"
-          echo "${KUBE_LINTER_SHA256}  kube-linter.tar.gz" | sha256sum -c -
-          tar -xzf kube-linter.tar.gz kube-linter
-          sudo mv kube-linter /usr/local/bin/
-          rm kube-linter.tar.gz
+        uses: devpro/github-workflow-parts/actions/kube-linter/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
       - name: Run kube-linter
         run: kube-linter lint charts --config .kube-linter.yaml
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@6ec842c01de15ebb84c8627d2744a0c2f2755c9f
+        uses: devpro/github-workflow-parts/actions/chart-testing/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       - name: List changed charts
         id: list-changed
         run: |
-          changed=$(ct list-changed ${CHARTS_DIRECTORIES_ARG} --target-branch ${{ github.event.repository.default_branch }})
+          changed=$(ct list-changed ${CHARTS_DIRECTORIES_ARG} --target-branch "$DEFAULT_BRANCH")
           charts=$(echo "$changed" | tr '\n' ' ' | xargs)
           if [[ -n "$changed" ]]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-            echo "changed_charts=$charts" >> $GITHUB_OUTPUT
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "changed_charts=$charts" >> "$GITHUB_OUTPUT"
           fi
       - name: Lint charts
         if: steps.list-changed.outputs.changed == 'true'
-        run: ct lint $CHARTS_DIRECTORIES_ARG --target-branch ${{ github.event.repository.default_branch }}
-      # TODO: Enable when https://github.com/stackrox/kube-linter/issues/575 is fixed
-      # - name: Scan yamls
-      #   id: kube-lint-scan
-      #   uses: stackrox/kube-linter-action@v1
-      #   with:
-      #     directory: charts
-      #     config: .kube-linter.yaml
-      # TODO: debug & fix
-      # - name: Create kind cluster
-      #   uses: helm/kind-action@v1.4.0
-      #   if: steps.list-changed.outputs.changed == 'true'
-      # - name: Run chart-testing (install)
-      #   run: ct install $CHARTS_DIRECTORIES_ARG --target-branch ${{ github.event.repository.default_branch }}
-      #   if: steps.list-changed.outputs.changed == 'true'
+        run: ct lint $CHARTS_DIRECTORIES_ARG --target-branch "$DEFAULT_BRANCH"
+      - name: Install kubeconform
+        uses: devpro/github-workflow-parts/actions/kubeconform/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
+      - name: Validate manifests against the Kubernetes schemas
+        run: ./scripts/validate_charts.sh
+      # The standalone binary of the helm-unittest plugin, so no plugin is installed into Helm.
+      - name: Install helm-unittest
+        uses: devpro/github-workflow-parts/actions/helm-unittest/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
+      - name: Run chart unit tests
+        run: |
+          charts=$(dirname charts/*/tests | sort -u)
+          untt $charts
+
+  # A job of its own, which IstarCI leaves out of a local run: the kind node runs as a privileged container on the Docker it is given.
+  charts-install:
+    name: Charts install
+    needs: charts
+    if: needs.charts.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Install Helm
+        uses: devpro/github-workflow-parts/actions/helm/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
+      - name: Set up chart-testing
+        uses: devpro/github-workflow-parts/actions/chart-testing/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
+      - name: Add dependency chart repositories
+        run: ./scripts/add_helm_repo.sh
+      # kind and kubectl are installed by an action of the workflow parts, as helm/kind-action is a JavaScript action, and a container image has neither preinstalled.
+      - name: Install kind and kubectl
+        uses: devpro/github-workflow-parts/actions/kind/setup@591b0c7bfba6fbc7b0cab7d896447e0732b819de
+      # The cluster name carries the run, so two runs on one Docker daemon never share a cluster.
+      - name: Create kind cluster
+        id: create-cluster
+        run: kind create cluster --name "ct-${GITHUB_RUN_ID}" --image kindest/node:v1.36.4@sha256:099e049362a1526b2db71494e1947aae99bd16290d7c895f2b7ea312e3cbfaed --wait 120s
+      - name: Install charts
+        env:
+          # Charts that cannot reach a ready state on a bare cluster, given here rather than in ct.yaml so that ct lint still covers them.
+          # Custom resources only, whose CRDs a bare cluster lacks: capi-templates, gitops-bootstrap, letsencrypt, rancher-cluster-templates.
+          # Cloud providers and storage drivers: azure-storage, outscale.
+          # Private images, which the cluster cannot pull: fallstar, liveship, sidelab, trackboard.
+          # Default images no longer published: wordpress.
+          EXCLUDED_CHARTS: >-
+            capi-templates,gitops-bootstrap,letsencrypt,rancher-cluster-templates,
+            azure-storage,outscale,
+            fallstar,liveship,sidelab,trackboard,
+            wordpress
+          # Installs side by side on the one cluster, each chart in a release and a namespace of its own.
+          PARALLEL_INSTALLS: "3"
+          CHANGED_CHARTS: ${{ needs.charts.outputs.changed-charts }}
+        run: |
+          excluded=",${EXCLUDED_CHARTS// /},"
+          charts=()
+          for path in $CHANGED_CHARTS; do
+            [[ "$excluded" == *",$(basename "$path"),"* ]] || charts+=("$path")
+          done
+          if [ "${#charts[@]}" -eq 0 ]; then
+            echo "No changed chart to install"
+            exit 0
+          fi
+          # Each install writes a log of its own, shown chart by chart once all are done, rather than interleaved.
+          logs="$(mktemp -d)"
+          printf '%s\n' "${charts[@]}" | xargs -P "$PARALLEL_INSTALLS" -I{} bash -c '
+            name="$(basename "$1")"
+            if ct install --charts "$1" --helm-extra-args "--timeout 300s" > "$2/$name.log" 2>&1; then
+              echo "$name: installed"
+            else
+              echo "$name: failed"
+              echo "$name" >> "$2/failed"
+            fi' _ {} "$logs"
+          for path in "${charts[@]}"; do
+            echo "::group::$(basename "$path")"
+            cat "$logs/$(basename "$path").log"
+            echo "::endgroup::"
+          done
+          if [ -s "$logs/failed" ]; then
+            echo "::error::Charts that did not install: $(tr '\n' ' ' < "$logs/failed")"
+            exit 1
+          fi
+      # Only a cluster this run created, since a failure before it leaves neither kind nor a cluster.
+      - name: Delete kind cluster
+        if: always() && steps.create-cluster.outcome != 'skipped' && steps.create-cluster.outcome != ''
+        run: kind delete cluster --name "ct-${GITHUB_RUN_ID}"

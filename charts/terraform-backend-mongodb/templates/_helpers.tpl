@@ -34,15 +34,31 @@ Call with a dict: (dict "app" . "root" $) where "." is the current webapi values
 {{/*
 MongoDB connection string.
 webapi.db.connectionString wins; otherwise, if the bundled mongodb subchart is enabled, derived from
-its default standalone Service name ("<release-name>-mongodb", per the alias in Chart.yaml and the
-Bitnami chart's own naming convention) and mongodb.auth.rootPassword.
+its standalone Service name and mongodb.auth.rootPassword.
 Only called from deployment.yaml when webapi.db.connectionStringSecretKeyRef is not set.
 */}}
 {{- define "terraform-backend-mongodb.mongoConnectionString" -}}
 {{- if .Values.webapi.db.connectionString -}}
 {{- .Values.webapi.db.connectionString -}}
 {{- else if .Values.mongodb.enabled -}}
-{{- printf "mongodb://root:%s@%s-mongodb:27017/?authSource=admin" .Values.mongodb.auth.rootPassword .Release.Name -}}
+{{- printf "mongodb://root:%s@%s:27017/?authSource=admin" .Values.mongodb.auth.rootPassword (include "terraform-backend-mongodb.mongoServiceName" .) -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Service name of the bundled mongodb subchart, following the Bitnami common.names.fullname rule:
+a release name that already contains the chart name is used alone, so the release "terraform-backend-mongodb" gets the Service "terraform-backend-mongodb".
+*/}}
+{{- define "terraform-backend-mongodb.mongoServiceName" -}}
+{{- if .Values.mongodb.fullnameOverride -}}
+{{- .Values.mongodb.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default "mongodb" .Values.mongodb.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
 {{- end -}}
 {{- end -}}
 

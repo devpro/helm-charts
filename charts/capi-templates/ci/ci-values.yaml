@@ -1,0 +1,9 @@
+name: ci-cluster
+type: gke
+googlecloud:
+  project: ci-project
+  region: europe-west1
+  zone: europe-west1-b
+  vpc: ci-vpc
+  subnet:
+    name: ci-subnet

@@ -1,0 +1,25 @@
+Fallstar has been deployed.
+
+{{- if .Values.ingress.enabled }}
+
+URL: http{{ if .Values.ingress.tls.enabled }}s{{ end }}://{{ .Values.ingress.host }}
+{{- else }}
+
+Port-forward to open it locally:
+
+  kubectl port-forward -n {{ .Release.Namespace }} svc/{{ include "fallstar.fullname" . }} {{ .Values.service.port }}:{{ .Values.service.port }}
+
+Then open http://localhost:{{ .Values.service.port }}
+{{- end }}
+
+Sign in as {{ .Values.auth.adminUsername }}.
+{{- if and (not .Values.auth.existingSecret) (not .Values.auth.adminPassword) }}
+The generated password is read with:
+
+  kubectl get secret -n {{ .Release.Namespace }} {{ include "fallstar.authSecretName" . }} -o jsonpath='{.data.ADMIN_PASSWORD}' | base64 -d; echo
+{{- end }}
+
+Database: {{ .Values.database.backend }}, replicas: {{ if .Values.autoscaling.enabled }}{{ .Values.autoscaling.minReplicas }}-{{ .Values.autoscaling.maxReplicas }} (autoscaled){{ else }}{{ .Values.replicaCount }}{{ end }}.
+{{- if include "fallstar.singleWriter" . }}
+A single Pod owns the data, so an upgrade restarts it. More replicas need database.backend=mongo and persistence.enabled=false.
+{{- end }}

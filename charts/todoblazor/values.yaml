@@ -1,4 +1,4 @@
-﻿webapp:
+webapp:
   enabled: true
   name: todoblazor
   image: docker.io/devprofr/todoblazor

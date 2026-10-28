@@ -1,4 +1,4 @@
-﻿# Tiny File Manager Helm Chart
+# Tiny File Manager Helm Chart
 
 Helm chart for [Tiny File Manager](https://tinyfilemanager.github.io/) — designed for container security workshops.
 

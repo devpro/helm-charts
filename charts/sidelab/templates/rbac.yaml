@@ -1,4 +1,4 @@
-﻿{{- if .Values.rbac.create }}
+{{- if .Values.rbac.create }}
 # Cluster-scoped because tenant namespaces are created on demand.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -30,6 +30,11 @@ rules:
   # Lab Ingresses
   - apiGroups: ["networking.k8s.io"]
     resources: ["ingresses"]
+    verbs: ["get", "list", "create", "delete"]
+
+  # Per-session isolation; a session does not start without its NetworkPolicies.
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["networkpolicies"]
     verbs: ["get", "list", "create", "delete"]
 
   # Attaches launcher.labImagePullSecret to the default ServiceAccount of tenant namespaces.

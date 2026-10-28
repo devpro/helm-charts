@@ -1,8 +1,8 @@
-﻿apiVersion: v2
+apiVersion: v2
 name: trackboard
 description: Trackboard web application
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "0.1.0"
 keywords:
   - event

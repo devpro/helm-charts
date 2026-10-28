@@ -1,0 +1,3 @@
+workflow:
+  # ct install runs a kind node, a privileged container, on the Docker of the machine, so it runs on GitHub only, on a runner thrown away after the job.
+  skipJobs: [charts-install]

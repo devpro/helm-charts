@@ -1,4 +1,4 @@
-﻿replicaCount: 1
+replicaCount: 1
 image: vulhub/drupal
 tag: 8.5.0
 
