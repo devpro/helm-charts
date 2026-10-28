@@ -112,6 +112,14 @@ launcher:
     # -- RuntimeClass of the VM pods, which the cluster exempts from a baseline Pod Security level, since their prepare step adds NET_ADMIN.
     runtimeClass: ""
 
+  # A course host declared runtime: terraform is a machine an OpenTofu module provisions, which downloads its agent from the lab and dials it at the lab's URL, so that URL must be reachable from where the machine runs (docs/terraform.md in sidelab).
+  # Its state is kept under /app/data/terraform, so persistence.enabled keeps a launcher restart from losing track of machines that bill.
+  terraform:
+    # -- Module of a host whose lab.yaml names none.
+    moduleSource: ""
+    # -- Secret in the release namespace holding the provider's credentials as its standard variables (AWS_ACCESS_KEY_ID, ARM_CLIENT_SECRET, KUBE_TOKEN, ...), passed to the launcher and never to a lab.
+    credentialsSecret: ""
+
 service:
   # -- ClusterIP, NodePort or LoadBalancer.
   type: ClusterIP

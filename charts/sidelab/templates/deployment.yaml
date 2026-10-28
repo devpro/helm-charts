@@ -69,6 +69,10 @@ spec:
             - secretRef:
                 name: {{ include "sidelab.mongoSecretName" . }}
             {{- end }}
+            {{- with .Values.launcher.terraform.credentialsSecret }}
+            - secretRef:
+                name: {{ . }}
+            {{- end }}
           env:
             # The Service lab Pods call back.
             - name: K8S_LAUNCHER_NAMESPACE

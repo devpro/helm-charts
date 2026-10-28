@@ -38,6 +38,9 @@ data:
   {{- with .Values.launcher.vm.runtimeClass }}
   K8S_VM_RUNTIME_CLASS: {{ . | quote }}
   {{- end }}
+  {{- with .Values.launcher.terraform.moduleSource }}
+  TERRAFORM_MODULE_SOURCE: {{ . | quote }}
+  {{- end }}
   # The admin tenant's namespace is the default, as a fallback when namespaces cannot be listed.
   K8S_KNOWN_NAMESPACES: {{ .Values.launcher.knownNamespaces | default (printf "%s-admin" .Values.launcher.namespacePrefix) | quote }}
 ---
