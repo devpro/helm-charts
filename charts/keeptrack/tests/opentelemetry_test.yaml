@@ -1,0 +1,68 @@
+suite: opentelemetry
+templates:
+  - deployment.yaml
+release:
+  name: keeptrack
+  namespace: keeptrack
+tests:
+  - it: exports nothing without an endpoint, the applications then registering no exporter
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: OTEL_EXPORTER_OTLP_ENDPOINT
+          any: true
+  - it: sends both applications to the endpoint, each under its own service name
+    set:
+      opentelemetry.endpoint: http://otel-collector.observability:4317
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: OTEL_EXPORTER_OTLP_ENDPOINT
+            value: http://otel-collector.observability:4317
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: OTEL_EXPORTER_OTLP_PROTOCOL
+            value: grpc
+      - documentIndex: 0
+        contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: OTEL_SERVICE_NAME
+            value: keeptrack-blazorapp
+      - documentIndex: 1
+        contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: OTEL_SERVICE_NAME
+            value: keeptrack-webapi
+  - it: tells the pod, namespace and version in the resource attributes, read from the downward API
+    set:
+      opentelemetry.endpoint: http://otel-collector.observability:4317
+      webapi.tag: 2.4.5
+      blazorapp.enabled: false
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: K8S_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: OTEL_RESOURCE_ATTRIBUTES
+            value: service.namespace=keeptrack,service.version=2.4.5,service.instance.id=$(K8S_POD_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.namespace.name=keeptrack,deployment.environment.name=Production
+  - it: sends over HTTP when asked, for a collector listening on 4318 only
+    set:
+      opentelemetry.endpoint: http://otel-collector.observability:4318
+      opentelemetry.protocol: http/protobuf
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: OTEL_EXPORTER_OTLP_PROTOCOL
+            value: http/protobuf

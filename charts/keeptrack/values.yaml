@@ -8,7 +8,7 @@ blazorapp:
   healthEndpoint: /healthz
   tls:
     secretName: keeptrack-blazorapp-tls
-  tag: 2.4.30663981662      # ref. https://hub.docker.com/r/devprofr/keeptrack-blazorapp/tags
+  tag: 2.4.40771568745  # https://hub.docker.com/r/devprofr/keeptrack-blazorapp/tags
   replicaCount: 1
   resources: {}
     # limits:
@@ -22,14 +22,13 @@ blazorapp:
     #   value: "yyyy"
   additionalPodLabels: {}
   host: ""
-  # Blazor Server scale-out support - see README "Scaling & high availability".
-  # Persists the app's Data Protection key ring (which encrypts the auth cookie and antiforgery tokens)
-  # in MongoDB, so every replica can decrypt what any other replica issued. REQUIRED before setting replicaCount > 1;
-  # recommended even at 1 replica (sessions then survive pod restarts).
+  # Blazor Server scale-out support (see README "Scaling & high availability").
+  # Persists the app's Data Protection key ring (which encrypts the auth cookie and antiforgery tokens) in MongoDB,
+  # so every replica can decrypt what any other replica issued.
+  # REQUIRED before setting replicaCount > 1; recommended even at 1 replica (sessions then survive pod restarts).
   dataProtection:
     enabled: false
-    # important when enabled: connectionString or connectionStringSecretKeyRef must be provided
-    # (typically the same secret as webapi.db)
+    # important when enabled: connectionString or connectionStringSecretKeyRef must be provided (typically the same secret as webapi.db)
     # connectionStringSecretKeyRef:
     #   name: ""
     #   key: ""
@@ -48,12 +47,12 @@ webapi:
     secretName: keeptrack-webapi-tls
   host: ""
   replicaCount: 1
-  tag: 2.4.30663981662    # ref. https://hub.docker.com/r/devprofr/keeptrack-webapi/tags
+  tag: 2.4.40771568745  # https://hub.docker.com/r/devprofr/keeptrack-webapi/tags
   resources: {}
   extraEnv: []
   additionalPodLabels: {}
   # how many items a signed-in account WITHOUT the Firebase "member"/"admin" role may create per free-tier collection (movies, TV shows);
-  # such accounts have no access to the other collections at all -
+  # such accounts have no access to the other collections at all
   # grant `role: member` via the Firebase Admin SDK to unlock everything (see the app's CONTRIBUTING.md)
   freeTierItemLimit: 20
   db:
@@ -119,6 +118,14 @@ dotnet:
 # optional: image registry credentials, e.g. for a private mirror of the images above
 imagePullSecrets: []
   # - name: my-registry-secret
+
+# optional: traces, metrics and logs of both applications sent over OTLP, to an OpenTelemetry Collector for instance;
+# nothing is exported while endpoint is empty, and an image older than the OpenTelemetry support ignores these variables
+opentelemetry:
+  # OTEL_EXPORTER_OTLP_ENDPOINT, e.g. http://otel-collector.observability:4317
+  endpoint: ""
+  # OTEL_EXPORTER_OTLP_PROTOCOL: grpc (port 4317) or http/protobuf (port 4318)
+  protocol: grpc
 
 security:
   serviceAccount:

@@ -101,6 +101,21 @@ spec:
               value: {{ $.Values.dotnet.httpsRedirectionEnabled | quote }}
             - name: Features__IsScalarEnabled
               value: {{ $.Values.dotnet.scalarEnabled | quote }}
+            {{- if $.Values.opentelemetry.endpoint }}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: {{ $.Values.opentelemetry.endpoint | quote }}
+            - name: OTEL_EXPORTER_OTLP_PROTOCOL
+              value: {{ $.Values.opentelemetry.protocol | quote }}
+            - name: OTEL_SERVICE_NAME
+              value: {{ .name | quote }}
+            # declared before OTEL_RESOURCE_ATTRIBUTES, since $(VAR) only expands a variable defined above it
+            - name: K8S_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: "service.namespace=keeptrack,service.version={{ .tag }},service.instance.id=$(K8S_POD_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.namespace.name={{ $.Release.Namespace }},deployment.environment.name={{ $.Values.dotnet.environment }}"
+            {{- end }}
             {{- if eq .role "frontend" }}
             - name: WebApi__BaseUrl
               value: "http://{{ $.Values.webapi.name }}"
