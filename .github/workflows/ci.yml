@@ -23,15 +23,15 @@ env:
 jobs:
   markup-lint:
     name: Markup
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-markup-lint.yml@bf95c99bf5b5a0bc2d2991c81975488a16f16142
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-markup-lint.yml@1711cf6d760e89fe43e3673dbd8986e355876cca
 
   # The VitePress site is published by the GitLab pipeline, as the Pages of this repository serve the chart repository.
   docs:
     name: Docs
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-node-quality.yml@bf95c99bf5b5a0bc2d2991c81975488a16f16142
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-node-quality.yml@1711cf6d760e89fe43e3673dbd8986e355876cca
     with:
       job-name: Docs
-      workflow-parts-version: bf95c99bf5b5a0bc2d2991c81975488a16f16142
+      workflow-parts-version: 1711cf6d760e89fe43e3673dbd8986e355876cca
 
   charts:
     name: Charts
@@ -50,13 +50,13 @@ jobs:
           # note: important to have chart-testing work (see https://github.com/helm/chart-testing/issues/186)
           fetch-depth: 0
       - name: Install Helm
-        uses: devpro/github-workflow-parts/actions/helm/setup@bf95c99bf5b5a0bc2d2991c81975488a16f16142
+        uses: devpro/github-workflow-parts/actions/helm/setup@1711cf6d760e89fe43e3673dbd8986e355876cca
       - name: Install kube-linter
-        uses: devpro/github-workflow-parts/actions/kube-linter/setup@bf95c99bf5b5a0bc2d2991c81975488a16f16142
+        uses: devpro/github-workflow-parts/actions/kube-linter/setup@1711cf6d760e89fe43e3673dbd8986e355876cca
       - name: Run kube-linter
         run: kube-linter lint charts --config .kube-linter.yaml
       - name: Set up chart-testing
-        uses: devpro/github-workflow-parts/actions/chart-testing/setup@bf95c99bf5b5a0bc2d2991c81975488a16f16142
+        uses: devpro/github-workflow-parts/actions/chart-testing/setup@1711cf6d760e89fe43e3673dbd8986e355876cca
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       - name: List changed charts
@@ -72,12 +72,12 @@ jobs:
         if: steps.list-changed.outputs.changed == 'true'
         run: ct lint $CHARTS_DIRECTORIES_ARG --target-branch "$DEFAULT_BRANCH"
       - name: Install kubeconform
-        uses: devpro/github-workflow-parts/actions/kubeconform/setup@bf95c99bf5b5a0bc2d2991c81975488a16f16142
+        uses: devpro/github-workflow-parts/actions/kubeconform/setup@1711cf6d760e89fe43e3673dbd8986e355876cca
       - name: Validate manifests against the Kubernetes schemas
         run: ./scripts/validate_charts.sh
       # The standalone binary of the helm-unittest plugin, so no plugin is installed into Helm.
       - name: Install helm-unittest
-        uses: devpro/github-workflow-parts/actions/helm-unittest/setup@bf95c99bf5b5a0bc2d2991c81975488a16f16142
+        uses: devpro/github-workflow-parts/actions/helm-unittest/setup@1711cf6d760e89fe43e3673dbd8986e355876cca
       - name: Run chart unit tests
         run: |
           charts=$(dirname charts/*/tests | sort -u)
@@ -96,14 +96,14 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install Helm
-        uses: devpro/github-workflow-parts/actions/helm/setup@bf95c99bf5b5a0bc2d2991c81975488a16f16142
+        uses: devpro/github-workflow-parts/actions/helm/setup@1711cf6d760e89fe43e3673dbd8986e355876cca
       - name: Set up chart-testing
-        uses: devpro/github-workflow-parts/actions/chart-testing/setup@bf95c99bf5b5a0bc2d2991c81975488a16f16142
+        uses: devpro/github-workflow-parts/actions/chart-testing/setup@1711cf6d760e89fe43e3673dbd8986e355876cca
       - name: Add dependency chart repositories
         run: ./scripts/add_helm_repo.sh
       # kind and kubectl are installed by an action of the workflow parts, as helm/kind-action is a JavaScript action, and a container image has neither preinstalled.
       - name: Install kind and kubectl
-        uses: devpro/github-workflow-parts/actions/kind/setup@bf95c99bf5b5a0bc2d2991c81975488a16f16142
+        uses: devpro/github-workflow-parts/actions/kind/setup@1711cf6d760e89fe43e3673dbd8986e355876cca
       # The cluster name carries the run, so two runs on one Docker daemon never share a cluster.
       - name: Create kind cluster
         id: create-cluster
