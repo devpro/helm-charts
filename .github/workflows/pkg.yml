@@ -20,6 +20,6 @@ concurrency:
 jobs:
   helm-publication:
     name: Helm
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-helm-publication.yml@1711cf6d760e89fe43e3673dbd8986e355876cca
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-helm-publication.yml@8c856cd16adc8a0ca01c7889a9c7d98ad8593818
     with:
-      workflow-parts-version: 1711cf6d760e89fe43e3673dbd8986e355876cca
+      workflow-parts-version: 8c856cd16adc8a0ca01c7889a9c7d98ad8593818
