@@ -24,6 +24,20 @@ entries:
   capi-templates:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2026-10-29T10:42:49.62077568Z"
+    description: Helm chart for Cluster API (CAPI) Templates
+    digest: 965096dac21a5439d1aae827d355f60e28130371d3fd30fd41ee2460a8d48e6e
+    home: https://github.com/devpro/helm-charts/tree/main/charts/capi-templates
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: capi-templates
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/capi-templates-0.1.4/capi-templates-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2025-10-04T16:19:36.092626342Z"
     description: Helm chart for Cluster API (CAPI) Templates
     digest: 960fbc307307e7043fbeb15bdba47dd6efdea571f5bc43e1fcf6b1e6d3609d2b
@@ -39,6 +53,19 @@ entries:
   cow-demo:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2026-10-29T10:42:49.779401426Z"
+    description: Helm chart for Cow Demo Application
+    digest: 4545f1af548e0aaa9c4f9969974c0df95c7f0ba0b2a1d53c58e4b31f64a63632
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: cow-demo
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/cow-demo-0.2.4/cow-demo-0.2.4.tgz
+    version: 0.2.4
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2026-03-19T22:38:44.840406733Z"
     description: Helm chart for Cow Demo Application
     digest: c34f6ebd6fca32871f9df9fd44953dd5124d98d497cfd06bbe9b139ec6b92111
@@ -51,6 +78,25 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/cow-demo-0.2.3/cow-demo-0.2.3.tgz
     version: 0.2.3
   devpro-salesportal:
+  - apiVersion: v2
+    appVersion: 1.1.18203306613
+    created: "2026-10-29T10:42:49.916617948Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.1.10
+    description: Helm chart for Devpro Sales Portal
+    digest: af95476729a3a9b6125391516762e3f3413dcccfec8b158db4acf3900669a847
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: devpro-salesportal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/devpro-salesportal-0.2.9/devpro-salesportal-0.2.9.tgz
+    version: 0.2.9
   - apiVersion: v2
     appVersion: 1.1.18203306613
     created: "2025-12-11T12:26:55.303950501Z"
@@ -73,6 +119,24 @@ entries:
   drupal:
   - apiVersion: v2
     appVersion: 8.5.0
+    created: "2026-10-29T10:42:50.069611388Z"
+    description: Drupal Web Application - for container security workshops
+    digest: b01ef1a9f0677cf999dee7f8b4f61b338c1b30d2d2d860a711eb9dbd2d2d0ffe
+    keywords:
+    - security
+    - vulnerable
+    - workshop
+    - training
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: drupal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/drupal-1.0.2/drupal-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: 8.5.0
     created: "2026-05-03T21:48:15.236312017Z"
     description: Drupal Web Application - for container security workshops
     digest: daef469694b34e83eb3a7812db4274aba9b20f6f8fd57ee7a223557b7accb8f2
@@ -90,6 +154,24 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/drupal-1.0.1/drupal-1.0.1.tgz
     version: 1.0.1
   dvwa:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-10-29T10:42:50.276232804Z"
+    description: Damn Vulnerable Web Application - for container security workshops
+    digest: 02b4fb560abc444061df80c1326131d258e982a3f6dd19af38ec6f923e4f1e51
+    keywords:
+    - security
+    - vulnerable
+    - workshop
+    - training
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: dvwa
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/dvwa-1.0.3/dvwa-1.0.3.tgz
+    version: 1.0.3
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2026-04-19T15:02:35.460640289Z"
@@ -122,6 +204,27 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/ecorp-demo-0.2.1/ecorp-demo-0.2.1.tgz
     version: 0.2.1
+  fallstar:
+  - apiVersion: v2
+    created: "2026-10-29T10:42:50.490382296Z"
+    description: 'GitOps made easy. Deploys the Fallstar server, a catalog of recipes
+      rendered into Flux, Argo CD or Fleet manifests on git branches. '
+    digest: 02319084c2f9556fdd0db37b6c99c87b5b1d0501761b3a6ef659c5dc059f3c85
+    home: https://github.com/devpro/helm-charts
+    keywords:
+    - fallstar
+    - gitops
+    - flux
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: fallstar
+    sources:
+    - https://github.com/devpro/helm-charts
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/fallstar-0.1.0/fallstar-0.1.0.tgz
+    version: 0.1.0
   game-2048:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -140,6 +243,19 @@ entries:
   gitops-bootstrap:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2026-10-29T10:42:50.675412153Z"
+    description: Helm chart for managing bootstraping GitOps
+    digest: 7b2d63f2854bfa41cb2640b7de453aa5de7a99ba7fc4dfb1ede6078a8f9c7479
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: gitops-bootstrap
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/gitops-bootstrap-0.1.1/gitops-bootstrap-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2026-01-29T19:57:20.111585735Z"
     description: Helm chart for managing bootstraping GitOps
     digest: 1d3e603ad017ce57bb30787fb2ab4d512ff22e47b8dbc3987a44813347fe3be1
@@ -152,6 +268,37 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/gitops-bootstrap-0.1.0/gitops-bootstrap-0.1.0.tgz
     version: 0.1.0
   grafana-stack:
+  - apiVersion: v2
+    appVersion: 10.3.1
+    created: "2026-10-29T10:42:50.869107042Z"
+    dependencies:
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 7.3.0
+    - condition: loki.enabled
+      name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: 5.42.2
+    - condition: tempo.enabled
+      name: tempo
+      repository: https://grafana.github.io/helm-charts
+      version: 1.7.1
+    - condition: mimir-distributed.enabled
+      name: mimir-distributed
+      repository: https://grafana.github.io/helm-charts
+      version: 5.2.1
+    description: Helm chart for managing Grafana Stack
+    digest: b28786c04d82f363c9bbcacf3b9af1559bf4bef9c1af675efeca54fd8856ad44
+    home: https://github.com/devpro/helm-charts/tree/main/charts/grafana-stack
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: grafana-stack
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/grafana-stack-0.2.3/grafana-stack-0.2.3.tgz
+    version: 0.2.3
   - apiVersion: v2
     appVersion: 10.3.1
     created: "2024-04-25T09:43:11.371770704Z"
@@ -185,6 +332,30 @@ entries:
     version: 0.2.2
   keeptrack:
   - apiVersion: v2
+    appVersion: 2.4.6
+    created: "2026-10-29T10:42:51.038109229Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.6.16
+    description: Helm chart for Keeptrack
+    digest: f8ee0e564c8a06bfbcf31c829d4031c991e2db2be889d0c4de69697f06f6818d
+    home: https://github.com/devpro/keeptrack
+    keywords:
+    - keeptrack
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: keeptrack
+    sources:
+    - https://github.com/devpro/keeptrack
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/keeptrack-0.2.7/keeptrack-0.2.7.tgz
+    version: 0.2.7
+  - apiVersion: v2
     appVersion: 2.4.1
     created: "2026-09-29T10:12:19.968260666Z"
     dependencies:
@@ -211,6 +382,19 @@ entries:
   letsencrypt:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2026-10-29T10:42:51.164670499Z"
+    description: Helm chart for managing Let's Encrypt certificate issuers
+    digest: 4bbc3ae7d13d7995cc887ece2656795dc8dbbfb826d402a9ecf7d2d81474a374
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: letsencrypt
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/letsencrypt-0.1.5/letsencrypt-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2025-07-27T17:06:38.997181119Z"
     description: Helm chart for managing Let's Encrypt certificate issuers
     digest: 054a26e45f222b01a64d36e7506ab74e875b5d76a43e45497e9e0f07d00fb8ad
@@ -232,7 +416,9 @@ entries:
       name: mongodb
       repository: https://charts.bitnami.com/bitnami
       version: 18.6.16
-    description: 'One platform for an organization''s infrastructure, security posture, and code. Deploys the Liveship application, which reads the same MongoDB database terraform-backend-mongodb writes to. '
+    description: 'One platform for an organization''s infrastructure, security posture,
+      and code. Deploys the Liveship application, which reads the same MongoDB database
+      terraform-backend-mongodb writes to. '
     digest: ae5bca295810b0a94e84fc2ac0049e69b8e308a66a7dd83de2d22322a0af875d
     home: https://github.com/devpro/helm-charts
     keywords:
@@ -251,6 +437,25 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/liveship-0.1.0/liveship-0.1.0.tgz
     version: 0.1.0
   nextportal:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2026-10-29T10:42:51.287494657Z"
+    description: NextPortal web application - intentionally vulnerable by default
+      for security workshops
+    digest: 0f642f949e4db2d036d05dbbc44ddfcbf9ced7a7cbf0b3fe45d4b27eccf15b21
+    keywords:
+    - security
+    - vulnerable
+    - workshop
+    - owasp
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: nextportal
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/nextportal-1.0.1/nextportal-1.0.1.tgz
+    version: 1.0.1
   - apiVersion: v2
     appVersion: 0.1.0
     created: "2026-05-08T22:43:14.03558574Z"
@@ -313,6 +518,23 @@ entries:
       catalog.cattle.io/type: cluster-template
     apiVersion: v2
     appVersion: 0.1.0
+    created: "2026-10-29T10:42:51.483123893Z"
+    description: Helm chart for managing Rancher cluster templates
+    digest: 0dc0a5ad42e2320d47a4f4ccf77821428d543192c0f9ef3b1279d154057297e3
+    home: https://github.com/devpro/helm-charts/tree/main/charts/rancher-cluster-templates
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: rancher-cluster-templates
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/rancher-cluster-templates-0.1.7/rancher-cluster-templates-0.1.7.tgz
+    version: 0.1.7
+  - annotations:
+      catalog.cattle.io/namespace: fleet-default
+      catalog.cattle.io/type: cluster-template
+    apiVersion: v2
+    appVersion: 0.1.0
     created: "2025-08-04T09:43:20.271752566Z"
     description: Helm chart for managing Rancher cluster templates
     digest: 7094a658ca1151d5d280fb2786ba6c87ed01555d7300f8c2e13ae3c91543f62b
@@ -328,6 +550,34 @@ entries:
   sidelab:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2026-10-29T10:42:51.687197735Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.1.24
+    description: 'Self-hosted interactive lab platform. Deploys the Sidelab launcher,
+      which manages lab sessions as ephemeral Kubernetes Pods inside tenant-scoped
+      namespaces. '
+    digest: 790b2b3dd4205c0675f2c990375446fd075637acccae072e94153d8d9c68480c
+    home: https://github.com/devpro/helm-charts
+    keywords:
+    - sidelab
+    - labs
+    - training
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: sidelab
+    sources:
+    - https://github.com/devpro/helm-charts
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/sidelab-0.1.11/sidelab-0.1.11.tgz
+    version: 0.1.11
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2026-09-29T10:12:20.186109837Z"
     dependencies:
     - alias: mongodb
@@ -335,7 +585,9 @@ entries:
       name: mongodb
       repository: https://charts.bitnami.com/bitnami
       version: 19.1.24
-    description: 'Self-hosted interactive lab platform. Deploys the Sidelab launcher, which manages lab sessions as ephemeral Kubernetes Pods inside tenant-scoped namespaces. '
+    description: 'Self-hosted interactive lab platform. Deploys the Sidelab launcher,
+      which manages lab sessions as ephemeral Kubernetes Pods inside tenant-scoped
+      namespaces. '
     digest: 110b7bd252d01e0bfc3ea1315d4913f5af711e116fdda4b0a5b596d55d91a756
     home: https://github.com/devpro/helm-charts
     keywords:
@@ -353,6 +605,31 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/sidelab-0.1.6/sidelab-0.1.6.tgz
     version: 0.1.6
   terraform-backend-mongodb:
+  - apiVersion: v2
+    appVersion: 1.3.0
+    created: "2026-10-29T10:42:51.909350955Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.1.10
+    description: Helm chart for Terraform Backend MongoDB
+    digest: d5d296b84da000a15a8a1b2ba015869d75b2bda768e595ddec61aa7f5d0b9d47
+    home: https://github.com/devpro/terraform-backend-mongodb
+    keywords:
+    - terraform
+    - mongodb
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: terraform-backend-mongodb
+    sources:
+    - https://github.com/devpro/terraform-backend-mongodb
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/terraform-backend-mongodb-0.3.2/terraform-backend-mongodb-0.3.2.tgz
+    version: 0.3.2
   - apiVersion: v2
     appVersion: 1.3.0
     created: "2026-09-29T10:12:20.386149152Z"
@@ -381,8 +658,28 @@ entries:
   tinyfilemanager:
   - apiVersion: v2
     appVersion: 2.4.6
+    created: "2026-10-29T10:42:52.017423653Z"
+    description: Tiny File Manager - intentionally vulnerable by default for security
+      workshops
+    digest: 4b19dc2a32994e0ff02d663752c6799687f700c84e3e4b91493ba667fd9b52e8
+    keywords:
+    - security
+    - vulnerable
+    - workshop
+    - owasp
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: tinyfilemanager
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/tinyfilemanager-1.0.3/tinyfilemanager-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
+    appVersion: 2.4.6
     created: "2026-07-14T23:47:22.457670232Z"
-    description: Tiny File Manager - intentionally vulnerable by default for security workshops
+    description: Tiny File Manager - intentionally vulnerable by default for security
+      workshops
     digest: 715a1483920cbcce53628050feb21a16076bc58a12837651b22c1a5a2d54b91a
     keywords:
     - security
@@ -398,6 +695,25 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/tinyfilemanager-1.0.2/tinyfilemanager-1.0.2.tgz
     version: 1.0.2
   todoblazor:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-10-29T10:42:52.260860435Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.6.16
+    description: Helm chart for Todo Blazor web application
+    digest: b0272fe6546e6a0feafde10c708187f8aad6250729a0cb4dceb04ebd38d41254
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: todoblazor
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/todoblazor-0.1.5/todoblazor-0.1.5.tgz
+    version: 0.1.5
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2026-03-19T22:38:45.117018773Z"
@@ -420,6 +736,24 @@ entries:
   trackboard:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2026-10-29T10:42:52.490771645Z"
+    description: Trackboard web application
+    digest: db1266a9992002814be66ab8a532477c750413b8baf07ebfd89c096b3ba4a2b5
+    keywords:
+    - event
+    - ctf
+    - dashboard
+    - live
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: trackboard
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/trackboard-0.1.1/trackboard-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2026-05-03T21:48:15.359386691Z"
     description: Trackboard web application
     digest: 9f1e54da27baa51230f0a05a0eb1a91c0874d385701a486507ef716806fbacdf
@@ -439,8 +773,27 @@ entries:
   webgoat:
   - apiVersion: v2
     appVersion: "2023.8"
+    created: "2026-10-29T10:42:52.712457713Z"
+    description: OWASP WebGoat — intentionally vulnerable Java/Spring app for security
+      workshops
+    digest: d8b88cd902800cb2194ab8b66a6cd2f7c81b6f71f012a132f3217879e69e6f7b
+    keywords:
+    - security
+    - vulnerable
+    - workshop
+    - owasp
+    maintainers:
+    - name: workshop
+    name: webgoat
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/webgoat-1.0.1/webgoat-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: "2023.8"
     created: "2026-04-18T23:10:03.716607072Z"
-    description: "OWASP WebGoat - intentionally vulnerable Java/Spring app for security workshops"
+    description: OWASP WebGoat - intentionally vulnerable Java/Spring app for security
+      workshops
     digest: 80814176a3a121c014c3299217f73cf6a0db949f442de97e3eb0b4ca7c0b3041
     keywords:
     - security
@@ -472,4 +825,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.2.0/wordpress-0.2.0.tgz
     version: 0.2.0
-generated: "2026-10-29T09:55:58.800697Z"
+generated: "2026-10-29T10:42:52.712528496Z"
