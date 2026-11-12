@@ -134,6 +134,9 @@ spec:
               value: {{ $.Values.dotnet.openTelemetry.endpoint | quote }}
             - name: OTEL_EXPORTER_OTLP_PROTOCOL
               value: {{ $.Values.dotnet.openTelemetry.protocol | quote }}
+            # a MongoDB span can carry the command it traces, and a state write carries every secret of the workspace
+            - name: OTEL_DOTNET_AUTO_TRACES_MONGODB_INSTRUMENTATION_ENABLED
+              value: "false"
             {{- else }}
             - name: OTEL_TRACES_EXPORTER
               value: "none"
