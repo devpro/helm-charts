@@ -394,6 +394,7 @@ resources:
         text: |-
           The client of the launcher in the realm of the Keycloak app, applied by keycloak-config-cli as that app applies the realm.
           The file never changes: the realm, the address and the secret come from the environment of the Job, so a changed option changes the Job and Flux runs it again.
+          The device grant is for sidelab-cli auth login, which the launcher runs as this client, and the post-logout address for the dashboard's sign-out.
     object:
       apiVersion: v1
       kind: ConfigMap
@@ -424,7 +425,11 @@ resources:
                 "serviceAccountsEnabled": false,
                 "redirectUris": [ "$(env:PUBLIC_URL)/api/auth/oidc/callback" ],
                 "webOrigins": [],
-                "attributes": { "pkce.code.challenge.method": "S256" },
+                "attributes": {
+                  "pkce.code.challenge.method": "S256",
+                  "oauth2.device.authorization.grant.enabled": "true",
+                  "post.logout.redirect.uris": "$(env:PUBLIC_URL)/"
+                },
                 "defaultClientScopes": [ "profile", "email", "organization" ],
                 "optionalClientScopes": [],
                 "protocolMappers": [
