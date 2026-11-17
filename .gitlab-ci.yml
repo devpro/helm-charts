@@ -11,13 +11,11 @@ stages:
 
 include:
   # pins a commit, as a tag can move
-  - component: $CI_SERVER_FQDN/devpro-labs/compliance/gitlab-components/markup-lint@d2f251b389031260f8efd6aafec6acccbb098b5d
-  - component: $CI_SERVER_FQDN/devpro-labs/compliance/gitlab-components/helm-quality@d2f251b389031260f8efd6aafec6acccbb098b5d
-  - component: $CI_SERVER_FQDN/devpro-labs/compliance/gitlab-components/pages-deployment@d2f251b389031260f8efd6aafec6acccbb098b5d
+  - component: $CI_SERVER_FQDN/devpro-labs/compliance/gitlab-components/markup-lint@c2dfed0c4ba1511063ef03cd6cba61c15dd60b33
+  - component: $CI_SERVER_FQDN/devpro-labs/compliance/gitlab-components/helm-quality@c2dfed0c4ba1511063ef03cd6cba61c15dd60b33
+    inputs:
+      # adds the chart repositories of the dependencies
+      setup_command: ./scripts/add_helm_repo.sh
+  - component: $CI_SERVER_FQDN/devpro-labs/compliance/gitlab-components/pages-deployment@c2dfed0c4ba1511063ef03cd6cba61c15dd60b33
     inputs:
       build_command: npm ci && npm run docs:build
-
-helm-quality:
-  before_script:
-    # adds the chart repositories of the dependencies
-    - ./scripts/add_helm_repo.sh
