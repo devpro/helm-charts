@@ -27,6 +27,17 @@ auth:
   # -- Existing Secret with the keys JWT_SECRET, ADMIN_USERNAME and ADMIN_PASSWORD, replacing the three values above.
   existingSecret: ""
 
+# Single sign-on through OpenID Connect (docs/configuration.md in sidelab), off while issuer is empty.
+oidc:
+  # -- Issuer URL, such as https://keycloak.example.com/realms/platform.
+  issuer: ""
+  # -- The launcher's client at the provider.
+  clientId: ""
+  # -- Secret of that client, written to the generated auth Secret; with auth.existingSecret, its OIDC_CLIENT_SECRET key instead.
+  clientSecret: ""
+  # -- What the button says after "Sign in with", the launcher's default when empty.
+  name: ""
+
 database:
   # -- sqlite or mongo.
   backend: "sqlite"
@@ -85,6 +96,9 @@ launcher:
 
   # -- Wildcard domain of lab sessions when labAccess=ingress, defaults to labs.<domain>.
   labDomain: ""
+
+  # -- Address of the dashboard, which single sign-on and password reset build their links from; https://<ingress host> with the dashboard Ingress, http:// without ingress.tls.enabled.
+  publicUrl: ""
 
   # -- ConfigMap holding a custom lab session Ingress template (key ingress-template.yaml), replacing the generated one.
   ingressTemplateConfigMap: ""
