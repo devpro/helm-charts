@@ -137,6 +137,11 @@ spec:
             # a MongoDB span can carry the command it traces, and a state write carries every secret of the workspace
             - name: OTEL_DOTNET_AUTO_TRACES_MONGODB_INSTRUMENTATION_ENABLED
               value: "false"
+            # export the span and the counters of the history worker, which report a change set aside
+            - name: OTEL_DOTNET_AUTO_TRACES_ADDITIONAL_SOURCES
+              value: "Devpro.TerraformBackend.History"
+            - name: OTEL_DOTNET_AUTO_METRICS_ADDITIONAL_SOURCES
+              value: "Devpro.TerraformBackend.History"
             {{- else }}
             - name: OTEL_TRACES_EXPORTER
               value: "none"
