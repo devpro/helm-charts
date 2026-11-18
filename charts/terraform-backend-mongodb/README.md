@@ -110,6 +110,18 @@ network:
     - 10.42.0.0/16
 ```
 
+`networkPolicy.enabled` is what makes `trustAllProxies: true` safe on a cluster whose CNI enforces NetworkPolicy.
+It admits the ingress controller alone, so no other workload can reach the pod and choose the address its failed attempts are counted against.
+The defaults match the Traefik of k3s and RKE2, and another controller is named by its namespace and pod labels, for example with ingress-nginx:
+
+```yaml
+networkPolicy:
+  enabled: true
+  ingressControllerNamespace: ingress-nginx
+  ingressControllerPodSelector:
+    app.kubernetes.io/name: ingress-nginx
+```
+
 Rate limiting by source address belongs at the ingress rather than in the application, since the edge rejects a request before any CPU is spent on it and holds one counter across every replica.
 The annotation depends on the ingress controller, for example with ingress-nginx:
 
@@ -123,6 +135,20 @@ ingress:
 TLS termination is not optional for this application.
 The password is replayed on every request, so a single plaintext hop exposes the state of every workspace in the tenant.
 Note that `skip_cert_verification` in a Terraform backend block defeats the protection it appears to configure.
+
+HSTS belongs at the ingress too, so that a client never sends the password over plain HTTP after its first visit.
+ingress-nginx adds the header by default to a host with TLS.
+Traefik adds it through a `Middleware` with `headers.stsSeconds: 31536000`, referenced by the `traefik.ingress.kubernetes.io/router.middlewares` annotation.
+
+## Database security
+
+The database holds the Terraform state of every workspace, with every secret it carries, in the clear.
+It is protected as a secret store:
+
+- encryption at rest, of the volume or of the MongoDB storage engine
+- a read-only user for each application that reads `tf_state`, and the read-write user for the backend alone
+- network access from the backend and those applications only
+- backups and dumps handled as secrets, with the same access control and retention as the database
 
 ## Going further
 

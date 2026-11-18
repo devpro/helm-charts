@@ -96,6 +96,19 @@ network:
   knownNetworks: []
     # - 10.42.0.0/16
 
+# Admits the ingress controller alone, which is what makes trustAllProxies safe: no other workload can reach the pod and choose the address its failed attempts are counted against.
+# It needs a CNI that enforces NetworkPolicy, and the defaults match the Traefik of k3s and RKE2.
+networkPolicy:
+  # -- Render the NetworkPolicy.
+  enabled: false
+  # -- Namespace of the ingress controller, for example ingress-nginx.
+  ingressControllerNamespace: kube-system
+  # -- Pod labels of the ingress controller in that namespace, for example app.kubernetes.io/name: ingress-nginx.
+  ingressControllerPodSelector:
+    app.kubernetes.io/name: traefik
+  # -- Other namespaces admitted, for example one that scrapes the pod.
+  additionalIngressNamespaces: []
+
 # optional: image registry credentials, e.g. for a private mirror of the image above
 imagePullSecrets: []
   # - name: my-registry-secret
