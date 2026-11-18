@@ -81,6 +81,18 @@ authentication:
   # The application refuses to start at 0 or below.
   lockoutSeconds: 300
 
+# State history, available from application version 1.3.1.
+# A state write queues the replaced version, and a background worker computes the change into tf_state_history after the write returns.
+history:
+  # -- Run the worker that computes the history.
+  # At least one replica must run it, or the queue grows and no history is written.
+  workerEnabled: true
+  # -- Estimated array item comparisons, about 70 bytes of memory each, above which a change is not computed.
+  # The default bounds one diff to about 280 MB: size the memory limit of the container above it.
+  # A change above it is set aside with an error naming the array, and the state itself is saved as usual.
+  # The application refuses to start below 1.
+  maxDiffComparisons: 4000000
+
 # Which reverse proxies the application believes when it reads the caller's address.
 # This is a prerequisite for the lockout above and for the authentication failure log, not a detail: behind an ingress an unconfigured application sees the proxy's address on every request, so every caller shares one lockout bucket and an attacker on the internet can lock the real operator out of the backend.
 network:

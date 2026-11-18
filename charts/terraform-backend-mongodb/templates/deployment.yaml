@@ -111,6 +111,10 @@ spec:
               value: {{ $.Values.authentication.maxFailedAttempts | quote }}
             - name: Authentication__LockoutSeconds
               value: {{ $.Values.authentication.lockoutSeconds | quote }}
+            - name: Features__IsHistoryWorkerEnabled
+              value: {{ $.Values.history.workerEnabled | quote }}
+            - name: History__MaxDiffComparisons
+              value: {{ $.Values.history.maxDiffComparisons | int64 | quote }}
             - name: Network__TrustAllProxies
               value: {{ $.Values.network.trustAllProxies | quote }}
             {{- range $index, $proxy := $.Values.network.knownProxies }}

@@ -140,6 +140,12 @@ HSTS belongs at the ingress too, so that a client never sends the password over 
 ingress-nginx adds the header by default to a host with TLS.
 Traefik adds it through a `Middleware` with `headers.stsSeconds: 31536000`, referenced by the `traefik.ingress.kubernetes.io/router.middlewares` annotation.
 
+## State history
+
+Application version 1.3.1 computes the history of a state after the write returns, in a background worker, so a large state never slows a `terraform apply`.
+The defaults under `history` in [values.yaml](values.yaml) suit most deployments.
+A change whose diff is estimated above `history.maxDiffComparisons` is set aside with an error naming the array, and with `dotnet.openTelemetry.enabled` the error reaches the collector as a span and a counter.
+
 ## Database security
 
 The database holds the Terraform state of every workspace, with every secret it carries, in the clear.
