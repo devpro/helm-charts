@@ -1,21 +1,21 @@
-stages:
-  - deploy
-
-# avoid duplicate GitLab pipeline runs from GitHub notifications (two messages are received on a commit on a branch with a Pull Request)
+# runs once for a merge request, and once for the default branch;
+# the default branch publishes the documentation site, as the Pages of the GitHub repository serve the chart repository
 workflow:
   rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-    - if: '$CI_PIPELINE_SOURCE == "web"'
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
-pages:
-  stage: deploy
-  image: node:22
-  cache:
-    paths:
-      - node_modules/
-  script:
-    - npm install
-    - npm run docs:build
-  artifacts:
-    paths:
-      - public
+stages:
+  - test
+  - deploy
+
+include:
+  # pins a commit, as a tag can move
+  - component: $CI_SERVER_FQDN/devpro-labs/compliance/gitlab-components/markup-lint@c2dfed0c4ba1511063ef03cd6cba61c15dd60b33
+  - component: $CI_SERVER_FQDN/devpro-labs/compliance/gitlab-components/helm-quality@c2dfed0c4ba1511063ef03cd6cba61c15dd60b33
+    inputs:
+      # adds the chart repositories of the dependencies
+      setup_command: ./scripts/add_helm_repo.sh
+  - component: $CI_SERVER_FQDN/devpro-labs/compliance/gitlab-components/pages-deployment@c2dfed0c4ba1511063ef03cd6cba61c15dd60b33
+    inputs:
+      build_command: npm ci && npm run docs:build

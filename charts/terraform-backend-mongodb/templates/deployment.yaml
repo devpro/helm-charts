@@ -111,6 +111,10 @@ spec:
               value: {{ $.Values.authentication.maxFailedAttempts | quote }}
             - name: Authentication__LockoutSeconds
               value: {{ $.Values.authentication.lockoutSeconds | quote }}
+            - name: Features__IsHistoryWorkerEnabled
+              value: {{ $.Values.history.workerEnabled | quote }}
+            - name: History__MaxDiffComparisons
+              value: {{ $.Values.history.maxDiffComparisons | int64 | quote }}
             - name: Network__TrustAllProxies
               value: {{ $.Values.network.trustAllProxies | quote }}
             {{- range $index, $proxy := $.Values.network.knownProxies }}
@@ -134,6 +138,14 @@ spec:
               value: {{ $.Values.dotnet.openTelemetry.endpoint | quote }}
             - name: OTEL_EXPORTER_OTLP_PROTOCOL
               value: {{ $.Values.dotnet.openTelemetry.protocol | quote }}
+            # a MongoDB span can carry the command it traces, and a state write carries every secret of the workspace
+            - name: OTEL_DOTNET_AUTO_TRACES_MONGODB_INSTRUMENTATION_ENABLED
+              value: "false"
+            # export the span and the counters of the history worker, which report a change set aside
+            - name: OTEL_DOTNET_AUTO_TRACES_ADDITIONAL_SOURCES
+              value: "Devpro.TerraformBackend.History"
+            - name: OTEL_DOTNET_AUTO_METRICS_ADDITIONAL_SOURCES
+              value: "Devpro.TerraformBackend.History"
             {{- else }}
             - name: OTEL_TRACES_EXPORTER
               value: "none"

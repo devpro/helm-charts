@@ -25,6 +25,16 @@ data:
   K8S_LAB_DOMAIN: {{ include "sidelab.labDomain" . | quote }}
   K8S_INGRESS_TEMPLATE: "/app/config/ingress-template.yaml"
   {{- end }}
+  {{- with include "sidelab.publicUrl" . }}
+  LAUNCHER_PUBLIC_URL: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.oidc.issuer }}
+  OIDC_ISSUER: {{ . | quote }}
+  OIDC_CLIENT_ID: {{ $.Values.oidc.clientId | quote }}
+  {{- with $.Values.oidc.name }}
+  OIDC_NAME: {{ . | quote }}
+  {{- end }}
+  {{- end }}
   K8S_NAMESPACE_PREFIX: {{ .Values.launcher.namespacePrefix | quote }}
   {{- if .Values.launcher.labImagePullSecret }}
   K8S_LAB_IMAGE_PULL_SECRET: {{ .Values.launcher.labImagePullSecret | quote }}

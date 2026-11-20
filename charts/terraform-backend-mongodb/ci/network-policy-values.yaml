@@ -1,0 +1,9 @@
+# The NetworkPolicy, rendered against the bundled MongoDB so that the server starts.
+mongodb:
+  enabled: true
+  auth:
+    rootPassword: ci-only-password
+networkPolicy:
+  enabled: true
+  additionalIngressNamespaces:
+    - monitoring

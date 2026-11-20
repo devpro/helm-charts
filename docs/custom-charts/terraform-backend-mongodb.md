@@ -46,6 +46,14 @@ webapi:
     databaseName: tfbackend_beta
 ```
 
+```yaml [Network policy]
+networkPolicy:
+  enabled: true
+  ingressControllerNamespace: kube-system # or ingress-nginx
+  ingressControllerPodSelector:
+    app.kubernetes.io/name: traefik # or ingress-nginx
+```
+
 :::
 
 ## Deployment

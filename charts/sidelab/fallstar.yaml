@@ -93,6 +93,33 @@ options:
     default: true
     when: { equals: { labAccess: ingress } }
 
+  - key: signIn
+    title: Sign-in
+    description: The launcher's own accounts only, or a Keycloak realm as well, whose organizations are the tenants.
+    group: Sign-in
+    type: enum
+    values: [password, keycloak]
+    default: password
+    bind:
+      - { resource: Job/keycloak/sidelab-oidc-client, exists: false, as: password }
+      - { resource: Job/keycloak/sidelab-oidc-client, exists: true, as: keycloak }
+    when: { equals: { labAccess: ingress } }
+  - key: keycloakHost
+    title: Keycloak host
+    group: Sign-in
+    type: string
+    default: keycloak.${{ cluster.domain }}
+    bind: { chart: sidelab, path: [values, oidc, issuer], pattern: '^https://([^/]+)/' }
+    when: { equals: { labAccess: ingress, signIn: keycloak } }
+  - key: keycloakRealm
+    title: Keycloak realm
+    description: The realm of the Keycloak app, which this app adds its client to.
+    group: Sign-in
+    type: string
+    default: platform
+    bind: { chart: sidelab, path: [values, oidc, issuer], pattern: '/realms/([^/]+)$' }
+    when: { equals: { labAccess: ingress, signIn: keycloak } }
+
   - key: sessionDefaultDuration
     title: Default session duration, in minutes
     group: Sessions
@@ -193,6 +220,38 @@ patches:
         extraEnv:
           - name: TRUST_PROXY
             value: "1"
+  - when: { equals: { labAccess: ingress, signIn: keycloak } }
+    chart: sidelab
+    notes:
+      - path: [values, oidc]
+        text: The client secret is the OIDC_CLIENT_SECRET key of the auth Secret, which the Job of the sidelab client gives Keycloak too.
+    patch:
+      values:
+        oidc:
+          issuer: https://${{ options.keycloakHost }}/realms/${{ options.keycloakRealm }}
+          clientId: sidelab
+          name: Keycloak
+  - when: { secretStore: true, equals: { labAccess: ingress, signIn: keycloak } }
+    resource: ExternalSecret/sidelab/sidelab-auth
+    notes:
+      - path: [spec, data]
+        text: The list is replaced as a whole, so it repeats the two entries of the resource.
+    patch:
+      spec:
+        target:
+          template:
+            data:
+              OIDC_CLIENT_SECRET: "{{ .oidcClientSecret }}"
+        data:
+          - secretKey: jwtSecret
+            remoteRef:
+              key: sidelab-jwt-secret
+          - secretKey: adminPassword
+            remoteRef:
+              key: sidelab-admin-password
+          - secretKey: oidcClientSecret
+            remoteRef:
+              key: sidelab-oidc-client-secret
   - when: { equals: { labAccess: nodeport } }
     chart: sidelab
     patch:
@@ -307,6 +366,157 @@ resources:
           - secretKey: password
             remoteRef:
               key: ghcr-token
+  - file: apps/externalsecrets/sidelab.yaml
+    when: { secretStore: true, equals: { labAccess: ingress, signIn: keycloak } }
+    notes:
+      - path: []
+        text: The same client secret as OIDC_CLIENT_SECRET of sidelab-auth, for the Job registering the client at Keycloak.
+    object:
+      apiVersion: external-secrets.io/v1
+      kind: ExternalSecret
+      metadata: { name: sidelab-oidc, namespace: keycloak }
+      spec:
+        refreshInterval: 1h
+        secretStoreRef:
+          name: ${{ cluster.secretStore }}
+          kind: ClusterSecretStore
+        target:
+          name: sidelab-oidc
+          creationPolicy: Owner
+        data:
+          - secretKey: CLIENT_SECRET
+            remoteRef:
+              key: sidelab-oidc-client-secret
+  - file: apps/keycloak/sidelab-client.yaml
+    when: { equals: { labAccess: ingress, signIn: keycloak } }
+    notes:
+      - path: [data]
+        text: |-
+          The client of the launcher in the realm of the Keycloak app, applied by keycloak-config-cli as that app applies the realm.
+          The file never changes: the realm, the address and the secret come from the environment of the Job, so a changed option changes the Job and Flux runs it again.
+          The device grant is for sidelab-cli auth login, which the launcher runs as this client, and the post-logout address for the dashboard's sign-out.
+    object:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata: { name: sidelab-oidc-client, namespace: keycloak }
+      data:
+        client.json: |-
+          {
+            "realm": "$(env:REALM)",
+            "roles": {
+              "client": {
+                "sidelab": [
+                  { "name": "global-admin", "description": "Every tenant, every account, the course catalog" },
+                  { "name": "tenant-admin", "description": "The accounts and lab secrets of the organization the account belongs to" }
+                ]
+              }
+            },
+            "clients": [
+              {
+                "clientId": "sidelab",
+                "name": "Sidelab",
+                "enabled": true,
+                "protocol": "openid-connect",
+                "publicClient": false,
+                "secret": "$(env:CLIENT_SECRET)",
+                "standardFlowEnabled": true,
+                "implicitFlowEnabled": false,
+                "directAccessGrantsEnabled": false,
+                "serviceAccountsEnabled": false,
+                "redirectUris": [ "$(env:PUBLIC_URL)/api/auth/oidc/callback" ],
+                "webOrigins": [],
+                "attributes": {
+                  "pkce.code.challenge.method": "S256",
+                  "oauth2.device.authorization.grant.enabled": "true",
+                  "post.logout.redirect.uris": "$(env:PUBLIC_URL)/"
+                },
+                "defaultClientScopes": [ "profile", "email", "organization" ],
+                "optionalClientScopes": [],
+                "protocolMappers": [
+                  {
+                    "name": "sidelab roles",
+                    "protocol": "openid-connect",
+                    "protocolMapper": "oidc-usermodel-client-role-mapper",
+                    "config": {
+                      "usermodel.clientRoleMapping.clientId": "sidelab",
+                      "claim.name": "resource_access.${client_id}.roles",
+                      "jsonType.label": "String",
+                      "multivalued": "true",
+                      "id.token.claim": "true",
+                      "access.token.claim": "true",
+                      "userinfo.token.claim": "false"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+  - file: apps/keycloak/sidelab-client.yaml
+    when: { equals: { labAccess: ingress, signIn: keycloak } }
+    notes:
+      - path: [spec, template, spec, containers, '0', env]
+        text: no-delete, as the Job of the realm, so neither deletes the clients and roles the other applies.
+    object:
+      apiVersion: batch/v1
+      kind: Job
+      metadata:
+        name: sidelab-oidc-client
+        namespace: keycloak
+        annotations:
+          kustomize.toolkit.fluxcd.io/force: enabled
+          argocd.argoproj.io/hook: Sync
+          argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+      spec:
+        backoffLimit: 10
+        template:
+          spec:
+            restartPolicy: OnFailure
+            securityContext:
+              runAsNonRoot: true
+              seccompProfile: { type: RuntimeDefault }
+            containers:
+              - name: config
+                image: docker.io/adorsys/keycloak-config-cli:6.5.1-26
+                env:
+                  - name: REALM
+                    value: ${{ options.keycloakRealm }}
+                  - name: PUBLIC_URL
+                    value: https://sidelab.${{ options.domain }}
+                  - name: CLIENT_SECRET
+                    valueFrom:
+                      secretKeyRef: { name: sidelab-oidc, key: CLIENT_SECRET }
+                  - name: KEYCLOAK_URL
+                    value: http://keycloak-keycloakx-http.keycloak.svc
+                  - name: KEYCLOAK_USER
+                    valueFrom:
+                      secretKeyRef: { name: keycloak-admin, key: username }
+                  - name: KEYCLOAK_PASSWORD
+                    valueFrom:
+                      secretKeyRef: { name: keycloak-admin, key: password }
+                  - name: KEYCLOAK_AVAILABILITYCHECK_ENABLED
+                    value: "true"
+                  - name: KEYCLOAK_AVAILABILITYCHECK_TIMEOUT
+                    value: 300s
+                  - name: IMPORT_FILES_LOCATIONS
+                    value: /config/client.json
+                  - name: IMPORT_VARSUBSTITUTION_ENABLED
+                    value: "true"
+                  - name: IMPORT_MANAGED_CLIENT
+                    value: no-delete
+                  - name: IMPORT_MANAGED_ROLE
+                    value: no-delete
+                  - name: IMPORT_MANAGED_CLIENTSCOPE
+                    value: no-delete
+                securityContext:
+                  allowPrivilegeEscalation: false
+                  capabilities: { drop: [ALL] }
+                volumeMounts:
+                  - name: config
+                    mountPath: /config
+                    readOnly: true
+            volumes:
+              - name: config
+                configMap: { name: sidelab-oidc-client }
 
 secrets:
   - { name: sidelab-jwt-secret, description: Signing key of the launcher tokens., generate: hex32, when: { secretsManaged: true }, target: { secret: sidelab-auth, key: JWT_SECRET, namespace: sidelab } }
@@ -317,10 +527,17 @@ secrets:
   - { name: sidelab-mongodb-url, description: "mongodb://root:<root-password>@sidelab-mongodb:27017/sidelab?authSource=admin, with the root password above.", when: { secretsManaged: true, secretStore: false, equals: { database: mongo-bundled } }, target: { secret: sidelab-db, key: DB_URL, namespace: sidelab } }
   - { name: ghcr-username, description: GitHub user pulling the private images., when: { secretStore: true, option: privateImages } }
   - { name: ghcr-token, description: "GitHub token with read:packages on ghcr.io/devpro.", when: { secretStore: true, option: privateImages } }
+  - { name: sidelab-oidc-client-secret, description: Secret of the sidelab client at Keycloak., generate: hex32, when: { secretsManaged: true, equals: { labAccess: ingress, signIn: keycloak } }, target: { secret: sidelab-auth, key: OIDC_CLIENT_SECRET, namespace: sidelab } }
 
 warnings:
   - when: { secretsManaged: false, equals: { database: [mongo, mongo-bundled] } }
     text: reads its database from Secret sidelab-db in namespace sidelab, which neither a secret store nor SOPS creates on this cluster
+  - when: { equals: { labAccess: ingress, signIn: keycloak }, not: { uses: { identity-provider: keycloak } } }
+    text: signs in through Keycloak, which no app of this cluster provides, so the Job adding its client waits for a Keycloak that never answers
+  - when: { secretStore: false, equals: { labAccess: ingress, signIn: keycloak } }
+    text: gives Keycloak its client secret from Secret sidelab-oidc in namespace keycloak, key CLIENT_SECRET, which only a secret store creates; without one it holds the OIDC_CLIENT_SECRET of sidelab-auth, created by hand
+  - when: { equals: { labAccess: ingress, signIn: keycloak, tls: none } }
+    text: registers an https redirect URI at Keycloak, which a dashboard without TLS does not answer
 
 guide:
   prerequisites:
@@ -331,6 +548,7 @@ guide:
     - kubectl get pods -n sidelab
     - kubectl logs -n sidelab deploy/sidelab --tail=30
     - kubectl get ns -l app.kubernetes.io/managed-by=sidelab
+    - "With Keycloak: kubectl logs -n keycloak job/sidelab-oidc-client --tail=20"
   gotchas:
     - title: Every lab orders its own certificate, rate limit hit
       cause: TLS from cert-manager, whose annotation the chart copies onto every session Ingress.
@@ -347,3 +565,9 @@ guide:
     - title: Tenant namespaces left after a teardown
       cause: The launcher creates them, not Flux.
       fix: Delete the namespaces labelled app.kubernetes.io/managed-by=sidelab by hand.
+    - title: Keycloak sign-in refused, no tenant for the organization
+      cause: The launcher never creates a tenant from a claim.
+      fix: Create the tenant in Admin > Tenants with the alias of the organization as its name, before its members sign in.
+    - title: Keycloak sign-in refused for a member of several organizations
+      cause: One account belongs to one tenant, so the launcher cannot pick.
+      fix: Keep the person in one organization of the realm.

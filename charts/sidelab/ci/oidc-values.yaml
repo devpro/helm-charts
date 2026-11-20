@@ -1,0 +1,17 @@
+# Single sign-on behind the dashboard Ingress, the public URL derived from its host.
+# Guards the OIDC keys of the ConfigMap and the generated Secret, and their validation in _helpers.tpl.
+image:
+  repository: ci-dummy-registry/app
+
+domain: example.test
+
+ingress:
+  enabled: true
+  tls:
+    enabled: true
+
+oidc:
+  issuer: https://keycloak.example.test/realms/platform
+  clientId: sidelab
+  clientSecret: ci-dummy-secret
+  name: Keycloak

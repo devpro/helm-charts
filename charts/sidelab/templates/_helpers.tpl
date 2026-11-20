@@ -115,6 +115,19 @@ Empty if neither is set.
 {{- end }}
 
 {{/*
+Address of the dashboard.
+launcher.publicUrl wins; otherwise derived from the dashboard Ingress host, https when ingress.tls.enabled.
+Empty without either, as a NodePort dashboard has no address the chart knows.
+*/}}
+{{- define "sidelab.publicUrl" -}}
+{{- if .Values.launcher.publicUrl -}}
+{{- .Values.launcher.publicUrl -}}
+{{- else if and .Values.ingress.enabled (include "sidelab.ingressHost" .) -}}
+{{- printf "%s://%s" (ternary "https" "http" .Values.ingress.tls.enabled) (include "sidelab.ingressHost" .) -}}
+{{- end -}}
+{{- end }}
+
+{{/*
 Lab session wildcard domain.
 launcher.labDomain wins; otherwise derived from the shared top-level `domain` value as "labs.<domain>".
 Empty if neither is set.
@@ -219,6 +232,17 @@ Validate required values and emit a clear error message.
 {{- end }}
 {{- if and (eq .Values.launcher.labAccess "ingress") (not (include "sidelab.labDomain" .)) }}
 {{- fail "launcher.labDomain or domain is required when launcher.labAccess=ingress." }}
+{{- end }}
+{{- if .Values.oidc.issuer }}
+{{- if not .Values.oidc.clientId }}
+{{- fail "oidc.clientId is required when oidc.issuer is set." }}
+{{- end }}
+{{- if and (not .Values.auth.existingSecret) (not .Values.oidc.clientSecret) }}
+{{- fail "oidc.clientSecret is required when oidc.issuer is set, unless auth.existingSecret holds OIDC_CLIENT_SECRET." }}
+{{- end }}
+{{- if not (include "sidelab.publicUrl" .) }}
+{{- fail "launcher.publicUrl, or the dashboard Ingress, is required when oidc.issuer is set: the redirect URI is built from it." }}
+{{- end }}
 {{- end }}
 {{- if gt (int (include "sidelab.maxReplicas" .)) 1 }}
 {{- if eq .Values.database.backend "sqlite" }}

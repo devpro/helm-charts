@@ -1,0 +1,41 @@
+{{- if and .Values.networkPolicy.enabled .Values.webapi.enabled }}
+{{- $fullname := include "terraform-backend-mongodb.fullname" (dict "app" .Values.webapi "root" $) }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ $fullname }}
+  labels:
+    app: {{ $fullname }}
+    app.kubernetes.io/name: {{ $fullname }}
+    {{- include "terraform-backend-mongodb.commonLabels" (dict "app" .Values.webapi "root" $) | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ $fullname }}
+      app.kubernetes.io/name: {{ $fullname }}
+  # egress stays open: the database and the OpenTelemetry collector can be anywhere
+  policyTypes:
+    - Ingress
+  ingress:
+    # the ingress controller is the only caller, so the X-Forwarded-For the application trusts comes from it
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Values.networkPolicy.ingressControllerNamespace }}
+          podSelector:
+            matchLabels:
+              {{- toYaml .Values.networkPolicy.ingressControllerPodSelector | nindent 14 }}
+      ports:
+        - port: {{ .Values.webapi.containerPort }}
+          protocol: TCP
+    {{- range .Values.networkPolicy.additionalIngressNamespaces }}
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ . }}
+      ports:
+        - port: {{ $.Values.webapi.containerPort }}
+          protocol: TCP
+    {{- end }}
+{{- end }}
