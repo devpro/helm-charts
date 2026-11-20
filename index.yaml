@@ -550,6 +550,34 @@ entries:
   sidelab:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2026-11-20T23:13:37.355853406Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.1.24
+    description: 'Self-hosted interactive lab platform. Deploys the Sidelab launcher,
+      which manages lab sessions as ephemeral Kubernetes Pods inside tenant-scoped
+      namespaces. '
+    digest: eac3a9a1558a719a340c0aaefe116f67ab08570da58efacc0b2be588b2a2dfa3
+    home: https://github.com/devpro/helm-charts
+    keywords:
+    - sidelab
+    - labs
+    - training
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: sidelab
+    sources:
+    - https://github.com/devpro/helm-charts
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/sidelab-0.1.12/sidelab-0.1.12.tgz
+    version: 0.1.12
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2026-10-29T10:42:51.687197735Z"
     dependencies:
     - alias: mongodb
@@ -605,6 +633,31 @@ entries:
     - https://github.com/devpro/helm-charts/releases/download/sidelab-0.1.6/sidelab-0.1.6.tgz
     version: 0.1.6
   terraform-backend-mongodb:
+  - apiVersion: v2
+    appVersion: 1.3.0
+    created: "2026-11-20T23:13:37.586808173Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.1.10
+    description: Helm chart for Terraform Backend MongoDB
+    digest: a2e2ae677a40c8cb0ad2bfb0e7048b1c2d3c6cd02bda2e7781d85f770dc7a805
+    home: https://github.com/devpro/terraform-backend-mongodb
+    keywords:
+    - terraform
+    - mongodb
+    maintainers:
+    - email: bertrand@devpro.fr
+      name: devpro
+    name: terraform-backend-mongodb
+    sources:
+    - https://github.com/devpro/terraform-backend-mongodb
+    type: application
+    urls:
+    - https://github.com/devpro/helm-charts/releases/download/terraform-backend-mongodb-0.3.4/terraform-backend-mongodb-0.3.4.tgz
+    version: 0.3.4
   - apiVersion: v2
     appVersion: 1.3.0
     created: "2026-10-29T10:42:51.909350955Z"
@@ -825,4 +878,4 @@ entries:
     urls:
     - https://github.com/devpro/helm-charts/releases/download/wordpress-0.2.0/wordpress-0.2.0.tgz
     version: 0.2.0
-generated: "2026-10-29T10:42:52.712528496Z"
+generated: "2026-11-20T23:13:37.586847782Z"
